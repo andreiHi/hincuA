@@ -30,7 +30,7 @@ public class CalculatorTest {
     @Test
     public void whenSubtractTwoSubtractOneThenOne() {
         Calculator calc = new Calculator();
-        calc.subtract(2D,1D);
+        calc.subtract(2D, 1D);
         double rezult = calc.getResult();
         double ex = 1D;
         assertThat(rezult, is(ex));
@@ -41,7 +41,7 @@ public class CalculatorTest {
     @Test
     public void whenDivFourDivTwoThenTwo() {
         Calculator calc = new Calculator();
-        calc.div(4d,2d);
+        calc.div(4d, 2d);
         double rezult = calc.getResult();
         double ex = 2d;
         assertThat(rezult, is(ex));
@@ -52,7 +52,7 @@ public class CalculatorTest {
     @Test
     public void whenMultipleTwoMultipleTwoThenFour() {
         Calculator calc = new Calculator();
-        calc.multiple(2d,2d);
+        calc.multiple(2d, 2d);
         double rezult = calc.getResult();
         double ex = 4d;
         assertThat(rezult, is(ex));
