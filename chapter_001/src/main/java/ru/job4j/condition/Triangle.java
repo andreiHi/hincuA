@@ -62,7 +62,7 @@ public class Triangle {
      * @return true or false.
      */
     private boolean exist(double ab, double ac, double bc) {
-        return (ab + ac) > bc;
+        return ((ab + ac) > bc) && ((ab + bc) > ac) && ((ac + bc) > ab);
     }
     /**
      * Метод должен вычислить прощадь треугольканива.
