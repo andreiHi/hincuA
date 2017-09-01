@@ -27,4 +27,24 @@ public class BubleSort {
         }
         return a;
     }
+
+    /**
+     * Сортировка пузырьком.
+     * @param array массив для сортировки.
+     * @return - отсортированный масив.
+     */
+    public int[] bubleSort(int[] array) {
+        int[] ar = array;
+        for (int i = ar.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (ar[j] > ar[j + 1]) {
+                    int temp = ar[j];
+                    ar[j] = ar[j + 1];
+                    ar[j + 1] = temp;
+
+                }
+            }
+        }
+        return ar;
+    }
 }
