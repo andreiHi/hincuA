@@ -9,6 +9,9 @@ import static org.junit.Assert.assertThat;
  * @since 0.1.
  */
 public class ProfessionTest {
+    /**
+     * Тест.
+     */
     @Test
     public void whenTeachesThenREsultString() {
         Teacher teacher = new Teacher("Петров", 33, "Патологоанатомии");
