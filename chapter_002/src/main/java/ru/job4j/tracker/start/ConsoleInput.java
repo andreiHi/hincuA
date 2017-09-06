@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
  * @version $Id$
  * @since 0.1
  */
-public class ConsoleInput {
+public class ConsoleInput implements Input {
     /**
      * поток чтения.
      */

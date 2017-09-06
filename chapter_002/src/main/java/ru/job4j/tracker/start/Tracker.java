@@ -14,6 +14,7 @@ public class Tracker {
      * Хранилище заявок.
      */
     private Item[] items = new Item[100];
+
     /**
      * Позиция в хранилище.
      */

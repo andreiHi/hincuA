@@ -17,7 +17,7 @@ public class ProfessionTest {
         Teacher teacher = new Teacher("Петров", 33, "Патологоанатомии");
         Engineer engineer = new Engineer("Иванов", 25, "радиослесарь");
         String testTeacing = teacher.teaches(engineer);
-        String ex = "Преподователь Пентров обучает Иванов курсу Патологоанатомии";
+        String ex = "Преподователь Петров обучает Иванов курсу Патологоанатомии";
         assertThat(testTeacing, is(ex));
     }
 }

@@ -50,7 +50,7 @@ public class StartUi {
     /**
      * Input.
      */
-    private ConsoleInput input;
+    private Input input;
     /**
      * Tracker.
      */
@@ -59,9 +59,9 @@ public class StartUi {
     /**
      * Конструктор с инициализацией.
      */
-    public StartUi() {
-        this.input = new ConsoleInput();
-        this.tracker = new Tracker();
+    public StartUi(Input input, Tracker tracker) {
+        this.input = input;
+        this.tracker = tracker;
     }
 
     /**
@@ -69,7 +69,7 @@ public class StartUi {
      * @param args отсутствует.
      */
     public static void main(String[] args) {
-        new StartUi().start();
+        new StartUi(new ConsoleInput(), new Tracker()).start();
     }
 
     /**
@@ -106,7 +106,7 @@ public class StartUi {
      * @param tracker tracker.
      * @param input input.
      */
-    private void add(Tracker tracker, ConsoleInput input) {
+    private void add(Tracker tracker, Input input) {
         String name = input.ask("Enter name :");
         String desc = input.ask("Enter description :");
         tracker.add(new Item(name, desc));
@@ -125,7 +125,7 @@ public class StartUi {
      * @param tracker tracker.
      * @param input input
      */
-    private void editItem(Tracker tracker, ConsoleInput input) {
+    private void editItem(Tracker tracker, Input input) {
         String id = input.ask("Enter id :");
         tracker.update(tracker.findById(id));
     }
@@ -135,7 +135,7 @@ public class StartUi {
      * @param tracker tracker.
      * @param input input.
      */
-    private void deleteItem(Tracker tracker, ConsoleInput input) {
+    private void deleteItem(Tracker tracker, Input input) {
         String id = input.ask("Enter id :");
         tracker.delete(tracker.findById(id));
     }
@@ -145,7 +145,7 @@ public class StartUi {
      * @param tracker tracker.
      * @param input input.
      */
-    private void findById(Tracker tracker, ConsoleInput input) {
+    private void findById(Tracker tracker, Input input) {
         String id = input.ask("Enter id :");
         Item item = tracker.findById(id);
         System.out.println(item);
@@ -156,7 +156,7 @@ public class StartUi {
      * @param tracker tracker.
      * @param input input.
      */
-    private void findByName(Tracker tracker, ConsoleInput input) {
+    private void findByName(Tracker tracker, Input input) {
         String name = input.ask("Enter name :");
         Item[] item = tracker.findByName(name);
         System.out.println(Arrays.toString(item));
