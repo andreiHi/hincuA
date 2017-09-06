@@ -3,6 +3,7 @@ package ru.job4j.tracker.start;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 /**
  *ConsoleInput.
@@ -15,6 +16,7 @@ public class ConsoleInput implements Input {
      * поток чтения.
      */
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private Scanner scanner = new Scanner(System.in);
 
     /**
      * Задаем вопрос , читаем ответ.
@@ -30,5 +32,9 @@ public class ConsoleInput implements Input {
             e.printStackTrace();
         }
         return line;
+      //  return scanner.nextLine();
+    }
+    public void writeMessage(String message) {
+        System.out.println(message);
     }
 }

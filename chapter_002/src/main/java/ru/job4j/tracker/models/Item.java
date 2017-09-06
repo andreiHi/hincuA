@@ -75,6 +75,18 @@ public class Item {
     }
 
     /**
+     * Конструктор.
+     * @param id id.
+     * @param name name.
+     * @param desc desc.
+     */
+    public Item(String id, String name, String desc) {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+    }
+
+    /**
      * геттер id.
      * @return id.
      */
@@ -174,6 +186,7 @@ public class Item {
                 + created
                 + ", comments="
                 + Arrays.toString(comments)
-                + '}';
+                + '}'
+                + System.getProperty("line.separator");
     }
 }

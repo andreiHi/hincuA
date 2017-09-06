@@ -12,13 +12,13 @@ public class StartUi {
      * Menu.
      */
     private final String menu = "0. Add new Item\n"
-           + "1. Show all items\n"
-           + "2. Edit item\n"
-           + "3. Delete item\n"
-           + "4. Find item by Id\n"
-           + "5. Find items by name\n"
-           + "6. Exit Program\n"
-           + "Select:";
+            + "1. Show all items\n"
+            + "2. Edit item\n"
+            + "3. Delete item\n"
+            + "4. Find item by Id\n"
+            + "5. Find items by name\n"
+            + "6. Exit Program\n"
+            + "Select:";
     /**
      * Exit.
      */
@@ -57,7 +57,9 @@ public class StartUi {
     private Tracker tracker;
 
     /**
-     * Конструктор с инициализацией.
+     * Конструктор класса.
+     * @param input взаимодействие с пользователем.
+     * @param tracker трекер.
      */
     public StartUi(Input input, Tracker tracker) {
         this.input = input;
@@ -69,13 +71,13 @@ public class StartUi {
      * @param args отсутствует.
      */
     public static void main(String[] args) {
-        new StartUi(new ConsoleInput(), new Tracker()).start();
+        new StartUi(new ConsoleInput(), new Tracker()).init();
     }
 
     /**
      * Главный метод программы.
      */
-    public void start() {
+    public void init() {
         String ansver = "";
         while (true) {
             ansver = input.ask(menu);
@@ -95,7 +97,7 @@ public class StartUi {
                     break;
                 case FIND_BY_NAME : this.findByName(tracker, input);
                     break;
-                    default: continue;
+                default: continue;
             }
 
         }
@@ -126,8 +128,21 @@ public class StartUi {
      * @param input input
      */
     private void editItem(Tracker tracker, Input input) {
-        String id = input.ask("Enter id :");
-        tracker.update(tracker.findById(id));
+        String id ="";
+        boolean found = false;
+        Item item = null;
+        while (!found) {
+            id = input.ask("Enter id :");
+            item = tracker.findById(id);
+            if (item == null) {
+                System.out.println("Invalid ID enter again.");
+            } else {
+                found = true;
+            }
+        }
+        String name = input.ask("Enter name :");
+        String desc = input.ask("Enter description :");
+        tracker.update(new Item(id, name, desc));
     }
 
     /**
@@ -136,8 +151,19 @@ public class StartUi {
      * @param input input.
      */
     private void deleteItem(Tracker tracker, Input input) {
-        String id = input.ask("Enter id :");
-        tracker.delete(tracker.findById(id));
+        String id ="";
+        boolean found = false;
+        Item item = null;
+        while (!found) {
+            id = input.ask("Enter id :");
+            item = tracker.findById(id);
+            if (item == null) {
+                System.out.println("Invalid ID enter again.");
+            } else {
+                found = true;
+            }
+        }
+        tracker.delete(item);
     }
 
     /**
@@ -146,9 +172,19 @@ public class StartUi {
      * @param input input.
      */
     private void findById(Tracker tracker, Input input) {
-        String id = input.ask("Enter id :");
-        Item item = tracker.findById(id);
-        System.out.println(item);
+        String id ="";
+        boolean found = false;
+        Item item = null;
+        while (!found) {
+            id = input.ask("Enter id :");
+            item = tracker.findById(id);
+            if (item == null) {
+                System.out.println("Invalid ID enter again.");
+            } else {
+                found = true;
+            }
+        }
+        input.writeMessage(item.toString());
     }
 
     /**
