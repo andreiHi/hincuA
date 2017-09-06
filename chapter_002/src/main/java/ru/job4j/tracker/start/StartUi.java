@@ -128,7 +128,7 @@ public class StartUi {
      * @param input input
      */
     private void editItem(Tracker tracker, Input input) {
-        String id ="";
+        String id = "";
         boolean found = false;
         Item item = null;
         while (!found) {
@@ -151,7 +151,7 @@ public class StartUi {
      * @param input input.
      */
     private void deleteItem(Tracker tracker, Input input) {
-        String id ="";
+        String id = "";
         boolean found = false;
         Item item = null;
         while (!found) {
@@ -164,6 +164,7 @@ public class StartUi {
             }
         }
         tracker.delete(item);
+        input.writeMessage("The entry was successfully deleted.");
     }
 
     /**
@@ -172,7 +173,7 @@ public class StartUi {
      * @param input input.
      */
     private void findById(Tracker tracker, Input input) {
-        String id ="";
+        String id = "";
         boolean found = false;
         Item item = null;
         while (!found) {
@@ -193,8 +194,18 @@ public class StartUi {
      * @param input input.
      */
     private void findByName(Tracker tracker, Input input) {
+        String id = "";
+        boolean found = false;
+        Item[] item = null;
+        while (!found) {
         String name = input.ask("Enter name :");
-        Item[] item = tracker.findByName(name);
+        item = tracker.findByName(name);
+            if (item.length == 0) {
+                System.out.println("Invalid name enter again.");
+            } else {
+                found = true;
+            }
+        }
         System.out.println(Arrays.toString(item));
     }
 }

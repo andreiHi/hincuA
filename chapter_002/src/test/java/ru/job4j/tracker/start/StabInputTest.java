@@ -48,7 +48,7 @@ public class StabInputTest {
     @Test
     public void whenTrackerHasItemsThenShowAll() {
         Tracker tracker = new Tracker();
-        Item item = new Item("test1","testDesc1");
+        Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
         tracker.add(item);
         tracker.add(item1);
@@ -64,13 +64,42 @@ public class StabInputTest {
     @Test
     public void whetTrackerHasTwoItemsThenHasOneItem() {
         Tracker tracker = new Tracker();
-        Item item = new Item("test1","testDesc1");
+        Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
         tracker.add(item);
         tracker.add(item1);
-        Input input = new StubInput(new String[]{"3",item.getId(), "6"});
-        new StartUi(input, tracker);
-        System.out.println(tracker.findAll().length);
-        assertThat(tracker.findAll()[1],is("") );
+        Input input = new StubInput(new String[]{"3", item.getId(), "6"});
+        new StartUi(input, tracker).init();
+        assertThat(tracker.findAll()[0].getName(), is("test2"));
+    }
+
+    /**
+     * Test findById.
+     */
+    @Test
+    public void whenTrackerHasTwoItemThenReturnById() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("test1", "testDesc1");
+        Item item1 = new Item("test2", "testDesc2");
+        tracker.add(item);
+        tracker.add(item1);
+        Input input = new StubInput(new String[]{"4", item1.getId(), "6"});
+        new StartUi(input, tracker).init();
+        assertThat(tracker.findById(item1.getId()).getName(), is("test2"));
+    }
+
+    /**
+     * Test findByName.
+     */
+    @Test
+    public void whenTrackerHasTwoItemThenReturnByName() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("test1", "testDesc1");
+        Item item1 = new Item("test2", "testDesc2");
+        tracker.add(item);
+        tracker.add(item1);
+        Input input = new StubInput(new String[]{"5", item1.getName(), "6"});
+        new StartUi(input, tracker).init();
+        assertThat(tracker.findByName(item1.getName())[0].getName(), is("test2"));
     }
 }

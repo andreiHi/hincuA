@@ -13,9 +13,12 @@ import java.util.Scanner;
  */
 public class ConsoleInput implements Input {
     /**
-     * поток чтения.
+     * Поток чтения.
      */
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    /**
+     * Сканер.
+     */
     private Scanner scanner = new Scanner(System.in);
 
     /**
@@ -34,6 +37,11 @@ public class ConsoleInput implements Input {
         return line;
       //  return scanner.nextLine();
     }
+
+    /**
+     * Вывод сообщения пользователю.
+     * @param message сообщение.
+     */
     public void writeMessage(String message) {
         System.out.println(message);
     }
