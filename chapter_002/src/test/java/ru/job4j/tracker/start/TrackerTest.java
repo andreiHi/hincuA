@@ -20,7 +20,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.getAll()[0], is(item));
     }
 
     /**
@@ -33,7 +33,7 @@ public class TrackerTest {
         tracker.add(item);
         item.setDesc("труляля");
         tracker.update(item);
-        assertThat("труляля", is(tracker.findAll()[0].getDesc()));
+        assertThat("труляля", is(tracker.getAll()[0].getDesc()));
     }
 
     /**
@@ -47,11 +47,11 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item2);
         tracker.delete(item);
-        assertThat(tracker.findAll()[0], is(item2));
+        assertThat(tracker.getAll()[0], is(item2));
     }
 
     /**
-     * Test findAll.
+     * Test getAll.
      */
     @Test
     public void whenTrackerHasTwoItemsThenFindAllReturnAll() {
@@ -61,7 +61,7 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item2);
         Item[] result = {item, item2};
-        Item[] ex = tracker.findAll();
+        Item[] ex = tracker.getAll();
         assertThat(result, is(ex));
     }
 
@@ -90,7 +90,7 @@ public class TrackerTest {
         Item item2 = new Item("test1", "testDiscr", 123L);
         tracker.add(item);
         tracker.add(item2);
-        String id = tracker.findAll()[0].getId();
+        String id = tracker.getAll()[0].getId();
         Item item1 = tracker.findById(id);
         assertThat(id, is(item1.getId()));
     }

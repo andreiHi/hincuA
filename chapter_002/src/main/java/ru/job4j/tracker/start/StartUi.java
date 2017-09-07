@@ -78,29 +78,38 @@ public class StartUi {
      * Главный метод программы.
      */
     public void init() {
-        String ansver = "";
-        while (true) {
-            ansver = input.ask(menu);
-            if (EXIT.equalsIgnoreCase(ansver)) {
-                break;
-            }
-            switch (ansver) {
-                case ADD : this.add(this.tracker, this.input);
-                    break;
-                case SHOW_ALL : this.showAll(this.tracker);
-                    break;
-                case EDIT_ITEM : this.editItem(this.tracker, this.input);
-                    break;
-                case DELETE_ITEM : this.deleteItem(tracker, input);
-                    break;
-                case FIND_BY_ID : this.findById(tracker, input);
-                    break;
-                case FIND_BY_NAME : this.findByName(tracker, input);
-                    break;
-                default: continue;
-            }
+      MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
+      menuTracker.fillActions();
+      int key = 0;
+      do {
+          menuTracker.show();
+           key = Integer.parseInt(input.ask("Select:"));
+          menuTracker.select(key);
+      } while (6 != key);
 
-        }
+//        String ansver = "";
+//        while (true) {
+//            ansver = input.ask(menu);
+//            if (EXIT.equalsIgnoreCase(ansver)) {
+//                break;
+//            }
+//            switch (ansver) {
+//                case ADD : this.add(this.tracker, this.input);
+//                    break;
+//                case SHOW_ALL : this.showAll(this.tracker);
+//                    break;
+//                case EDIT_ITEM : this.editItem(this.tracker, this.input);
+//                    break;
+//                case DELETE_ITEM : this.deleteItem(tracker, input);
+//                    break;
+//                case FIND_BY_ID : this.findById(tracker, input);
+//                    break;
+//                case FIND_BY_NAME : this.findByName(tracker, input);
+//                    break;
+//                default: continue;
+//            }
+//
+//        }
     }
 
     /**
@@ -119,7 +128,7 @@ public class StartUi {
      * @param tracker tracker.
      */
     private void showAll(Tracker tracker) {
-        System.out.println(Arrays.toString(tracker.findAll()));
+        System.out.println(Arrays.toString(tracker.getAll()));
     }
 
     /**

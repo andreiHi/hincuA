@@ -22,7 +22,7 @@ public class StabInputTest {
         Tracker tracker = new Tracker();     // создаём Tracker
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
         new StartUi(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.findAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.getAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
 
     /**
@@ -70,7 +70,7 @@ public class StabInputTest {
         tracker.add(item1);
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUi(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("test2"));
+        assertThat(tracker.getAll()[0].getName(), is("test2"));
     }
 
     /**

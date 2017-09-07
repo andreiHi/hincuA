@@ -74,7 +74,7 @@ public class Tracker {
      * Получение списка всех заявок.
      * @return массив заявок.
      */
-    public Item[] findAll() {
+    public Item[] getAll() {
         Item[] items = new Item[pozition];
         for (int i = 0; i != pozition; i++) {
             items[i] = this.items[i];
