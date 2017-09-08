@@ -38,14 +38,15 @@ public class StartUi {
      * Главный метод программы.
      */
     public void init() {
-      MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
-      int[] rang = menuTracker.fillActions();
-      int key;
-      do {
-          menuTracker.show();
-          key = input.ask("Select:", rang);
-          menuTracker.select(key);
-      } while (rang[6] != key);
+        MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
+        menuTracker.fillActions();
+        int[] rang = menuTracker.rangs();
+        int key;
+        do {
+            menuTracker.show();
+            key = input.ask("Select:", rang);
+            menuTracker.select(key);
+        } while (rang[6] != key);
     }
 
 }

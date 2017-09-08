@@ -4,7 +4,15 @@ import ru.job4j.tracker.models.Item;
 /**
  * Внешний не статический класс для редактирования элементов.
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
+    /**
+     * Конструктор класса.
+     * @param name Имя подменю.
+     * @param key номер подменю.
+     */
+     EditItem(String name, int key) {
+        super(name, key);
+    }
     /**
      * key.
      * @return key.
@@ -27,24 +35,18 @@ class EditItem implements UserAction {
         while (!found) {
             id = input.ask("Enter id :");
             item = tracker.findById(id);
+            if ("exit".equalsIgnoreCase(id)) {
+                break;
+            }
             if (item == null) {
-                System.out.println("Invalid ID enter again.");
+                System.out.println("Invalid ID enter again or tape exit.");
             } else {
                 found = true;
+                String name = input.ask("Enter name :");
+                String desc = input.ask("Enter description :");
+                tracker.update(new Item(id, name, desc));
             }
         }
-        String name = input.ask("Enter name :");
-        String desc = input.ask("Enter description :");
-        tracker.update(new Item(id, name, desc));
-    }
-
-    /**
-     * Инфо о методе.
-     * @return инфо.*
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Edit item.");
     }
 }
 /**
@@ -69,6 +71,10 @@ public class MenuTracker {
      */
     private UserAction[] actions = new UserAction[7];
     /**
+     * номер позиции.
+     */
+    private int pozition = 0;
+    /**
      * Конструктор класса.
      * @param input input.
      * @param tracker tracker.
@@ -77,24 +83,38 @@ public class MenuTracker {
         this.input = input;
         this.tracker = tracker;
     }
-
     /**
      * Заполняет массив действий всеми возможными действиями.
-     * @return возвращает массив с номерами возможных действий.
      */
-    public int[] fillActions() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new MenuTracker.ShowAllItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new MenuTracker.FindById();
-        this.actions[5] = new FindByName();
-        this.actions[6] = new Exit();
-        int[] rang = new int[this.actions.length];
-        for (int i = 0; i < this.actions.length; i++) {
+    public void fillActions() {
+        this.actions[pozition++] = new AddItem("Add Item.", 0);
+        this.actions[pozition++] = new MenuTracker.ShowAllItems("Show all Items.", 1);
+        this.actions[pozition++] = new EditItem("Edit item.", 2);
+        this.actions[pozition++] = new DeleteItem("Delete Item.", 3);
+        this.actions[pozition++] = new MenuTracker.FindById("Find by Id.", 4);
+        this.actions[pozition++] = new FindByName("Find by Name.", 5);
+        this.actions[pozition++] = new Exit("Exit.", 7);
+
+    }
+
+    /**
+     * Метод возвращает массив с номерами возможных действий.
+     * @return keys.
+     */
+    public int[] rangs() {
+        int[] rang = new int[pozition];
+        for (int i = 0; i < pozition; i++) {
             rang[i] = i;
         }
         return rang;
+    }
+
+    /**
+     * Метод добовляет новое действие в меню.
+     * @param action действие.
+     */
+    public void addAction(UserAction action) {
+        this.actions[pozition++] = action;
     }
 
     /**
@@ -119,7 +139,16 @@ public class MenuTracker {
     /**
      * Внутренний класс для добоавления элементов.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name имя подменю.
+         * @param key номер подменю.
+         */
+        AddItem(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * Ключь.
          * @return key.
@@ -140,21 +169,20 @@ public class MenuTracker {
             String desc = input.ask("Enter description :");
             tracker.add(new Item(name, desc));
         }
-
-        /**
-         * Информация о меню.
-         * @return ключь и название меню.
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Add new Item");
-        }
     }
 
     /**
      * Класс описывает поведение при показе всех элементов.
      */
-    private static class ShowAllItems implements UserAction {
+    private static class ShowAllItems extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name имя подменю.
+         * @param key номер подменю.
+         */
+        ShowAllItems(String name, int key) {
+            super(name, key);
+        }
 
         @Override
         public int key() {
@@ -164,23 +192,24 @@ public class MenuTracker {
         @Override
         public void execute(Tracker tracker, Input input) {
             for (Item item : tracker.getAll()) {
-                System.out.println(String.format("%s, %s, %s.", item.getId(), item.getName(), item.getComments()));
+                System.out.println(String.format("%s, %s, %s.", item.getId(), item.getName(), item.getDesc()));
             }
-        }
-        /**
-         * info.
-         * @return info.
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Show all Items");
         }
     }
 
     /**
      * Класс удаления заявки.
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name имя подменю.
+         * @param key номер подменю.
+         */
+        DeleteItem(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * key.
          * @return key.
@@ -212,21 +241,21 @@ public class MenuTracker {
             tracker.delete(item);
             input.writeMessage("The entry was successfully deleted.");
         }
-
-        /**
-         * info.
-         * @return info.
-         */
-        @Override
-        public String info() {
-            return String.format("%s, %s", this.key(), "Delete Item.");
-        }
     }
 
     /**
      * Класс поиска по ID.
      */
-    public static class FindById implements UserAction {
+    public static class FindById extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name имя подменю.
+         * @param key номер подменю.
+         */
+        FindById(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * key.
          * @return key.
@@ -257,21 +286,21 @@ public class MenuTracker {
             }
             input.writeMessage(String.format("%s, %s, %s", item.getId(), item.getName(), item.getDesc()));
         }
-
-        /**
-         * info.
-         * @return info.
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find by ID.");
-        }
     }
 
     /**
      * Класс поиска по имени заявки.
      */
-    private class FindByName implements UserAction {
+    private class FindByName extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name имя подменю.
+         * @param key номер подменю.
+         */
+        FindByName(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * key.
          * @return key.
@@ -298,21 +327,21 @@ public class MenuTracker {
                 input.writeMessage(String.format("%s, %s,%s", item1.getId(), item1.getName(), item1.getDesc()));
             }
         }
-
-        /**
-         * info.
-         * @return info.
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find by Name.");
-        }
     }
 
     /**
      * Exit.
      */
-    private class Exit implements UserAction {
+    private class Exit extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name имя подменю.
+         * @param key номер подменю.
+         */
+        Exit(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * key.
          * @return key.
@@ -330,14 +359,6 @@ public class MenuTracker {
         @Override
         public void execute(Tracker tracker, Input input) {
             input.writeMessage("Tracker shutdown. Goodbye!");
-        }
-        /**
-         * info.
-         * @return info.
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Exit");
         }
     }
 }
