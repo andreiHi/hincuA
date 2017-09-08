@@ -80,8 +80,9 @@ public class MenuTracker {
 
     /**
      * Заполняет массив действий всеми возможными действиями.
+     * @return возвращает массив с номерами возможных действий.
      */
-    public void fillActions() {
+    public int[] fillActions() {
         this.actions[0] = new AddItem();
         this.actions[1] = new MenuTracker.ShowAllItems();
         this.actions[2] = new EditItem();
@@ -89,6 +90,11 @@ public class MenuTracker {
         this.actions[4] = new MenuTracker.FindById();
         this.actions[5] = new FindByName();
         this.actions[6] = new Exit();
+        int[] rang = new int[this.actions.length];
+        for (int i = 0; i < this.actions.length; i++) {
+            rang[i] = i;
+        }
+        return rang;
     }
 
     /**
@@ -277,7 +283,6 @@ public class MenuTracker {
 
         @Override
         public void execute(Tracker tracker, Input input) {
-            String id = "";
             boolean found = false;
             Item[] item = null;
             while (!found) {

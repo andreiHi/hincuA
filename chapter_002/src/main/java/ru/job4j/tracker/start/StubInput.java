@@ -43,4 +43,17 @@ public class StubInput implements Input {
     public void writeMessage(String message) {
         System.out.println(message);
     }
+
+    @Override
+    public int ask(String quesction, int[] range) {
+        int key = Integer.parseInt(this.ask(quesction));
+        boolean exists = false;
+        for (int ranges : range) {
+            if (ranges == key) {
+                exists = true;
+                break;
+            }
+        }
+        return exists ? key : -1;
+    }
 }

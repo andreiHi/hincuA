@@ -19,4 +19,12 @@ public interface Input {
      * @param message сообщение.
      */
     void writeMessage(String message);
+
+    /**
+     * Перегруженный метод.
+     * @param quasction вопрос пользователю.
+     * @param range правильный набор ответов.
+     * @return номер операции.
+     */
+    int ask(String quasction, int[] range);
 }
