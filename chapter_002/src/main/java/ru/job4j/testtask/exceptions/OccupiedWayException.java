@@ -1,4 +1,4 @@
-package ru.job4j.testTask.exceptions;
+package ru.job4j.testtask.exceptions;
 
 /**
  * Занятая ячейка.

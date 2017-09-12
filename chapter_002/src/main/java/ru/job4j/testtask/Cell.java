@@ -1,4 +1,4 @@
-package ru.job4j.testTask;
+package ru.job4j.testtask;
 
 /**
  * Ячейки шахматной доски.
@@ -62,21 +62,50 @@ public class Cell {
         this.height = height;
     }
 
+    /**
+     * соответствует ли.
+     * @param o o.
+     * @return да или нет.
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Cell cell = (Cell) o;
 
-        if (width != cell.width) return false;
+        if (width != cell.width) {
+            return false;
+        }
         return height == cell.height;
     }
 
+    /**
+     * хэшкод.
+     * @return хэшкод.
+     */
     @Override
     public int hashCode() {
         int result = width;
         result = 31 * result + height;
         return result;
+    }
+
+    /**
+     * тостринг.
+     * @return стринг.
+     */
+    @Override
+    public String toString() {
+        return "Cell{"
+                + "width="
+                + width
+                + ", height="
+                + height
+                + '}';
     }
 }
