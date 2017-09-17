@@ -51,6 +51,24 @@ public class ConvertListTest {
         int[][]result = convertList.toArray(list, 3);
         assertThat(result, is(array));
     }
+
+    /**
+     * Test Конвертации листа массивов в один лист Integer.
+     */
+    @Test
+    public void whenConvertListWishArraysThenListOfIntegers() {
+        ConvertList convertList = new ConvertList();
+        ArrayList<int[]> list = new ArrayList<int[]>();
+        list.add(new int[]{1, 2, 3});
+        list.add(new int[]{4, 5});
+        list.add(new int[]{6, 7, 8, 9});
+        ArrayList<Integer> ex = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            ex.add(i);
+        }
+        ArrayList<Integer> result = (ArrayList<Integer>) convertList.convert(list);
+        assertThat(result, is(ex));
+    }
 }
 
 

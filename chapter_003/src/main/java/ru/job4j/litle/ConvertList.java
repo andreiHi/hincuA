@@ -24,7 +24,6 @@ public class ConvertList {
         }
         return list;
     }
-
     /**
      * Конвертирует ArrayList в двумерный массив.
      * @param list арайлист.
@@ -52,4 +51,20 @@ public class ConvertList {
         }
         return array;
     }
+
+    /**
+     *Конвертация листа массивов в один лист Integer.
+     * @param list лист массивов.
+     * @return лист Integer.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (int[] i : list) {
+            for (int j : i) {
+                result.add(j);
+            }
+        }
+        return result;
+    }
+
 }
