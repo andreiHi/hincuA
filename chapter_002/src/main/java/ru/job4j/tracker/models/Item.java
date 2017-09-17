@@ -189,4 +189,45 @@ public class Item {
                 + '}'
                 + System.getProperty("line.separator");
     }
+
+    /**
+     * Equals.
+     * @param o item.
+     * @return true or false.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Item item = (Item) o;
+
+        if (created != item.created) {
+            return false;
+        }
+        if (id != null ? !id.equals(item.id) : item.id != null) {
+            return false;
+        }
+        if (name != null ? !name.equals(item.name) : item.name != null) {
+            return false;
+        }
+        return desc != null ? desc.equals(item.desc) : item.desc == null;
+    }
+
+    /**
+     * HashCode.
+     * @return code.
+     */
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (desc != null ? desc.hashCode() : 0);
+        result = 31 * result + (int) (created ^ (created >>> 32));
+        return result;
+    }
 }

@@ -1,54 +1,9 @@
 package ru.job4j.tracker.start;
 
 import ru.job4j.tracker.models.Item;
-/**
- * Внешний не статический класс для редактирования элементов.
- */
-class EditItem extends BaseAction {
-    /**
-     * Конструктор класса.
-     * @param name Имя подменю.
-     * @param key номер подменю.
-     */
-     EditItem(String name, int key) {
-        super(name, key);
-    }
-    /**
-     * key.
-     * @return key.
-     */
-    @Override
-    public int key() {
-        return 2;
-    }
 
-    /**
-     * Метод обновляет запись.
-     * @param tracker tracker.
-     * @param input input.
-     */
-    @Override
-    public void execute(Tracker tracker, Input input) {
-        String id = "";
-        boolean found = false;
-        Item item = null;
-        while (!found) {
-            id = input.ask("Enter id :");
-            item = tracker.findById(id);
-            if ("exit".equalsIgnoreCase(id)) {
-                break;
-            }
-            if (item == null) {
-                System.out.println("Invalid ID enter again or tape exit.");
-            } else {
-                found = true;
-                String name = input.ask("Enter name :");
-                String desc = input.ask("Enter description :");
-                tracker.update(new Item(id, name, desc));
-            }
-        }
-    }
-}
+import java.util.ArrayList;
+
 /**
  * MenuTracker.
  *
@@ -69,11 +24,7 @@ public class MenuTracker {
     /**
      * Массив действий пользователя.
      */
-    private UserAction[] actions = new UserAction[7];
-    /**
-     * номер позиции.
-     */
-    private int pozition = 0;
+    private ArrayList<UserAction> actions = new ArrayList<>();
     /**
      * Конструктор класса.
      * @param input input.
@@ -87,13 +38,13 @@ public class MenuTracker {
      * Заполняет массив действий всеми возможными действиями.
      */
     public void fillActions() {
-        this.actions[pozition++] = new AddItem("Add Item.", 0);
-        this.actions[pozition++] = new MenuTracker.ShowAllItems("Show all Items.", 1);
-        this.actions[pozition++] = new EditItem("Edit item.", 2);
-        this.actions[pozition++] = new DeleteItem("Delete Item.", 3);
-        this.actions[pozition++] = new MenuTracker.FindById("Find by Id.", 4);
-        this.actions[pozition++] = new FindByName("Find by Name.", 5);
-        this.actions[pozition++] = new Exit("Exit.", 7);
+        this.actions.add(new AddItem("Add Item.", 0));
+        this.actions.add(new MenuTracker.ShowAllItems("Show all Items.", 1));
+        this.actions.add(new EditItem("Edit item.", 2));
+        this.actions.add(new DeleteItem("Delete Item.", 3));
+        this.actions.add(new MenuTracker.FindById("Find by Id.", 4));
+        this.actions.add(new FindByName("Find by Name.", 5));
+        this.actions.add(new Exit("Exit.", 6));
 
     }
 
@@ -102,9 +53,9 @@ public class MenuTracker {
      * @return keys.
      */
     public int[] rangs() {
-        int[] rang = new int[pozition];
-        for (int i = 0; i < pozition; i++) {
-            rang[i] = i;
+        int[] rang = new int[actions.size()];
+        for (UserAction action : actions) {
+            rang[actions.indexOf(action)] = actions.indexOf(action);
         }
         return rang;
     }
@@ -114,7 +65,7 @@ public class MenuTracker {
      * @param action действие.
      */
     public void addAction(UserAction action) {
-        this.actions[pozition++] = action;
+        this.actions.add(action);
     }
 
     /**
@@ -133,7 +84,7 @@ public class MenuTracker {
      * @param key ключ.
      */
     public void select(int key) {
-        this.actions[key].execute(this.tracker, this.input);
+        this.actions.get(key).execute(this.tracker, this.input);
     }
 
     /**
@@ -313,11 +264,11 @@ public class MenuTracker {
         @Override
         public void execute(Tracker tracker, Input input) {
             boolean found = false;
-            Item[] item = null;
+            ArrayList<Item> item = new ArrayList<>();
             while (!found) {
                 String name = input.ask("Enter name :");
                 item = tracker.findByName(name);
-                if (item.length == 0) {
+                if (item.size() == 0) {
                     System.out.println("Invalid name enter again.");
                 } else {
                     found = true;
@@ -359,6 +310,55 @@ public class MenuTracker {
         @Override
         public void execute(Tracker tracker, Input input) {
             input.writeMessage("Tracker shutdown. Goodbye!");
+        }
+    }
+
+    /**
+     * Класс для редактирования элементов.
+     */
+    public class EditItem extends BaseAction {
+        /**
+         * Конструктор класса.
+         * @param name Имя подменю.
+         * @param key номер подменю.
+         */
+        EditItem(String name, int key) {
+            super(name, key);
+        }
+        /**
+         * key.
+         * @return key.
+         */
+        @Override
+        public int key() {
+            return 2;
+        }
+
+        /**
+         * Метод обновляет запись.
+         * @param tracker tracker.
+         * @param input input.
+         */
+        @Override
+        public void execute(Tracker tracker, Input input) {
+            String id = "";
+            boolean found = false;
+            Item item = null;
+            while (!found) {
+                id = input.ask("Enter id :");
+                item = tracker.findById(id);
+                if ("exit".equalsIgnoreCase(id)) {
+                    break;
+                }
+                if (item == null) {
+                    System.out.println("Invalid ID enter again or tape exit.");
+                } else {
+                    found = true;
+                    String name = input.ask("Enter name :");
+                    String desc = input.ask("Enter description :");
+                    tracker.update(new Item(id, name, desc));
+                }
+            }
         }
     }
 }
