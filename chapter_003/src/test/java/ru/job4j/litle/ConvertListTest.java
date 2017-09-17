@@ -27,7 +27,7 @@ public class ConvertListTest {
         ArrayList<Integer> ex = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-            ex.add(array[i][j]);
+                ex.add(array[i][j]);
             }
         }
         assertThat(list, is(ex));
@@ -67,6 +67,22 @@ public class ConvertListTest {
             ex.add(i);
         }
         ArrayList<Integer> result = (ArrayList<Integer>) convertList.convert(list);
+        assertThat(result, is(ex));
+    }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void whenConvertArrayListWithNullThenArray() {
+        ConvertList convertList = new ConvertList();
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(null);
+        list.add(4);
+        int[] result = convertList.convert1(list);
+        int[] ex = {1, 2, 0, 4};
         assertThat(result, is(ex));
     }
 }
