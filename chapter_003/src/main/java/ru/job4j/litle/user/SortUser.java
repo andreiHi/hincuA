@@ -1,5 +1,6 @@
 package ru.job4j.litle.user;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,7 +17,42 @@ public class SortUser {
      * @param list неотсортированный лист.
      * @return отсортированный сет.
      */
-    public Set<User> sort (List<User> list) {
+    public Set<User> sort(List<User> list) {
         return new TreeSet<User>(list);
+    }
+
+    /**
+     * Метод сортирует по длинне имени лист.
+     * @param list лист.
+     * @return отсортированный лист.
+     */
+    public List<User> sortNameLength(List<User> list) {
+        list.sort(new Comparator<User>() {
+            @Override
+            public int compare(User user, User t1) {
+                return user.getName().length() - t1.getName().length();
+            }
+        });
+        return list;
+    }
+
+    /**
+     * Метод сортирует по длинне имени лист и по возрасту.
+     * @param list list.
+     * @return sorted list.
+     */
+    public List<User> sortByAllFields(List<User> list) {
+     list.sort(new Comparator<User>() {
+         @Override
+         public int compare(User user, User t1) {
+             int nameTemp = user.getName().length() - t1.getName().length();
+             if (nameTemp == 0) {
+                 int ageTemp = user.getAge() - t1.getAge();
+                 return ageTemp;
+             }
+             return nameTemp;
+         }
+     });
+        return list;
     }
 }
