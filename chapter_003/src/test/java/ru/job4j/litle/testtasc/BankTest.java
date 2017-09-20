@@ -24,7 +24,7 @@ public class BankTest {
      */
     @Test
     public void whenNewUserAdded() {
-        Bank bank = new Bank(new HashMap<>());
+        Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
         HashMap<User, List<Account>> map = bank.getBank();
@@ -38,7 +38,7 @@ public class BankTest {
      */
     @Test
     public void whenTransferMoneyFromAccountToAccountOneUser() {
-        Bank bank = new Bank(new HashMap<>());
+        Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
         Account account =  new Account(100, 1);
@@ -57,7 +57,7 @@ public class BankTest {
      */
     @Test
     public void whenFirstUserTransferMoneyToSecondUser() {
-        Bank bank = new Bank(new HashMap<>());
+        Bank bank = new Bank();
         User userSr = new User("Ivan", "A022022");
         User userDs = new User("Kolea", "A022025");
         bank.addUser(userSr);
@@ -78,7 +78,7 @@ public class BankTest {
      */
     @Test
     public void whenUserWasDeleted() {
-        Bank bank = new Bank(new HashMap<>());
+        Bank bank = new Bank();
         User userSr = new User("Ivan", "A022022");
         User userDs = new User("Kolea", "A022025");
         bank.addUser(userSr);
@@ -95,7 +95,7 @@ public class BankTest {
      */
     @Test
     public void whenNewAccountAddedToUser() {
-        Bank bank = new Bank(new HashMap<>());
+        Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
         Account account =  new Account(100, 1);
@@ -113,7 +113,7 @@ public class BankTest {
      */
     @Test
     public void whenRemovedAccountFromUser() {
-        Bank bank = new Bank(new HashMap<>());
+        Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
         Account account =  new Account(100, 1);

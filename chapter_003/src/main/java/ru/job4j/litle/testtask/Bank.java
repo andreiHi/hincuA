@@ -14,14 +14,12 @@ public class Bank {
     /**
      * хранилище всех вкладчиков, ключь user значение список счетов.
      */
-    private HashMap<User, List<Account>> bank;
+    private HashMap<User, List<Account>> bank= new HashMap<User, List<Account>>();
 
     /**
      * Конструктор класса.
-     * @param bank банк.
      */
-    public Bank(HashMap<User, List<Account>> bank) {
-        this.bank = bank;
+    public Bank() {
     }
 
     /**
