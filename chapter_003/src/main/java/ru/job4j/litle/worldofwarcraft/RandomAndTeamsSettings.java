@@ -45,7 +45,7 @@ public class RandomAndTeamsSettings {
         orda.add(new WarriorOfOrc());
     }
 
-    static int getRandomInt(int from, int to) {
+    public static int getRandomInt(int from, int to) {
         return (from + RN.nextInt(to));
     }
 

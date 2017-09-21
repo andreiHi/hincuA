@@ -23,7 +23,7 @@ public class WarriorOfHumans extends Soldier implements Warrior {
     }
 
     @Override
-    public List<Soldier> meleeAttack() {
+    public List<Soldier> meleeAttack(List<Soldier> soldiersForAttack) {
         return null;
     }
 }

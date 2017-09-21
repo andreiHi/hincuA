@@ -27,13 +27,13 @@ public class ArcherOfElvis extends Soldier implements Archer {
     }
 
     @Override
-    public List<Soldier> rangeAttack() {
+    public List<Soldier> rangeAttack(List<Soldier> soldiersForAttack) {
 
         return null;
     }
 
     @Override
-    public List<Soldier> meleeAttack() {
+    public List<Soldier> meleeAttack(List<Soldier> soldiersForAttack) {
 
         return null;
     }

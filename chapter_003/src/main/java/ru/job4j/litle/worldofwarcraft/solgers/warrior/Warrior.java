@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface Warrior {
 
-    List<Soldier> meleeAttack();
+    List<Soldier> meleeAttack(List<Soldier> soldiersForAttack);
 }

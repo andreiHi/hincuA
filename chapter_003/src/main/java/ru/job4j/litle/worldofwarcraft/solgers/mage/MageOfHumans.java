@@ -1,7 +1,10 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
+import ru.job4j.litle.worldofwarcraft.Game;
+import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +16,7 @@ import java.util.List;
  */
 public class MageOfHumans extends Soldier implements Mage {
     private double baf = 1.5;
-    private double meleeAttack = 4.0;
+    private double magicAttack = 4.0;
     public MageOfHumans() {
         super("Маг человек");
     }
@@ -23,13 +26,29 @@ public class MageOfHumans extends Soldier implements Mage {
         return isWarrior;
     }
     @Override
-    public List<Soldier> magiсAttack() {
-        return null;
+    public List<Soldier> magiсAttack(List<Soldier> soldiersForAttack) {
+        List<Soldier>soldierList = new ArrayList<>(soldiersForAttack);
+        if (isPremium()) {
+            magicAttack = magicAttack * 1.5;
+            moveFromPremium();
+        }
+        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
+        String name = this.getName();
+        Soldier soldier = soldierList.get(index);
+        soldier.damage(magicAttack);
+        Game.builder.append(name).append(" наносит урон магией ").append(magicAttack).append(" XP ").append(soldier.getGame()).append(Game.newLine);
+        if (soldier.getHp() < 0) {
+            Game.builder.append(soldier.getGame()).append("погибает").append(Game.newLine);
+            soldierList.remove(soldier);
+        } else {
+            soldierList.set(index, soldier);
+        }
+        getGame().setOrda(soldierList);
+        return soldierList;
     }
 
     @Override
-    public List<Soldier> bafSoldier() {
-        System.out.println("Hello From magicElvis");
+    public List<Soldier> bafSoldier(List<Soldier> soldiersForAttack) {
         return null;
     }
 }

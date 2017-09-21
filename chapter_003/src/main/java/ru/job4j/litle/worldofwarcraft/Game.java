@@ -2,7 +2,7 @@ package ru.job4j.litle.worldofwarcraft;
 
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import ru.job4j.litle.worldofwarcraft.solgers.archers.Archer;
-import ru.job4j.litle.worldofwarcraft.solgers.mage.Mage;
+import ru.job4j.litle.worldofwarcraft.solgers.mage.*;
 import ru.job4j.litle.worldofwarcraft.solgers.warrior.Warrior;
 
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
  * @since 0.1
  */
 public class Game {
-    private StringBuilder builder = new StringBuilder();
-    private String newLine = System.getProperty("line.separator");
+    public static StringBuilder builder = new StringBuilder();
+    public static String newLine = System.getProperty("line.separator");
     private List<Soldier> orda = RandomAndTeamsSettings.getTeam(RandomAndTeamsSettings.getOrda());
     private List<Soldier> alians = RandomAndTeamsSettings.getTeam(RandomAndTeamsSettings.getAlians());
     private void setGame() {
@@ -51,22 +51,15 @@ public class Game {
     private void start() {
         infoAboutTeams();
         if (whoIsFirstStartGame()) {
-            while (true) {
-                battle(orda, alians);
-                battle(alians, orda);
-                break;
-            }
-        } else {
-            while (true) {
-                battle(alians, orda);
-                battle(orda, alians);
-                break;
-            }
+            battle(orda, alians);
+        }else {
+            battle(alians, orda);
         }
-
     }
 
     public void battle(List<Soldier> soldiersAttack, List<Soldier> forAttacs) {
+        List<Soldier>alians;
+        List<Soldier>orda;
         Soldier soldierAttack = null;
         for (Soldier sol : soldiersAttack) {
             if (sol.isPremium()) {
@@ -75,28 +68,36 @@ public class Game {
         }
         if (soldierAttack == null) {
             int index = RandomAndTeamsSettings.getRandomInt(0, soldiersAttack.size());
+            System.out.println(index);
             soldierAttack = soldiersAttack.get(index);
         }
         int battle = RandomAndTeamsSettings.getRandomInt(0, 2);
+
         if (soldierAttack instanceof Mage) {
-            Mage mage = (Mage) soldierAttack;
-            if (battle == 0) {
-                mage.bafSoldier();
-                System.out.println("log");
-            }else mage.magiсAttack();
-            System.out.println("log1");
+            if (soldierAttack instanceof MageOfUndead) {
+                MageOfUndead mage = (MageOfUndead) soldierAttack;
+                if (battle == 0) {
+                    mage.bafSoldier(forAttacs);
+                }else {
+                    mage.magiсAttack(forAttacs);
+                }
+            }else {
+                Mage mage = (Mage) soldierAttack;
+                if (battle == 0) {
+                    mage.bafSoldier(soldiersAttack);
+                } else {
+                    mage.magiсAttack(forAttacs);
+                }
+            }
         }else if (soldierAttack instanceof Warrior) {
             Warrior warrior = (Warrior) soldierAttack;
-            warrior.meleeAttack();
-            System.out.println("log2");
-        } else if (soldierAttack instanceof Archer) {
+            warrior.meleeAttack(forAttacs);
+        }else if (soldierAttack instanceof Archer) {
             Archer archer = (Archer) soldierAttack;
             if (battle == 0) {
-                archer.rangeAttack();
-                System.out.println("log3");
-            } else {
-                System.out.println("log4");
-                archer.meleeAttack();
+                archer.rangeAttack(forAttacs);
+            }else {
+                archer.meleeAttack(forAttacs);
             }
         }
     }

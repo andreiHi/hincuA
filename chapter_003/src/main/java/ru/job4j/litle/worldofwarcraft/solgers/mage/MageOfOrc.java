@@ -22,12 +22,12 @@ public class MageOfOrc extends Soldier implements Mage {
         return isWarrior;
     }
     @Override
-    public List<Soldier> magiсAttack() {
+    public List<Soldier> magiсAttack(List<Soldier> soldiersForAttack) {
         return null;
     }
 
     @Override
-    public List<Soldier> bafSoldier() {
+    public List<Soldier> bafSoldier(List<Soldier> soldiersForAttack) {
         return null;
     }
 }

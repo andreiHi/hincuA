@@ -1,9 +1,6 @@
 package ru.job4j.litle.worldofwarcraft.solgers;
 
 import ru.job4j.litle.worldofwarcraft.Game;
-import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
-
-import java.util.List;
 
 /**
  *Воин .
@@ -26,6 +23,15 @@ public abstract class Soldier {
     double hp = 100;
     String name;
     boolean premium;
+    boolean pozitivBaf;
+
+    public boolean isPozitivBaf() {
+        return pozitivBaf;
+    }
+
+    public void setPozitivBaf(boolean pozitivBaf) {
+        this.pozitivBaf = pozitivBaf;
+    }
 
     public boolean isPremium() {
         return premium;
@@ -54,8 +60,10 @@ public abstract class Soldier {
 
     @Override
     public String toString() {
-        return "Soldier{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Soldier{"
+                + "name='"
+                + name
+                + '\''
+                + '}';
     }
 }

@@ -12,6 +12,6 @@ import java.util.List;
  * @since 0.1
  */
 public interface Archer {
-    List<Soldier> rangeAttack();
-    List<Soldier> meleeAttack();
+    List<Soldier> rangeAttack(List<Soldier> soldiersForAttack);
+    List<Soldier> meleeAttack(List<Soldier> soldiersForAttack);
 }
