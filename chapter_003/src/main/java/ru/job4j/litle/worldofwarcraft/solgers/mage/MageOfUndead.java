@@ -1,6 +1,6 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
-import ru.job4j.litle.worldofwarcraft.Game;
+import ru.job4j.litle.worldofwarcraft.Attacks;
 import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
@@ -8,52 +8,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * .
- *
+ *Класс Некроманта .
  * @author Hincu Andrei (andreih1981@gmail.com) by 20.09.17;
  * @version $Id$
  * @since 0.1
  */
 public class MageOfUndead extends Soldier implements Mage {
-    private double baf = -1.5;
+    /**
+     * Размер магического урона.
+     */
     private double magicAttack = 5.0;
+    /**
+     * Название типа атаки.
+     */
+    private String typeOfBytlle = "урон магией";
+
+    /**
+     * Конструктор.
+     */
     public MageOfUndead() {
         super("Некромант");
     }
-    private  boolean isWarrior = false;
 
-    public boolean isWarrior() {
-        return isWarrior;
-    }
+    /**
+     * Урон магией случайного противника.
+     * @param soldiersForAttack
+     */
     @Override
-    public void magiсAttack(List<Soldier> soldiersForAttack) {
-        List<Soldier>soldierList = new ArrayList<>(soldiersForAttack);
-        if (isPremium()) {
-            magicAttack = magicAttack * 1.5;
-            moveFromPremium();
-        }
-        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
-        String name = this.getName();
-        Soldier soldier = soldierList.get(index);
-        soldier.damage(magicAttack);
-        Game.builder.append(name).append(" наносит урон магией ").append(magicAttack).append(" XP ").append(soldier.getGame()).append(Game.newLine);
-        if (soldier.getHp() < 0) {
-            Game.builder.append(soldier.getGame()).append("погибает").append(Game.newLine);
-            soldierList.remove(soldier);
-        } else {
-            soldierList.set(index, soldier);
-        }
-        getGame().setOrda(soldierList);
-
+    public void magicAttack(List<Soldier> soldiersForAttack) {
+        double damge = poverOfDamage(magicAttack);
+        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), typeOfBytlle);
+        getGame().setAlians(soldierList);
     }
 
+    /**
+     * Наложение проклятья на случайного противника.
+     * @param soldiersForAttack список противников.
+     */
     @Override
     public void bafSoldier(List<Soldier> soldiersForAttack) {
+        List<Soldier> soldierList = new ArrayList<>(soldiersForAttack);
+        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
+        Soldier soldier = soldierList.get(index);
+        soldier.setCurse(true);
+        soldierList.set(index, soldier);
+        getGame().setAlians(soldierList);
 
-    }
-
-    @Override
-    public double poverOfDamage(double damage) {
-        return 0;
     }
 }

@@ -14,7 +14,7 @@ public class Bank {
     /**
      * хранилище всех вкладчиков, ключь user значение список счетов.
      */
-    private HashMap<User, List<Account>> bank= new HashMap<User, List<Account>>();
+    private HashMap<User, List<Account>> bank = new HashMap<User, List<Account>>();
 
     /**
      * Конструктор класса.

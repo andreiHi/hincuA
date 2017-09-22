@@ -1,5 +1,6 @@
 package ru.job4j.litle.worldofwarcraft.solgers.warrior;
 
+import ru.job4j.litle.worldofwarcraft.Attacks;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
 import java.util.List;
@@ -12,20 +13,29 @@ import java.util.List;
  * @since 0.1
  */
 public class WarriorOfUndead extends Soldier implements Warrior {
-    private  boolean isWarrior = true;
-
-    public boolean isWarrior() {
-        return isWarrior;
-    }
+    /**
+     * Урон.
+     */
     private double meleeAttack = 18.0;
 
+    /**
+     * Конструктор.
+     */
     public WarriorOfUndead() {
         super("Зомби");
     }
-
-
+    /**
+     * Тип урона.
+     */
+    private String hitOfSword = "урон копьём";
+    /**
+     * Атака.
+     * @param soldiersForAttack отряд противника.
+     */
     @Override
-    public List<Soldier> meleeAttack(List<Soldier> soldiersForAttack) {
-        return null;
+    public void meleeAttack(List<Soldier> soldiersForAttack) {
+        double damge = poverOfDamage(meleeAttack);
+        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
+        getGame().setAlians(soldierList);
     }
 }

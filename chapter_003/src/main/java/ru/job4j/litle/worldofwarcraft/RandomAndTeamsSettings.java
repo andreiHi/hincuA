@@ -19,16 +19,24 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * .
- *
+ *Класс формирования команд.
  * @author Hincu Andrei (andreih1981@gmail.com) by 21.09.17;
  * @version $Id$
  * @since 0.1
  */
 public class RandomAndTeamsSettings {
-    private static final Random RN = new Random();
+    /**
+     * Список типов войнов альянса.
+     */
     private static List<Soldier> alians = new ArrayList<>();
+    /**
+     * Список типов войнов орды.
+     */
     private static List<Soldier> orda = new ArrayList<>();
+
+    /**
+     * Инициализация списков.
+     */
     static {
         alians.add(new MageOfElvis());
         alians.add(new MageOfHumans());
@@ -45,25 +53,44 @@ public class RandomAndTeamsSettings {
         orda.add(new WarriorOfOrc());
     }
 
+    /**
+     * Генератор случайных чисел в диапазоне.
+     * @param from от.
+     * @param to до.
+     * @return случайное число.
+     */
     public static int getRandomInt(int from, int to) {
-        return (from + RN.nextInt(to));
+        return (from + new Random().nextInt(to));
     }
 
+    /**
+     * Геттер.
+     * @return Альянс.
+     */
     public static List<Soldier> getAlians() {
         return alians;
     }
 
+    /**
+     * Геттер.
+     * @return Орда.
+     */
     public static List<Soldier> getOrda() {
         return orda;
     }
 
-    public static List<Soldier>getTeam(List<Soldier> rases) {
-        List<Soldier>team = new ArrayList<>();
+    /**
+     * Формирование команды в случайн ом порядке.
+     * @param rases Альянс или Орда.
+     * @return готовая к бою команда.
+     */
+    public static List<Soldier> getTeam(List<Soldier> rases) {
+        List<Soldier> team = new ArrayList<>();
         team.add(rases.get(getRandomInt(0, 2)));
         for (int i = 0; i < 3; i++) {
             team.add(rases.get(getRandomInt(2, 2)));
         }
-        for (int i = 0; i< 4 ;i++) {
+        for (int i = 0; i < 4; i++) {
             team.add(rases.get(getRandomInt(4, 2)));
         }
         return team;

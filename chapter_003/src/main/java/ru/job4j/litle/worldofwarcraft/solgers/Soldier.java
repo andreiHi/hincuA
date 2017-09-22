@@ -1,17 +1,22 @@
 package ru.job4j.litle.worldofwarcraft.solgers;
 
 import ru.job4j.litle.worldofwarcraft.Game;
-
 /**
- *Воин .
- *
+ *Воин.
  * @author Hincu Andrei (andreih1981@gmail.com) by 20.09.17;
  * @version $Id$
  * @since 0.1
  */
 public abstract class Soldier {
-    Game game;
+    /**
+     * Игра.
+     */
+    private Game game;
 
+    /**
+     * Получить игру.
+     * @return
+     */
     public Game getGame() {
         return game;
     }
@@ -20,8 +25,8 @@ public abstract class Soldier {
         this.game = game;
     }
 
-    double hp = 100;
-    String name;
+    private double hp = 100;
+    private  String name;
 
     public boolean isCurse() {
         return curse;
@@ -31,8 +36,8 @@ public abstract class Soldier {
         this.curse = curse;
     }
 
-    boolean premium, curse;
-    double gottenBaff = 0;
+    private boolean premium, curse;
+    private double gottenBaff = 0;
 
     public double getGottenBaff() {
         return gottenBaff;
@@ -66,7 +71,7 @@ public abstract class Soldier {
         this.premium = false;
     }
     public void damage(double value) {
-        this.hp -= value;
+        this.hp = this.hp - value;
     }
 
     @Override
@@ -82,7 +87,7 @@ public abstract class Soldier {
             damage = damage + damage * getGottenBaff();
             moveFromPremium();
             resetBuff();
-        } else if (isPremium() && isCurse()){
+        } else if (isPremium() && isCurse()) {
             damage = (damage + damage * getGottenBaff()) / 2;
             moveFromPremium();
             resetBuff();
