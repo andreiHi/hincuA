@@ -12,6 +12,6 @@ import java.util.List;
  * @since 0.1
  */
 public interface Mage {
-    List<Soldier> magiсAttack(List<Soldier> soldiersForAttack);
-    List<Soldier> bafSoldier(List<Soldier> soldiersForAttack);
+    void magiсAttack(List<Soldier> soldiersForAttack);
+    void bafSoldier(List<Soldier> soldiersForAttack);
 }

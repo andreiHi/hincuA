@@ -1,5 +1,6 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
+import ru.job4j.litle.worldofwarcraft.Attacks;
 import ru.job4j.litle.worldofwarcraft.Game;
 import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
@@ -15,40 +16,27 @@ import java.util.List;
  * @since 0.1
  */
 public class MageOfHumans extends Soldier implements Mage {
-    private double baf = 1.5;
+    private double baff = 0.5;
     private double magicAttack = 4.0;
+    private String typeOfBytlle = "урон магией";
+    private String bufSoldier = "улучшает характеристики";
     public MageOfHumans() {
         super("Маг человек");
     }
-    private  boolean isWarrior = false;
 
-    public boolean isWarrior() {
-        return isWarrior;
-    }
+
     @Override
-    public List<Soldier> magiсAttack(List<Soldier> soldiersForAttack) {
-        List<Soldier>soldierList = new ArrayList<>(soldiersForAttack);
-        if (isPremium()) {
-            magicAttack = magicAttack * 1.5;
-            moveFromPremium();
-        }
-        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
-        String name = this.getName();
-        Soldier soldier = soldierList.get(index);
-        soldier.damage(magicAttack);
-        Game.builder.append(name).append(" наносит урон магией ").append(magicAttack).append(" XP ").append(soldier.getGame()).append(Game.newLine);
-        if (soldier.getHp() < 0) {
-            Game.builder.append(soldier.getGame()).append("погибает").append(Game.newLine);
-            soldierList.remove(soldier);
-        } else {
-            soldierList.set(index, soldier);
-        }
+    public void magiсAttack(List<Soldier> soldiersForAttack) {
+        double damge = poverOfDamage(magicAttack);
+        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), typeOfBytlle);
         getGame().setOrda(soldierList);
-        return soldierList;
     }
 
     @Override
-    public List<Soldier> bafSoldier(List<Soldier> soldiersForAttack) {
-        return null;
+    public void bafSoldier(List<Soldier> soldiersForAttack) {
+        double baf = poverOfDamage(baff);
+        List<Soldier>soldierList = Attacks.bufSoldiers(soldiersForAttack, baf,this.getName(), bufSoldier);
+        getGame().setAlians(soldierList);
     }
+
 }

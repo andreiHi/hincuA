@@ -19,6 +19,16 @@ public class Game {
     public static String newLine = System.getProperty("line.separator");
     private List<Soldier> orda = RandomAndTeamsSettings.getTeam(RandomAndTeamsSettings.getOrda());
     private List<Soldier> alians = RandomAndTeamsSettings.getTeam(RandomAndTeamsSettings.getAlians());
+    private boolean flag = false;
+
+    private boolean isFlag() {
+        return flag;
+    }
+
+    private void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
     private void setGame() {
         for (Soldier s : orda) {
             s.setGame(this);
@@ -50,16 +60,16 @@ public class Game {
     }
     private void start() {
         infoAboutTeams();
-        if (whoIsFirstStartGame()) {
-            battle(orda, alians);
-        }else {
+        whoIsFirstStartGame();
+        if (isFlag()) {
             battle(alians, orda);
+        }else {
+            battle(orda, alians);
         }
     }
 
-    public void battle(List<Soldier> soldiersAttack, List<Soldier> forAttacs) {
-        List<Soldier>alians;
-        List<Soldier>orda;
+    private void battle(List<Soldier> soldiersAttack, List<Soldier> forAttacs) {
+
         Soldier soldierAttack = null;
         for (Soldier sol : soldiersAttack) {
             if (sol.isPremium()) {
@@ -68,7 +78,6 @@ public class Game {
         }
         if (soldierAttack == null) {
             int index = RandomAndTeamsSettings.getRandomInt(0, soldiersAttack.size());
-            System.out.println(index);
             soldierAttack = soldiersAttack.get(index);
         }
         int battle = RandomAndTeamsSettings.getRandomInt(0, 2);
@@ -100,6 +109,26 @@ public class Game {
                 archer.meleeAttack(forAttacs);
             }
         }
+        List<Soldier> alians = getAlians();
+        List<Soldier> orda = getOrda();
+        if (!alians.isEmpty() && !orda.isEmpty()) {
+            replaceFlag();
+            if (isFlag()) {
+                battle(alians, orda);
+            } else {
+                battle(orda, alians);
+            }
+        } else if (alians.isEmpty()) {
+            builder.append("Отряд орды Победил!!").append(newLine).append("Выжевшие герои :").append(newLine);
+            for (Soldier soldier : orda) {
+                builder.append(soldier.getName()).append(newLine);
+            }
+        } else {
+            builder.append("Отряд альянса Победил!!").append(newLine).append("Выжевшие герои :").append(newLine);
+            for (Soldier soldier : alians) {
+                builder.append(soldier.getName()).append(newLine);
+            }
+        }
     }
     private void infoAboutTeams() {
         builder.append("Патрулируя границы Земноморья отряд альянса был аттакован отрядом орды.").append(newLine);
@@ -112,16 +141,24 @@ public class Game {
             builder.append(s.getName()).append(newLine);
         }
     }
-    private boolean whoIsFirstStartGame() {
+    private void whoIsFirstStartGame() {
         builder.append("Атаку начал первым отряд ");
         int i = RandomAndTeamsSettings.getRandomInt(0, 2);
         if (i == 0) {
             builder.append("орды.");
+            setFlag(false);
         } else {
             builder.append("альянса");
+            setFlag(true);
         }
         System.out.println(builder);
-        return i == 0;
+    }
+    private void replaceFlag() {
+        if (isFlag()) {
+            this.flag = false;
+        } else {
+            this.flag = true;
+        }
     }
 }
 

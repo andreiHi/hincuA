@@ -22,15 +22,26 @@ public abstract class Soldier {
 
     double hp = 100;
     String name;
-    boolean premium;
-    boolean pozitivBaf;
 
-    public boolean isPozitivBaf() {
-        return pozitivBaf;
+    public boolean isCurse() {
+        return curse;
     }
 
-    public void setPozitivBaf(boolean pozitivBaf) {
-        this.pozitivBaf = pozitivBaf;
+    public void setCurse(boolean curse) {
+        this.curse = curse;
+    }
+
+    boolean premium, curse;
+    double gottenBaff = 0;
+
+    public double getGottenBaff() {
+        return gottenBaff;
+    }
+    public void resetBuff() {
+        this.gottenBaff = 0;
+    }
+    public void setGottenBaff(double gottenBaff) {
+        this.gottenBaff = gottenBaff;
     }
 
     public boolean isPremium() {
@@ -65,5 +76,21 @@ public abstract class Soldier {
                 + name
                 + '\''
                 + '}';
+    }
+    public double poverOfDamage(double damage) {
+        if (isPremium() && !isCurse()) {
+            damage = damage + damage * getGottenBaff();
+            moveFromPremium();
+            resetBuff();
+        } else if (isPremium() && isCurse()){
+            damage = (damage + damage * getGottenBaff()) / 2;
+            moveFromPremium();
+            resetBuff();
+            setCurse(false);
+        } else if (!isPremium() && isCurse()) {
+            damage = damage / 2;
+            setCurse(false);
+        }
+        return damage;
     }
 }

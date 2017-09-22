@@ -26,7 +26,7 @@ public class MageOfUndead extends Soldier implements Mage {
         return isWarrior;
     }
     @Override
-    public List<Soldier> magiсAttack(List<Soldier> soldiersForAttack) {
+    public void magiсAttack(List<Soldier> soldiersForAttack) {
         List<Soldier>soldierList = new ArrayList<>(soldiersForAttack);
         if (isPremium()) {
             magicAttack = magicAttack * 1.5;
@@ -44,11 +44,16 @@ public class MageOfUndead extends Soldier implements Mage {
             soldierList.set(index, soldier);
         }
         getGame().setOrda(soldierList);
-        return soldierList;
+
     }
 
     @Override
-    public List<Soldier> bafSoldier(List<Soldier> soldiersForAttack) {
-        return null;
+    public void bafSoldier(List<Soldier> soldiersForAttack) {
+
+    }
+
+    @Override
+    public double poverOfDamage(double damage) {
+        return 0;
     }
 }

@@ -1,7 +1,10 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
+import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,22 +15,34 @@ import java.util.List;
  * @since 0.1
  */
 public class MageOfOrc extends Soldier implements Mage {
-    private double baf = -1.5;
+    private double baff = 0.5;
     public MageOfOrc() {
         super("Шаман");
     }
-    private  boolean isWarrior = false;
-
-    public boolean isWarrior() {
-        return isWarrior;
-    }
-    @Override
-    public List<Soldier> magiсAttack(List<Soldier> soldiersForAttack) {
-        return null;
-    }
+    private String bufSoldier = "улучшает характеристики";
 
     @Override
-    public List<Soldier> bafSoldier(List<Soldier> soldiersForAttack) {
-        return null;
+    public void magiсAttack(List<Soldier> soldiersForAttack) {
+        double debaf = poverOfDamage(baff);
+        List<Soldier> soldierList = new ArrayList<>(soldiersForAttack);
+        Soldier soldier = null;
+        int index = 0;
+        for (Soldier s : soldierList) {
+            if (s.isPremium()) {
+                soldier = s;
+                index = soldierList.indexOf(s);
+                break;
+            }
+        }
+        soldier.moveFromPremium();
+        soldierList.set(index, soldier);
+
+    }
+
+    @Override
+    public void bafSoldier(List<Soldier> soldiersForAttack) {
+        double baf = poverOfDamage(baff);
+        List<Soldier>soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier);
+        getGame().setOrda(soldierList);
     }
 }
