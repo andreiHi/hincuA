@@ -1,6 +1,7 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
 import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.Game;
 import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
@@ -27,7 +28,7 @@ public class MageOfUndead extends Soldier implements Mage {
      * Конструктор.
      */
     public MageOfUndead() {
-        super("Некромант");
+        super("Орда Некромант");
     }
 
     /**
@@ -46,12 +47,13 @@ public class MageOfUndead extends Soldier implements Mage {
      * @param soldiersForAttack список противников.
      */
     @Override
-    public void bafSoldier(List<Soldier> soldiersForAttack) {
+    public void bafSoldier(List<Soldier> soldiersForAttack, int i) {
         List<Soldier> soldierList = new ArrayList<>(soldiersForAttack);
         int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
         Soldier soldier = soldierList.get(index);
         soldier.setCurse(true);
         soldierList.set(index, soldier);
+        Game.builder.append(getName()).append(" накладывает проклятье на ").append(soldier.getName()).append(Game.newLine);
         getGame().setAlians(soldierList);
 
     }

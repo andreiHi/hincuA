@@ -21,7 +21,7 @@ public class WarriorOfHumans extends Soldier implements Warrior {
      * Конструктор.
      */
     public WarriorOfHumans() {
-        super("Человеческий Воин");
+        super("Альянс Человеческий Воин");
     }
     /**
      * Тип урона.

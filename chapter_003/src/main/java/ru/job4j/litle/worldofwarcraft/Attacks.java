@@ -22,14 +22,14 @@ public class Attacks {
      */
     public static List<Soldier> attack(List<Soldier> soldiersForAttack, double powerOfAttack, String name, String typeOfBattle) {
         List<Soldier> soldierList = new ArrayList<>(soldiersForAttack);
-        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
+        int index = RandomAndTeamsSettings.getRandomInt(0, soldierList.size());
         Soldier soldier = soldierList.get(index);
         soldier.damage(powerOfAttack);
         Game.builder.append(name).append(" наносит ").append(typeOfBattle).
                 append(" ").append(powerOfAttack).append(" XP ").append(soldier.getName()).append(".").append(Game.newLine);
-        if (soldier.getHp() < 0) {
+        if (soldier.getHp() < 1) {
             Game.builder.append(soldier.getName()).append(" погибает.").append(Game.newLine);
-            soldierList.remove(soldier);
+            soldierList.remove(index);
         } else {
             soldierList.set(index, soldier);
         }
@@ -44,9 +44,16 @@ public class Attacks {
      * @param typeOfBattle тип атаки.
      * @return список союзников.
      */
-    public static List<Soldier> bufSoldiers(List<Soldier> soldiersForBuf, double buf, String name, String typeOfBattle) {
+    public static List<Soldier> bufSoldiers(List<Soldier> soldiersForBuf, double buf, String name, String typeOfBattle, int i) {
         List<Soldier> soldierList = new ArrayList<>(soldiersForBuf);
-        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForBuf.size());
+       int index;
+        if (soldierList.size() > 1) {
+            do {
+                index = RandomAndTeamsSettings.getRandomInt(0, soldiersForBuf.size());
+            } while (i == index);
+        } else {
+            index = RandomAndTeamsSettings.getRandomInt(0, soldiersForBuf.size());
+        }
         Soldier soldier = soldierList.get(index);
         soldier.moveToPremium();
         soldier.setGottenBaff(buf);

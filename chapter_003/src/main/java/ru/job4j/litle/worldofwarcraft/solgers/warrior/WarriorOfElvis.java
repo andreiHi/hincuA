@@ -21,7 +21,7 @@ public class WarriorOfElvis extends Soldier implements Warrior {
      * Конструктор.
      */
     public WarriorOfElvis() {
-        super("Эльфийский Воин");
+        super("Альянс Эльфийский Воин");
     }
     /**
      * Тип урона.

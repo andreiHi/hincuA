@@ -26,7 +26,7 @@ public class ArcherOfHumans extends Soldier implements Archer {
      *Конструктор.
      */
     public ArcherOfHumans() {
-        super("Арбалетчик");
+        super("Альянс Арбалетчик");
     }
     /**
      * Тип урона.

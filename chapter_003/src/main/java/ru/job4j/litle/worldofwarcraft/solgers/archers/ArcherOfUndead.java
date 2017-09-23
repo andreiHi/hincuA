@@ -24,7 +24,7 @@ public class ArcherOfUndead extends Soldier implements Archer {
      * Конструктор.
      */
     public ArcherOfUndead() {
-        super("Охотник");
+        super("Орда Охотник нежить");
     }
 
     /**

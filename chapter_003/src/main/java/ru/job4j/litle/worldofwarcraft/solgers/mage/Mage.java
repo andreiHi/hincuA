@@ -19,7 +19,8 @@ public interface Mage {
 
     /**
      * Баф союзников.
-     * @param soldiersForAttack отряд союзников.
+     * @param soldiersForAttack команда союзников.
+     * @param index индекс мага.
      */
-    void bafSoldier(List<Soldier> soldiersForAttack);
+    void bafSoldier(List<Soldier> soldiersForAttack, int index);
 }

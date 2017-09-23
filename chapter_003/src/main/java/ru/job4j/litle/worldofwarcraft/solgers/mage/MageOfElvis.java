@@ -32,7 +32,7 @@ public class MageOfElvis extends Soldier implements Mage {
      * Конструктор.
      */
     public MageOfElvis() {
-        super("Эльфийский маг");
+        super("Альянс Эльфийский маг");
     }
 
     /**
@@ -51,9 +51,9 @@ public class MageOfElvis extends Soldier implements Mage {
      * @param soldiersForAttack отряд союзников.
      */
     @Override
-    public void bafSoldier(List<Soldier> soldiersForAttack) {
+    public void bafSoldier(List<Soldier> soldiersForAttack, int index) {
         double baf = poverOfDamage(baff);
-        List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier);
+        List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier, index);
         getGame().setAlians(soldierList);
     }
 }

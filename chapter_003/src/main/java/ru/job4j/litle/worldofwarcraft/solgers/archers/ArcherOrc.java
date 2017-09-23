@@ -25,7 +25,7 @@ public class ArcherOrc extends Soldier implements Archer {
      * Конструктор.
      */
     public ArcherOrc() {
-        super("Орк лучник");
+        super("Орда Орк Лучник");
     }
 
     /**

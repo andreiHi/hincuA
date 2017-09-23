@@ -21,7 +21,7 @@ public class WarriorOfOrc extends Soldier implements Warrior {
      * Конструктор.
      */
     public WarriorOfOrc() {
-        super("Гоблин");
+        super("Орда Гоблин");
     }
     /**
      * Тип урона.

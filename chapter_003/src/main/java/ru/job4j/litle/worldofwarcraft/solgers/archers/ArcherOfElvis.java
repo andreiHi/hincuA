@@ -15,7 +15,7 @@ public class ArcherOfElvis extends Soldier implements Archer {
      * Конструктор.
      */
     public ArcherOfElvis() {
-        super("Эльфийский лучник");
+        super("Альянс Эльфийский лучник");
     }
     /**
      * Атака мечом.

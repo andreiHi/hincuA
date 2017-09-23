@@ -22,7 +22,7 @@ public class WarriorOfUndead extends Soldier implements Warrior {
      * Конструктор.
      */
     public WarriorOfUndead() {
-        super("Зомби");
+        super("Орда Зомби");
     }
     /**
      * Тип урона.

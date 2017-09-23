@@ -23,7 +23,7 @@ public class MageOfOrc extends Soldier implements Mage {
      * Конструктор.
      */
     public MageOfOrc() {
-        super("Шаман");
+        super("Орда Шаман");
     }
 
     /**
@@ -62,9 +62,9 @@ public class MageOfOrc extends Soldier implements Mage {
      * @param soldiersForAttack отряд союзников.
      */
     @Override
-    public void bafSoldier(List<Soldier> soldiersForAttack) {
+    public void bafSoldier(List<Soldier> soldiersForAttack, int index) {
         double baf = poverOfDamage(baff);
-        List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier);
+        List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier, index);
         getGame().setOrda(soldierList);
     }
 }

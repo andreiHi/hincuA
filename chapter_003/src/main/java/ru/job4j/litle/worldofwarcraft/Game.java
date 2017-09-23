@@ -43,7 +43,7 @@ public class Game {
     /**
      * Установка игры всем участникам.
      */
-    private void setGame() {
+    public void setGame() {
         for (Soldier s : orda) {
             s.setGame(this);
         }
@@ -98,7 +98,7 @@ public class Game {
     /**
      * Старт.
      */
-    private void start() {
+   public void start() {
         infoAboutTeams();
         whoIsFirstStartGame();
         if (isFlag()) {
@@ -110,20 +110,24 @@ public class Game {
 
     /**
      * Битва.
-     * @param soldiersAttack атакующая комманда.
-     * @param forAttacs получающая команда.
+     * @param teamAttack атакующая комманда.
+     * @param teamForDamage получающая команда.
      */
-    private void battle(List<Soldier> soldiersAttack, List<Soldier> forAttacs) {
+    public void battle(List<Soldier> teamAttack, List<Soldier> teamForDamage) {
 
         Soldier soldierAttack = null;
-        for (Soldier sol : soldiersAttack) {
+        for (Soldier sol : teamAttack) {
             if (sol.isPremium()) {
                 soldierAttack = sol;
             }
         }
+        int index = 0;
         if (soldierAttack == null) {
-            int index = RandomAndTeamsSettings.getRandomInt(0, soldiersAttack.size());
-            soldierAttack = soldiersAttack.get(index);
+            index = RandomAndTeamsSettings.getRandomInt(0, teamAttack.size());
+            soldierAttack = teamAttack.get(index);
+        }
+        if (soldierAttack == null) {
+            builder.append("ERROR");
         }
         int battle = RandomAndTeamsSettings.getRandomInt(0, 2);
 
@@ -131,33 +135,35 @@ public class Game {
             if (soldierAttack instanceof MageOfUndead) {
                 MageOfUndead mage = (MageOfUndead) soldierAttack;
                 if (battle == 0) {
-                    mage.bafSoldier(forAttacs);
+                    mage.bafSoldier(teamForDamage, index);
                 } else {
-                    mage.magicAttack(forAttacs);
+                    mage.magicAttack(teamForDamage);
                 }
             } else {
                 Mage mage = (Mage) soldierAttack;
                 if (battle == 0) {
-                    mage.bafSoldier(soldiersAttack);
+                    mage.bafSoldier(teamAttack, index);
                 } else {
-                    mage.magicAttack(forAttacs);
+                    mage.magicAttack(teamForDamage);
                 }
             }
         } else if (soldierAttack instanceof Warrior) {
             Warrior warrior = (Warrior) soldierAttack;
-            warrior.meleeAttack(forAttacs);
+            warrior.meleeAttack(teamForDamage);
         } else if (soldierAttack instanceof Archer) {
             Archer archer = (Archer) soldierAttack;
             if (battle == 0) {
-                archer.rangeAttack(forAttacs);
+                archer.rangeAttack(teamForDamage);
             } else {
-                archer.meleeAttack(forAttacs);
+                archer.meleeAttack(teamForDamage);
             }
         }
         List<Soldier> alians = getAlians();
         List<Soldier> orda = getOrda();
         if (!alians.isEmpty() && !orda.isEmpty()) {
+           // builder.append(flag).append(" ");
             replaceFlag();
+         //   builder.append(flag).append(newLine);
             if (isFlag()) {
                 battle(alians, orda);
             } else {
@@ -183,10 +189,10 @@ public class Game {
         builder.append("Атаку начал первым отряд ");
         int i = RandomAndTeamsSettings.getRandomInt(0, 2);
         if (i == 0) {
-            builder.append("орды.").append(newLine);
+            builder.append("орды.").append(newLine).append("=============================").append(newLine);
             setFlag(false);
         } else {
-            builder.append("альянса").append(newLine);
+            builder.append("альянса").append(newLine).append("=============================").append(newLine);
             setFlag(true);
         }
     }
