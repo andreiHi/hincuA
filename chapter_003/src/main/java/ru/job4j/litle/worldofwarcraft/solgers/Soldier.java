@@ -48,7 +48,7 @@ public abstract class Soldier {
 
     /**
      * Сеттер проклятья.
-     * @param curse.
+     * @param curse проклятье.
      */
     public void setCurse(boolean curse) {
         this.curse = curse;

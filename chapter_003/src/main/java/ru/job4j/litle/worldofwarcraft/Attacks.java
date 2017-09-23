@@ -42,6 +42,7 @@ public class Attacks {
      * @param buf размер бафа.
      * @param name имя мага.
      * @param typeOfBattle тип атаки.
+     * @param i индекс в массиве бафающего война.
      * @return список союзников.
      */
     public static List<Soldier> bufSoldiers(List<Soldier> soldiersForBuf, double buf, String name, String typeOfBattle, int i) {

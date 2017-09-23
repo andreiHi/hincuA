@@ -19,9 +19,21 @@ public class Game {
      * Запись происходящего.
      */
     public static StringBuilder builder = new StringBuilder();
+    /**
+     * Новая строка.
+     */
     public static String newLine = System.getProperty("line.separator");
-    private List<Soldier> orda = RandomAndTeamsSettings.getTeam(RandomAndTeamsSettings.getOrda());
-    private List<Soldier> alians = RandomAndTeamsSettings.getTeam(RandomAndTeamsSettings.getAlians());
+    /**
+     * Комманда орды.
+     */
+    private List<Soldier> orda = RandomAndTeamsSettings.getOrda();
+    /**
+     * Команда альянса.
+     */
+    private List<Soldier> alians = RandomAndTeamsSettings.getAlians();
+    /**
+     * Переход хода.
+     */
     private boolean flag = false;
 
     /**
@@ -93,6 +105,7 @@ public class Game {
         game.setGame();
         game.start();
         System.out.println(builder);
+        RandomAndTeamsSettings.writeLog(builder.toString());
     }
 
     /**
@@ -161,9 +174,7 @@ public class Game {
         List<Soldier> alians = getAlians();
         List<Soldier> orda = getOrda();
         if (!alians.isEmpty() && !orda.isEmpty()) {
-           // builder.append(flag).append(" ");
             replaceFlag();
-         //   builder.append(flag).append(newLine);
             if (isFlag()) {
                 battle(alians, orda);
             } else {

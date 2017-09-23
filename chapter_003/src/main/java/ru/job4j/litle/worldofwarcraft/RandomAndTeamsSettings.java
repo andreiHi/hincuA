@@ -14,6 +14,9 @@ import ru.job4j.litle.worldofwarcraft.solgers.warrior.WarriorOfHumans;
 import ru.job4j.litle.worldofwarcraft.solgers.warrior.WarriorOfOrc;
 import ru.job4j.litle.worldofwarcraft.solgers.warrior.WarriorOfUndead;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,33 +28,6 @@ import java.util.Random;
  * @since 0.1
  */
 public class RandomAndTeamsSettings {
-    /**
-     * Список типов войнов альянса.
-     */
-    private static List<Soldier> alians = new ArrayList<>();
-    /**
-     * Список типов войнов орды.
-     */
-    private static List<Soldier> orda = new ArrayList<>();
-
-    /**
-     * Инициализация списков.
-     */
-    static {
-        alians.add(new MageOfElvis());
-        alians.add(new MageOfHumans());
-        alians.add(new ArcherOfElvis());
-        alians.add(new ArcherOfHumans());
-        alians.add(new WarriorOfElvis());
-        alians.add(new WarriorOfHumans());
-
-        orda.add(new MageOfUndead());
-        orda.add(new MageOfOrc());
-        orda.add(new ArcherOfUndead());
-        orda.add(new ArcherOrc());
-        orda.add(new WarriorOfUndead());
-        orda.add(new WarriorOfOrc());
-    }
 
     /**
      * Генератор случайных чисел в диапазоне.
@@ -64,36 +40,84 @@ public class RandomAndTeamsSettings {
     }
 
     /**
-     * Геттер.
-     * @return Альянс.
-     */
-    public static List<Soldier> getAlians() {
-        return alians;
-    }
-
-    /**
-     * Геттер.
-     * @return Орда.
-     */
-    public static List<Soldier> getOrda() {
-        return orda;
-    }
-
-    /**
-     * Формирование команды в случайн ом порядке.
-     * @param rases Альянс или Орда.
+     * Формирование команды альянса в случайн ом порядке.
      * @return готовая к бою команда.
      */
-    public static List<Soldier> getTeam(List<Soldier> rases) {
+    static List<Soldier> getAlians() {
         List<Soldier> team = new ArrayList<>();
-        team.add(rases.get(getRandomInt(0, 2)));
+        int randomInt = getRandomInt(0, 2);
+        if (randomInt == 0) {
+            team.add(new MageOfElvis());
+        } else {
+            team.add(new MageOfHumans());
+        }
         for (int i = 0; i < 3; i++) {
-            team.add(rases.get(getRandomInt(2, 2)));
+            randomInt = getRandomInt(0, 2);
+            if (randomInt == 0) {
+                team.add(new ArcherOfElvis());
+            } else {
+                team.add(new ArcherOfHumans());
+            }
         }
         for (int i = 0; i < 4; i++) {
-            team.add(rases.get(getRandomInt(4, 2)));
+            randomInt = getRandomInt(0, 2);
+            if (randomInt == 0) {
+                team.add(new WarriorOfElvis());
+            } else {
+                team.add(new WarriorOfHumans());
+            }
+        }
+        return team;
+    }
+    /**
+     * Формирование команды орды в случайн ом порядке.
+     * @return готовая к бою команда.
+     */
+    static List<Soldier> getOrda() {
+        List<Soldier> team = new ArrayList<>();
+        int randomInt = getRandomInt(0, 2);
+        if (randomInt == 0) {
+            team.add(new MageOfUndead());
+        } else {
+            team.add(new MageOfOrc());
+        }
+        for (int i = 0; i < 3; i++) {
+            randomInt = getRandomInt(0, 2);
+            if (randomInt == 0) {
+                team.add(new ArcherOfUndead());
+            } else {
+                team.add(new ArcherOrc());
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            randomInt = getRandomInt(0, 2);
+            if (randomInt == 0) {
+                team.add(new WarriorOfUndead());
+            } else {
+                team.add(new WarriorOfOrc());
+            }
         }
         return team;
     }
 
+    /**
+     * Запись лога в файл.
+     * @param data лог.
+     */
+    static void writeLog(String data) {
+        File file = new File("/Users/Public/LogGameOfWarOfWarcraft.txt");
+        FileWriter fr = null;
+        try {
+            fr = new FileWriter(file);
+            fr.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -12,6 +12,9 @@ import ru.job4j.litle.worldofwarcraft.solgers.mage.MageOfElvis;
  * @since 0.1
  */
 public class GamersTest {
+    /**
+     * Тест.
+     */
     @Test
     public void whenPowerOfDamageTests() {
         MageOfElvis mageOfElvis = new MageOfElvis();
