@@ -36,6 +36,6 @@ public class WarriorOfUndead extends Soldier implements Warrior {
     public void meleeAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(meleeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setAlians(soldierList);
+        getGame().setTeamOfAlians(soldierList);
     }
 }

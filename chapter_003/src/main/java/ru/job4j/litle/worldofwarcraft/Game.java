@@ -1,5 +1,7 @@
 package ru.job4j.litle.worldofwarcraft;
 
+import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
+import ru.job4j.litle.worldofwarcraft.random.RandomInterface;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import ru.job4j.litle.worldofwarcraft.solgers.archers.Archer;
 import ru.job4j.litle.worldofwarcraft.solgers.mage.Mage;
@@ -16,6 +18,37 @@ import java.util.List;
  */
 public class Game {
     /**
+     * Получене команд.
+     */
+    RandomInterface random;
+
+    /**
+     * Конструктор.
+     * @param random случайные команды.
+     */
+    public Game(RandomInterface random) {
+        this.random = random;
+        this.alians = random.getAlians();
+        this.orda = random.getOrda();
+        for (Soldier s : alians) {
+            s.setGame(this);
+        }
+        for (Soldier s : orda) {
+            s.setGame(this);
+        }
+    }
+    /**
+     * Майн.
+     * @param args нету.
+     */
+    public static void main(String[] args) {
+        Game game = new Game(new RandomAndTeamsSettings());
+        game.start();
+        System.out.println(builder);
+        RandomAndTeamsSettings.writeLog(builder.toString());
+    }
+
+    /**
      * Запись происходящего.
      */
     public static StringBuilder builder = new StringBuilder();
@@ -26,11 +59,11 @@ public class Game {
     /**
      * Комманда орды.
      */
-    private List<Soldier> orda = RandomAndTeamsSettings.getOrda();
+    private List<Soldier> orda;
     /**
      * Команда альянса.
      */
-    private List<Soldier> alians = RandomAndTeamsSettings.getAlians();
+    private List<Soldier> alians;
     /**
      * Переход хода.
      */
@@ -53,22 +86,10 @@ public class Game {
     }
 
     /**
-     * Установка игры всем участникам.
-     */
-    public void setGame() {
-        for (Soldier s : orda) {
-            s.setGame(this);
-        }
-        for (Soldier s : alians) {
-            s.setGame(this);
-        }
-    }
-
-    /**
      * Получить отряд орды.
      * @return отряд орды.
      */
-    public List<Soldier> getOrda() {
+    public List<Soldier> getTeamOfOrda() {
         return orda;
     }
 
@@ -76,7 +97,7 @@ public class Game {
      * Установить комманду орды.
      * @param orda орда.
      */
-    public void setOrda(List<Soldier> orda) {
+    public void setTeamOfOrda(List<Soldier> orda) {
         this.orda = orda;
     }
 
@@ -84,7 +105,7 @@ public class Game {
      * Геттер.
      * @return альянс.
      */
-    public List<Soldier> getAlians() {
+    public List<Soldier> getTeamOfAlians() {
         return alians;
     }
 
@@ -92,21 +113,10 @@ public class Game {
      * Сеттер.
      * @param alians альянс.
      */
-    public void setAlians(List<Soldier> alians) {
+    public void setTeamOfAlians(List<Soldier> alians) {
         this.alians = alians;
     }
 
-    /**
-     * Майн.
-     * @param args нету.
-     */
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.setGame();
-        game.start();
-        System.out.println(builder);
-        RandomAndTeamsSettings.writeLog(builder.toString());
-    }
 
     /**
      * Старт.
@@ -171,16 +181,14 @@ public class Game {
                 archer.meleeAttack(teamForDamage);
             }
         }
-        List<Soldier> alians = getAlians();
-        List<Soldier> orda = getOrda();
-        if (!alians.isEmpty() && !orda.isEmpty()) {
+        if (!this.alians.isEmpty() && !this.orda.isEmpty()) {
             replaceFlag();
             if (isFlag()) {
-                battle(alians, orda);
+                battle(this.alians, this.orda);
             } else {
-                battle(orda, alians);
+                battle(this.orda, this.alians);
             }
-        } else if (alians.isEmpty()) {
+        } else if (this.alians.isEmpty()) {
             builder.append("Отряд орды Победил!!").append(newLine).append("Выжевшие герои :").append(newLine);
             for (Soldier soldier : orda) {
                 builder.append(soldier.getName()).append(" XP: ").append(soldier.getHp()).append(newLine);
@@ -213,11 +221,11 @@ public class Game {
     private void infoAboutTeams() {
         builder.append("Патрулируя границы Земноморья отряд альянса был аттакован отрядом орды.").append(newLine);
         builder.append("Отряды состояли из следующих войнов :").append(newLine).append("Отряд альянса :").append(newLine).append(newLine);
-        for (Soldier s : alians) {
+        for (Soldier s : this.alians) {
             builder.append(s.getName()).append(newLine);
         }
         builder.append(newLine).append("Отряд орды:").append(newLine);
-        for (Soldier s : orda) {
+        for (Soldier s : this.orda) {
             builder.append(s.getName()).append(newLine);
         }
     }

@@ -45,7 +45,7 @@ public class ArcherOfHumans extends Soldier implements Archer {
     public void rangeAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(rangeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfArcher);
-        getGame().setOrda(soldierList);
+        getGame().setTeamOfOrda(soldierList);
     }
 
     /**
@@ -56,6 +56,6 @@ public class ArcherOfHumans extends Soldier implements Archer {
     public void meleeAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(meleeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setOrda(soldierList);
+        getGame().setTeamOfOrda(soldierList);
     }
 }

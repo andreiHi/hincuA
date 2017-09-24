@@ -1,5 +1,6 @@
 package ru.job4j.litle.worldofwarcraft;
 
+import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
 import java.util.ArrayList;

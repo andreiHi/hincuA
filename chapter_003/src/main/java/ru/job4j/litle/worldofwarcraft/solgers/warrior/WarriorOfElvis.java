@@ -35,7 +35,7 @@ public class WarriorOfElvis extends Soldier implements Warrior {
     public void meleeAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(meleeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setOrda(soldierList);
+        getGame().setTeamOfOrda(soldierList);
     }
 
 

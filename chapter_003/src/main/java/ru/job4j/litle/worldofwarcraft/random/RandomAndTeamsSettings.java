@@ -1,4 +1,4 @@
-package ru.job4j.litle.worldofwarcraft;
+package ru.job4j.litle.worldofwarcraft.random;
 
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import ru.job4j.litle.worldofwarcraft.solgers.archers.ArcherOfElvis;
@@ -27,7 +27,7 @@ import java.util.Random;
  * @version $Id$
  * @since 0.1
  */
-public class RandomAndTeamsSettings {
+public class RandomAndTeamsSettings implements RandomInterface {
 
     /**
      * Генератор случайных чисел в диапазоне.
@@ -43,7 +43,7 @@ public class RandomAndTeamsSettings {
      * Формирование команды альянса в случайн ом порядке.
      * @return готовая к бою команда.
      */
-    static List<Soldier> getAlians() {
+    public  List<Soldier> getAlians() {
         List<Soldier> team = new ArrayList<>();
         int randomInt = getRandomInt(0, 2);
         if (randomInt == 0) {
@@ -73,7 +73,7 @@ public class RandomAndTeamsSettings {
      * Формирование команды орды в случайн ом порядке.
      * @return готовая к бою команда.
      */
-    static List<Soldier> getOrda() {
+    public  List<Soldier> getOrda() {
         List<Soldier> team = new ArrayList<>();
         int randomInt = getRandomInt(0, 2);
         if (randomInt == 0) {
@@ -104,7 +104,7 @@ public class RandomAndTeamsSettings {
      * Запись лога в файл.
      * @param data лог.
      */
-    static void writeLog(String data) {
+    public static void writeLog(String data) {
         File file = new File("/Users/Public/LogGameOfWarOfWarcraft.txt");
         FileWriter fr = null;
         try {

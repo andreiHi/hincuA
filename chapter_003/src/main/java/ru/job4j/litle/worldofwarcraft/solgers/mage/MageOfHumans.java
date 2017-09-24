@@ -43,7 +43,7 @@ public class MageOfHumans extends Soldier implements Mage {
     public void magicAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(magicAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), typeOfBytlle);
-        getGame().setOrda(soldierList);
+        getGame().setTeamOfOrda(soldierList);
     }
 
     /**
@@ -54,6 +54,6 @@ public class MageOfHumans extends Soldier implements Mage {
     public void bafSoldier(List<Soldier> soldiersForAttack, int index) {
         double baf = poverOfDamage(baff);
         List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier, index);
-        getGame().setAlians(soldierList);
+        getGame().setTeamOfAlians(soldierList);
     }
 }

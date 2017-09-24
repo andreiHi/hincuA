@@ -65,6 +65,6 @@ public class MageOfOrc extends Soldier implements Mage {
     public void bafSoldier(List<Soldier> soldiersForAttack, int index) {
         double baf = poverOfDamage(baff);
         List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier, index);
-        getGame().setOrda(soldierList);
+        getGame().setTeamOfOrda(soldierList);
     }
 }

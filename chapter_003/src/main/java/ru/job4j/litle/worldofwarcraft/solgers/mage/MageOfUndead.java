@@ -2,7 +2,7 @@ package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
 import ru.job4j.litle.worldofwarcraft.Attacks;
 import ru.job4j.litle.worldofwarcraft.Game;
-import ru.job4j.litle.worldofwarcraft.RandomAndTeamsSettings;
+import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class MageOfUndead extends Soldier implements Mage {
     public void magicAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(magicAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), typeOfBytlle);
-        getGame().setAlians(soldierList);
+        getGame().setTeamOfAlians(soldierList);
     }
 
     /**
@@ -54,7 +54,7 @@ public class MageOfUndead extends Soldier implements Mage {
         soldier.setCurse(true);
         soldierList.set(index, soldier);
         Game.builder.append(getName()).append(" накладывает проклятье на ").append(soldier.getName()).append(Game.newLine);
-        getGame().setAlians(soldierList);
+        getGame().setTeamOfAlians(soldierList);
 
     }
 }
