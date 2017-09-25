@@ -1,33 +1,15 @@
 package ru.job4j.litle.worldofwarcraft.solgers;
 
-import ru.job4j.litle.worldofwarcraft.Game;
+
+import java.util.List;
+
 /**
  *Воин.
  * @author Hincu Andrei (andreih1981@gmail.com) by 20.09.17;
  * @version $Id$
  * @since 0.1
  */
-public abstract class Soldier {
-    /**
-     * Игра.
-     */
-    private Game game;
-
-    /**
-     * Получить игру.
-     * @return game.
-     */
-    public Game getGame() {
-        return game;
-    }
-
-    /**
-     * setter.
-     * @param game установить одну игру всем обьектам.
-     */
-    public void setGame(Game game) {
-        this.game = game;
-    }
+public abstract class Soldier implements Attack {
 
     /**
      * хит поинт.
@@ -38,59 +20,33 @@ public abstract class Soldier {
      */
     private  String name;
 
-    /**
-     * Геттер проклятья.
-     * @return yes or no.
-     */
-    public boolean isCurse() {
+    public double getCurse() {
         return curse;
     }
 
     /**
-     * Сеттер проклятья.
-     * @param curse проклятье.
+     * Установить проклятье.
      */
-    public void setCurse(boolean curse) {
-        this.curse = curse;
+    public void setCurse() {
+        this.curse = this.curse + 1;
     }
 
+    /**
+     * Снять проклятье.
+     */
+    public  void moveFromCruse() {
+        this.curse = 1;
+    }
     /**
      *  премиум и проклятье.
      */
-    private boolean premium, curse;
-    /**
-     *полученный баф.
-     */
-    private double gottenBaff = 0;
-
-    /**
-     * геттер баф.
-     * @return баф.
-     */
-    public double getGottenBaff() {
-        return gottenBaff;
-    }
-
-    /**
-     * сбросить баф.
-     */
-    public void resetBuff() {
-        this.gottenBaff = 0;
-    }
-
-    /**
-     * Установит баф.
-     * @param gottenBaff баф.
-     */
-    public void setGottenBaff(double gottenBaff) {
-        this.gottenBaff = gottenBaff;
-    }
+    private double premium = 1.0, curse = 1.0;
 
     /**
      * Премиум воин.
-     * @return да нет.
+     * @return премиум.
      */
-    public boolean isPremium() {
+    public double getPremium() {
         return premium;
     }
 
@@ -122,14 +78,14 @@ public abstract class Soldier {
      * перевести в премиум.
      */
     public void moveToPremium() {
-        this.premium = true;
+        this.premium  = this.premium * 1.5;
     }
 
     /**
      * Убрать с премиума.
      */
     public void moveFromPremium() {
-        this.premium = false;
+        this.premium = 1.0;
     }
 
     /**
@@ -159,19 +115,9 @@ public abstract class Soldier {
      * @return урон в зависимости от бафов или дебафов.
      */
     public double poverOfDamage(double damage) {
-        if (isPremium() && !isCurse()) {
-            damage = damage + damage * getGottenBaff();
-            moveFromPremium();
-            resetBuff();
-        } else if (isPremium() && isCurse()) {
-            damage = (damage + damage * getGottenBaff()) / 2;
-            moveFromPremium();
-            resetBuff();
-            setCurse(false);
-        } else if (!isPremium() && isCurse()) {
-            damage = damage / 2;
-            setCurse(false);
-        }
+        damage = (damage * this.premium) / this.curse;
+        this.moveFromPremium();
+        this.moveFromCruse();
         return damage;
     }
 
@@ -182,49 +128,37 @@ public abstract class Soldier {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Soldier soldier = (Soldier) o;
 
-        if (Double.compare(soldier.hp, hp) != 0) {
-            return false;
-        }
-        if (premium != soldier.premium) {
-            return false;
-        }
-        if (curse != soldier.curse) {
-            return false;
-        }
-        if (Double.compare(soldier.gottenBaff, gottenBaff) != 0) {
-            return false;
-        }
-        if (game != null ? !game.equals(soldier.game) : soldier.game != null) {
-            return false;
-        }
+        if (Double.compare(soldier.hp, hp) != 0) return false;
+        if (Double.compare(soldier.premium, premium) != 0) return false;
+        if (Double.compare(soldier.curse, curse) != 0) return false;
         return name != null ? name.equals(soldier.name) : soldier.name == null;
     }
-
     /**
      * hescjlt.
      * @return code.
      */
+
     @Override
     public int hashCode() {
         int result;
         long temp;
-        result = game != null ? game.hashCode() : 0;
         temp = Double.doubleToLongBits(hp);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = (int) (temp ^ (temp >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (premium ? 1 : 0);
-        result = 31 * result + (curse ? 1 : 0);
-        temp = Double.doubleToLongBits(gottenBaff);
+        temp = Double.doubleToLongBits(premium);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(curse);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @Override
+    public List<Soldier> attack() {
+        return null;
     }
 }

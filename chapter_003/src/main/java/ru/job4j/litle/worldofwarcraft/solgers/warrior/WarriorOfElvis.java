@@ -11,7 +11,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class WarriorOfElvis extends Soldier implements Warrior {
+public class WarriorOfElvis extends Soldier {
     /**
      * Удар мечом.
      */
@@ -31,12 +31,16 @@ public class WarriorOfElvis extends Soldier implements Warrior {
      * Атака противника.
      * @param soldiersForAttack отряд противника.
      */
-    @Override
+
     public void meleeAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(meleeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setTeamOfOrda(soldierList);
+ //       getGame().setTeamOfOrda(soldierList);
     }
 
-
+    @Override
+    public List<Soldier> attack() {
+        List<Soldier> list = super.attack();
+        return super.attack();
+    }
 }

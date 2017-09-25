@@ -1,5 +1,6 @@
 package ru.job4j.litle.worldofwarcraft.solgers.archers;
 import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class ArcherOfElvis extends Soldier implements Archer {
+public class ArcherOfElvis extends Soldier implements Attack {
     /**
      * Конструктор.
      */
@@ -35,16 +36,17 @@ public class ArcherOfElvis extends Soldier implements Archer {
     private String hitOfArcher = "урон от выстрела из лука";
 
     @Override
-    public void rangeAttack(List<Soldier> soldiersForAttack) {
+    public List<Soldier> ferstAttack(List<Soldier> soldiersForAttack) {
+
         double damge = poverOfDamage(rangeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfArcher);
-        getGame().setTeamOfOrda(soldierList);
+        return soldierList;
     }
 
     @Override
-    public void meleeAttack(List<Soldier> soldiersForAttack) {
+    public List<Soldier> SecondAttack(List<Soldier> soldiersForAttack) {
         double damge = poverOfDamage(meleeAttack);
         List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setTeamOfOrda(soldierList);
+        return soldierList;
     }
 }

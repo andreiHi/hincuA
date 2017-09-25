@@ -3,10 +3,7 @@ package ru.job4j.litle.worldofwarcraft;
 import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.random.RandomInterface;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
-import ru.job4j.litle.worldofwarcraft.solgers.archers.Archer;
-import ru.job4j.litle.worldofwarcraft.solgers.mage.Mage;
 import ru.job4j.litle.worldofwarcraft.solgers.mage.MageOfUndead;
-import ru.job4j.litle.worldofwarcraft.solgers.warrior.Warrior;
 
 import java.util.List;
 
@@ -30,12 +27,7 @@ public class Game {
         this.random = random;
         this.alians = random.getAlians();
         this.orda = random.getOrda();
-        for (Soldier s : alians) {
-            s.setGame(this);
-        }
-        for (Soldier s : orda) {
-            s.setGame(this);
-        }
+
     }
     /**
      * Майн.
@@ -59,11 +51,11 @@ public class Game {
     /**
      * Комманда орды.
      */
-    private List<Soldier> orda;
+    private static List<Soldier> orda;
     /**
      * Команда альянса.
      */
-    private List<Soldier> alians;
+    private static List<Soldier> alians;
     /**
      * Переход хода.
      */
@@ -176,7 +168,7 @@ public class Game {
         } else if (soldierAttack instanceof Archer) {
             Archer archer = (Archer) soldierAttack;
             if (battle == 0) {
-                archer.rangeAttack(teamForDamage);
+                archer.f(teamForDamage);
             } else {
                 archer.meleeAttack(teamForDamage);
             }
