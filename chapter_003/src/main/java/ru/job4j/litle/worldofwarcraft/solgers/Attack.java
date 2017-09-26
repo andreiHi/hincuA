@@ -13,5 +13,5 @@ public interface Attack {
     /**
      * Атака.
      */
-    List<Soldier> attack();
+    List<Soldier> attack(List<Soldier> team, List<Soldier> teamForAttack);
 }

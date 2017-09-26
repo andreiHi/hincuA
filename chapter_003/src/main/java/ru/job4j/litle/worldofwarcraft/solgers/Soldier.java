@@ -1,6 +1,9 @@
 package ru.job4j.litle.worldofwarcraft.solgers;
 
 
+import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
+import ru.job4j.litle.worldofwarcraft.random.RandomInterface;
+
 import java.util.List;
 
 /**
@@ -109,6 +112,10 @@ public abstract class Soldier implements Attack {
                 + '}';
     }
 
+    public Weapon selectWeapon(List<Weapon> weapons) {
+        int index = RandomAndTeamsSettings.getRandomInt(0, weapons.size());
+        return weapons.get(index);
+    }
     /**
      * Уровень урона или бафа.
      * @param damage урон.
@@ -156,9 +163,28 @@ public abstract class Soldier implements Attack {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
+    public Soldier selectTarget(List<Soldier>soldiersForTarget ) {
+        Soldier soldier = null;
+        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForTarget.size());
+        soldier = soldiersForTarget.get(index);
+        return soldier;
+    }
 
-    @Override
-    public List<Soldier> attack() {
-        return null;
+    public class Weapon {
+        String name;
+        double damage;
+
+        public Weapon(String name, double damage) {
+            this.name = name;
+            this.damage = damage;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public double getDamage() {
+            return damage;
+        }
     }
 }

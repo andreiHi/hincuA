@@ -3,6 +3,7 @@ package ru.job4j.litle.worldofwarcraft.solgers.warrior;
 import ru.job4j.litle.worldofwarcraft.Attacks;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,21 +13,17 @@ import java.util.List;
  * @since 0.1
  */
 public class WarriorOfElvis extends Soldier {
-    /**
-     * Удар мечом.
-     */
-    private double meleeAttack = 15.0;
 
+    private List<Weapon> weapons;
     /**
      * Конструктор.
      */
     public WarriorOfElvis() {
         super("Альянс Эльфийский Воин");
+        this.weapons = new ArrayList<>();
+        weapons.add(new Weapon("урон мечом", 15.0));
     }
-    /**
-     * Тип урона.
-     */
-    private String hitOfSword = "урон мечом";
+
     /**
      * Атака противника.
      * @param soldiersForAttack отряд противника.
@@ -39,8 +36,10 @@ public class WarriorOfElvis extends Soldier {
     }
 
     @Override
-    public List<Soldier> attack() {
-        List<Soldier> list = super.attack();
-        return super.attack();
+    public List<Soldier> attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        double damage = poverOfDamage(selectWeapon(weapons).getDamage());
+        Soldier soldier = selectTarget(teamForAttack);
+        soldier.damage(damage);
+        return null;
     }
 }
