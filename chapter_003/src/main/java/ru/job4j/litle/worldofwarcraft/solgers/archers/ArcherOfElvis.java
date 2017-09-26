@@ -1,8 +1,8 @@
 package ru.job4j.litle.worldofwarcraft.solgers.archers;
-import ru.job4j.litle.worldofwarcraft.Attacks;
+
+import ru.job4j.litle.worldofwarcraft.Game;
 import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
-
 import java.util.List;
 
 /**
@@ -13,40 +13,27 @@ import java.util.List;
  */
 public class ArcherOfElvis extends Soldier implements Attack {
     /**
+     * Набор вооружения.
+     */
+    private final Weapon[] weapons = {new Weapon("урон от выстрела из лука", 7.0), new Weapon("урон мечом", 3.0)};
+    /**
      * Конструктор.
      */
     public ArcherOfElvis() {
         super("Альянс Эльфийский лучник");
     }
     /**
-     * Атака мечом.
+     * Метод атаки вражеского солдата.
+     * @param team союзная команда.
+     * @param teamForAttack вражеская команда.
      */
-    private double meleeAttack = 3.0;
-    /**
-     * Атака из лука.
-     */
-    private double rangeAttack = 7.0;
-    /**
-     * Тип урона.
-     */
-    private String hitOfSword = "урон мечом";
-    /**
-     * Тип атаки.
-     */
-    private String hitOfArcher = "урон от выстрела из лука";
-
     @Override
-    public List<Soldier> ferstAttack(List<Soldier> soldiersForAttack) {
-
-        double damge = poverOfDamage(rangeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfArcher);
-        return soldierList;
-    }
-
-    @Override
-    public List<Soldier> SecondAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(meleeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        return soldierList;
+    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        Weapon weapon = selectWeapon(weapons);
+        double damage = poverOfDamage(weapon.getDamage());
+        Soldier soldier = selectTarget(teamForAttack);
+        soldier.damage(damage);
+        Game.builder.append(this.getName()).append(" наносит ").append(weapon.getName()).append(" ").
+                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
     }
 }

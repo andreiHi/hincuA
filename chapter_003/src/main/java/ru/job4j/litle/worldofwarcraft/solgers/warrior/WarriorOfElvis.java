@@ -1,9 +1,7 @@
 package ru.job4j.litle.worldofwarcraft.solgers.warrior;
 
-import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.Game;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,33 +11,28 @@ import java.util.List;
  * @since 0.1
  */
 public class WarriorOfElvis extends Soldier {
-
-    private List<Weapon> weapons;
+    /**
+     * Набор вооружения.
+     */
+    private Weapon[] weapons = {new Weapon("урон мечом", 15.0)};
     /**
      * Конструктор.
      */
     public WarriorOfElvis() {
         super("Альянс Эльфийский Воин");
-        this.weapons = new ArrayList<>();
-        weapons.add(new Weapon("урон мечом", 15.0));
     }
 
     /**
-     * Атака противника.
-     * @param soldiersForAttack отряд противника.
+     *  Метод атаки вражеского солдата.
+     * @param team  команда союзников.
+     * @param teamForAttack команда противников.
      */
-
-    public void meleeAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(meleeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
- //       getGame().setTeamOfOrda(soldierList);
-    }
-
     @Override
-    public List<Soldier> attack(List<Soldier> team, List<Soldier> teamForAttack) {
+    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
         double damage = poverOfDamage(selectWeapon(weapons).getDamage());
         Soldier soldier = selectTarget(teamForAttack);
         soldier.damage(damage);
-        return null;
+        Game.builder.append(this.getName()).append(" наносит ").append(weapons[0].getName()).append(" ").
+                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
     }
 }

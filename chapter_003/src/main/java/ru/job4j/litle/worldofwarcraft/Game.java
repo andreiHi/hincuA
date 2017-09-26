@@ -51,11 +51,11 @@ public class Game {
     /**
      * Комманда орды.
      */
-    private static List<Soldier> orda;
+    private  List<Soldier> orda;
     /**
      * Команда альянса.
      */
-    private static List<Soldier> alians;
+    private  List<Soldier> alians;
     /**
      * Переход хода.
      */

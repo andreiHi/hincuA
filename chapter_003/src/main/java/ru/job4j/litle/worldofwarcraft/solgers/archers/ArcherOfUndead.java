@@ -1,6 +1,7 @@
 package ru.job4j.litle.worldofwarcraft.solgers.archers;
 
-import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.Game;
+import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import java.util.List;
 
@@ -10,15 +11,11 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class ArcherOfUndead extends Soldier implements Archer {
+public class ArcherOfUndead extends Soldier implements Attack {
     /**
-     * Урон клинком.
+     * Набор вооружения.
      */
-    private double meleeAttack = 2.0;
-    /**
-     * Урон от стрел.
-     */
-    private double rangeAttack = 4.0;
+    private final Weapon[] weapons = {new Weapon("урон от выстрела из лука", 4.0), new Weapon("урон мечом", 2.0)};
 
     /**
      * Конструктор.
@@ -28,33 +25,17 @@ public class ArcherOfUndead extends Soldier implements Archer {
     }
 
     /**
-     * Тип урона.
-     */
-    private String hitOfSword = "урон мечом";
-    /**
-     * Тип атаки.
-     */
-    private String hitOfArcher = "урон от выстрела из лука";
-
-    /**
-     * Атака из лука.
-     * @param soldiersForAttack отряд противника.
+     *  Метод атаки вражеского солдата.
+     * @param team  команда союзников.
+     * @param teamForAttack команда противников.
      */
     @Override
-    public void rangeAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(rangeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfArcher);
-        getGame().setTeamOfAlians(soldierList);
-    }
-
-    /**
-     * Атака клинком.
-     * @param soldiersForAttack отряд протиника.
-     */
-    @Override
-    public void meleeAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(meleeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setTeamOfAlians(soldierList);
+    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        Weapon weapon = selectWeapon(weapons);
+        double damage = poverOfDamage(weapon.getDamage());
+        Soldier soldier = selectTarget(teamForAttack);
+        soldier.damage(damage);
+        Game.builder.append(this.getName()).append(" наносит ").append(weapon.getName()).append(" ").
+                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
     }
 }

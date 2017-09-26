@@ -58,7 +58,7 @@ public class Attacks {
         }
         Soldier soldier = soldierList.get(index);
         soldier.moveToPremium();
-        soldier.setGottenBaff(buf);
+     //   soldier.setGottenBaff(buf);
         soldierList.set(index, soldier);
         Game.builder.append(name).append(" ").append(typeOfBattle).append(" ").append(soldier.getName()).append(" на ").
                 append(buf * 100).append("%.").append(Game.newLine);

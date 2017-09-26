@@ -1,23 +1,21 @@
 package ru.job4j.litle.worldofwarcraft.solgers.warrior;
 
-import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.Game;
+import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
-
 import java.util.List;
 
 /**
- * .
- *
+ *Воин нежить.
  * @author Hincu Andrei (andreih1981@gmail.com) by 20.09.17;
  * @version $Id$
  * @since 0.1
  */
-public class WarriorOfUndead extends Soldier implements Warrior {
+public class WarriorOfUndead extends Soldier implements Attack {
     /**
-     * Урон.
+     * Набор вооружения.
      */
-    private double meleeAttack = 18.0;
-
+    private  final Weapon[] weapons = {new Weapon("урон копьем", 18)};
     /**
      * Конструктор.
      */
@@ -25,17 +23,16 @@ public class WarriorOfUndead extends Soldier implements Warrior {
         super("Орда Зомби");
     }
     /**
-     * Тип урона.
-     */
-    private String hitOfSword = "урон копьём";
-    /**
-     * Атака.
-     * @param soldiersForAttack отряд противника.
+     * Метод атаки вражеского солдата.
+     * @param team союзная команда.
+     * @param teamForAttack вражеская команда.
      */
     @Override
-    public void meleeAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(meleeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setTeamOfAlians(soldierList);
+    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        double damage = poverOfDamage(selectWeapon(weapons).getDamage());
+        Soldier soldier = selectTarget(teamForAttack);
+        soldier.damage(damage);
+        Game.builder.append(this.getName()).append(" наносит ").append(weapons[0].getName()).append(" ").
+                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
     }
 }

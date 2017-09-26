@@ -1,9 +1,6 @@
 package ru.job4j.litle.worldofwarcraft.solgers;
 
-
 import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
-import ru.job4j.litle.worldofwarcraft.random.RandomInterface;
-
 import java.util.List;
 
 /**
@@ -59,8 +56,8 @@ public abstract class Soldier implements Attack {
      */
     public Soldier(String name) {
         this.name = name;
-    }
 
+    }
     /**
      * Геттер.
      * @return имя.
@@ -112,9 +109,14 @@ public abstract class Soldier implements Attack {
                 + '}';
     }
 
-    public Weapon selectWeapon(List<Weapon> weapons) {
-        int index = RandomAndTeamsSettings.getRandomInt(0, weapons.size());
-        return weapons.get(index);
+    /**
+     * Метод выбора случайного оружия.
+     * @param weapons набор оружия.
+     * @return выбранное оружее.
+     */
+    public Weapon selectWeapon(Weapon[] weapons) {
+        int index = RandomAndTeamsSettings.getRandomInt(0, weapons.length);
+        return weapons[index];
     }
     /**
      * Уровень урона или бафа.
@@ -146,7 +148,7 @@ public abstract class Soldier implements Attack {
         return name != null ? name.equals(soldier.name) : soldier.name == null;
     }
     /**
-     * hescjlt.
+     * heshCode.
      * @return code.
      */
 
@@ -163,11 +165,10 @@ public abstract class Soldier implements Attack {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
-    public Soldier selectTarget(List<Soldier>soldiersForTarget ) {
-        Soldier soldier = null;
+
+    public Soldier selectTarget(List<Soldier> soldiersForTarget ) {
         int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForTarget.size());
-        soldier = soldiersForTarget.get(index);
-        return soldier;
+        return soldiersForTarget.get(index);
     }
 
     public class Weapon {
@@ -185,6 +186,27 @@ public abstract class Soldier implements Attack {
 
         public double getDamage() {
             return damage;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Weapon weapon = (Weapon) o;
+
+            if (Double.compare(weapon.damage, damage) != 0) return false;
+            return name != null ? name.equals(weapon.name) : weapon.name == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            result = name != null ? name.hashCode() : 0;
+            temp = Double.doubleToLongBits(damage);
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
         }
     }
 }

@@ -1,6 +1,7 @@
 package ru.job4j.litle.worldofwarcraft.solgers.archers;
 
-import ru.job4j.litle.worldofwarcraft.Attacks;
+import ru.job4j.litle.worldofwarcraft.Game;
+import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
 import java.util.List;
@@ -12,15 +13,11 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class ArcherOfHumans extends Soldier implements Archer {
+public class ArcherOfHumans extends Soldier implements Attack {
     /**
-     * Сила атаки мечом.
+     * Набор вооружения.
      */
-    private double meleeAttack = 3.0;
-    /**
-     * Сила атаки луком.
-     */
-    private double rangeAttack = 5.0;
+    private final Weapon[] weapons = {new Weapon("урон от выстрела из арбалета", 5.0), new Weapon("урон мечом", 3.0)};
 
     /**
      *Конструктор.
@@ -29,33 +26,18 @@ public class ArcherOfHumans extends Soldier implements Archer {
         super("Альянс Арбалетчик");
     }
     /**
-     * Тип урона.
-     */
-    private String hitOfSword = "урон мечом";
-    /**
-     * Тип атаки.
-     */
-    private String hitOfArcher = "урон от выстрела из арбалета";
-
-    /**
-     * Метод нанесения урона от стрел.
-     * @param soldiersForAttack отряд противника.
+     *  Метод атаки вражеского солдата.
+     * @param team  команда союзников.
+     * @param teamForAttack команда противников.
      */
     @Override
-    public void rangeAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(rangeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfArcher);
-        getGame().setTeamOfOrda(soldierList);
+    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        Weapon weapon = selectWeapon(weapons);
+        double damage = poverOfDamage(weapon.getDamage());
+        Soldier soldier = selectTarget(teamForAttack);
+        soldier.damage(damage);
+        Game.builder.append(this.getName()).append(" наносит ").append(weapon.getName()).append(" ").
+                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
     }
 
-    /**
-     * Метод нанесения урона от меча.
-     * @param soldiersForAttack отряд протиника.
-     */
-    @Override
-    public void meleeAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(meleeAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), hitOfSword);
-        getGame().setTeamOfOrda(soldierList);
-    }
 }
