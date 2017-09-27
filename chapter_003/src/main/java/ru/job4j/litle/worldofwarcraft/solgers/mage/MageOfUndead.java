@@ -1,11 +1,8 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
-import ru.job4j.litle.worldofwarcraft.Attacks;
-import ru.job4j.litle.worldofwarcraft.Game;
-import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
+import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,47 +11,38 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class MageOfUndead extends Soldier implements Mage {
+public class MageOfUndead extends Soldier implements Attack {
     /**
-     * Размер магического урона.
+     * Виды оружия.
      */
-    private double magicAttack = 5.0;
-    /**
-     * Название типа атаки.
-     */
-    private String typeOfBytlle = "урон магией";
-
+    private final Weapon[] weapons = {new Weapon("урон магией", 5.0),
+            new Weapon("насылает недуг ", 0.5)
+    };
     /**
      * Конструктор.
      */
     public MageOfUndead() {
-        super("Орда Некромант");
+        super("Орда Некромант!!!");
     }
 
-    /**
-     * Урон магией случайного противника.
-     * @param soldiersForAttack
-     */
     @Override
-    public void magicAttack(List<Soldier> soldiersForAttack) {
-        double damge = poverOfDamage(magicAttack);
-        List<Soldier> soldierList = Attacks.attack(soldiersForAttack, damge, this.getName(), typeOfBytlle);
-        getGame().setTeamOfAlians(soldierList);
-    }
-
-    /**
-     * Наложение проклятья на случайного противника.
-     * @param soldiersForAttack список противников.
-     */
-    @Override
-    public void bafSoldier(List<Soldier> soldiersForAttack, int i) {
-        List<Soldier> soldierList = new ArrayList<>(soldiersForAttack);
-        int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForAttack.size());
-        Soldier soldier = soldierList.get(index);
-        soldier.setCurse(true);
-        soldierList.set(index, soldier);
-        Game.builder.append(getName()).append(" накладывает проклятье на ").append(soldier.getName()).append(Game.newLine);
-        getGame().setTeamOfAlians(soldierList);
-
+    public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        Weapon weapon = selectWeapon(weapons);
+        Soldier soldier;
+        double damage;
+        String log = "";
+        if (weapon.equals(weapons[0])) {
+            damage = poverOfDamage(weapon.getDamage());
+            soldier = selectTarget(teamForAttack);
+            soldier.damage(damage);
+            log = String.format("%s наносит %s на %.2f XP противнику %s", this.getName(), weapon.getName(),
+                    damage, soldier.getName());
+        } else {
+            soldier = selectTarget(teamForAttack);
+            soldier.setCurse();
+            log = String.format("%s  %s на %s в размере %.2f %%.", this.getName(), weapon.getName(),
+                    soldier.getName(), (weapon.getDamage() * 100 - 100));
+        }
+        return log;
     }
 }

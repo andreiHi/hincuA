@@ -29,10 +29,6 @@ public class WarriorOfUndead extends Soldier implements Attack {
      */
     @Override
     public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
-        double damage = poverOfDamage(selectWeapon(weapons).getDamage());
-        Soldier soldier = selectTarget(teamForAttack);
-        soldier.damage(damage);
-        return String.format("%s наносит %s %d XP противнику %s",this.getName(), weapons[0].getName(),
-                damage, soldier.getName());
+       return mieleOrArcherAttak(teamForAttack, weapons);
     }
 }

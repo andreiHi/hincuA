@@ -20,10 +20,6 @@ public abstract class Soldier implements Attack {
      */
     private  String name;
 
-    public double getCurse() {
-        return curse;
-    }
-
     /**
      * Установить проклятье.
      */
@@ -78,7 +74,7 @@ public abstract class Soldier implements Attack {
      * перевести в премиум.
      */
     public void moveToPremium() {
-        this.premium  = this.premium * 1.5;
+        this.premium  = 1.5;
     }
 
     /**
@@ -125,11 +121,24 @@ public abstract class Soldier implements Attack {
      */
     public double poverOfDamage(double damage) {
         damage = (damage * this.premium) / this.curse;
-        this.moveFromPremium();
         this.moveFromCruse();
         return damage;
     }
 
+    /**
+     * Атака противника.
+     * @param teamForAttack команда противника.
+     * @param weapons виды оружия.
+     * @return строка для лога.
+     */
+    public String mieleOrArcherAttak(List<Soldier> teamForAttack, Weapon[]weapons) {
+        Weapon weapon = selectWeapon(weapons);
+        double damage = poverOfDamage(weapon.getDamage());
+        Soldier soldier = selectTarget(teamForAttack);
+        soldier.damage(damage);
+        return String.format("%s наносит %s %.2f XP противнику %s.", this.getName(), weapon.getName(),
+                damage, soldier.getName());
+    }
     /**
      * Equals.
      * @param o o.
@@ -137,21 +146,30 @@ public abstract class Soldier implements Attack {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Soldier soldier = (Soldier) o;
 
-        if (Double.compare(soldier.hp, hp) != 0) return false;
-        if (Double.compare(soldier.premium, premium) != 0) return false;
-        if (Double.compare(soldier.curse, curse) != 0) return false;
+        if (Double.compare(soldier.hp, hp) != 0) {
+            return false;
+        }
+        if (Double.compare(soldier.premium, premium) != 0) {
+            return false;
+        }
+        if (Double.compare(soldier.curse, curse) != 0) {
+            return false;
+        }
         return name != null ? name.equals(soldier.name) : soldier.name == null;
     }
     /**
      * heshCode.
      * @return code.
      */
-
     @Override
     public int hashCode() {
         int result;
@@ -166,39 +184,82 @@ public abstract class Soldier implements Attack {
         return result;
     }
 
-    public Soldier selectTarget(List<Soldier> soldiersForTarget ) {
+    /**
+     * Метод для выбора цели.
+     * @param soldiersForTarget команда из которой выбирают.
+     * @return цель для атаки или для бафа.
+     */
+    public Soldier selectTarget(List<Soldier> soldiersForTarget) {
         int index = RandomAndTeamsSettings.getRandomInt(0, soldiersForTarget.size());
         return soldiersForTarget.get(index);
     }
 
+    /**
+     * Класс оружие.
+     */
     public class Weapon {
-        String name;
-        double damage;
+        /**
+         * Название урона.
+         */
+        private String name;
+        /**
+         * Сила атаки.
+         */
+        private double damage;
 
+        /**
+         * Конструктор.
+         * @param name название.
+         * @param damage урон.
+         */
         public Weapon(String name, double damage) {
             this.name = name;
             this.damage = damage;
         }
 
+        /**
+         * геттер.
+         * @return название атаки.
+         */
         public String getName() {
             return name;
         }
+
+        /**
+         * геттер.
+         * @return урон.
+         */
 
         public double getDamage() {
             return damage;
         }
 
+        /**
+         * еквилс.
+         * @param o о.
+         * @return true or false.
+         */
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Weapon weapon = (Weapon) o;
 
-            if (Double.compare(weapon.damage, damage) != 0) return false;
+            if (Double.compare(weapon.damage, damage) != 0) {
+                return false;
+            }
             return name != null ? name.equals(weapon.name) : weapon.name == null;
         }
 
+        /**
+         * heshcode.
+         * @return code.
+         */
         @Override
         public int hashCode() {
             int result;

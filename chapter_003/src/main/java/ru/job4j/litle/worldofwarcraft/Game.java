@@ -3,8 +3,9 @@ package ru.job4j.litle.worldofwarcraft;
 import ru.job4j.litle.worldofwarcraft.random.RandomAndTeamsSettings;
 import ru.job4j.litle.worldofwarcraft.random.RandomInterface;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
-import ru.job4j.litle.worldofwarcraft.solgers.mage.MageOfUndead;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Game {
     /**
      * Получене команд.
      */
-    RandomInterface random;
+    private RandomInterface random;
 
     /**
      * Конструктор.
@@ -43,11 +44,11 @@ public class Game {
     /**
      * Запись происходящего.
      */
-    public static StringBuilder builder = new StringBuilder();
+    private static StringBuilder builder = new StringBuilder();
     /**
      * Новая строка.
      */
-    public static String newLine = System.getProperty("line.separator");
+    private  String newLine = System.getProperty("line.separator");
     /**
      * Комманда орды.
      */
@@ -78,37 +79,9 @@ public class Game {
     }
 
     /**
-     * Получить отряд орды.
-     * @return отряд орды.
+     * Команда элитных войнов.
      */
-    public List<Soldier> getTeamOfOrda() {
-        return orda;
-    }
-
-    /**
-     * Установить комманду орды.
-     * @param orda орда.
-     */
-    public void setTeamOfOrda(List<Soldier> orda) {
-        this.orda = orda;
-    }
-
-    /**
-     * Геттер.
-     * @return альянс.
-     */
-    public List<Soldier> getTeamOfAlians() {
-        return alians;
-    }
-
-    /**
-     * Сеттер.
-     * @param alians альянс.
-     */
-    public void setTeamOfAlians(List<Soldier> alians) {
-        this.alians = alians;
-    }
-
+    private List<Soldier> premium = new ArrayList<>();
 
     /**
      * Старт.
@@ -131,48 +104,58 @@ public class Game {
     public void battle(List<Soldier> teamAttack, List<Soldier> teamForDamage) {
 
         Soldier soldierAttack = null;
-        for (Soldier sol : teamAttack) {
-            if (sol.isPremium()) {
-                soldierAttack = sol;
-            }
-        }
-        int index = 0;
-        if (soldierAttack == null) {
-            index = RandomAndTeamsSettings.getRandomInt(0, teamAttack.size());
-            soldierAttack = teamAttack.get(index);
-        }
-        if (soldierAttack == null) {
-            builder.append("ERROR");
-        }
-        int battle = RandomAndTeamsSettings.getRandomInt(0, 2);
+        /**
+         * проверяем нет ли в премиум команде войнов из атакующей команды.
+         */
+        if (!premium.isEmpty()) {
+            for (Soldier sol : premium) {
+                if (teamAttack.contains(sol)) {
+                    soldierAttack = sol;
 
-        if (soldierAttack instanceof Mage) {
-            if (soldierAttack instanceof MageOfUndead) {
-                MageOfUndead mage = (MageOfUndead) soldierAttack;
-                if (battle == 0) {
-                    mage.bafSoldier(teamForDamage, index);
-                } else {
-                    mage.magicAttack(teamForDamage);
                 }
-            } else {
-                Mage mage = (Mage) soldierAttack;
-                if (battle == 0) {
-                    mage.bafSoldier(teamAttack, index);
-                } else {
-                    mage.magicAttack(teamForDamage);
-                }
-            }
-        } else if (soldierAttack instanceof Warrior) {
-            Warrior warrior = (Warrior) soldierAttack;
-            warrior.meleeAttack(teamForDamage);
-        } else if (soldierAttack instanceof Archer) {
-            Archer archer = (Archer) soldierAttack;
-            if (battle == 0) {
-                archer.f(teamForDamage);
-            } else {
-                archer.meleeAttack(teamForDamage);
             }
         }
+        /**
+         * Если воин найден то он атакует иначе атакует случайный воин.
+         */
+        if (soldierAttack != null) {
+            premium.remove(soldierAttack);
+            String s = soldierAttack.attack(teamAttack, teamForDamage);
+            soldierAttack.moveFromPremium();
+            builder.append(s).append(newLine);
+        } else {
+            int index = 0;
+            if (soldierAttack == null) {
+                index = RandomAndTeamsSettings.getRandomInt(0, teamAttack.size());
+                soldierAttack = teamAttack.get(index);
+            }
+            String s = soldierAttack.attack(teamAttack, teamForDamage);
+            builder.append(s).append(newLine);
+        }
+        /**
+         * Перевод солдат с бафом в элитный отряд.
+         */
+        for (Soldier soldier : teamAttack) {
+            if (soldier.getPremium() > 1) {
+                premium.add(soldier);
+                builder.append(soldier.getName()).append(" переведен в элитную группу.").append(newLine);
+                break;
+            }
+        }
+        /**
+         * Удаление погибших солдат.
+         */
+        for (Soldier soldier : teamForDamage) {
+            if (soldier.getHp() < 1) {
+                soldierAttack = soldier;
+                teamForDamage.remove(soldierAttack);
+                builder.append(soldierAttack.getName()).append(" погибает.").append(newLine);
+                break;
+            }
+        }
+        /**
+         * Если в обоих командах есть войны бой продолжается.
+         */
         if (!this.alians.isEmpty() && !this.orda.isEmpty()) {
             replaceFlag();
             if (isFlag()) {
@@ -211,7 +194,7 @@ public class Game {
      * Инфо о коммандах.
      */
     private void infoAboutTeams() {
-        builder.append("Патрулируя границы Земноморья отряд альянса был аттакован отрядом орды.").append(newLine);
+        builder.append("Патрулируя границы Земноморья отряд втретил отряд орды.").append(newLine);
         builder.append("Отряды состояли из следующих войнов :").append(newLine).append("Отряд альянса :").append(newLine).append(newLine);
         for (Soldier s : this.alians) {
             builder.append(s.getName()).append(newLine);

@@ -1,10 +1,8 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
-import ru.job4j.litle.worldofwarcraft.Attacks;
-import ru.job4j.litle.worldofwarcraft.Game;
+import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,58 +11,52 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class MageOfOrc extends Soldier implements Mage {
+public class MageOfOrc extends Soldier implements Attack {
     /**
-     * Дефолтный баф дебаф.
+     * Набор вооружения.
      */
-    private double baff = 0.5;
+    private final Weapon[] weapons = {new Weapon("снимает баф", 0.5),
+            new Weapon("улучшение характеристик", 0.5)
+    };
 
     /**
      * Конструктор.
      */
     public MageOfOrc() {
-        super("Орда Шаман");
+        super("Орда Шаман!!!!");
     }
 
     /**
-     * Название атаки.
+     *Снятие бафа с противника или баф союзника.
+     * @param team команда союзников.
+     * @param teamForAttack команда противников.
+     * @return строка для лога.
      */
-    private String bufSoldier = "улучшает характеристики";
 
-    /**
-     * Снятие бафа с противника с улучшением.
-     * @param soldiersForAttack отряд противника.
-     */
     @Override
-    public void magicAttack(List<Soldier> soldiersForAttack) {
-        List<Soldier> soldierList = new ArrayList<>(soldiersForAttack);
-        Game.builder.append("Шаман использует руну всевластия для поиска сильнейшего противника.").append(Game.newLine);
+    public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
+        Weapon weapon = selectWeapon(weapons);
         Soldier soldier = null;
-        int index = 0;
-        for (Soldier s : soldierList) {
-            if (s.isPremium()) {
-                soldier = s;
-                index = soldierList.indexOf(s);
-                break;
+        String log = "";
+        if (weapon.equals(weapons[1])) {
+            soldier = selectTarget(team);
+            soldier.moveToPremium();
+            log = String.format("%s накладывает %s на %s в размере %.2f %%. ", this.getName(), weapon.getName(),
+                    soldier.getName(), (soldier.getPremium() * 100 - 100));
+        } else {
+            for (Soldier s : teamForAttack) {
+                if (s.getPremium() > 1) {
+                    soldier = s;
+                    break;
+                }
+            }
+            if (soldier != null) {
+                soldier.moveFromPremium();
+                log = String.format("%s снимает баф с %s.", this.getName(), soldier.getName());
+            } else {
+                log = String.format("%s не нашел противника.", this.getName());
             }
         }
-        if (soldier != null) {
-            soldier.moveFromPremium();
-            soldierList.set(index, soldier);
-            Game.builder.append("Противник найден это ").append(soldier.getName()).append(" и он лешился улучшения.").append(Game.newLine);
-        } else {
-            Game.builder.append("Противник не был найден Шаман потратил руну в пустую!").append(Game.newLine);
-        }
-    }
-
-    /**
-     * Наложени бафа на случайного война своего отряда.
-     * @param soldiersForAttack отряд союзников.
-     */
-    @Override
-    public void bafSoldier(List<Soldier> soldiersForAttack, int index) {
-        double baf = poverOfDamage(baff);
-        List<Soldier> soldierList = Attacks.bufSoldiers(soldiersForAttack, baf, this.getName(), bufSoldier, index);
-        getGame().setTeamOfOrda(soldierList);
+        return log;
     }
 }

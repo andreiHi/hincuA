@@ -34,12 +34,7 @@ public class ArcherOfHumans extends Soldier implements Attack {
      */
     @Override
     public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
-        Weapon weapon = selectWeapon(weapons);
-        double damage = poverOfDamage(weapon.getDamage());
-        Soldier soldier = selectTarget(teamForAttack);
-        soldier.damage(damage);
-        return String.format("%s наносит %s %d XP противнику %s",this.getName(), weapon.getName(),
-                damage, soldier.getName());
+        return mieleOrArcherAttak(teamForAttack, weapons);
     }
 
 }

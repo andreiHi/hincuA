@@ -14,7 +14,8 @@ public class ArcherOfElvis extends Soldier implements Attack {
     /**
      * Набор вооружения.
      */
-    private final Weapon[] weapons = {new Weapon("урон от выстрела из лука", 7.0), new Weapon("урон мечом", 3.0)};
+    private final Weapon[] weapons = {new Weapon("урон от выстрела из лука", 7.0),
+            new Weapon("урон мечом", 3.0)};
     /**
      * Конструктор.
      */
@@ -28,11 +29,6 @@ public class ArcherOfElvis extends Soldier implements Attack {
      */
     @Override
     public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
-        Weapon weapon = selectWeapon(weapons);
-        double damage = poverOfDamage(weapon.getDamage());
-        Soldier soldier = selectTarget(teamForAttack);
-        soldier.damage(damage);
-        return String.format("%s наносит %s %d XP противнику %s",this.getName(), weapon.getName(),
-                damage, soldier.getName());
+        return mieleOrArcherAttak(teamForAttack, weapons);
     }
 }
