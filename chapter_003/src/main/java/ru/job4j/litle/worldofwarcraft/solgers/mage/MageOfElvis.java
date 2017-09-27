@@ -28,21 +28,29 @@ public class MageOfElvis extends Soldier implements Attack {
      * Метод атаки вражеского солдата.
      * @param team союзная команда.
      * @param teamForAttack вражеская команда.
+     * @return строка для логера.
      */
     @Override
-    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+    public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
         Weapon weapon = selectWeapon(weapons);
+        Soldier soldier;
+        double damage;
+        String log ="";
         if (weapon.equals(weapons[0])) {
-            double damage = poverOfDamage(weapon.getDamage());
-            Soldier soldier = selectTarget(teamForAttack);
+            damage = poverOfDamage(weapon.getDamage());
+            soldier = selectTarget(teamForAttack);
             soldier.damage(damage);
-            Game.builder.append(this.getName()).append(" наносит ").append(weapons[0].getName()).append(" ").
-                    append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
+        log = String.format("%s наносит %s %d XP противнику %s",this.getName(), weapon.getName(),
+                damage, soldier.getName());
         } else {
-            Soldier soldier = selectTarget(team);
+            soldier = selectTarget(team);
             soldier.moveToPremium();
-            Game.builder.append(this.getName()).append(" ").append(weapon.getName()).append(" ").append(soldier.getName()).append(" на ").
+            Game.builder.append(this.getName()).append(" ").append(weapon.getName()).append(" ")
+                    .append(soldier.getName()).append(" на ").
                     append(soldier.getPremium()).append("%.").append(Game.newLine);
+            log = String.format("%s накладывает %s на %s в размере \\% ",this.getName(), weapon.getName(),
+                    soldier.getPremium());
         }
+        return log;
     }
 }

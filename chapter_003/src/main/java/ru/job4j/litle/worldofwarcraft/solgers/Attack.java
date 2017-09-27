@@ -9,9 +9,11 @@ import java.util.List;
  * @since 0.1.
  */
 public interface Attack {
-
     /**
-     * Атака.
+     * Атака или баф в зависимости от солдата и его способностей.
+     * @param team команда союзников.
+     * @param teamForAttack команда противников.
+     * @return строка для логера.
      */
-    void attack(List<Soldier> team, List<Soldier> teamForAttack);
+    String attack(List<Soldier> team, List<Soldier> teamForAttack);
 }

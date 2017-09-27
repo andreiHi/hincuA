@@ -1,6 +1,5 @@
 package ru.job4j.litle.worldofwarcraft.solgers.archers;
 
-import ru.job4j.litle.worldofwarcraft.Game;
 import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import java.util.List;
@@ -28,14 +27,15 @@ public class ArcherOfUndead extends Soldier implements Attack {
      *  Метод атаки вражеского солдата.
      * @param team  команда союзников.
      * @param teamForAttack команда противников.
+     * @return строка для логера.
      */
     @Override
-    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+    public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
         Weapon weapon = selectWeapon(weapons);
         double damage = poverOfDamage(weapon.getDamage());
         Soldier soldier = selectTarget(teamForAttack);
         soldier.damage(damage);
-        Game.builder.append(this.getName()).append(" наносит ").append(weapon.getName()).append(" ").
-                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
+        return String.format("%s наносит %s %d XP противнику %s",this.getName(), weapon.getName(),
+                damage, soldier.getName());
     }
 }

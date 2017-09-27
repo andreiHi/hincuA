@@ -1,6 +1,5 @@
 package ru.job4j.litle.worldofwarcraft.solgers.warrior;
 
-import ru.job4j.litle.worldofwarcraft.Game;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class WarriorOfElvis extends Soldier {
     /**
      * Набор вооружения.
      */
-    private Weapon[] weapons = {new Weapon("урон мечом", 15.0)};
+    private final Weapon[] weapons = {new Weapon("урон мечом", 15.0)};
     /**
      * Конструктор.
      */
@@ -26,13 +25,14 @@ public class WarriorOfElvis extends Soldier {
      *  Метод атаки вражеского солдата.
      * @param team  команда союзников.
      * @param teamForAttack команда противников.
+     * @return строка для логера.
      */
     @Override
-    public void attack(List<Soldier> team, List<Soldier> teamForAttack) {
+    public String attack(List<Soldier> team, List<Soldier> teamForAttack) {
         double damage = poverOfDamage(selectWeapon(weapons).getDamage());
         Soldier soldier = selectTarget(teamForAttack);
         soldier.damage(damage);
-        Game.builder.append(this.getName()).append(" наносит ").append(weapons[0].getName()).append(" ").
-                append(damage).append(" XP ").append(soldier.getName()).append(Game.newLine);
+        return String.format("%s наносит %s %d XP противнику %s",this.getName(), weapons[0].getName(),
+                damage, soldier.getName());
     }
 }
