@@ -1,6 +1,5 @@
 package ru.job4j.litle.worldofwarcraft.solgers.mage;
 
-import ru.job4j.litle.worldofwarcraft.solgers.Attack;
 import ru.job4j.litle.worldofwarcraft.solgers.Soldier;
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public class MageOfHumans extends Soldier implements Attack {
+public class MageOfHumans extends Soldier {
     /**
      * Набор вооружения.
      */

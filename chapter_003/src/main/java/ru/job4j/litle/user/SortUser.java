@@ -47,8 +47,7 @@ public class SortUser {
          public int compare(User user, User t1) {
              int nameTemp = user.getName().length() - t1.getName().length();
              if (nameTemp == 0) {
-                 int ageTemp = user.getAge() - t1.getAge();
-                 return ageTemp;
+                 return user.getAge() - t1.getAge();
              }
              return nameTemp;
          }

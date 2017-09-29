@@ -38,7 +38,7 @@ public class Game {
         Game game = new Game(new RandomAndTeamsSettings());
         game.start();
         System.out.println(builder);
-        RandomAndTeamsSettings.writeLog(builder.toString());
+        //RandomAndTeamsSettings.writeLog(builder.toString());
     }
 
     /**
@@ -86,7 +86,7 @@ public class Game {
     /**
      * Старт.
      */
-   public void start() {
+    public void start() {
         infoAboutTeams();
         whoIsFirstStartGame();
         if (isFlag()) {
