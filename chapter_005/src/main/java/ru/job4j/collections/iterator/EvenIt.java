@@ -36,6 +36,7 @@ public class EvenIt implements Iterator {
             for (int i = index; i < numbers.length; i++) {
                 if (numbers[i] % 2 == 0) {
                     found = true;
+                    index = i;
                     break;
                 }
             }
@@ -50,19 +51,9 @@ public class EvenIt implements Iterator {
     @Override
     public Object next() {
         int value = 0;
-        for (int i = index; i < numbers.length; i++) {
-            if (numbers[i] % 2 == 0) {
-                value = numbers[i];
-                index = i;
-                index++;
-                break;
-            }
-        }
-        for (int i = index; i < numbers.length; i++) {
-            if (numbers[i] % 2 == 0) {
-                index = i;
-                break;
-            }
+        if (hasNext()) {
+            value = numbers[index];
+            index++;
         }
         return value;
     }
