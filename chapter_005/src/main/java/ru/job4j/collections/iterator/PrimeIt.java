@@ -19,7 +19,7 @@ public class PrimeIt implements Iterator {
 
     /**
      * Конструктор класса.
-     * @param numbers
+     * @param numbers массив.
      */
     public PrimeIt(int[] numbers) {
         this.numbers = numbers;
@@ -27,17 +27,31 @@ public class PrimeIt implements Iterator {
 
     /**
      * Метод проверяет есть ли в масиве еще простые числа.
-     * @return true or false;
+     * @return true or false.
      */
     @Override
     public boolean hasNext() {
         boolean found = false;
         if (index < numbers.length) {
             for (int i = index; i < numbers.length; i++) {
-                if (numbers[i] != 0) {
-                    if (numbers[i] / numbers[i] == 1) {
-
+                for (int j = 1; j <= numbers[i];) {
+                    if (numbers[i] == 0) {
+                        break;
                     }
+                    if (numbers[i] == j) {
+                        found = true;
+                        break;
+                    }
+                    j++;
+                    if (numbers[i] % j == 0 && numbers[i] != j) {
+                        break;
+                    } else if (numbers[i] % j == 0 && numbers[i] == j) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    break;
                 }
             }
         }
@@ -46,10 +60,60 @@ public class PrimeIt implements Iterator {
 
     /**
      * Метод возвращает текущее значение и переводит каретку на следующее значение.
-     * @return
+     * @return значение из массива.
      */
     @Override
     public Object next() {
-        return null;
+        int value = 0;
+        for (int i = index; i < numbers.length; i++) {
+            for (int j = 1; j <= numbers[i];) {
+                if (numbers[i] == 0) {
+                    break;
+                }
+                if (numbers[i] == j) {
+                    value = numbers[i];
+                    index = i;
+                    index++;
+                    break;
+                }
+                j++;
+                if (numbers[i] % j == 0 && numbers[i] != j) {
+                    break;
+                } else if (numbers[i] % j == 0 && numbers[i] == j) {
+                    value = numbers[i];
+                    index = i;
+                    index++;
+                    break;
+                }
+            }
+            if (value != 0) {
+                break;
+            }
+        }
+        boolean found = false;
+        for (int i = index; i < numbers.length; i++) {
+            for (int j = 1; j <= numbers[i];) {
+                if (numbers[i] == 0) {
+                    break;
+                }
+                if (numbers[i] == j) {
+                    found = true;
+                    index = i;
+                    break;
+                }
+                j++;
+                if (numbers[i] % j == 0 && numbers[i] != j) {
+                    break;
+                } else if (numbers[i] % j == 0 && numbers[i] == j) {
+                    found = true;
+                    index = i;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+        return value;
     }
 }

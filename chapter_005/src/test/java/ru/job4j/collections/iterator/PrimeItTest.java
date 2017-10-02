@@ -1,5 +1,8 @@
 package ru.job4j.collections.iterator;
 
+import org.junit.Test;
+
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -8,5 +11,29 @@ import static org.junit.Assert.assertThat;
  * @since 0.1.
  */
 public class PrimeItTest {
+    /**
+     *Метод проверяет вывод всех простых чисел из массива.
+     */
+    @Test
+    public void whenArrayHasFivePrimeElements() {
+    PrimeIt it = new PrimeIt(new int[]{0, 1, 4, 6, 7, 5, 9, 13, 2});
+        String result = "";
+        while (it.hasNext()) {
+            result += it.next() + ",";
+        }
+        String ex = "1,7,5,13,2,";
+        assertThat(result, is(ex));
+    }
+    /**
+     *Дёргаем next в ручную.
+     */
+    @Test
+    public void whenArrayHasOneElementPrime() {
+        PrimeIt it = new PrimeIt(new int[]{0, 1, 4, 6});
+        int i = (int) it.next();
+        boolean result = it.hasNext();
+        assertThat(i, is(1));
+        assertThat(result, is(false));
+    }
 
 }
