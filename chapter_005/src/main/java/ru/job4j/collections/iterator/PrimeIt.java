@@ -40,6 +40,7 @@ public class PrimeIt implements Iterator {
                     }
                     if (numbers[i] == j) {
                         found = true;
+                        index = i;
                         break;
                     }
                     j++;
@@ -47,6 +48,7 @@ public class PrimeIt implements Iterator {
                         break;
                     } else if (numbers[i] % j == 0 && numbers[i] == j) {
                         found = true;
+                        index = i;
                         break;
                     }
                 }
@@ -65,54 +67,9 @@ public class PrimeIt implements Iterator {
     @Override
     public Object next() {
         int value = 0;
-        for (int i = index; i < numbers.length; i++) {
-            for (int j = 1; j <= numbers[i];) {
-                if (numbers[i] == 0) {
-                    break;
-                }
-                if (numbers[i] == j) {
-                    value = numbers[i];
-                    index = i;
-                    index++;
-                    break;
-                }
-                j++;
-                if (numbers[i] % j == 0 && numbers[i] != j) {
-                    break;
-                } else if (numbers[i] % j == 0 && numbers[i] == j) {
-                    value = numbers[i];
-                    index = i;
-                    index++;
-                    break;
-                }
-            }
-            if (value != 0) {
-                break;
-            }
-        }
-        boolean found = false;
-        for (int i = index; i < numbers.length; i++) {
-            for (int j = 1; j <= numbers[i];) {
-                if (numbers[i] == 0) {
-                    break;
-                }
-                if (numbers[i] == j) {
-                    found = true;
-                    index = i;
-                    break;
-                }
-                j++;
-                if (numbers[i] % j == 0 && numbers[i] != j) {
-                    break;
-                } else if (numbers[i] % j == 0 && numbers[i] == j) {
-                    found = true;
-                    index = i;
-                    break;
-                }
-            }
-            if (found) {
-                break;
-            }
+        if (hasNext()) {
+            value = numbers[index];
+            index++;
         }
         return value;
     }
