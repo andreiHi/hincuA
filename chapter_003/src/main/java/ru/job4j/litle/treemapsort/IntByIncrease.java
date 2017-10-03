@@ -1,4 +1,4 @@
-package treemapsort;
+package ru.job4j.litle.treemapsort;
 
 import java.util.Comparator;
 

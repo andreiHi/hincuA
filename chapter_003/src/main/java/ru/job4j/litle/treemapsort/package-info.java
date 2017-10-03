@@ -3,4 +3,4 @@
  * @version $Id$.
  * @since 0.1.
  */
-package treemapsort;
+package ru.job4j.litle.treemapsort;
