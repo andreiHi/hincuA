@@ -1,10 +1,8 @@
 package ru.job4j.litle.treemapsort;
 
 import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -13,17 +11,30 @@ import java.util.TreeMap;
  * @since 0.1.
  */
 public class TreeMapSortTest {
+    /**
+     *тест сортировки по возрастанию.
+     */
     @Test
-    public void name() throws Exception {
+    public void whenTreeSetSortedByIncrease() {
     TreeMapSort treeMapSort = new TreeMapSort();
-    TreeMap<int[],Object>maps = new TreeMap<>();
-    TreeMap<int[], Object> map = treeMapSort.sortByIncrease(new int[]{1,2,3});
-            treeMapSort.sortByIncrease(new int[]{1,2,0});
-            treeMapSort.sortByIncrease(new int[]{1,1});
-            treeMapSort.sortByIncrease(new int[]{0});
-            treeMapSort.sortByIncrease(new int[]{1,1,1});
-            treeMapSort.sortByIncrease(new int[]{1,2,0, 1});
-            treeMapSort.sortByIncrease(new int[]{2,2,0});
+    TreeMap<int[], Object> map = treeMapSort.sortByIncrease(new int[]{1, 2, 3});
+            treeMapSort.sortByIncrease(new int[]{1, 2, 0});
+            treeMapSort.sortByIncrease(new int[]{1, 2, 0, 1});
+        for (Map.Entry<int[], Object> m : map.entrySet()) {
+            int[] k = m.getKey();
+            System.out.println(Arrays.toString(k));
+        }
+    }
+
+    /**
+     * тест сортировки по убыванию.
+     */
+    @Test
+    public void whenTreeSetSortedByWaning() {
+        TreeMapSort treeMapSort = new TreeMapSort();
+        TreeMap<int[], Object> map = treeMapSort.sortByWaning(new int[]{1, 2, 3});
+        treeMapSort.sortByWaning(new int[]{1, 2, 0});
+        treeMapSort.sortByWaning(new int[]{1, 2, 0, 1});
         for (Map.Entry<int[], Object> m : map.entrySet()) {
             int[] k = m.getKey();
             System.out.println(Arrays.toString(k));
