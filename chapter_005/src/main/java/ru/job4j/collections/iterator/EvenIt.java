@@ -1,6 +1,7 @@
 package ru.job4j.collections.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 30.09.2017.
@@ -54,6 +55,8 @@ public class EvenIt implements Iterator {
         if (hasNext()) {
             value = numbers[index];
             index++;
+        } else {
+            throw new NoSuchElementException();
         }
         return value;
     }

@@ -2,6 +2,8 @@ package ru.job4j.collections.iterator;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -36,4 +38,13 @@ public class PrimeItTest {
         assertThat(result, is(false));
     }
 
+    /**
+     *Метод проверяет получаемые исключения.
+     */
+    @Test(expected = NoSuchElementException.class)
+    public void whenArrayHasOneElementPrimeThenWasCalledNextTwoTimes() {
+        PrimeIt it = new PrimeIt(new int[]{0, 1, 4, 6});
+        int i = (int) it.next();
+        int j = (int) it.next();
+    }
 }
