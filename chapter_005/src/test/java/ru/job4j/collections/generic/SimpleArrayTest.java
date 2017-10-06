@@ -40,7 +40,7 @@ public class SimpleArrayTest {
      * Тест метода update по индексу обновляемого элемента.
      */
     @Test
-    public void WhenWasUpdateElementByIndex() {
+    public void whenWasUpdateElementByIndex() {
         SimpleArray<String> array = new SimpleArray<>(2);
         array.add("Petrov");
         array.add("Ivanov");
@@ -56,7 +56,7 @@ public class SimpleArrayTest {
         SimpleArray<String> array = new SimpleArray<>(2);
         array.add("Petrov");
         array.add("Ivanov");
-        array.update("Ivanov","Kikabidze");
+        array.update("Ivanov", "Kikabidze");
         assertThat("Kikabidze", is(array.getValue(1)));
     }
 

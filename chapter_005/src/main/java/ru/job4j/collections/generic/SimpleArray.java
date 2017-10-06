@@ -44,7 +44,7 @@ public class SimpleArray<T> {
     }
 
     /**
-     * Метод обновляет элемент по значению
+     * Метод обновляет элемент по значению.
      * @param valueOld прежнее значение.
      * @param valueNew новое значение.
      */
@@ -58,6 +58,17 @@ public class SimpleArray<T> {
     }
 
     /**
+     * Обновление элемента.
+     * @param value элемент.
+     */
+    public void update(T value) {
+        for (int i = 0; i < objects.length; i++) {
+            if (value.equals(objects[i])) {
+                objects[i] = value;
+            }
+        }
+    }
+    /**
      * Метод возвращает значение по индексу.
      * @param pozition позиция в массиве.
      * @return значение элемента.
@@ -70,15 +81,19 @@ public class SimpleArray<T> {
     /**
      * Метод удаляет заданное значение из массива.
      * @param value  выбранное значение для удаления.
+     * @return true or false.
      */
-    public void delete(T value) {
+    public boolean delete(T value) {
+        boolean found = false;
         for (int i = 0; i < objects.length; i++) {
             if (value.equals(objects[i])) {
                 objects[i] = objects[index - 1];
                 objects[index - 1] = null;
+                found = true;
                 break;
             }
         }
+        return found;
     }
 
 }
