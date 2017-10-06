@@ -6,6 +6,7 @@ package ru.job4j.collections.generic;
  * @author Hincu Andrei (andreih1981@gmail.com) by 06.10.17;
  * @version $Id$
  * @since 0.1
+ * @param <E> тип хранимых данных.
  */
 public class AbstractStore<E extends Base> implements Store {
     /**
@@ -50,7 +51,7 @@ public class AbstractStore<E extends Base> implements Store {
      */
     @Override
     public boolean delete(String id) {
-        Base base =(E) new User(id);
+        Base base = (E) new User(id);
         return simpleArray.delete((E) base);
     }
 
