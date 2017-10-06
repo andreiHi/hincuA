@@ -20,7 +20,7 @@ public class UserStoreTest {
     public void name() {
     User user = new User("123");
     User user1 = new User("1");
-    UserStore<User> userStore = new UserStore<User>(5);
+    UserStore userStore = new UserStore(5);
     userStore.add(user);
     userStore.add(user1);
     boolean res = userStore.delete("1");
@@ -32,7 +32,7 @@ public class UserStoreTest {
      */
     @Test
     public void whenElementWasUpdate() {
-    UserStore<Role> roleUserStore = new UserStore<>(5);
+    UserRole roleUserStore = new UserRole(5);
     Role role = new Role("1", "Petrov");
     roleUserStore.add(role);
     role.setName("Sidorov");

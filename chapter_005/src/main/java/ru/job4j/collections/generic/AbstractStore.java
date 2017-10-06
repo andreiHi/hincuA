@@ -7,18 +7,18 @@ package ru.job4j.collections.generic;
  * @version $Id$
  * @since 0.1
  */
-public class AbstractStore implements Store {
+public class AbstractStore<E extends Base> implements Store {
     /**
      * Хранилище данных.
      */
-    private SimpleArray<Base> simpleArray;
+    private SimpleArray<E> simpleArray;
 
     /**
      * Конструктор.
      * @param size размер хранилища.
      */
     public AbstractStore(int size) {
-        this.simpleArray = new SimpleArray<>(size);
+        this.simpleArray = new SimpleArray<E>(size);
     }
 
     /**
@@ -28,7 +28,7 @@ public class AbstractStore implements Store {
      */
     @Override
     public Base add(Base model) {
-        simpleArray.add(model);
+        simpleArray.add((E) model);
         return model;
     }
 
@@ -39,7 +39,7 @@ public class AbstractStore implements Store {
      */
     @Override
     public Base update(Base model) {
-        simpleArray.update(model);
+        simpleArray.update((E) model);
         return model;
     }
 
@@ -50,7 +50,8 @@ public class AbstractStore implements Store {
      */
     @Override
     public boolean delete(String id) {
-        return simpleArray.delete(new User(id));
+        Base base =(E) new User(id);
+        return simpleArray.delete((E) base);
     }
 
     /**
@@ -59,6 +60,6 @@ public class AbstractStore implements Store {
      * @return элемент.
      */
     public Base getByIndex(int index) {
-     return    simpleArray.getValue(index);
+     return  simpleArray.getValue(index);
     }
 }

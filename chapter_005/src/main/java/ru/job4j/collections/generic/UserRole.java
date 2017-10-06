@@ -7,7 +7,7 @@ package ru.job4j.collections.generic;
  * @version $Id$
  * @since 0.1
  */
-public class UserRole extends AbstractStore {
+public class UserRole extends AbstractStore<Role> {
     /**
      * Констроуктор класса.
      * @param size размер хранилища.

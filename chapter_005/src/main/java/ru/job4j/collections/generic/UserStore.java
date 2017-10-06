@@ -6,9 +6,9 @@ package ru.job4j.collections.generic;
  * @author Hincu Andrei (andreih1981@gmail.com) by 05.10.17;
  * @version $Id$
  * @since 0.1
- * @param <User> параметр.
+ *
  */
-public class UserStore<User> extends AbstractStore {
+public class UserStore extends AbstractStore<User> {
     /**
      * Конструктор класса.
      * @param size размер хранилища.
