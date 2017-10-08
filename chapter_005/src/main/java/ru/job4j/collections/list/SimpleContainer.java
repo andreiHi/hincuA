@@ -1,5 +1,6 @@
 package ru.job4j.collections.list;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -31,14 +32,12 @@ public class SimpleContainer<T> implements Iterable<T> {
      */
     public SimpleContainer(int size) {
         this.size = size;
-        this.container = new Object[size];
     }
 
     /**
      * Конструктор с длинной массива 10 ячеек.
      */
     public SimpleContainer() {
-        this.container = new Object[size];
 
     }
 
@@ -71,13 +70,12 @@ public class SimpleContainer<T> implements Iterable<T> {
      * @param value добавляемый элемент.
      */
     public void add(T value) {
+        if (container == null) {
+            container = new Object[size];
+        }
         if (pozition == size) {
             int newSize = this.size * 3 / 2 + 1;
-            Object[]val = new Object[newSize];
-            for (int i = 0; i < size; i++) {
-                val[i] = container[i];
-            }
-            container = val;
+            container = Arrays.copyOf(container, newSize);
             size = newSize;
         }
         container[pozition++] = value;
