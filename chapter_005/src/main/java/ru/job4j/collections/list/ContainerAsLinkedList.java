@@ -33,7 +33,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
 
     /**
      * Внутренний класс для ссылок на элементы.
-     * @param <E>
+     * @param <E> тип данных.
      */
     public static class Entry<E> {
         /**
@@ -76,7 +76,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
             /**
              * элемент текущий.
              */
-            ContainerAsLinkedList.Entry next = first;
+            Entry<E> next = first;
 
             /**
              * есть ли следующий.
@@ -93,7 +93,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
              */
             @Override
             public E next() {
-                ContainerAsLinkedList.Entry returned;
+                Entry<E> returned;
 
                 if (!hasNext()) {
                     throw new NoSuchElementException();
@@ -102,7 +102,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
                     this.next = next.next;
                     indexPozition++;
                 }
-                return (E) returned.element;
+                return  returned.element;
             }
         };
     }
@@ -122,8 +122,8 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param element елемент.
      */
     public void addLast(E element) {
-        ContainerAsLinkedList.Entry lastElement = this.last;
-        ContainerAsLinkedList.Entry elementNew = new ContainerAsLinkedList.Entry(lastElement, element, (ContainerAsLinkedList.Entry)null);
+       Entry<E> lastElement = this.last;
+       Entry<E> elementNew = new Entry<E>(lastElement, element, null);
         this.last = elementNew;
         if (lastElement == null) {
             this.first = elementNew;
@@ -138,8 +138,8 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param element елемент.
      */
     public void addFirst(E element) {
-        ContainerAsLinkedList.Entry ferst = this.first;
-        ContainerAsLinkedList.Entry newElement = new ContainerAsLinkedList.Entry(null, element, ferst);
+        Entry<E> ferst = this.first;
+        Entry<E> newElement = new Entry<E>(null, element, ferst);
         this.first = newElement;
         if (ferst == null) {
             this.last = ferst;
@@ -158,12 +158,11 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
         if (index < 0 || index >= this.size) {
             throw new IndexOutOfBoundsException();
         }
-        ContainerAsLinkedList.Entry item = this.first;
+        Entry<E> item = this.first;
 
         for (int i = 0; i < index; i++) {
             item = item.next;
         }
-        return (E) item.element;
+        return  item.element;
     }
-
 }
