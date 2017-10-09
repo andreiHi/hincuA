@@ -165,4 +165,29 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
         }
         return  item.element;
     }
+
+    public Entry<E> getFirst() {
+        return first;
+    }
+
+    public void setFirst(Entry<E> first) {
+        this.first = first;
+    }
+
+    public Entry<E> getLast() {
+
+        return last;
+    }
+
+    public void setLast(Entry<E> last) {
+        this.last = last;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }
