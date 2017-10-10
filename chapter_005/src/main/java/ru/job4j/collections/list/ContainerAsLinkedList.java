@@ -55,7 +55,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
          * @param element елемент.
          * @param next следующий.
          */
-        public Entry( Entry<E> prev, E element, Entry<E> next) {
+        public Entry(Entry<E> prev, E element, Entry<E> next) {
             this.element = element;
             this.next = next;
             this.prev = prev;
@@ -72,11 +72,11 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
             /**
              * Текущая позиция.
              */
-            int indexPozition;
+            private int indexPozition;
             /**
              * элемент текущий.
              */
-            Entry<E> next = first;
+            private Entry<E> next = first;
 
             /**
              * есть ли следующий.
@@ -166,28 +166,51 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
         return  item.element;
     }
 
-    public Entry<E> getFirst() {
-        return first;
+    /**
+     * Метод удаляет последний элемент.
+     * @return удаленный элемент.
+     */
+    public E removeLast() {
+        Entry<E> last = this.last;
+        if (last.prev == null) {
+        Entry<E> empty = new Entry<>(null, null, null);
+        this.first = empty;
+        this.last = empty;
+        } else {
+            last = this.last;
+            Entry<E> newLast = this.last.prev;
+            this.last = newLast;
+            newLast.next = null;
+        }
+        this.size--;
+        return last.element;
     }
 
-    public void setFirst(Entry<E> first) {
-        this.first = first;
+    /**
+     * Метод удаляет первый элемент из хранилища.
+     * @return первый элемент.
+     */
+    public E removeFirst() {
+        Entry<E> first = this.first;
+        if (first.next == null) {
+            Entry<E> empty = new Entry<>(null, null, null);
+            this.first = empty;
+            this.last = empty;
+        } else {
+            Entry<E> newFirst = first.next;
+            newFirst.prev = null;
+            this.first = newFirst;
+
+        }
+        this.size--;
+        return first.element;
     }
-
-    public Entry<E> getLast() {
-
-        return last;
-    }
-
-    public void setLast(Entry<E> last) {
-        this.last = last;
-    }
-
+    /**
+     * Размер хранилища.
+     * @return число.
+     */
     public int getSize() {
         return size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
 }

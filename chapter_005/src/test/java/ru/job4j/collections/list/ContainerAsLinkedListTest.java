@@ -19,7 +19,7 @@ public class ContainerAsLinkedListTest {
     /**
      * Хранилище.
      */
-   private ContainerAsLinkedList<String> linkedList;
+    private ContainerAsLinkedList<String> linkedList;
 
     /**
      * Старт для начала тестов.
@@ -60,5 +60,16 @@ public class ContainerAsLinkedListTest {
         linkedList.addFirst("Bond");
         String name = linkedList.get(0);
         assertThat(name, is("Bond"));
+    }
+
+    /**
+     *Тест метода по удалению последнего элемента.
+     */
+    @Test
+    public void whenWasRemovedLastElement() {
+        assertThat(linkedList.getSize(), is(3));
+        String last = linkedList.removeLast();
+        assertThat(last, is("Ivanov"));
+        assertThat(linkedList.getSize(), is(2));
     }
 }
