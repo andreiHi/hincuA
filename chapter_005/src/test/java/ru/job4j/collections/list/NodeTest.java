@@ -1,8 +1,5 @@
 package ru.job4j.collections.list;
-
-
 import org.junit.Test;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -39,7 +36,7 @@ public class NodeTest {
         Node four = new Node(4);
         first.setNext(second);
         second.setNext(third);
-        third.setNext(four);
+        third.setNext(third);
         four.setNext(second);
         Node.Cycle cycle = new Node.Cycle();
         boolean result = cycle.hasCycle2(first);

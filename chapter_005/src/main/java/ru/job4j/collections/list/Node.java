@@ -29,6 +29,7 @@ public class Node<T> {
     }
     /**
     *Сеттер.
+     * @param next установка связи между элементами.
      */
     public void setNext(Node next) {
         this.next = next;
@@ -76,7 +77,8 @@ public class Node<T> {
                 if (rebit == null || tort == null) {
                     break;
                 }
-                if (tort.equals(tort.next) || rebit.equals(rebit.next) || tort.equals(rebit)) {
+                if (tort.equals(rebit)) {
+               // if (tort.equals(tort.next) || rebit.equals(rebit.next) || tort.equals(rebit)) {
                     found = true;
                     break;
                 } else {
