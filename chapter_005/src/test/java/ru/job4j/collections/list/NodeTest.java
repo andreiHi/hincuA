@@ -30,4 +30,19 @@ public class NodeTest {
         boolean result = cycle.hasCycle(first);
         assertThat(result, is(true));
     }
-}
+
+    @Test
+    public void name() throws Exception {
+        Node first = new Node(1);
+        Node second = new Node(2);
+        Node third = new Node(3);
+        Node four = new Node(4);
+        first.setNext(second);
+        second.setNext(third);
+        third.setNext(four);
+        four.setNext(second);
+        Node.Cycle cycle = new Node.Cycle();
+        boolean result = cycle.hasCycle2(first);
+        assertThat(result, is(true));
+    }
+    }

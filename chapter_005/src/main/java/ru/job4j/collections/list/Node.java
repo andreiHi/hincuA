@@ -62,5 +62,29 @@ public class Node<T> {
             }
             return found;
         }
+
+        /**
+         * Без массива прочитал про алгоритм Флойда.
+         * @param ferst отправная точка.
+         * @return true or false.
+         */
+        public boolean hasCycle2(Node<T> ferst) {
+            Node<T> tort = ferst;
+            Node<T> rebit = ferst.next;
+            boolean found = false;
+            while (true) {
+                if (rebit == null || tort == null) {
+                    break;
+                }
+                if (tort.equals(tort.next) || rebit.equals(rebit.next) || tort.equals(rebit)) {
+                    found = true;
+                    break;
+                } else {
+                    tort = tort.next;
+                    rebit = rebit.next.next;
+                }
+            }
+            return found;
+        }
     }
 }
