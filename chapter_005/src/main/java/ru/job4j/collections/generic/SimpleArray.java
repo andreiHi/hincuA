@@ -65,6 +65,7 @@ public class SimpleArray<T> {
         for (int i = 0; i < objects.length; i++) {
             if (value.equals(objects[i])) {
                 objects[i] = value;
+                break;
             }
         }
     }
@@ -96,4 +97,18 @@ public class SimpleArray<T> {
         return found;
     }
 
+    /**
+     * Метод удаляет по индексу в массиве.
+     * @param index позиция в массиве.
+     * @return true or false.
+     */
+    public boolean delete(int index) {
+        boolean f = false;
+        if (index < this.index) {
+            objects[index] = objects[this.index -1];
+            objects[this.index - 1] = null;
+            f = true;
+        }
+        return f;
+    }
 }

@@ -13,13 +13,14 @@ public class AbstractStore<E extends Base> implements Store {
      * Хранилище данных.
      */
     private SimpleArray<E> simpleArray;
-
+    private int size;
     /**
      * Конструктор.
      * @param size размер хранилища.
      */
     public AbstractStore(int size) {
         this.simpleArray = new SimpleArray<E>(size);
+        this.size = size;
     }
 
     /**
@@ -51,8 +52,15 @@ public class AbstractStore<E extends Base> implements Store {
      */
     @Override
     public boolean delete(String id) {
-        Base base = (E) new User(id);
-        return simpleArray.delete((E) base);
+        Base base = null;
+        for (int i = 0; i < size; i++) {
+            base = simpleArray.getValue(i);
+            if (id == base.getId()) {
+                simpleArray.delete(i);
+                break;
+            }
+        }
+        return base != null;
     }
 
     /**
@@ -61,6 +69,6 @@ public class AbstractStore<E extends Base> implements Store {
      * @return элемент.
      */
     public Base getByIndex(int index) {
-     return  simpleArray.getValue(index);
+        return  simpleArray.getValue(index);
     }
 }
