@@ -94,4 +94,27 @@ public class SimpleContainer<T> implements Iterable<T> {
             return (T) container[index];
         }
     }
+
+    /**
+     * Метод проверяет содержится ли элемент в хранилище.
+     * @param value проверяемый элемент.
+     * @return true or false;
+     */
+    public boolean contains(T value) {
+        boolean found = false;
+        for (int i = 0; i < size; i++) {
+            if (container == null) {
+                break;
+            } else {
+                T o = (T) container[i];
+                if (o != null) {
+                    if (value.equals(o)) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return found;
+    }
 }
