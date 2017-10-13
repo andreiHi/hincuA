@@ -16,7 +16,7 @@ public class SimpleContainer<T> implements Iterable<T> {
     /**
      * Хранилище.
      */
-    private Object[]container;
+    private T []container;
     /**
      * Размер хранилища.
      */
@@ -24,7 +24,7 @@ public class SimpleContainer<T> implements Iterable<T> {
     /**
      * позиция в массиве.
      */
-    private int pozition = 0;
+    private int position = 0;
 
     /**
      * Конструктор.
@@ -57,7 +57,7 @@ public class SimpleContainer<T> implements Iterable<T> {
             @Override
             public T next() {
                 if (hasNext()) {
-                    return (T) container[currentIndex++];
+                    return  container[currentIndex++];
                 } else {
                     throw new NoSuchElementException();
                 }
@@ -71,14 +71,14 @@ public class SimpleContainer<T> implements Iterable<T> {
      */
     public void add(T value) {
         if (container == null) {
-            container = new Object[size];
+            container = (T[]) new Object[size];
         }
-        if (pozition == size) {
+        if (position == size) {
             int newSize = this.size * 3 / 2 + 1;
             container = Arrays.copyOf(container, newSize);
             size = newSize;
         }
-        container[pozition++] = value;
+        container[position++] = value;
 
     }
 
@@ -91,7 +91,7 @@ public class SimpleContainer<T> implements Iterable<T> {
         if (index >= this.size) {
             throw new IndexOutOfBoundsException();
         } else {
-            return (T) container[index];
+            return  container[index];
         }
     }
 
@@ -102,13 +102,11 @@ public class SimpleContainer<T> implements Iterable<T> {
      */
     public boolean contains(T value) {
         boolean found = false;
-        for (int i = 0; i < size; i++) {
-            if (container == null) {
-                break;
-            } else {
-                T o = (T) container[i];
+        if (container != null) {
+            for (int i = 0; i <= position; i++) {
+                T o =  container[i];
                 if (o != null) {
-                    if (value.equals(o)) {
+                    if (o.equals(value)) {
                         found = true;
                         break;
                     }
