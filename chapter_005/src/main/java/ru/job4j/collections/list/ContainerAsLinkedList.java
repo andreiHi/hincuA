@@ -213,4 +213,19 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
         return size;
     }
 
+    /**
+     * Метод проверяет не содержится ли данный элемент в списке.
+     * @param value проверяемый элемент.
+     * @return true or false.
+     */
+    public boolean contains(E value) {
+        boolean found = false;
+        for (E e : this) {
+            if (value.equals(e)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
 }
