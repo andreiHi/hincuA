@@ -2,8 +2,6 @@ package ru.job4j.collections.set;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * .
  *
@@ -12,20 +10,12 @@ import static org.junit.Assert.*;
  * @since 0.1
  */
 public class SimpleHashSetTest {
+
     @Test
-    public void put() throws Exception {
-        String a = "5";
-        int av = hash(a.hashCode());
-        int index = indexFor(av, 16);
-        System.out.println(index);
-    }
-    static int hash(int h)
-    {
-        h ^= (h >>> 20) ^ (h >>> 12);
-        return h ^ (h >>> 7) ^ (h >>> 4);
-    }
-    static int indexFor(int h, int length)
-    {
-        return h & (length - 1);
+    public void name() throws Exception {
+        SimpleHashSet<Integer> set = new SimpleHashSet();
+        for(int i = 0; i < 10;i++) {
+            set.put(i);
+        }
     }
 }

@@ -10,6 +10,8 @@ package ru.job4j.collections.set;
 public class SimpleHashSet<E> extends SimpleSet<E> {
       private Entry[] table;
     private int size = 16;
+    private int threshold = (int) (size * 0.75);
+    private int position;
 
     public SimpleHashSet() {
         this.table = new Entry[size];
@@ -28,20 +30,28 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
         }
     }
     public void put(E value) {
+        if (position == threshold) {
+            int newSize = size * 2;
+            Entry[] newTable = new Entry[newSize];
+            transfer(newTable);
+            table = newTable;
+            size = newSize;
+        }
         if (value == null) {
             putForNullKey(value);
         } else {
             int hash = hash(value.hashCode());
-            int newIndex = indexFor(hash, size);
-            if (table[newIndex] == null) {
-                table[newIndex] = new Entry<>(hash, value, null);
+            int index = indexFor(hash, size);
+            if (table[index] == null) {
+                table[index] = new Entry<>(hash, value, null);
+                position++;
             } else {
-                Entry e = table[newIndex];
+                Entry<E> e = table[index];
                 if (!found(e, hash, value)) {
-                    table[newIndex] = new Entry(hash, value, e);
+                    table[index] = new Entry<>(hash, value, e);
+                    position++;
                 }
             }
-
         }
 
     }
@@ -68,7 +78,16 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
         return h & (length - 1);
     }
     public void putForNullKey(E value) {
-
+        if (table[0] == null) {
+            table[0] = new Entry(0, null, null);
+            position++;
+        } else {
+            Entry<E> e = table[0];
+            if (!found(e, 0, null)) {
+                table[0] = new Entry<>(0, null, e);
+                position++;
+            }
+        }
     }
     public boolean found(Entry<E> e, int hash, E val ) {
         Entry<E> value = e;
@@ -79,5 +98,19 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
             this.found(value, hash, val);
         }
         return false;
+    }
+    public void addEntry(int hash, E value, int index) {
+        Entry<E> e = table[index];
+        table[index] = new Entry(hash, value, e);
+    }
+    public void transfer(Entry<E>[] newTable) {
+        for (int i = 0; i < size; i++) {
+            if (table[i] != null) {
+                Entry e = table[i];
+                while (true) {
+
+                }
+            }
+        }
     }
 }
