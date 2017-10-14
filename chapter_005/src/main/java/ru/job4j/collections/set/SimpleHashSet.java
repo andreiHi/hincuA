@@ -1,34 +1,72 @@
 package ru.job4j.collections.set;
 
 /**
- * .
- *
+ * Попытка написать свой HashSet.
  * @author Hincu Andrei (andreih1981@gmail.com) by 13.10.17;
  * @version $Id$
  * @since 0.1
+ * @param <E> тип данных.
  */
 public class SimpleHashSet<E> extends SimpleSet<E> {
-      private Entry[] table;
+    /**
+     * Массив корзин.
+     */
+    private Entry[] table;
+    /**
+     * Начальный размер.
+     */
     private int size = 16;
+    /**
+     * Коэфициент загрузки.
+     */
     private int threshold = (int) (size * 0.75);
+    /**
+     * Колличество содержащихся элементов.
+     */
     private int position;
 
+    /**
+     * Конструктор.
+     */
     public SimpleHashSet() {
         this.table = new Entry[size];
     }
 
-
+    /**
+     * Вложенный класс для создания связанных списков при кализии.
+     * @param <E>
+     */
     static class Entry<E> {
+        /**
+         * Хэш элемента.
+         */
         int hash;
+        /**
+         * Значение элемента.
+         */
         E value;
+        /**
+         * Ссылка на следующий элемент в корзине.
+         */
         Entry<E> next;
 
-        public Entry(int hash, E value, Entry<E> next) {
+        /**
+         * Конструктор.
+         * @param hash хэш.
+         * @param value значение.
+         * @param next следующий элемент.
+         */
+        Entry(int hash, E value, Entry<E> next) {
             this.hash = hash;
             this.value = value;
             this.next = next;
         }
     }
+
+    /**
+     * Метод добавления нового элемента.
+     * @param value новый элемент.
+     */
     public void put(E value) {
         if (position == threshold) {
             int newSize = size * 2;
@@ -38,22 +76,13 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
             size = newSize;
         }
         if (value == null) {
-            putForNullKey(value);
+            putForNullKey(table);
         } else {
             int hash = hash(value.hashCode());
             int index = indexFor(hash, size);
-            if (table[index] == null) {
-                table[index] = new Entry<>(hash, value, null);
-                position++;
-            } else {
-                Entry<E> e = table[index];
-                if (!found(e, hash, value)) {
-                    table[index] = new Entry<>(hash, value, e);
-                    position++;
-                }
-            }
+            addEntry(hash, value, index, table);
         }
-
+        position++;
     }
 
     /**
@@ -77,40 +106,86 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
     static int indexFor(int h, int length) {
         return h & (length - 1);
     }
-    public void putForNullKey(E value) {
+
+    /**
+     * Метод добавляет ключ со значением null в корзину с нулевым индексом.
+     * @param table массив корзин.
+     */
+    public void putForNullKey(Entry[] table) {
         if (table[0] == null) {
             table[0] = new Entry(0, null, null);
-            position++;
         } else {
             Entry<E> e = table[0];
             if (!found(e, 0, null)) {
                 table[0] = new Entry<>(0, null, e);
-                position++;
             }
         }
     }
-    public boolean found(Entry<E> e, int hash, E val ) {
-        Entry<E> value = e;
-        if (value.hash == hash && (value.value == val || value.value.equals(val))) {
+
+    /**
+     * Метод проверяет нет ли в связанном списке такого же элемента.
+     * @param e Список элементов.
+     * @param hash хэш проверяемого элемента.
+     * @param val значение проверяемого элемента.
+     * @return содержится или нет.
+     */
+    public boolean found(Entry<E> e, int hash, E val) {
+        Entry<E> element = e;
+        if (element.value == null) {
+            if (element.hash == hash && val == null) {
+                return  true;
+            }
+        } else if (element.hash == hash && (element.value == val || element.value.equals(val))) {
             return  true;
-        } else if (value.next != null) {
-            value = value.next;
-            this.found(value, hash, val);
+        }
+        if (element.next != null) {
+            element = element.next;
+            this.found(element, hash, val);
         }
         return false;
     }
-    public void addEntry(int hash, E value, int index) {
-        Entry<E> e = table[index];
-        table[index] = new Entry(hash, value, e);
+
+    /**
+     * Метод добавляет новый список в хранилише.
+     * @param hash хэш добовляемого элемента.
+     * @param value  сам элемент.
+     * @param index индекс в массиве.
+     * @param table мвассив в который добовляем данные.
+     */
+    public void addEntry(int hash, E value, int index, Entry<E>[]table) {
+        if (table[index] == null) {
+            table[index] = new Entry<>(hash, value, null);
+        } else {
+            Entry<E> e = table[index];
+            if (!found(e, hash, value)) {
+                table[index] = new Entry<>(hash, value, e);
+            }
+        }
     }
+
+    /**
+     * Метод расшиляет массив при достижении коэфициента загрузки в два раза.
+     * @param newTable массив нового размера с перераспределенными элементами.
+     */
     public void transfer(Entry<E>[] newTable) {
         for (int i = 0; i < size; i++) {
             if (table[i] != null) {
-                Entry e = table[i];
+                Entry<E> e = table[i];
                 while (true) {
-
+                    if (e.hash == 0 && e.value == null) {
+                        putForNullKey(newTable);
+                    } else {
+                        int index = indexFor(e.hash, newTable.length);
+                        addEntry(e.hash, e.value, index, newTable);
+                    }
+                    if (e.next != null) {
+                        e = e.next;
+                    } else {
+                        break;
+                    }
                 }
             }
         }
     }
+
 }

@@ -13,6 +13,9 @@ public class AbstractStore<E extends Base> implements Store {
      * Хранилище данных.
      */
     private SimpleArray<E> simpleArray;
+    /**
+     * размер хранилища.
+     */
     private int size;
     /**
      * Конструктор.

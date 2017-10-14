@@ -2,9 +2,6 @@ package ru.job4j.collections.set;
 
 import ru.job4j.collections.list.ContainerAsLinkedList;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
  * Класс Set на основе LinkedList.
  * @author Hincu Andrei (andreih1981@gmail.com)on 11.10.2017.

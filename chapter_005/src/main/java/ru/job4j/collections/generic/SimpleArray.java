@@ -105,7 +105,7 @@ public class SimpleArray<T> {
     public boolean delete(int index) {
         boolean f = false;
         if (index < this.index) {
-            objects[index] = objects[this.index -1];
+            objects[index] = objects[this.index - 1];
             objects[this.index - 1] = null;
             f = true;
         }

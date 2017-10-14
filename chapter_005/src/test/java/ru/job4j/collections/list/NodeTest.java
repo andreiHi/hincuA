@@ -28,8 +28,11 @@ public class NodeTest {
         assertThat(result, is(true));
     }
 
+    /**
+     * Когда один из элементов зациклен сам на себя.
+     */
     @Test
-    public void name() throws Exception {
+    public void whenCycleHasTrue()  {
         Node first = new Node(1);
         Node second = new Node(2);
         Node third = new Node(3);

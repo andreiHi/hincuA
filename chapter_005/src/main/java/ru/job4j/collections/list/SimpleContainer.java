@@ -16,11 +16,11 @@ public class SimpleContainer<T> implements Iterable<T> {
     /**
      * Хранилище.
      */
-    private T []container;
+    private T[]container;
     /**
      * Размер хранилища.
      */
-    private int size = 10;
+    private int size = 16;
     /**
      * позиция в массиве.
      */
@@ -103,7 +103,7 @@ public class SimpleContainer<T> implements Iterable<T> {
     public boolean contains(T value) {
         boolean found = false;
         if (container != null) {
-            for (int i = 0; i <= position; i++) {
+            for (int i = 0; i < position; i++) {
                 T o =  container[i];
                 if (o != null) {
                     if (o.equals(value)) {
