@@ -49,4 +49,15 @@ public class User {
                 + birthday
                 + '}';
     }
+
+    /**
+     * Хэш код.
+     * @return число расчитанное исходя из хэш значений полей класса.
+     */
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + children;
+        return result;
+    }
 }

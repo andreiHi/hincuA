@@ -30,7 +30,7 @@ public class UserTest {
     }
 
     /**
-     *метод печатает два обьекта hashCode и equals не переопределены.
+     *метод печатает содержимое мап.
      */
     @Test
     public void whenAddedTwoUsersWithOutHashCodeAndEquals() {
