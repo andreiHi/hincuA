@@ -22,4 +22,31 @@ public class User {
      * Дата рождения.
      */
     private Calendar birthday;
+
+    /**
+     * Конструктор.
+     * @param name имя.
+     * @param children дети.
+     */
+    public User(String name, int children) {
+        this.name = name;
+        this.children = children;
+    }
+
+    /**
+     * Расшифровка обьекта.
+     * @return стринг.
+     */
+    @Override
+    public String toString() {
+        return "User{"
+                + "name='"
+                + name
+                + '\''
+                + ", children="
+                + children
+                + ", birthday="
+                + birthday
+                + '}';
+    }
 }
