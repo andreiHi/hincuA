@@ -51,9 +51,22 @@ public class User {
     }
 
     /**
+     *Хэш код.
+     * @return число.
+     */
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + children;
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        return result;
+    }
+
+    /**
      * Переопределенный метод equals.
      * @param o сравнивыемый обьект
      * @return true of false.
+
      */
     @Override
     public boolean equals(Object o) {
