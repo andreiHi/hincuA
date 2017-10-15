@@ -51,13 +51,19 @@ public class User {
     }
 
     /**
-     * Хэш код.
-     * @return число расчитанное исходя из хэш значений полей класса.
+     * Переопределенный метод equals.
+     * @param o сравнивыемый обьект
+     * @return true of false.
      */
     @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + children;
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (children != user.children) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        return birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
     }
 }
