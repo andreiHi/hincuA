@@ -38,6 +38,7 @@ public class UserTest {
         map.put(new User("Petrov", 2),new Object());
         for (User m : map.keySet()) {
             System.out.println(m);
+
         }
     }
 }
