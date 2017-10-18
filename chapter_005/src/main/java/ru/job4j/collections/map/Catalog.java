@@ -15,7 +15,7 @@ public class Catalog<T, V> implements Iterable {
     /**
      * Начальный размер каталога.
      */
-    private int size = 2;
+    private int size = 16;
     /**
      * Каталог пары ключь значение.
      */
