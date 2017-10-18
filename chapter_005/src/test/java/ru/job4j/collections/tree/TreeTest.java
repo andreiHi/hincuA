@@ -19,6 +19,7 @@ public class TreeTest {
         tree = new Tree<>();
         tree.add("Hello","World");
         tree.add("Hello", "is Good");
+       // boolean c = tree.contains()
     }
     @Test
     public void add() throws Exception {
