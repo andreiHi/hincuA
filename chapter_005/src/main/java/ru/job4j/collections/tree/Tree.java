@@ -13,33 +13,24 @@ import java.util.List;
  */
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     private Node<E> node;
+    private int size;
+
+    public int getSize() {
+        return size;
+    }
 
     public Tree() {
 
     }
-
-    class Node<E> {
-        private List<Node<E>> children;
+    private class Node<E> {
         private E value;
+        private List<Node<E>> children;
 
-        public Node( E value) {
-            //this.children = new ArrayList<>();
+        private Node( E value) {
             this.value = value;
         }
 
-        public List<Node<E>> getChildren() {
-            return children;
-        }
-
-        public E getValue() {
-            return value;
-        }
-
-        public void setValue(E value) {
-            this.value = value;
-        }
-
-        public void setChildren(E children) {
+        private void addFirstChild(E children) {
             this.children = new ArrayList<>();
             this.children.add(new Node<E>(children));
         }
@@ -49,58 +40,61 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         boolean sucses = false;
         if (this.node == null) {
             this.node = new Node<>(parent);
-            this.node.setChildren(child);
+            size++;
+            this.node.addFirstChild(child);
             sucses = true;
+            size++;
         } else {
-            if (!contains(node.getChildren(), child)) {
+            if (!contains(node.children, child) && ! node.value.equals(child)) {
                 if (node.value.equals(parent)) {
-                    if (!node.children.contains(child)) {
-                        node.children.add(new Node<>(child));
-                        sucses = true;
-                    }
+                    node.children.add(new Node<>(child));
+                    sucses = true;
                 } else {
-                    sucses = addIfNotContains(node.getChildren(), parent, child);
+                    sucses = addChild(node.children, parent, child);
                 }
+                size++;
             }
         }
         return sucses;
     }
-    private boolean addIfNotContains(List<Node<E>> list, E parent, E child) {
+    private boolean addChild(List<Node<E>> list, E parent, E child) {
+        boolean add = false;
         for (Node<E> node : list) {
             if (node.value.equals(parent)) {
                 if (node.children == null) {
-                    node.setChildren(child);
-                    return true;
-                }
-                if (!node.children.contains(child)) {
+                    node.addFirstChild(child);
+                    add = true;
+                } else {
                     node.children.add(new Node<>(child));
-                    return true;
+                    add =  true;
                 }
-            } else if (node.getChildren() != null) {
-                List<Node<E>> childrens = node.getChildren();
-                addIfNotContains(childrens, parent, child);
+            } else if (node.children != null) {
+                add = addChild(node.children, parent, child);
             }
         }
-        return false;
+        return add;
     }
-    public boolean contains(List<Node<E>> list, E chald) {
+    private boolean contains(List<Node<E>> list, E child) {
+        boolean found = false;
         for (Node<E> node : list) {
-            if (node.value.equals(chald)) {
-                return true;
+            if (node.value.equals(child)) {
+                found = true;
+                break;
             }
-            if (node.getChildren() != null) {
-                List<Node<E>> n = node.getChildren();
-                contains(n, chald);
+            if (node.children != null) {
+                found = contains(node.children, child);
             }
         }
-        return false;
+        return found;
     }
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
+            int pozition = 0;
+            Node<E> node;
             @Override
             public boolean hasNext() {
-                return false;
+                return pozition++ < size;
             }
 
             @Override

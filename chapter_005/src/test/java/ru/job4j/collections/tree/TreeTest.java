@@ -3,6 +3,8 @@ package ru.job4j.collections.tree;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 /**
@@ -19,7 +21,10 @@ public class TreeTest {
         tree = new Tree<>();
         tree.add("Hello","World");
         tree.add("Hello", "is Good");
-       // boolean c = tree.contains()
+        tree.add("is Good", "True");
+        boolean a = tree.add("True", "111");
+        boolean m = tree.add("True", "11");
+       // System.out.println(tree.getSize());
     }
     @Test
     public void add() throws Exception {
@@ -27,6 +32,12 @@ public class TreeTest {
 
     @Test
     public void iterator() throws Exception {
+        Iterator<String> it = tree.iterator();
+        int coutn = 0;
+        while (it.hasNext()) {
+            coutn++;
+        }
+        System.out.println(coutn);
     }
 
 }
