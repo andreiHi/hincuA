@@ -40,15 +40,15 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
         /**
          * Хэш элемента.
          */
-        int hash;
+        private int hash;
         /**
          * Значение элемента.
          */
-        E value;
+       private E value;
         /**
          * Ссылка на следующий элемент в корзине.
          */
-        Entry<E> next;
+       private Entry<E> next;
 
         /**
          * Конструктор.
@@ -56,7 +56,7 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
          * @param value значение.
          * @param next следующий элемент.
          */
-        Entry(int hash, E value, Entry<E> next) {
+       private Entry(int hash, E value, Entry<E> next) {
             this.hash = hash;
             this.value = value;
             this.next = next;

@@ -92,8 +92,8 @@ public class User extends Base {
      * hashCode.
      * @return code.
      */
-//    @Override
-//    public int hashCode() {
-//        return id != null ? id.hashCode() : 0;
-//    }
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

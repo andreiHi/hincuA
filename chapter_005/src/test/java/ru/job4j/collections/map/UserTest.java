@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 
 /**
  * Тесты.
@@ -19,7 +18,7 @@ public class UserTest {
     /**
      * Мап.
      */
-    private Map<User,Object> map;
+    private Map<User, Object> map;
 
     /**
      * Инициализация хранилища.
@@ -34,8 +33,8 @@ public class UserTest {
      */
     @Test
     public void whenAddedTwoUsersWithOutHashCodeAndEquals() {
-        map.put(new User("Petrov", 2),new Object());
-        map.put(new User("Petrov", 2),new Object());
+        map.put(new User("Petrov", 2), new Object());
+        map.put(new User("Petrov", 2), new Object());
         for (User m : map.keySet()) {
             System.out.println(m);
 

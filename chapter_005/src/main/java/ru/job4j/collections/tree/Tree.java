@@ -1,91 +1,69 @@
 package ru.job4j.collections.tree;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  *Дерево.
- *
  * @author Hincu Andrei (andreih1981@gmail.com) by 18.10.17;
  * @version $Id$
  * @since 0.1
+ * @param <E> тип данных.
  */
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
+    /**
+     * Корень дерева.
+     */
     private Node<E> node;
+    /**
+     * Размер дерева.
+     */
     private int size;
 
-    public int getSize() {
-        return size;
-    }
-
-    public Tree() {
-
-    }
+    /**
+     * Вложенный класс.
+     * @param <E> тип данных.
+     */
     private class Node<E> {
+        /**
+         * Значение узла.
+         */
         private E value;
+        /**
+         * Список детей от данного узла.
+         */
         private List<Node<E>> children;
 
-        private Node( E value) {
+        /**
+         * Конструктор.
+         * @param value значение.
+         */
+        private Node(E value) {
             this.value = value;
         }
 
+        /**
+         * Добавление первого потомка.
+         * @param children первый ребёнок.
+         */
         private void addFirstChild(E children) {
             this.children = new ArrayList<>();
             this.children.add(new Node<E>(children));
         }
     }
+
+    /**
+     * Метод добовляет новую пару или существующему родителю нового ребенка.
+     * @param parent parent. родитель.
+     * @param child child.
+     * @return удачно или тпкой ребенок уже есть у однолго из родителей.
+     */
     @Override
     public boolean add(E parent, E child) {
-        boolean success = false;
-        if (this.node == null) {
-            this.node = new Node<>(parent);
-            size++;
-            this.node.addFirstChild(child);
-            success = true;
-            size++;
-        } else {
-            if (!contains(node.children, child) &&  node.value.compareTo(child)!= 0) {
-                if (node.value.compareTo(parent) == 0) {
-                    node.children.add(new Node<>(child));
-                    success = true;
-                } else {
-                    success = addChild(node.children, parent, child);
-                }
-                size++;
-            }
-        }
-        return success;
-    }
-    private boolean addChild(List<Node<E>> list, E parent, E child) {
-        boolean add = false;
-        for (Node<E> node : list) {
-            if (node.value.compareTo(parent) == 0) {
-                if (node.children == null) {
-                    node.addFirstChild(child);
-                    add = true;
-                } else {
-                    node.children.add(new Node<>(child));
-                    add =  true;
-                }
-            } else if (node.children != null) {
-                add = addChild(node.children, parent, child);
-            }
-        }
-        return add;
-    }
-    private boolean contains(List<Node<E>> list, E child) {
-        boolean found = false;
-        for (Node<E> node : list) {
-            if (node.value.equals(child)) {
-                found = true;
-                break;
-            }
-            if (node.children != null) {
-                found = contains(node.children, child);
-            }
-        }
-        return found;
-    }
-    public boolean add1(E parent, E child) {
         boolean success = false;
         if (parent.compareTo(child) != 0) {
             if (this.node == null) {
@@ -95,78 +73,103 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 success = true;
                 size++;
             } else {
-                if (node.value.compareTo(child) != 0) {
-                    if (node.value.compareTo(parent) == 0) {
-                        boolean con = false;
-                        for (Node<E> n : node.children) {
-                            if (n.value.compareTo(child) == 0) {
-                                con = true;
-                                break;
-                            }
-                        }
-                        if (!con) {
-                        node.children.add(new Node<>(child));
-                        success = true;}
+                if (!contains(node, parent, child) && nodeParent != null) {
+                    if (nodeParent.children == null) {
+                        nodeParent.addFirstChild(child);
                     } else {
-                        success = addIfNotContains(node.children, parent, child);
+                        nodeParent.children.add(new Node<>(child));
                     }
+                    success = true;
+                }
+                if (success) {
                     size++;
                 }
             }
         }
+        nodeParent = null;
         return success;
     }
+    /**
+     * Поле для сохранения значения родителя которому собираются добавить ребенка.
+     * после добавления переменаая обнуляется.
+     */
+    private Node<E> nodeParent;
 
-    public boolean addIfNotContains(List<Node<E>> list,E parent, E child) {
+    /**
+     * Метод проверяет дерево на наличие дубликата попутно находим родителя.
+     * @param n корень дерева.
+     * @param parent счастливый родитель.
+     * @param child добовляемый ребёнок.
+     * @return если ребёнок уникален то возврат false дубликатов нет.
+     */
+    private boolean contains(Node<E> n, E parent, E child) {
         boolean found = false;
-        Node<E> nodeParent = null;
-        for (Node<E> n : list) {
-            if (n.value.compareTo(parent) == 0) {
-                nodeParent = n;
-            }
-            if (n.value.compareTo(child) == 0) {
-                found = true;
-                break;
-            }
-            if (n.children != null) {
-                found = addIfNotContains(n.children, parent, child);
-            }
-        }
-        if (!found && nodeParent != null) {
-            if (nodeParent.children == null) {
-                nodeParent.addFirstChild(child);
-            } else {
-                nodeParent.children.add(new Node<>(child));
-            }
+        if (n.value.compareTo(child) == 0) {
             found = true;
         }
-        return  found;
+        if (n.value.compareTo(parent) == 0) {
+            nodeParent = n;
+        }
+        if (!found && n.children != null) {
+            for (Node<E> node : n.children) {
+                found = contains(node, parent, child);
+            }
+        }
+        return found;
     }
+
+    /**
+     * Итератор для перебора дерева.
+     * @return значение узла дерева.
+     */
     @Override
     public Iterator<E> iterator() {
-        Node<E>n = node;
+        /**
+         * локальная переменная для хранения корня дерева.
+         */
+        Node<E> n = node;
         return new Iterator<E>() {
-            List<Node<E>> list = new ArrayList<>();
-            Queue<Node<E>> queue = new ArrayDeque<>();
-            int position = 0;
-            Node<E> val;
+            /**
+             * флаг для проверки начала итерации.
+             */
+            private boolean flag = false;
+            /**
+             * Очередь для добавления и взятия элементов.
+             */
+           private Queue<Node<E>> queue = new ArrayDeque<>();
+            /**
+             * позиция в дереве.
+             */
+            private int position = 0;
+            /**
+             * Узел дерева.
+             */
+            private Node<E> val;
+
+            /**
+             * Метод проверяет есть ли еще элементы.
+             * @return да или нет.
+             */
             @Override
             public boolean hasNext() {
                 return position < size;
             }
 
+            /**
+             * возвращаем текущий элемент и передвигаемся к следующему.
+             * @return элемент.
+             */
             @Override
             public E next() {
                 if (hasNext()) {
-                    if (list.isEmpty()) {
-                        list.add(n);
+                    if (!flag) {
+                        flag = true;
                         if (n.children != null) {
                             queue.addAll(n.children);
                         }
-                       val = n;
+                        val = n;
                     } else {
                         val = queue.poll();
-                        list.add(val);
                         if (val.children != null) {
                             queue.addAll(val.children);
                         }

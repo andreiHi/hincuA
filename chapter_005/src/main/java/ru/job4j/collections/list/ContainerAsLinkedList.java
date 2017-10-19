@@ -39,15 +39,15 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
         /**
          * елемент списка.
          */
-        E element;
+       private E element;
         /**
          * ссылка на следующий.
          */
-        Entry<E> next;
+       private Entry<E> next;
         /**
          * ссылка на предыдущий.
          */
-        Entry<E> prev;
+        private Entry<E> prev;
 
         /**
          * конструктор.

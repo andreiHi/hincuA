@@ -5,39 +5,59 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
- * .
- *
+ * Тесты.
  * @author Hincu Andrei (andreih1981@gmail.com) by 18.10.17;
  * @version $Id$
  * @since 0.1
  */
 public class TreeTest {
-    Tree<String>tree;
+    /**
+     * Дерево.
+     */
+    private Tree<String> tree;
+
+    /**
+     * Инициализация.
+     */
     @Before
     public void start() {
         tree = new Tree<>();
-        tree.add1("Hello","World");
-        tree.add1("Hello", "is Good");
-        tree.add1("is Good", "True");
-        boolean a = tree.add1("True", "111");
-        boolean m = tree.add1("True", "11");
-       // System.out.println(tree.getSize());
-    }
-    @Test
-    public void add() throws Exception {
+        boolean a = tree.add("1", "2");
+        boolean b = tree.add("1", "3");
+        boolean c = tree.add("3", "4");
     }
 
+    /**
+     * Метод проверяет добавление элемента.
+     * попытку добавить существующего ребенка
+     * попытку добавить несуществующего родителя.
+     */
     @Test
-    public void iterator() throws Exception {
+    public void whenWasAddedExistingChild() {
+        boolean j = tree.add("4", "5");
+        assertThat(j, is(true));
+        boolean f = tree.add("1", "5");
+        assertThat(f, is(false));
+        boolean g = tree.add("aaa", "15");
+        assertThat(g, is(false));
+    }
+
+    /**
+     *Метод проверяет работу итератора.
+     */
+    @Test
+    public void iterator() {
         Iterator<String> it = tree.iterator();
-
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-
+        String one = it.next();
+        assertThat(one, is("1"));
+        it.next();
+        it.next();
+        String four = it.next();
+        assertThat(four, is("4"));
     }
 
 }

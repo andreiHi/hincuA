@@ -43,9 +43,9 @@ public class Catalog<T, V> implements Iterable {
     @Override
     public Iterator iterator() {
         return new Iterator() {
-            Entry<T, V> e;
-            int index = 0;
-            int i = 0;
+            private Entry<T, V> e;
+            private int index = 0;
+            private int i = 0;
 
             /**
              * Есть ли еще элементы.
@@ -63,7 +63,7 @@ public class Catalog<T, V> implements Iterable {
             @Override
             public Catalog.Entry<T, V> next() {
                 if (hasNext()) {
-                    for (; i < table.length; i++ ) {
+                    for (; i < table.length; i++) {
                         if (table[i] != null) {
                             e = table[i];
                             index++;
@@ -88,15 +88,15 @@ public class Catalog<T, V> implements Iterable {
         /**
          * хэш рассчитанный из хэшкода ключа.
          */
-        int hash;
+        private int hash;
         /**
          * Ключ.
          */
-        T key;
+        private T key;
         /**
          * Значение.
          */
-        V val;
+        private V val;
 
         /**
          * Конструктор.
@@ -104,7 +104,7 @@ public class Catalog<T, V> implements Iterable {
          * @param key ключ.
          * @param val значение.
          */
-        public Entry(int hash, T key, V val) {
+        private Entry(int hash, T key, V val) {
             this.hash = hash;
             this.key = key;
             this.val = val;
@@ -274,11 +274,4 @@ public class Catalog<T, V> implements Iterable {
         return h & (length - 1);
     }
 
-    public int getPozition() {
-        return pozition;
-    }
-
-    public int getSize() {
-        return size;
-    }
 }

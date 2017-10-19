@@ -3,11 +3,10 @@ package ru.job4j.collections.map;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests.
@@ -20,10 +19,10 @@ public class CatalogTest {
      * Каталог.
      */
     private Catalog<String, String> catalog;
-    @Before
     /**
      * Инициализация.
      */
+    @Before
     public void start() {
         catalog = new Catalog<>();
         catalog.insert("Ivanov", "Ivan");
