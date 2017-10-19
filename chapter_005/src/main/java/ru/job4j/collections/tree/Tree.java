@@ -1,8 +1,6 @@
 package ru.job4j.collections.tree;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  *Дерево.
@@ -37,30 +35,30 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
     @Override
     public boolean add(E parent, E child) {
-        boolean sucses = false;
+        boolean success = false;
         if (this.node == null) {
             this.node = new Node<>(parent);
             size++;
             this.node.addFirstChild(child);
-            sucses = true;
+            success = true;
             size++;
         } else {
-            if (!contains(node.children, child) && ! node.value.equals(child)) {
-                if (node.value.equals(parent)) {
+            if (!contains(node.children, child) &&  node.value.compareTo(child)!= 0) {
+                if (node.value.compareTo(parent) == 0) {
                     node.children.add(new Node<>(child));
-                    sucses = true;
+                    success = true;
                 } else {
-                    sucses = addChild(node.children, parent, child);
+                    success = addChild(node.children, parent, child);
                 }
                 size++;
             }
         }
-        return sucses;
+        return success;
     }
     private boolean addChild(List<Node<E>> list, E parent, E child) {
         boolean add = false;
         for (Node<E> node : list) {
-            if (node.value.equals(parent)) {
+            if (node.value.compareTo(parent) == 0) {
                 if (node.children == null) {
                     node.addFirstChild(child);
                     add = true;
@@ -87,19 +85,97 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
         return found;
     }
+    public boolean add1(E parent, E child) {
+        boolean success = false;
+        if (parent.compareTo(child) != 0) {
+            if (this.node == null) {
+                this.node = new Node<>(parent);
+                size++;
+                this.node.addFirstChild(child);
+                success = true;
+                size++;
+            } else {
+                if (node.value.compareTo(child) != 0) {
+                    if (node.value.compareTo(parent) == 0) {
+                        boolean con = false;
+                        for (Node<E> n : node.children) {
+                            if (n.value.compareTo(child) == 0) {
+                                con = true;
+                                break;
+                            }
+                        }
+                        if (!con) {
+                        node.children.add(new Node<>(child));
+                        success = true;}
+                    } else {
+                        success = addIfNotContains(node.children, parent, child);
+                    }
+                    size++;
+                }
+            }
+        }
+        return success;
+    }
+
+    public boolean addIfNotContains(List<Node<E>> list,E parent, E child) {
+        boolean found = false;
+        Node<E> nodeParent = null;
+        for (Node<E> n : list) {
+            if (n.value.compareTo(parent) == 0) {
+                nodeParent = n;
+            }
+            if (n.value.compareTo(child) == 0) {
+                found = true;
+                break;
+            }
+            if (n.children != null) {
+                found = addIfNotContains(n.children, parent, child);
+            }
+        }
+        if (!found && nodeParent != null) {
+            if (nodeParent.children == null) {
+                nodeParent.addFirstChild(child);
+            } else {
+                nodeParent.children.add(new Node<>(child));
+            }
+            found = true;
+        }
+        return  found;
+    }
     @Override
     public Iterator<E> iterator() {
+        Node<E>n = node;
         return new Iterator<E>() {
-            int pozition = 0;
-            Node<E> node;
+            List<Node<E>> list = new ArrayList<>();
+            Queue<Node<E>> queue = new ArrayDeque<>();
+            int position = 0;
+            Node<E> val;
             @Override
             public boolean hasNext() {
-                return pozition++ < size;
+                return position < size;
             }
 
             @Override
             public E next() {
-                return null;
+                if (hasNext()) {
+                    if (list.isEmpty()) {
+                        list.add(n);
+                        if (n.children != null) {
+                            queue.addAll(n.children);
+                        }
+                       val = n;
+                    } else {
+                        val = queue.poll();
+                        list.add(val);
+                        if (val.children != null) {
+                            queue.addAll(val.children);
+                        }
+                    }
+                } else {
+                    throw new NoSuchElementException();
+                }
+                position++;
+                return val.value;
             }
         };
     }

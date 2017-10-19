@@ -19,11 +19,11 @@ public class TreeTest {
     @Before
     public void start() {
         tree = new Tree<>();
-        tree.add("Hello","World");
-        tree.add("Hello", "is Good");
-        tree.add("is Good", "True");
-        boolean a = tree.add("True", "111");
-        boolean m = tree.add("True", "11");
+        tree.add1("Hello","World");
+        tree.add1("Hello", "is Good");
+        tree.add1("is Good", "True");
+        boolean a = tree.add1("True", "111");
+        boolean m = tree.add1("True", "11");
        // System.out.println(tree.getSize());
     }
     @Test
@@ -33,11 +33,11 @@ public class TreeTest {
     @Test
     public void iterator() throws Exception {
         Iterator<String> it = tree.iterator();
-        int coutn = 0;
+
         while (it.hasNext()) {
-            coutn++;
+            System.out.println(it.next());
         }
-        System.out.println(coutn);
+
     }
 
 }
