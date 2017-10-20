@@ -182,4 +182,29 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
         };
     }
+
+    /**
+     * Метод проверяет бинарночть дерева.
+     * @return true ели бинарное or false если у узла больше двух потомков.
+     */
+    public boolean isBinary() {
+        boolean binar = true;
+        Node<E> knot;
+        Queue<Node<E>> queue = new ArrayDeque<>();
+        if (node != null) {
+            queue.add(node);
+        }
+        while (!queue.isEmpty()) {
+            knot = queue.poll();
+            if (knot.children != null) {
+                if (knot.children.size() <= 2) {
+                    queue.addAll(knot.children);
+                } else {
+                    binar = false;
+                    break;
+                }
+            }
+        }
+        return binar;
+    }
 }

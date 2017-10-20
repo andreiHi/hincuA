@@ -60,4 +60,15 @@ public class TreeTest {
         assertThat(four, is("4"));
     }
 
+    /**
+     * Тест является ли дерево бинарным.
+     */
+    @Test
+    public void whenKnotHasThreeChildIsNotBinaryTree() {
+        assertThat(tree.isBinary(), is(true));
+        tree.add("3", "6");
+        tree.add("3", "8");
+        assertThat(tree.isBinary(), is(false));
+
+    }
 }
