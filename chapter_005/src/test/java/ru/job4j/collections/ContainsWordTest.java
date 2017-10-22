@@ -35,4 +35,9 @@ public class ContainsWordTest {
         assertThat(contains, is(true));
     }
 
+    @Test
+    public void whenUsingSort() {
+        boolean cont = con.contains2("mama","amam");
+        assertThat(cont, is(true));
+    }
 }

@@ -30,4 +30,25 @@ public class ContainsWord {
         }
         return contains;
     }
+
+    /**
+     * Поиск аннограмм.
+     * @param a 1 слово.
+     * @param b 2 слово.
+     * @return да нет.
+     */
+    public boolean contains2(String a, String b) {
+        return sort(a).equals(sort(b));
+    }
+
+    /**
+     * Отсортированное слово.
+     * @param s слово.
+     * @return .
+     */
+    public String sort(String s) {
+        char[]a = s.toCharArray();
+        Arrays.sort(a);
+        return new String(a);
+    }
 }
