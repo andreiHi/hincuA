@@ -1,8 +1,7 @@
 package ru.job4j.collections;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Word.
@@ -20,11 +19,26 @@ public class ContainsWord {
     public boolean contains(String a, String w) {
         boolean contains = false;
         if (a.length() == w.length()) {
-            ArrayList<String> list = new ArrayList<>();
-            String[] s = a.split("");
-            Collections.addAll(list, s);
-            list.removeAll(Arrays.asList(w.split("")));
-            if (list.isEmpty()) {
+            HashMap<String, Integer> map = new HashMap<>();
+            String[] charsA = a.split("");
+            for (String s : charsA) {
+                if (map.containsKey(s)) {
+                    map.put(s, map.get(s) + 1);
+                } else {
+                    map.put(s, 1);
+                }
+            }
+            String[] charsW = w.split("");
+            for (String s : charsW) {
+                if (!map.containsKey(s)) {
+                    break;
+                } else {
+                    if (map.get(s) > 1) {
+                        map.put(s, map.get(s) - 1);
+                    } else map.remove(s);
+                }
+            }
+            if (map.isEmpty()) {
                 contains = true;
             }
         }

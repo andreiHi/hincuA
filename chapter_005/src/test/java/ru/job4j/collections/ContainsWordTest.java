@@ -31,10 +31,13 @@ public class ContainsWordTest {
      */
     @Test
     public void whenFirstWordContainsSecondCharsOfWord() {
-        boolean contains = con.contains("mama", "amam");
+        boolean contains = con.contains("кавалерист", "акварелист");
         assertThat(contains, is(true));
     }
 
+    /**
+     * Тест второго способа.
+     */
     @Test
     public void whenUsingSort() {
         boolean cont = con.contains2("mama","amam");
