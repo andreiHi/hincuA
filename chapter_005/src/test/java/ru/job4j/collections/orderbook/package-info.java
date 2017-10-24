@@ -3,4 +3,4 @@
  * @version $Id$.
  * @since 0.1.
  */
-package ru.job4j.collections.orderBook;
+package ru.job4j.collections.orderbook;

@@ -1,4 +1,4 @@
-package ru.job4j.collections.orderBook;
+package ru.job4j.collections.orderbook;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -29,20 +29,20 @@ public class Handler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes att) throws SAXException {
+         order = new Order();
         if (qName.equals("AddOrder")) {
-            order = new Order();
-            String book = att.getValue(0);
-            order.setBook(book);
+            order.setBook(att.getValue(0));
             order.setOperation(att.getValue(1));
             order.setPrice(Float.valueOf(att.getValue(2)));
             order.setVolume(Integer.parseInt(att.getValue(3)));
-            int id = Integer.valueOf(att.getValue(4));
-            order.setId(id);
-            orderBook.add(book, id, order );
+            order.setId(Integer.valueOf(att.getValue(4)));
+            orderBook.addOrRemove( order, true);
         } else if (qName.equals("DeleteOrder")) {
             String book = att.getValue(0);
             int id = Integer.parseInt(att.getValue(1));
-            orderBook.delete(id, book);
+            order.setBook(book);
+            order.setId(id);
+            orderBook.addOrRemove(order, false);
         }
     }
 

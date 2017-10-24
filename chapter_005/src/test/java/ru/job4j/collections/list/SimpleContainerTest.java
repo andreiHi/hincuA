@@ -28,7 +28,7 @@ public class SimpleContainerTest {
     }
 
     /**
-     * Тест методов add and get с проверкой увеличения длинны массива.
+     * Тест методов addOrRemove and get с проверкой увеличения длинны массива.
      */
     @Test
     public void whenAddedTwoElementsAndGetSecond() {

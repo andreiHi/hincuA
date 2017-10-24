@@ -35,7 +35,9 @@ public class ContainsWord {
                 } else {
                     if (i > 1) {
                         map.put(s, map.get(s) - 1);
-                    } else map.remove(s);
+                    } else {
+                        map.remove(s);
+                    }
                 }
             }
             if (map.isEmpty()) {

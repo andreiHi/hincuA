@@ -28,7 +28,7 @@ public class UserStoreTest {
     }
 
     /**
-     *Тест методов add update getByIndex.
+     *Тест методов addOrRemove update getByIndex.
      */
     @Test
     public void whenElementWasUpdate() {

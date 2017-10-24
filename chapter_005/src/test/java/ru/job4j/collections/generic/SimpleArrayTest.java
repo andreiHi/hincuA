@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleArrayTest {
     /**
-     * Тест метода add и выход за границы массива.
+     * Тест метода addOrRemove и выход за границы массива.
      * @throws Exception ex.
      */
     @Test(expected = ArrayIndexOutOfBoundsException.class)

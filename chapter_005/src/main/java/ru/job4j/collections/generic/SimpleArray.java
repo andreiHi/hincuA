@@ -2,7 +2,7 @@ package ru.job4j.collections.generic;
 
 /**
  *SimpleArray .
- * Доделать контейнер SimpleArray<T> добавить методы add, update, delete, get(int index).
+ * Доделать контейнер SimpleArray<T> добавить методы addOrRemove, update, delete, get(int index).
  * @author Hincu Andrei (andreih1981@gmail.com) by 05.10.17;
  * @version $Id$
  * @since 0.1

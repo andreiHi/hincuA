@@ -1,9 +1,7 @@
-package ru.job4j.collections.orderBook;
+package ru.job4j.collections.orderbook;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 23.10.2017.

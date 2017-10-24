@@ -1,4 +1,4 @@
-package ru.job4j.collections.orderBook;
+package ru.job4j.collections.orderbook;
 
 import java.util.Comparator;
 
@@ -58,5 +58,10 @@ public class Order implements Comparator<Order> {
     @Override
     public int compare(Order order, Order t1) {
         return (int) (order.price - t1.price);
+    }
+
+    @Override
+    public String toString() {
+        return price + " " + volume;
     }
 }
