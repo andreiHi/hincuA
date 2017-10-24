@@ -12,6 +12,11 @@ import org.xml.sax.helpers.DefaultHandler;
 public class Handler extends DefaultHandler {
     Order order;
     OrderBook orderBook;
+
+    public Handler(OrderBook orderBook) {
+        this.orderBook = orderBook;
+    }
+
     @Override
     public void startDocument() throws SAXException {
         System.out.println("Start parsing.");
@@ -26,16 +31,18 @@ public class Handler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes att) throws SAXException {
         if (qName.equals("AddOrder")) {
             order = new Order();
-            order.setBook(att.getValue(0));
+            String book = att.getValue(0);
+            order.setBook(book);
             order.setOperation(att.getValue(1));
             order.setPrice(Float.valueOf(att.getValue(2)));
             order.setVolume(Integer.parseInt(att.getValue(3)));
-            order.setId(Integer.parseInt(att.getValue(4)));
-            orderBook.add(order.getBook(), order.getId(), order );
+            int id = Integer.valueOf(att.getValue(4));
+            order.setId(id);
+            orderBook.add(book, id, order );
         } else if (qName.equals("DeleteOrder")) {
-            order.setBook(att.getValue(0));
-            order.setId(Integer.parseInt(att.getValue(1)));
-
+            String book = att.getValue(0);
+            int id = Integer.parseInt(att.getValue(1));
+            orderBook.delete(id, book);
         }
     }
 

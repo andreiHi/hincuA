@@ -1,12 +1,14 @@
 package ru.job4j.collections.orderBook;
 
+import java.util.Comparator;
+
 /**
  * Ордер.
  * @author Hincu Andrei (andreih1981@gmail.com)on 23.10.2017.
  * @version $Id$.
  * @since 0.1.
  */
-public class Order {
+public class Order implements Comparator<Order> {
     private String book;
     private String operation;
     private float price;
@@ -51,5 +53,10 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int compare(Order order, Order t1) {
+        return (int) (order.price - t1.price);
     }
 }

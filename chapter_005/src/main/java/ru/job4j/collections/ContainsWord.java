@@ -22,18 +22,18 @@ public class ContainsWord {
             HashMap<String, Integer> map = new HashMap<>();
             String[] charsA = a.split("");
             for (String s : charsA) {
-                if (map.containsKey(s)) {
+                Integer absent = map.putIfAbsent(s, 1);
+                if (null != absent) {
                     map.put(s, map.get(s) + 1);
-                } else {
-                    map.put(s, 1);
                 }
             }
             String[] charsW = w.split("");
             for (String s : charsW) {
-                if (!map.containsKey(s)) {
+                Integer i;
+                if ((i = map.get(s)) == null) {
                     break;
                 } else {
-                    if (map.get(s) > 1) {
+                    if (i > 1) {
                         map.put(s, map.get(s) - 1);
                     } else map.remove(s);
                 }

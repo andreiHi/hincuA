@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Order book.
@@ -16,9 +17,10 @@ import java.util.Map;
  */
 public class OrderBook {
 
-    Map<Integer, Order> book1 = new HashMap<>();
-    Map<Integer, Order> book2 = new HashMap<>();
-    Map<Integer, Order> book3 = new HashMap<>();
+    private Map<Integer, Order> book1 = new HashMap<>(300000);
+    private Map<Integer, Order> book2 = new HashMap<>(300000);
+    private Map<Integer, Order> book3 = new HashMap<>(300000);
+    private Map<Integer, Order> sortedBook1 = new TreeMap<>();
 
 
     public void parseXml() throws ParserConfigurationException, IOException, SAXException {
@@ -33,20 +35,26 @@ public class OrderBook {
 //            Node n = list.item(i);
 //        }
         SAXParserFactory factory = SAXParserFactory.newInstance();
-        Handler handler = new Handler();
+        Handler handler = new Handler(this);
         SAXParser saxParser = factory.newSAXParser();
         saxParser.parse(new File("orders.xml"), handler);
     }
     public void add(String book, int id, Order order) {
-        if (book.equals("book1")) {
-
-        } else if (book.equals("book2")) {
-
-        } else {
-
+        if (book.equals("book-1")) {
+            book1.put(id, order);
+        } else if (book.equals("book-2")) {
+            book2.put(id, order);
+        } else  if (book.equals("book-3")){
+            book3.put(id, order);
         }
     }
-    public void delete() {
-
+    public void delete(int id, String book) {
+        if (book.equals("book-1")) {
+            book1.remove(id);
+        } else if (book.equals("book-2")) {
+            book2.remove(id);
+        } else  if (book.equals("book-3")){
+            book3.remove(id);
+        }
     }
 }
