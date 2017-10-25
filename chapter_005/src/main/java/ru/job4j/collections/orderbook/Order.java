@@ -8,7 +8,7 @@ import java.util.Comparator;
  * @version $Id$.
  * @since 0.1.
  */
-public class Order implements Comparator<Order> {
+public class Order implements Comparable<Order> {
     private String book;
     private String operation;
     private float price;
@@ -55,13 +55,18 @@ public class Order implements Comparator<Order> {
         this.id = id;
     }
 
-    @Override
-    public int compare(Order order, Order t1) {
-        return (int) (order.price - t1.price);
-    }
 
     @Override
     public String toString() {
         return price + " " + volume;
+    }
+
+    @Override
+    public int compareTo(Order order) {
+        int temp = this.operation.compareTo(order.operation);
+        if (temp == 0) {
+            temp = (int) (this.getPrice() - order.getPrice());
+        }
+        return temp;
     }
 }

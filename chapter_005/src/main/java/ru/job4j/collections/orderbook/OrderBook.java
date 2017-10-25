@@ -29,7 +29,7 @@ public class OrderBook {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         Handler handler = new Handler(this);
         SAXParser saxParser = factory.newSAXParser();
-        saxParser.parse(new File("orders.xml"), handler);
+        saxParser.parse(new File("order.xml"), handler);
     }
 
     public void addOrRemove(Order order, boolean flag) {
@@ -42,10 +42,42 @@ public class OrderBook {
         }
     }
 
-    public void agregate() {
+    public HashMap<String, TreeSet<Order>> agregate() {
+        HashMap<String, TreeSet<Order>>result = new HashMap<>();
         for (HashMap<Integer, Order> map : orders.values()) {
-
+            for (Order order : map.values()) {
+                result.putIfAbsent(order.getBook(), new TreeSet<Order>());
+                TreeSet<Order> tree = result.get(order.getBook());
+                if (!tree.isEmpty()) {
+                    for (Order treeOrder : tree) {
+                        if (treeOrder.getPrice() == order.getPrice()) {
+                            if (treeOrder.getOperation().equals(order.getOperation())) {
+                                treeOrder.setVolume(treeOrder.getVolume() + order.getVolume());
+                            } else {
+                                if (treeOrder.getVolume() == order.getVolume()) {
+                                    tree.remove(treeOrder);
+                                    break;
+                                } else {
+                                    int val =  order.getVolume() - treeOrder.getVolume();
+                                    if (val > 0) {
+                                        tree.remove(treeOrder);
+                                        order.setVolume(val);
+                                        tree.add(order);
+                                        break;
+                                    } else {
+                                        treeOrder.setVolume(Math.abs(val));
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if () {
+                        }
+                    }
+                } else {
+                    tree.add(order);
+                }
+            }
         }
-
+        return result;
     }
 }

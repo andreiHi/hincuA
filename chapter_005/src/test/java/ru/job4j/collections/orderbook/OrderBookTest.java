@@ -18,5 +18,6 @@ public class OrderBookTest {
     @Test
     public void name() throws Exception {
     orderBook.parseXml();
+    orderBook.agregate();
     }
 }
