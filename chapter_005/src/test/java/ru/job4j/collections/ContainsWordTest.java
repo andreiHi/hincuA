@@ -40,7 +40,7 @@ public class ContainsWordTest {
      */
     @Test
     public void whenUsingSort() {
-        boolean cont = con.contains2("mama","amam");
+        boolean cont = con.contains2("mama", "amam");
         assertThat(cont, is(true));
     }
 }

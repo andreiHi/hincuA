@@ -36,7 +36,7 @@ public class Handler extends DefaultHandler {
             order.setPrice(Float.valueOf(att.getValue(2)));
             order.setVolume(Integer.parseInt(att.getValue(3)));
             order.setId(Integer.valueOf(att.getValue(4)));
-            orderBook.addOrRemove( order, true);
+            orderBook.addOrRemove(order, true);
         } else if (qName.equals("DeleteOrder")) {
             String book = att.getValue(0);
             int id = Integer.parseInt(att.getValue(1));

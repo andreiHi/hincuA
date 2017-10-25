@@ -1,7 +1,5 @@
 package ru.job4j.collections.orderbook;
 
-import java.util.Comparator;
-
 /**
  * Ордер.
  * @author Hincu Andrei (andreih1981@gmail.com)on 23.10.2017.
@@ -14,6 +12,15 @@ public class Order implements Comparable<Order> {
     private float price;
     private int volume;
     private int id;
+
+    public Order() {
+    }
+
+    public Order(String operation, float price, int volume) {
+        this.operation = operation;
+        this.price = price;
+        this.volume = volume;
+    }
 
     public String getBook() {
         return book;
@@ -58,15 +65,69 @@ public class Order implements Comparable<Order> {
 
     @Override
     public String toString() {
-        return price + " " + volume;
+        String s = "";
+        if (this.operation.equals("SELL")) {
+            s = "            " + price + " " + volume;
+        } else {
+            s = volume + " " + price;
+        }
+        return s;
     }
 
     @Override
     public int compareTo(Order order) {
-        int temp = this.operation.compareTo(order.operation);
+        int temp = order.operation.compareTo(this.operation);
         if (temp == 0) {
-            temp = (int) (this.getPrice() - order.getPrice());
+            if (this.operation.equals("BUY")) {
+                if (this.getPrice() - order.getPrice() > 0) {
+                    temp = 1;
+                } else {
+                    temp = -1;
+                }
+            } else {
+                if (order.getPrice() - this.getPrice() > 0) {
+                    temp = 1;
+                } else {
+                    temp = -1;
+                }
+            }
         }
         return temp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Order order = (Order) o;
+
+        if (Float.compare(order.price, price) != 0) {
+            return false;
+        }
+        if (volume != order.volume) {
+            return false;
+        }
+        if (id != order.id) {
+            return false;
+        }
+        if (book != null ? !book.equals(order.book) : order.book != null) {
+            return false;
+        }
+        return operation != null ? operation.equals(order.operation) : order.operation == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = book != null ? book.hashCode() : 0;
+        result = 31 * result + (operation != null ? operation.hashCode() : 0);
+        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
+        result = 31 * result + volume;
+        result = 31 * result + id;
+        return result;
     }
 }

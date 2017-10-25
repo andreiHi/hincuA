@@ -29,8 +29,8 @@ public class ContainsWord {
             }
             String[] charsW = w.split("");
             for (String s : charsW) {
-                Integer i;
-                if ((i = map.get(s)) == null) {
+                Integer i = map.get(s);
+                if (i  == null) {
                     break;
                 } else {
                     if (i > 1) {

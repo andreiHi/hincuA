@@ -31,6 +31,9 @@ public class Triangle {
         this.c = c;
     }
 
+    public Triangle() {
+    }
+
     /**
      * Метод вычисляет расстояние между точками.
      * формула  √(xb - xa)^2 + (yb - ya)^2.

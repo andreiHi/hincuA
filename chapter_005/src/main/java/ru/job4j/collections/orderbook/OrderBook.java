@@ -1,7 +1,6 @@
 package ru.job4j.collections.orderbook;
 
 import org.xml.sax.SAXException;
-import ru.job4j.collections.tree.Tree;
 
 import javax.xml.parsers.*;
 import java.io.File;
@@ -29,7 +28,7 @@ public class OrderBook {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         Handler handler = new Handler(this);
         SAXParser saxParser = factory.newSAXParser();
-        saxParser.parse(new File("order.xml"), handler);
+        saxParser.parse(new File("orders.xml"), handler);
     }
 
     public void addOrRemove(Order order, boolean flag) {
@@ -42,36 +41,66 @@ public class OrderBook {
         }
     }
 
-    public HashMap<String, TreeSet<Order>> agregate() {
-        HashMap<String, TreeSet<Order>>result = new HashMap<>();
+    public HashMap<String, TreeSet<Order>> aggregation() {
+        HashMap<String, TreeSet<Order>> result = new HashMap<>();
         for (HashMap<Integer, Order> map : orders.values()) {
             for (Order order : map.values()) {
                 result.putIfAbsent(order.getBook(), new TreeSet<Order>());
                 TreeSet<Order> tree = result.get(order.getBook());
                 if (!tree.isEmpty()) {
-                    for (Order treeOrder : tree) {
-                        if (treeOrder.getPrice() == order.getPrice()) {
-                            if (treeOrder.getOperation().equals(order.getOperation())) {
-                                treeOrder.setVolume(treeOrder.getVolume() + order.getVolume());
-                            } else {
-                                if (treeOrder.getVolume() == order.getVolume()) {
-                                    tree.remove(treeOrder);
+                    for (Iterator<Order> iterator = tree.iterator(); iterator.hasNext(); ) {
+                        Order treeOrder = iterator.next();
+                        boolean f = false;
+                        final float prise = order.getPrice() - treeOrder.getPrice();
+                        final String treeOrderOperation = treeOrder.getOperation();
+                        final String orderOperation = order.getOperation();
+                        final int volume = order.getVolume() - treeOrder.getVolume();
+                        if (prise == 0 && treeOrderOperation.equals(orderOperation)) {
+                            treeOrder.setVolume(treeOrder.getVolume() + order.getVolume());
+                            break;
+                        } else if (prise >= 0) {
+                            if (orderOperation.equals("BUY") && treeOrderOperation.equals("SELL")) {
+                                if (volume > 0) {
+                                    iterator.remove(treeOrder);
+                                   // tree.remove(treeOrder);
+                                    order.setVolume(volume);
+                                    tree.add(order);
+
                                     break;
                                 } else {
-                                    int val =  order.getVolume() - treeOrder.getVolume();
-                                    if (val > 0) {
-                                        tree.remove(treeOrder);
-                                        order.setVolume(val);
-                                        tree.add(order);
-                                        break;
+                                    if (volume >= 0) {
+                                        if (volume == 0) {
+                                           // tree.remove(treeOrder);
+                                            iterator.remove();
+                                            break;
+                                        }
                                     } else {
-                                        treeOrder.setVolume(Math.abs(val));
+                                        treeOrder.setVolume(Math.abs(volume));
                                         break;
                                     }
                                 }
                             }
-                        } else if () {
+                        } else if (prise <= 0) {
+                            if (orderOperation.equals("SELL") && treeOrderOperation.equals("BUY")) {
+                                if (volume > 0) {
+                                   // tree.remove(treeOrder);
+                                    iterator.remove();
+                                    order.setVolume(volume);
+                                    tree.add(order);
+                                    break;
+                                }
+                                if (volume < 0) {
+                                    treeOrder.setVolume(Math.abs(volume));
+                                    break;
+                                }
+                                if (volume == 0) {
+                                   // tree.remove(treeOrder);
+                                    iterator.remove();
+                                    break;
+                                }
+                            }
                         }
+                        tree.add(order);
                     }
                 } else {
                     tree.add(order);
