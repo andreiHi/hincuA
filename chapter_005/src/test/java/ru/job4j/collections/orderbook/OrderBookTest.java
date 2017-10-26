@@ -37,7 +37,9 @@ public class OrderBookTest {
         set.add(order1);
         set.add(order);
         for (Order o : set) {
+            set.remove(order3);
             System.out.println(o);
+
         }
 
     }
