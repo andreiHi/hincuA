@@ -28,7 +28,7 @@ public class OrderBook {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         Handler handler = new Handler(this);
         SAXParser saxParser = factory.newSAXParser();
-        saxParser.parse(new File("order.xml"), handler);
+        saxParser.parse(new File("orders.xml"), handler);
     }
 
     public void addOrRemove(Order order, boolean flag) {
@@ -53,28 +53,31 @@ public class OrderBook {
                     for (Iterator<Order> iterator = tree.iterator(); iterator.hasNext(); ) {
                         Order treeOrder = iterator.next();
 
-                        final float prise = order.getPrice() - treeOrder.getPrice();
-                        final String treeOrderOperation = treeOrder.getOperation();
-                        final String orderOperation = order.getOperation();
-                        final int volume = order.getVolume() - treeOrder.getVolume();
-                        if (prise == 0 && treeOrderOperation.equals(orderOperation)) {
-                            treeOrder.setVolume(treeOrder.getVolume() + order.getVolume());
-                            f = true;
-                            break;
+                         float prise = order.getPrice() - treeOrder.getPrice();
+                         int volume = order.getVolume() - treeOrder.getVolume();
+                        String treeOrderOperation = treeOrder.getOperation();
+                        String orderOperation = order.getOperation();
+
+                        if (prise == 0) {
+                            if (treeOrderOperation.equals(orderOperation)) {
+                                int newVal = treeOrder.getVolume() + order.getVolume();
+                                treeOrder.setVolume(newVal);
+                                f = true;
+                                break;
+                            } else {
+                                treeOrder.setVolume(Math.abs(volume));
+                                f = true;
+                                break;
+                            }
                         }
-                        if (prise >= 0) {
+                        if (prise > 0) {
                             if (orderOperation.equals("BUY") && treeOrderOperation.equals("SELL")) {
                                 if (volume > 0) {
                                     iterator.remove();
-                                    // tree.remove(treeOrder);
                                     order.setVolume(volume);
-                                    tree.add(order);
-                                    f = true;
-                                    break;
-                                }////
+                                }
                                 if (volume < 0) {
                                     treeOrder.setVolume(Math.abs(volume));
-                                    //  treeOrder.setPrice(order.getPrice());
                                     f = true;
                                     break;
                                 }
@@ -85,24 +88,18 @@ public class OrderBook {
                                 }
                             }
                         }
-                        if (prise <= 0) {
+                        if (prise < 0) {
                             if (orderOperation.equals("SELL") && treeOrderOperation.equals("BUY")) {
                                 if (volume > 0) {
-                                    // tree.remove(treeOrder);
                                     iterator.remove();
                                     order.setVolume(volume);
-                                    tree.add(order);
-                                    f = true;
-                                    break;
                                 }
                                 if (volume < 0) {
                                     treeOrder.setVolume(Math.abs(volume));
-                                    // treeOrder.setPrice(order.getPrice());
                                     f = true;
                                     break;
                                 }
                                 if (volume == 0) {
-                                    // tree.remove(treeOrder);
                                     iterator.remove();
                                     f = true;
                                     break;
