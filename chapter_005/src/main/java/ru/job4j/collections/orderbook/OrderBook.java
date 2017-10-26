@@ -71,7 +71,7 @@ public class OrderBook {
                                     tree.add(order);
                                     f = true;
                                     break;
-                                }
+                                }////
                                 if (volume < 0) {
                                     treeOrder.setVolume(Math.abs(volume));
                                     //  treeOrder.setPrice(order.getPrice());
