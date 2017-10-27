@@ -78,11 +78,19 @@ public class Order implements Comparable<Order> {
     public int compareTo(Order order) {
         int temp = order.operation.compareTo(this.operation);
         if (temp == 0) {
+            if (this.operation.equals("BUY")) {
                 if ((order.getPrice() - this.getPrice()) > 0) {
                     temp = 1;
-                } else if ((order.getPrice() - this.getPrice()) < 0) {
+                } else {
                     temp = -1;
                 }
+            } else {
+                if ((order.getPrice() - this.getPrice()) < 0) {
+                    temp = 1;
+                } else {
+                    temp = -1;
+                }
+            }
         }
         return temp;
     }

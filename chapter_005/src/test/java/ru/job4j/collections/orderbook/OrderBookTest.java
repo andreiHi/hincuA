@@ -59,4 +59,10 @@ public class OrderBookTest {
 
 
     }
+
+    @Test
+    public void nab11() throws Exception {
+        orderBook.parseXml();
+        orderBook.aggrr();
+    }
 }
