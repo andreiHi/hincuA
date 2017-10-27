@@ -1,9 +1,7 @@
 package ru.job4j.collections.orderbook;
 
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.*;
-import java.awt.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -25,7 +23,7 @@ public class OrderBook {
      * @throws IOException
      * @throws SAXException
      */
-    public void parseXml() throws ParserConfigurationException, IOException, SAXException {
+    private void parseXml() throws ParserConfigurationException, IOException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         Handler handler = new Handler(this);
         SAXParser saxParser = factory.newSAXParser();
@@ -42,106 +40,75 @@ public class OrderBook {
         }
     }
 
-    public HashMap<String, TreeSet<Order>> aggregation() {
-        HashMap<String, TreeSet<Order>> result = new HashMap<>();
+    public void start() throws IOException, SAXException, ParserConfigurationException {
+        this.parseXml();
         for (TreeMap<Integer, Order> map : orders.values()) {
-
-            for (Order newOrder : map.values()) {
-                boolean f = false;
-                result.putIfAbsent(newOrder.getBook(), new TreeSet<Order>());
-                TreeSet<Order> tree = result.get(newOrder.getBook());
-                if (tree.isEmpty()) {
-                    tree.add(newOrder);
-                } else {
-                    for (Iterator<Order> iterator = tree.iterator(); iterator.hasNext(); ) {
-                        Order treeOrder = iterator.next();
-
-                        float prise = newOrder.getPrice() - treeOrder.getPrice();
-                        int volume = newOrder.getVolume() - treeOrder.getVolume();
-                        String treeOrderOperation = treeOrder.getOperation();
-                        String orderOperation = newOrder.getOperation();
-
-                        if (prise == 0) {
-                            if (treeOrderOperation.equals(orderOperation)) {
-                                int newVal = treeOrder.getVolume() + newOrder.getVolume();
-                                treeOrder.setVolume(newVal);
-                                f = true;
-                                break;
-                            }
-                        }
-                        if (prise >= 0) {
-                            if (orderOperation.equals("BUY") && treeOrderOperation.equals("SELL")) {
-                                if (volume > 0) {
-                                    iterator.remove();
-                                    newOrder.setVolume(volume);
-                                }
-                                if (volume < 0) {
-                                    treeOrder.setVolume(Math.abs(volume));
-                                    f = true;
-                                    break;
-                                }
-                                if (volume == 0) {
-                                    iterator.remove();
-                                    f = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (prise <= 0) {
-                            if (orderOperation.equals("SELL") && treeOrderOperation.equals("BUY")) {
-                                if (volume > 0) {
-                                    iterator.remove();
-                                    newOrder.setVolume(volume);
-                                }
-                                if (volume < 0) {
-                                    treeOrder.setVolume(Math.abs(volume));
-                                    f = true;
-                                    break;
-                                }
-                                if (volume == 0) {
-                                    iterator.remove();
-                                    f = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (!f) {
-                        tree.add(newOrder);
-                    }
-                }
-            }
-        }
-        return result;
-    }
-    public void aggrr() {
-        TreeSet<Order> buy = new TreeSet<>();
-        TreeSet<Order> sell = new TreeSet<>();
-        for (TreeMap<Integer, Order> map : orders.values()) {
+            TreeSet<Order> buy = new TreeSet<>();
+            TreeSet<Order> sell = new TreeSet<>();
             for (Order newOrder : map.values()) {
                 String newOrOperation = newOrder.getOperation();
                 if (newOrOperation.equals("BUY")) {
-                   buy = summ(buy, newOrder);
+                    buy = amount(buy, newOrder);
                 } else {
-                    sell = summ(sell,newOrder);
+                    sell = amount(sell,newOrder);
+                }
+            }
+            ArrayList<TreeSet<Order>> list = new ArrayList<>();
+            aggregation(buy, sell);
+            list.add(buy);
+            list.add(sell);
+            printOrders(list);
+        }
+    }
+
+    private void printOrders(ArrayList<TreeSet<Order>> list) {
+        System.out.println(list);
+    }
+
+    private void aggregation(TreeSet<Order> buy, TreeSet<Order> sell) {
+        Iterator<Order> iteratorBuy = buy.iterator();
+        while (iteratorBuy.hasNext()){
+            Order orderBuy = iteratorBuy.next();
+            for (Iterator<Order> iteratorSell = sell.iterator(); iteratorSell.hasNext(); ) {
+                Order orderSell = iteratorSell.next();
+                float prise = orderBuy.getPrice() - orderSell.getPrice();
+                int volume = orderBuy.getVolume() - orderSell.getVolume();
+                if (prise < 0) {
+                    break;
+                }
+                if (prise >= 0) {
+                    if (volume > 0) {
+                        iteratorSell.remove();
+                        orderBuy.setVolume(volume);
+                    }
+                    if (volume < 0) {
+                        iteratorBuy.remove();
+                        orderSell.setVolume(Math.abs(volume));
+                        break;
+                    }
+                    if (volume == 0) {
+                        iteratorBuy.remove();
+                        iteratorSell.remove();
+                        break;
+                    }
                 }
             }
         }
-        System.out.println("");
     }
-    public TreeSet<Order> summ(TreeSet<Order> set, Order order) {
+
+    public TreeSet<Order> amount(TreeSet<Order> set, Order order) {
         if (set.isEmpty()) {
             set.add(order);
         } else {
-            boolean f = false;
+            boolean found = false;
             for (Order o : set) {
                 if (o.getPrice() == order.getPrice()) {
                     o.setVolume(o.getVolume() + order.getVolume());
-                    f = true;
+                    found = true;
                     break;
                 }
             }
-            if (!f) {
+            if (!found) {
                 set.add(order);
             }
         }

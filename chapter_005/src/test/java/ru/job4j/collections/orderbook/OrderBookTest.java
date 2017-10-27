@@ -2,9 +2,6 @@ package ru.job4j.collections.orderbook;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -22,7 +19,7 @@ public class OrderBookTest {
     @Test
     public void name() throws Exception {
     orderBook.parseXml();
-    orderBook.aggregation();
+   // orderBook.aggregation();
     }
 
     @Test
@@ -46,23 +43,22 @@ public class OrderBookTest {
         @Test
     public void print1() throws Exception {
         orderBook.parseXml();
-
-        HashMap<String, TreeSet<Order>> map = orderBook.aggregation();
-        for (Map.Entry<String, TreeSet<Order>> m : map.entrySet()) {
-            String bookName = m.getKey();
-            TreeSet<Order> ordersToPrint = m.getValue();
-            System.out.println(bookName);
-            for (Order order : ordersToPrint) {
-                System.out.println(order);
-            }
-        }
+//
+//        HashMap<String, TreeSet<Order>> map = orderBook.aggregation();
+//        for (Map.Entry<String, TreeSet<Order>> m : map.entrySet()) {
+//            String bookName = m.getKey();
+//            TreeSet<Order> ordersToPrint = m.getValue();
+//            System.out.println(bookName);
+//            for (Order order : ordersToPrint) {
+//                System.out.println(order);
+//            }
+//        }
 
 
     }
 
     @Test
     public void nab11() throws Exception {
-        orderBook.parseXml();
-        orderBook.aggrr();
+        orderBook.start();
     }
 }

@@ -65,11 +65,11 @@ public class Order implements Comparable<Order> {
 
     @Override
     public String toString() {
-        String s = "";
+        String s;
         if (this.operation.equals("SELL")) {
-            s = "            " + price + " @ " + volume;
+            s = price + "@" + volume;
         } else {
-            s = volume + " " + price;
+            s = volume + "@" + price;
         }
         return s;
     }
