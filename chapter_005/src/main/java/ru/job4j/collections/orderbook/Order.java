@@ -67,13 +67,18 @@ public class Order implements Comparable<Order> {
     public String toString() {
         String s;
         if (this.operation.equals("SELL")) {
-            s = price + "@" + volume;
+            s = price + " @ " + volume;
         } else {
-            s = volume + "@" + price;
+            s = volume + " @ " + price;
         }
         return s;
     }
 
+    /**
+     * Метод сравнивает объекты по типу операции если они равны тогда по цене.
+     * @param order ордер с которым сравнивается.
+     * @return больше или меньше для позиции в треесете.
+     */
     @Override
     public int compareTo(Order order) {
         int temp = order.operation.compareTo(this.operation);

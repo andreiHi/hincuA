@@ -19,17 +19,30 @@ public class OrderBook {
     private Map<String, TreeMap<Integer, Order>> orders = new HashMap<>();
 
     /**
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     *Метод осуществляет парсинг файла.
      */
-    private void parseXml() throws ParserConfigurationException, IOException, SAXException {
+    private void parseXml() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         Handler handler = new Handler(this);
-        SAXParser saxParser = factory.newSAXParser();
-        saxParser.parse(new File("orders.xml"), handler);
+        SAXParser saxParser;
+        try {
+            saxParser = factory.newSAXParser();
+            saxParser.parse(new File("orders.xml"), handler);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
+    /**
+     * Метод добовляет или удаляет заявки из хранилища по мере парсинга файла.
+     * @param order заявка.
+     * @param flag флаг true - добавить заявку. false - удалить заявку из хранилища.
+     */
     public void addOrRemove(Order order, boolean flag) {
         orders.putIfAbsent(order.getBook(), new TreeMap<Integer, Order>());
         if (flag) {
@@ -40,36 +53,70 @@ public class OrderBook {
         }
     }
 
-    public void start() throws IOException, SAXException, ParserConfigurationException {
+    /**
+     * Глвавный метод запускает парсинг, суммирование и агрегацию встречных заявок.
+     */
+    public void start() {
         this.parseXml();
-        for (TreeMap<Integer, Order> map : orders.values()) {
+        for (HashMap.Entry<String, TreeMap<Integer, Order>> map : orders.entrySet()) {
+            String bookName = map.getKey();
+            TreeMap<Integer, Order> values = map.getValue();
             TreeSet<Order> buy = new TreeSet<>();
             TreeSet<Order> sell = new TreeSet<>();
-            for (Order newOrder : map.values()) {
-                String newOrOperation = newOrder.getOperation();
-                if (newOrOperation.equals("BUY")) {
-                    buy = amount(buy, newOrder);
+            for (Order order : values.values()) {
+                String operation = order.getOperation();
+                if (operation.equals("BUY")) {
+                    buy = amount(buy, order);
                 } else {
-                    sell = amount(sell,newOrder);
+                    sell = amount(sell, order);
                 }
             }
-            ArrayList<TreeSet<Order>> list = new ArrayList<>();
-            aggregation(buy, sell);
-            list.add(buy);
-            list.add(sell);
-            printOrders(list);
+            this.aggregation(buy, sell);
+            this.printOrders(buy, sell, bookName);
         }
     }
 
-    private void printOrders(ArrayList<TreeSet<Order>> list) {
-        System.out.println(list);
+    /**
+     * Метод формирует вывод бижевого стакана в указанных требованиях.
+     * @param buy коллекция с заявками на покупку.
+     * @param sell коллекция с заявками на продажу.
+     * @param bookName Имя книги заявок.
+     */
+    public void printOrders(TreeSet<Order> buy, TreeSet<Order> sell, String bookName) {
+        String line = System.lineSeparator();
+        StringBuffer sb = new StringBuffer();
+        sb.append(bookName).append(line);
+        sb.append("   Bid            ASK").append(line);
+        Iterator<Order> buyIterator = buy.iterator();
+        Iterator<Order> sellIterator = sell.iterator();
+        if (buy.size() > sell.size()) {
+            while (sellIterator.hasNext()) {
+               sb.append(String.format("%15s %s", buyIterator.next(), sellIterator.next())).append(line);
+            }
+            while (buyIterator.hasNext()) {
+                sb.append(String.format("%15s -----------", buyIterator.next())).append(line);
+            }
+        } else {
+            while (buyIterator.hasNext()) {
+                sb.append(String.format("%15s %s", buyIterator.next(), sellIterator.next())).append(line);
+            }
+            while (sellIterator.hasNext()) {
+                sb.append(String.format("--------------- %s", sellIterator.next())).append(line);
+            }
+        }
+        System.out.println(sb);
     }
 
-    private void aggregation(TreeSet<Order> buy, TreeSet<Order> sell) {
+    /**
+     * Метод производит агрегацию встречных заявок.
+     * @param buy сет с заявками на покупку.
+     * @param sell сет с заявками на продажу.
+     */
+    public void aggregation(TreeSet<Order> buy, TreeSet<Order> sell) {
         Iterator<Order> iteratorBuy = buy.iterator();
-        while (iteratorBuy.hasNext()){
+        while (iteratorBuy.hasNext()) {
             Order orderBuy = iteratorBuy.next();
-            for (Iterator<Order> iteratorSell = sell.iterator(); iteratorSell.hasNext(); ) {
+            for (Iterator<Order> iteratorSell = sell.iterator(); iteratorSell.hasNext();) {
                 Order orderSell = iteratorSell.next();
                 float prise = orderBuy.getPrice() - orderSell.getPrice();
                 int volume = orderBuy.getVolume() - orderSell.getVolume();
@@ -96,6 +143,12 @@ public class OrderBook {
         }
     }
 
+    /**
+     * Метод производитт суммирование обьема заявок с одинаковой ценой.
+     * @param set сет однотипных заявок
+     * @param order заявка.
+     * @return отсортированный сет с уникальными ценами.
+     */
     public TreeSet<Order> amount(TreeSet<Order> set, Order order) {
         if (set.isEmpty()) {
             set.add(order);

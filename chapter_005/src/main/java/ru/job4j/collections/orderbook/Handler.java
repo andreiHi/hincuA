@@ -10,23 +10,49 @@ import org.xml.sax.helpers.DefaultHandler;
  * @since 0.1.
  */
 public class Handler extends DefaultHandler {
-    Order order;
-    OrderBook orderBook;
+    /**
+     * Ордер.
+     */
+    private Order order;
+    /**
+     * Ссылка на хранилище.
+     */
+    private OrderBook orderBook;
 
+    /**
+     * Конструктор.
+     * @param orderBook хранилище.
+     */
     public Handler(OrderBook orderBook) {
         this.orderBook = orderBook;
     }
 
+    /**
+     * Метод выводит сообщение о начале старта парсинга файла.
+     * @throws SAXException ех.
+     */
     @Override
     public void startDocument() throws SAXException {
         System.out.println("Start parsing.");
     }
 
+    /**
+     * Метод выводит сообщение о окончании парсинга файла.
+     * @throws SAXException ех.
+     */
     @Override
     public void endDocument() throws SAXException {
         System.out.println("End parsing.");
     }
 
+    /**
+     * Парсинг элемента с извлечением соответствующих атрибутов.
+     * @param uri урл.
+     * @param localName имя.
+     * @param qName имя элемента.
+     * @param att атрибут.
+     * @throws SAXException ех.
+     */
     @Override
     public void startElement(String uri, String localName, String qName, Attributes att) throws SAXException {
          order = new Order();
@@ -46,6 +72,13 @@ public class Handler extends DefaultHandler {
         }
     }
 
+    /**
+     * Обнуляем ордер после очередного элемента.
+     * @param uri урл.
+     * @param localName наме.
+     * @param qName имя элемента.
+     * @throws SAXException ех.
+     */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         order = null;
