@@ -10,13 +10,42 @@ import java.util.Queue;
  * @since 0.1.
  */
 public class Node {
+    /**
+     * левый элемент.
+     */
     private Node left;
+    /**
+     * правый элемент.
+     */
     private Node right;
+    /**
+     * Значение элемента.
+     */
     private int value;
 
     public Node(int value) {
         this.value = value;
     }
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+
+    /**
+     * Метод меняет местами павый и левый элемент дерева.
+     */
     public void revers() {
         Queue<Node> queue = new ArrayDeque<>();
         queue.add(this);
@@ -26,19 +55,16 @@ public class Node {
                 Node temp = node.left;
                 node.left = node.right;
                 node.right = temp;
-                if (node.left.left != null) {
-                    queue.add(node.left.left);
-                }
-                if (node.right.right != null) {
-                    queue.add(node.right.right);
-                }
+                queue.add(node.right);
+                queue.add(node.left);
             } else if (node.left != null) {
                 node.right = node.left;
                 node.left = null;
-                if (node.right.right != null) {
-                    queue.add(node.right.right);
-                }
-                if (node)
+                queue.add(node.right);
+            } else if (node.right != null) {
+                node.left = node.right;
+                node.right = null;
+                queue.add(node.left);
             }
         }
     }
