@@ -55,6 +55,9 @@ public abstract class Figure {
         this.pozition.setHeight(cell.getHeight());
         this.pozition.setWidth(cell.getWidth());
     }
+    public void clonE(Cell cell) {
+        this.pozition.moveToNewCell(cell);
+    }
 
     @Override
     public String toString() {

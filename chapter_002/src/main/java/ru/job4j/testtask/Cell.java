@@ -11,7 +11,7 @@ public class Cell {
     /**
      * положение ячейки по ширине доски.
      */
-     private int width;
+    private int width;
 
     /**
      * положение ячейки по высоте доски.
@@ -107,5 +107,9 @@ public class Cell {
                 + ", height="
                 + height
                 + '}';
+    }
+    public void moveToNewCell(Cell dist) {
+        this.height = dist.height;
+        this.width = dist.width;
     }
 }
