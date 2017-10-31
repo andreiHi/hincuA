@@ -58,14 +58,15 @@ public class OrderBook {
      */
     public void start() {
         this.parseXml();
+        final String buyOperation = "BUY";
         for (HashMap.Entry<String, TreeMap<Integer, Order>> map : orders.entrySet()) {
             String bookName = map.getKey();
             TreeMap<Integer, Order> values = map.getValue();
             TreeSet<Order> buy = new TreeSet<>();
             TreeSet<Order> sell = new TreeSet<>();
             for (Order order : values.values()) {
-                String operation = order.getOperation();
-                if (operation.equals("BUY")) {
+                // String operation = order.getOperation();
+                if (buyOperation.equals(order.getOperation())) {
                     buy = amount(buy, order);
                 } else {
                     sell = amount(sell, order);
@@ -83,15 +84,15 @@ public class OrderBook {
      * @param bookName Имя книги заявок.
      */
     public void printOrders(TreeSet<Order> buy, TreeSet<Order> sell, String bookName) {
-        String line = System.lineSeparator();
-        StringBuffer sb = new StringBuffer();
+        final String line = System.lineSeparator();
+        final StringBuffer sb = new StringBuffer();
         sb.append(bookName).append(line);
         sb.append("   Bid            ASK").append(line);
         Iterator<Order> buyIterator = buy.iterator();
         Iterator<Order> sellIterator = sell.iterator();
         if (buy.size() > sell.size()) {
             while (sellIterator.hasNext()) {
-               sb.append(String.format("%15s %s", buyIterator.next(), sellIterator.next())).append(line);
+                sb.append(String.format("%15s %s", buyIterator.next(), sellIterator.next())).append(line);
             }
             while (buyIterator.hasNext()) {
                 sb.append(String.format("%15s -----------", buyIterator.next())).append(line);
@@ -115,11 +116,11 @@ public class OrderBook {
     public void aggregation(TreeSet<Order> buy, TreeSet<Order> sell) {
         Iterator<Order> iteratorBuy = buy.iterator();
         while (iteratorBuy.hasNext()) {
-            Order orderBuy = iteratorBuy.next();
+            final Order orderBuy = iteratorBuy.next();
             for (Iterator<Order> iteratorSell = sell.iterator(); iteratorSell.hasNext();) {
-                Order orderSell = iteratorSell.next();
-                float prise = orderBuy.getPrice() - orderSell.getPrice();
-                int volume = orderBuy.getVolume() - orderSell.getVolume();
+                final Order orderSell = iteratorSell.next();
+                final float prise = orderBuy.getPrice() - orderSell.getPrice();
+                final int volume = orderBuy.getVolume() - orderSell.getVolume();
                 if (prise < 0) {
                     break;
                 }

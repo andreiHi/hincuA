@@ -18,7 +18,14 @@ public class Handler extends DefaultHandler {
      * Ссылка на хранилище.
      */
     private OrderBook orderBook;
-
+    /**
+     * Константа для добавления ордера.
+     */
+    private static final String ADD_ORDER = "AddOrder";
+    /**
+     * Константа для удаления ордера.
+     */
+    private static final String DELETE_ORDER = "DeleteOrder";
     /**
      * Конструктор.
      * @param orderBook хранилище.
@@ -56,16 +63,16 @@ public class Handler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes att) throws SAXException {
          order = new Order();
-        if (qName.equals("AddOrder")) {
-            order.setBook(att.getValue(0));
-            order.setOperation(att.getValue(1));
-            order.setPrice(Float.valueOf(att.getValue(2)));
-            order.setVolume(Integer.parseInt(att.getValue(3)));
-            order.setId(Integer.valueOf(att.getValue(4)));
+        if (ADD_ORDER.equals(qName)) {
+            order.setBook(att.getValue("book"));
+            order.setOperation(att.getValue("operation"));
+            order.setPrice(Float.valueOf(att.getValue("price")));
+            order.setVolume(Integer.parseInt(att.getValue("volume")));
+            order.setId(Integer.valueOf(att.getValue("orderId")));
             orderBook.addOrRemove(order, true);
-        } else if (qName.equals("DeleteOrder")) {
-            String book = att.getValue(0);
-            int id = Integer.parseInt(att.getValue(1));
+        } else if (DELETE_ORDER.equals(qName)) {
+            String book = att.getValue("book");
+            int id = Integer.parseInt(att.getValue("orderId"));
             order.setBook(book);
             order.setId(id);
             orderBook.addOrRemove(order, false);

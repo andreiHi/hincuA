@@ -8,7 +8,7 @@ package ru.job4j.collections.frogway;
  */
 public class Items {
     private String name;
-    Position position;
+    private Position position;
 
     public Items(String name, int y, int x) {
         this.name = name;
@@ -18,14 +18,14 @@ public class Items {
     public Position firstStep() {
         Position p = null;
         if (position.canMoveToPosition(2, 1)) {
-           p = position.moveTo(2, 1);
+            p = position.moveTo(2, 1);
         }
         return p;
     }
     public Position secondStep() {
         Position p = null;
         if (position.canMoveToPosition(-2, 1)) {
-           p = position.moveTo(-2, 1);
+            p = position.moveTo(-2, 1);
         }
         return p;
     }
@@ -36,19 +36,19 @@ public class Items {
         }
         return p;
     }
-//    public boolean secondStep() {
-//        return position.moveTo(-2, 1);
-//    }
-//    public boolean thirdStep() {
-//        return position.moveTo(1, 2);
-//    }
-//    public boolean fourthStep() {
-//        return position.moveTo(-1, 2);
-//    }
-//    public boolean fifthStep() {
-//
-//        return position.moveTo(0, 3);
-//    }
 
+    public Position fourthStep() {
+        Position p = null;
+        if (position.canMoveToPosition(-1, 2)) {
+            p = position.moveTo(-1, 2);
+        }
+        return p;
+    }
+    public Position fifthStep() {
+        return position.moveTo(0, 3);
+    }
 
+    public Position getPosition() {
+        return position;
+    }
 }
