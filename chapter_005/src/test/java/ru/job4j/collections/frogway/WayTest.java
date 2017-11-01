@@ -17,4 +17,10 @@ public class WayTest {
         boolean b = position.canMoveToPosition(-6, 1);
         assertThat(b, is(true));
     }
+
+    @Test
+    public void name() throws Exception {
+    Way way = new Way();
+    way.srart();
+    }
 }
