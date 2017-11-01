@@ -11,4 +11,11 @@ public class Pair {
     int x;
     int y;
     int value;
+
+    public boolean equalsCords(Pair pair) {
+        return this.x == pair.x && this.y == pair.y;
+    }
+    public boolean minValue (Pair pair) {
+        return this.value  > pair.value;
+    }
 }

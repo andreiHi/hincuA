@@ -8,19 +8,6 @@ import java.util.ArrayList;
  * @since 0.1.
  */
 public class Way {
-    private Items frog;
-    private Items endWay;
-    private int countOfTrees;
-
-    ArrayList<Items> trees = new ArrayList<>(countOfTrees);
-    public void itemsToStart() {
-        Items tree1 = new Items("Ёлка", 9, 14);
-        Items tree2 = new Items("Ёлка2", 8, 5);
-        trees.add(tree1);
-        trees.add(tree2);
-        frog = new Items("Гушка", 7, 11);
-        endWay = new Items("Финиш", 10, 9);
-    }
 
 
     public void move(int[][] array, int x, int y, int xX, int yY){
@@ -28,7 +15,7 @@ public class Way {
         y = y + yY;
         x = x + xX;
         if (x > 15) {
-            x = x - 15;
+            x = x - 16;
         }
         if (y > 9 || y < 0) {
             return;
@@ -39,6 +26,7 @@ public class Way {
         if (array[y][x] > 0 && array[y][x] < n) {
             return;
         }
+
         array[y][x] = n + 1;
 
         move(array, x, y, 3, 0);
@@ -48,29 +36,58 @@ public class Way {
         move(array, x, y, 2, -1);
 
     }
-    public void srart() {
+    public void start(int x, int y, int yF, int xF) {
         int[][] array = new int[10][16];
-        array[8-1][5-1] = -1;
-        array[9-1][14-1] = -1;
-        move(array, 11-1, 7-1,0, 0);
-        int n = array[8][9];
+        array[8 - 1][5 - 1] = -1;
+        array[9 - 1][14 - 1] = -1;
+        move(array, x - 1, y - 1,0, 0);
+        int n = array[10 - 1][9 - 1];
         System.out.println(n);
-        for (int i =0; i < array.length; i++) {
-            for (int j =0; j < array[i].length; j++) {
-                System.out.print(array[i][j]+ " ");
+        System.out.println(array.length);
+        System.out.println(array[0].length);
+        for (int i = array.length - 1; i  > -1; i--) {
+            for (int j = 0; j < array[i].length; j++) {
+                System.out.print(array[i][j] + " ");
             }
             System.out.println();
         }
-    }
+        for (int i = n-1; i > 1; i--) {
 
-    public boolean positionIsEmpty(Position p) {
-        boolean f = true;
-        for (Items i : trees) {
-            if (p.equals(i.getPosition())) {
-                f = false;
-                break;
+            int xX = -3;
+            int yY = 0;
+            if (i == array[yF + yY][xF + xX]) {
+                yF = yF + yY;
+                xF = xF + xX;
             }
+
         }
-        return f;
+      //  StringBuilder sb = new StringBuilder();
+      //  moveRevers(9, 8, array, 0, 0, sb);
+       // System.out.println( sb);
+    }
+    public void  moveRevers( int x, int y, int [][]array, int xX, int yY, StringBuilder sb) {
+        int steps = array[y][x];
+        steps = steps - 1;
+        y = y - yY;
+        x = x - xX;
+        if (x > 15) {
+            x = x - 16;
+        }
+        if (y > 9 || y < 0) {
+            return;
+        }
+        if (steps != array[y][x]) {
+            return;
+        }
+        if (steps == 2) {
+            return;
+        }
+        sb.append(y).append(":").append(x).append(" ");
+       // steps = steps -1;
+       moveRevers(x, y, array,-3, 0, sb);
+       moveRevers(x, y, array,-1, -2, sb);
+       moveRevers(x, y, array,-1, 2, sb);
+       moveRevers(x, y, array,-2, 1, sb);
+       moveRevers(x, y, array,-2, -1, sb);
     }
 }

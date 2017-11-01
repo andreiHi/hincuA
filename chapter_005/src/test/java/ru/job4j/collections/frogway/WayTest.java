@@ -21,6 +21,6 @@ public class WayTest {
     @Test
     public void name() throws Exception {
     Way way = new Way();
-    way.srart();
+    way.start(11, 7,10, 9);
     }
 }
