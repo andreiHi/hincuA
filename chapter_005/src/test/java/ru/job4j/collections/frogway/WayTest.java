@@ -11,16 +11,12 @@ import static org.junit.Assert.*;
  * @since 0.1.
  */
 public class WayTest {
+    /**
+     * Метод для запуска программы  х:у точка старта, уУ:хХ пункт назначения.
+     */
     @Test
-    public void cenMove() {
-        Position position = new Position(7, 11);
-        boolean b = position.canMoveToPosition(-6, 1);
-        assertThat(b, is(true));
-    }
-
-    @Test
-    public void name() throws Exception {
+    public void name() {
     Way way = new Way();
-    way.start(11, 7,10, 9);
+    way.start(7,  11, 10, 9);
     }
 }
