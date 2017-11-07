@@ -10,11 +10,16 @@ package ru.job4j.multithreading.jmm;
 public class TestThreads {
     public static void main(String[] args) {
         Counter counter = new Counter();
-        for (int i = 0; i < 1000; i++ ) {
+        for (int i = 0; i < 100; i++) {
             CounterThread t = new CounterThread(counter);
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         long l = counter.getCount();
         System.out.println(l);
-        // ответы всегда разные и практически никогда не равны 1000000 как ожидается
+        // ответы всегда разные и иногда  равны 10000 как ожидается
     }
 }

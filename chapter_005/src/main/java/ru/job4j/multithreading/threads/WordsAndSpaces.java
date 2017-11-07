@@ -55,7 +55,7 @@ public class WordsAndSpaces implements Runnable {
                         throw new InterruptedException();
                     }
                 } catch (InterruptedException e) {
-                    System.out.println("Расчеты колличества слов прерваны.");;
+                    System.out.println("Расчеты колличества слов прерваны.");
                 }
             }
         };
