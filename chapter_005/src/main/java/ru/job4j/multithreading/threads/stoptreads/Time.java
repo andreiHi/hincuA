@@ -7,19 +7,28 @@ package ru.job4j.multithreading.threads.stoptreads;
  */
 public class Time implements Runnable {
     private int time;
+    private Thread t;
 
     public Time(int time) {
         this.time = time;
+        t = new Thread(this);
+        t.start();
     }
 
     @Override
     public void run() {
+        System.out.println("Начало работы time");
         long timeMillis = System.currentTimeMillis();
         while (true) {
-            timeMillis = System.currentTimeMillis() - timeMillis;
-            if (timeMillis > time) {
-                Thread.currentThread().interrupt();
+            long t = System.currentTimeMillis();
+            if (t - timeMillis >= time) {
+                break;
             }
         }
+        System.out.println("завершение time");
+    }
+
+    public Thread getT() {
+        return t;
     }
 }
