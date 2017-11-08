@@ -2,8 +2,8 @@ package ru.job4j.multithreading.users;
 
 import ru.job4j.multithreading.users.exeptions.CanNotAddOrUpdateOrDeleteUserException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Хранилище пользователей.
@@ -14,13 +14,13 @@ import java.util.List;
  */
 public class UserStorage {
     public UserStorage() {
-        this.storage = new ArrayList<>();
+        this.storage = new HashMap<>();
     }
 
     /**
-     * Для хранения данных используем Arraylist;
+     * Для хранения данных используем HashMap;
      */
-    private final List<User> storage;
+    private final Map<Integer, User> storage;
 
     /**
      * Метод добовляет нового пользователя прредварительно
@@ -28,20 +28,11 @@ public class UserStorage {
      * @param user пользователь.
      */
     public void add(User user) {
-        final int id = user.getId();
-        boolean exist = false;
-        for (User u : storage) {
-            if (u.getId() == id) {
-                exist = true;
-                break;
-            }
-        }
-        if (!exist) {
-            this.storage.add(user);
-        } else {
+        User u;
+        u = storage.putIfAbsent(user.getId(), user);
+        if (u != null) {
             throw new CanNotAddOrUpdateOrDeleteUserException("Данный пользователь уже есть в базе данных");
         }
-
     }
 
     /**
@@ -50,36 +41,52 @@ public class UserStorage {
      */
     public void update(User user) {
         final int id = user.getId();
-        boolean found = false;
-        int index = 0;
-        for (User u : storage) {
-            if (u.getId() == id) {
-                index = storage.indexOf(u);
-                found = true;
-                break;
-            }
-        }
-        if (found) {
-            storage.set(index, user);
+        if (storage.containsKey(id)) {
+            storage.put(id, user);
         } else {
             throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
         }
     }
 
-    public List<User> getStorage() {
+    public Map<Integer, User> getStorage() {
         return storage;
     }
+
+    /**
+     * Метод удаляет пользователя из хранилища.
+     * @param user пользователь.
+     */
     public void delete(User user) {
-        boolean fount = false;
-        for (int i = 0; i < storage.size(); i++) {
-            if (user.getId() == storage.get(i).getId()) {
-                storage.remove(i);
-                fount = true;
-                break;
-            }
-        }
-        if (!fount) {
+        int id = user.getId();
+        if (storage.containsKey(id)) {
+            storage.remove(id, user);
+        } else {
             throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
+        }
+    }
+    public void transfer(int fromId, int toId, int amaunt) throws InterruptedException {
+        User from = storage.get(fromId);
+        User to = storage.get(toId);
+        if (fromId > toId) {
+            synchronized (from) {
+                Thread.sleep(1000);
+                synchronized (to) {
+                    if (from.getAmount() >= amaunt) {
+                        from.setAmount(from.getAmount() - amaunt);
+                        to.setAmount(to.getAmount() + amaunt);
+                    }
+                }
+            }
+        } else {
+            synchronized (to) {
+                Thread.sleep(1000);
+                synchronized (from) {
+                    if (from.getAmount() >= amaunt) {
+                        from.setAmount(from.getAmount() - amaunt);
+                        to.setAmount(to.getAmount() + amaunt);
+                    }
+                }
+            }
         }
     }
 }
