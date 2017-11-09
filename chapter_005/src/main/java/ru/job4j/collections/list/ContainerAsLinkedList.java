@@ -2,6 +2,8 @@ package ru.job4j.collections.list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Связанный список.
@@ -11,6 +13,10 @@ import java.util.NoSuchElementException;
  * @since 0.1
  */
 public class ContainerAsLinkedList<E> implements Iterable<E> {
+    /**
+     * Замок для синхронизации.
+     */
+    private Lock lock = new ReentrantLock();
     /**
      * Первый элемент.
      */
@@ -39,11 +45,11 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
         /**
          * елемент списка.
          */
-       private E element;
+        private E element;
         /**
          * ссылка на следующий.
          */
-       private Entry<E> next;
+        private Entry<E> next;
         /**
          * ссылка на предыдущий.
          */
@@ -72,7 +78,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
             /**
              * Текущая позиция.
              */
-            private int indexPozition;
+            private int indexPosition;
             /**
              * элемент текущий.
              */
@@ -84,7 +90,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
              */
             @Override
             public boolean hasNext() {
-                return indexPozition < size;
+                return indexPosition < size;
             }
 
             /**
@@ -93,16 +99,21 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
              */
             @Override
             public E next() {
-                Entry<E> returned;
+                lock.unlock();
+                try {
+                    Entry<E> returned;
 
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                } else {
-                    returned = next;
-                    this.next = next.next;
-                    indexPozition++;
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    } else {
+                        returned = next;
+                        this.next = next.next;
+                        indexPosition++;
+                    }
+                    return  returned.element;
+                } finally {
+                    lock.unlock();
                 }
-                return  returned.element;
             }
         };
     }
@@ -113,8 +124,13 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @return тру.
      */
     public boolean add(E element) {
-        this.addLast(element);
-        return true;
+        lock.lock();
+        try {
+            this.addLast(element);
+            return true;
+        } finally {
+            lock.unlock();
+        }
     }
 
     /**
@@ -122,15 +138,20 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param element елемент.
      */
     public void addLast(E element) {
-       Entry<E> lastElement = this.last;
-       Entry<E> elementNew = new Entry<E>(lastElement, element, null);
-        this.last = elementNew;
-        if (lastElement == null) {
-            this.first = elementNew;
-        } else {
-            lastElement.next = elementNew;
+        lock.lock();
+        try {
+            Entry<E> lastElement = this.last;
+            Entry<E> elementNew = new Entry<E>(lastElement, element, null);
+            this.last = elementNew;
+            if (lastElement == null) {
+                this.first = elementNew;
+            } else {
+                lastElement.next = elementNew;
+            }
+            size++;
+        } finally {
+            lock.unlock();
         }
-        size++;
     }
 
     /**
@@ -138,15 +159,20 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param element елемент.
      */
     public void addFirst(E element) {
-        Entry<E> ferst = this.first;
-        Entry<E> newElement = new Entry<E>(null, element, ferst);
-        this.first = newElement;
-        if (ferst == null) {
-            this.last = ferst;
-        } else {
-            ferst.prev = newElement;
+        lock.lock();
+        try {
+            Entry<E> ferst = this.first;
+            Entry<E> newElement = new Entry<E>(null, element, ferst);
+            this.first = newElement;
+            if (ferst == null) {
+                this.last = ferst;
+            } else {
+                ferst.prev = newElement;
+            }
+            size++;
+        } finally {
+            lock.unlock();
         }
-        size++;
     }
 
     /**
@@ -155,15 +181,20 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @return елемент.
      */
     public E get(int index) {
-        if (index < 0 || index >= this.size) {
-            throw new IndexOutOfBoundsException();
-        }
-        Entry<E> item = this.first;
+        lock.lock();
+        try {
+            if (index < 0 || index >= this.size) {
+                throw new IndexOutOfBoundsException();
+            }
+            Entry<E> item = this.first;
 
-        for (int i = 0; i < index; i++) {
-            item = item.next;
+            for (int i = 0; i < index; i++) {
+                item = item.next;
+            }
+            return  item.element;
+        } finally {
+            lock.unlock();
         }
-        return  item.element;
     }
 
     /**
@@ -171,19 +202,24 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @return удаленный элемент.
      */
     public E removeLast() {
-        Entry<E> last = this.last;
-        if (last.prev == null) {
-        Entry<E> empty = new Entry<>(null, null, null);
-        this.first = empty;
-        this.last = empty;
-        } else {
-            last = this.last;
-            Entry<E> newLast = this.last.prev;
-            this.last = newLast;
-            newLast.next = null;
+        lock.lock();
+        try {
+            Entry<E> last = this.last;
+            if (last.prev == null) {
+                Entry<E> empty = new Entry<>(null, null, null);
+                this.first = empty;
+                this.last = empty;
+            } else {
+                last = this.last;
+                Entry<E> newLast = this.last.prev;
+                this.last = newLast;
+                newLast.next = null;
+            }
+            this.size--;
+            return last.element;
+        } finally {
+            lock.unlock();
         }
-        this.size--;
-        return last.element;
     }
 
     /**
@@ -191,19 +227,23 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @return первый элемент.
      */
     public E removeFirst() {
-        Entry<E> first = this.first;
-        if (first.next == null) {
-            Entry<E> empty = new Entry<>(null, null, null);
-            this.first = empty;
-            this.last = empty;
-        } else {
-            Entry<E> newFirst = first.next;
-            newFirst.prev = null;
-            this.first = newFirst;
-
+        lock.lock();
+        try {
+            Entry<E> first = this.first;
+            if (first.next == null) {
+                Entry<E> empty = new Entry<>(null, null, null);
+                this.first = empty;
+                this.last = empty;
+            } else {
+                Entry<E> newFirst = first.next;
+                newFirst.prev = null;
+                this.first = newFirst;
+            }
+            this.size--;
+            return first.element;
+        } finally {
+            lock.unlock();
         }
-        this.size--;
-        return first.element;
     }
     /**
      * Размер хранилища.
@@ -219,13 +259,18 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @return true or false.
      */
     public boolean contains(E value) {
-        boolean found = false;
-        for (E e : this) {
-            if (value.equals(e)) {
-                found = true;
-                break;
+        lock.lock();
+        try {
+            boolean found = false;
+            for (E e : this) {
+                if (value.equals(e)) {
+                    found = true;
+                    break;
+                }
             }
+            return found;
+        } finally {
+            lock.unlock();
         }
-        return found;
     }
 }
