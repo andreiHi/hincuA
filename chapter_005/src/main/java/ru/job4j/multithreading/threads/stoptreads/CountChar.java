@@ -14,7 +14,7 @@ public class CountChar implements Runnable {
         BufferedReader reader;
         StringBuilder sb = new StringBuilder();
         try {
-            reader = new BufferedReader(new FileReader(new File("/home/andrei/projects/hincuA/chapter_005/king.txt")));
+            reader = new BufferedReader(new FileReader(new File("C://projects//hincuA//chapter_005//king.txt")));
             while (reader.ready()) {
                 sb.append(reader.readLine());
             }
@@ -29,9 +29,10 @@ public class CountChar implements Runnable {
         for (int i = 0; i < chars.length; i++) {
             count++;
             if (Thread.interrupted()) {
+                System.out.println("Времени не достаточно.Счет прерван.");
                 break;
             }
         }
-        System.out.println(count);
+        System.out.println(String.format("Символов посчитано: %d", count));
     }
 }

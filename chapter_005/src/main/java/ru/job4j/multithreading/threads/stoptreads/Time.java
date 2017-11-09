@@ -12,20 +12,19 @@ public class Time implements Runnable {
     public Time(int time) {
         this.time = time;
         t = new Thread(this);
+    }
+    public void start() {
         t.start();
     }
-
     @Override
     public void run() {
-        System.out.println("Начало работы time");
-        long timeMillis = System.currentTimeMillis();
-        while (true) {
-            long t = System.currentTimeMillis();
-            if (t - timeMillis >= time) {
-                break;
-            }
+        System.out.println("Начало работы программы Time");
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        System.out.println("завершение time");
+        System.out.println("Завершение программы Time");
     }
 
     public Thread getT() {
