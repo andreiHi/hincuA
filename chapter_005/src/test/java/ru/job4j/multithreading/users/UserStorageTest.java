@@ -55,4 +55,14 @@ public class UserStorageTest {
         assertThat(user2.getAmount(), is(250));
     }
 
+    @Test
+    public void whenUserWasDelete() throws Exception {
+        User user1 = new User(1,100);
+        User user2 = new User(2,200);
+        userStorage.add(user1);
+        userStorage.add(user2);
+        userStorage.delete(user1);
+        assertThat(userStorage.getStorage().containsKey(1), is(false));
+    }
+
 }

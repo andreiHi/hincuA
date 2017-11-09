@@ -1,5 +1,7 @@
 package ru.job4j.multithreading.users;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 import ru.job4j.multithreading.users.exeptions.CanNotAddOrUpdateOrDeleteUserException;
 
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.1
  */
+@ThreadSafe
 public class UserStorage {
     public UserStorage() {
         this.storage = new HashMap<>();
@@ -56,37 +59,47 @@ public class UserStorage {
      * Метод удаляет пользователя из хранилища.
      * @param user пользователь.
      */
+    @GuardedBy("storage")
     public void delete(User user) {
         int id = user.getId();
         if (storage.containsKey(id)) {
-            storage.remove(id, user);
+            synchronized (storage) {
+                storage.remove(id, user);
+            }
         } else {
             throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
         }
     }
+
+    /**
+     * Метод переводит сумму с одного счета на другой.
+     * Потоко безопасность осуществляется за счет захвата монитора в последовательности зависящей от id
+     * пользователя.Всегда первым захватывается обьект с большим id.
+     * @param fromId id пользователя с которого переволят сумму.
+     * @param toId id пользователя которому переводят сумму.
+     * @param amaunt сумма.
+     * @throws InterruptedException ерор.
+     */
     public void transfer(int fromId, int toId, int amaunt) throws InterruptedException {
         User from = storage.get(fromId);
         User to = storage.get(toId);
+        User first, second;
         if (fromId > toId) {
-            synchronized (from) {
-                Thread.sleep(1000);
-                synchronized (to) {
-                    if (from.getAmount() >= amaunt) {
-                        from.setAmount(from.getAmount() - amaunt);
-                        to.setAmount(to.getAmount() + amaunt);
-                    }
-                }
-            }
+            first = from;
+            second = to;
         } else {
-            synchronized (to) {
-                Thread.sleep(1000);
-                synchronized (from) {
-                    if (from.getAmount() >= amaunt) {
-                        from.setAmount(from.getAmount() - amaunt);
-                        to.setAmount(to.getAmount() + amaunt);
-                    }
+            first = to;
+            second = from;
+        }
+        synchronized (first) {
+            Thread.sleep(1000);
+            synchronized (second) {
+                if (from.getAmount() >= amaunt) {
+                    from.setAmount(from.getAmount() - amaunt);
+                    to.setAmount(to.getAmount() + amaunt);
                 }
             }
         }
     }
 }
+

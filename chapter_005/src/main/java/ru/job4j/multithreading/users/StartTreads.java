@@ -38,13 +38,6 @@ public class StartTreads {
         Thread.sleep(1500);
         System.out.println(user1.getAmount());
         System.out.println(user2.getAmount());
-        Set<List<String>> n = new TreeSet<>(new Comparator<List<String>>() {
-            @Override
-            public int compare(List<String> o1, List<String> o2) {
-                return o1.get(0).compareTo(o2.get(0));
-            }
-        });
-        ArrayList<String> sv = new ArrayList<>();
-        n.add(sv);
+
     }
 }
