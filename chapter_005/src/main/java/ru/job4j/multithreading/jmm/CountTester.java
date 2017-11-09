@@ -13,7 +13,8 @@ public class CountTester {
     public static void main(String[] args) throws InterruptedException {
         Count count = new Count();
         for (int i = 0; i < 200; i++) {
-            CountThread thread = new CountThread(count);
+            CountThread countThread = new CountThread(count);
+            countThread.start();
         }
         Thread.sleep(1000);
         System.out.println(count.getCount());
@@ -28,21 +29,23 @@ class Count {
     /**
      * счетчик.
      */
-    @GuardedBy("Объект класса")
+    @GuardedBy("this")
     private long count = 0;
 
     /**
      * Метод прибавляет значение к счетчику.
-     * @param v значениею
+     * @param v значение.
      */
     void increment(long v) {
         synchronized (this) {
             count += v;
         }
     }
-
+    @GuardedBy("this")
     long getCount() {
-        return count;
+        synchronized (this) {
+            return count;
+        }
     }
 
 }
@@ -59,7 +62,6 @@ class CountThread extends Thread {
 
     public CountThread(final Count count) {
         this.count = count;
-        new Thread(this).start();
     }
 
     @Override
