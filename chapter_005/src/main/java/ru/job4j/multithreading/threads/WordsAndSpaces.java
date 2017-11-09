@@ -22,7 +22,7 @@ public class WordsAndSpaces implements Runnable {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(new File("C://projects//hincuA//chapter_005//king")));
+            reader = new BufferedReader(new FileReader(new File("/home/andrei/projects/hincuA/chapter_005/king.txt")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -63,31 +63,25 @@ public class WordsAndSpaces implements Runnable {
             int count = 0;
             @Override
             public void run() {
-                try {
+                System.out.println("Считаем пробелы.");
+                for (Character c : chars) {
                     if (!isInterrupted()) {
-
-                        System.out.println("Считаем пробелы.");
-                        for (Character c : chars) {
-                            if (Character.isWhitespace(c)) {
-                                count++;
-                            }
+                        if (Character.isWhitespace(c)) {
+                            count++;
                         }
-                        System.out.println(String.format("Пробелов %s", count));
                     } else {
-                        throw new InterruptedException();
+                        System.out.println("Расчеты колличества пробелов прерваны");
+                        break;
                     }
-                } catch (InterruptedException e) {
-                    System.out.println("Расчеты колличества пробелов прерваны");
                 }
+                System.out.println(String.format("Пробелов %s", count));
             }
         };
 
 
         try {
             countSpaces.start();
-            countSpaces.join();
             countWords.start();
-            countWords.join();
             Thread.sleep(1000);
             countSpaces.interrupt();
             countWords.interrupt();
@@ -107,32 +101,21 @@ public class WordsAndSpaces implements Runnable {
             int count = 0;
             @Override
             public void run() {
-                try {
+                System.out.println("Считаем слова.");
+                for (String s : words) {
                     if (!interrupted()) {
-                        System.out.println("Считаем слова.");
-                        for (String s : words) {
-                            count++;
-                        }
-                        System.out.println(String.format("Слов %s", count));
+                        count++;
                     } else {
-                        throw new InterruptedException();
+                        System.out.println("Расчеты колличества слов прерваны.");
+                        break;
                     }
-                } catch (InterruptedException e) {
-                    System.out.println("Расчеты колличества слов прерваны.");
                 }
-
+                System.out.println(String.format("Слов %s", count));
             }
         };
         thread.start();
         Thread spaces = new Thread(word);
         spaces.start();
-        try {
-            thread.join();
-            spaces.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
         try {
             Thread.sleep(1000);
@@ -143,34 +126,25 @@ public class WordsAndSpaces implements Runnable {
         spaces.interrupt();
 
         System.out.println("Завершение метода.");
-
     }
 
     @Override
     public void run() {
-
-        try {
-            if (!Thread.interrupted()) {
-                int count = 0;
-                char[] chars = text.toString().toCharArray();
-                System.out.println("Считаем пробелы.");
-                for (Character c : chars) {
-                    if (Thread.interrupted()) {
-                        break;
-                    }
-                    if (Character.isWhitespace(c)) {
-                        count++;
-                    }
-                }
-                System.out.println(String.format("Пробелов %s", count));
-            } else {
-                throw new  InterruptedException();
+        int count = 0;
+        char[] chars = text.toString().toCharArray();
+        System.out.println("Считаем пробелы.");
+        for (Character c : chars) {
+            if (Thread.interrupted()) {
+                System.out.println("Расчеты колличества пробелов прерваны");
+                break;
             }
-        } catch (InterruptedException e) {
-            System.out.println("Расчеты колличества пробелов прерваны");
+            if (Character.isWhitespace(c)) {
+                count++;
+            }
         }
-
+        System.out.println(String.format("Пробелов %s", count));
     }
-
 }
+
+
 
