@@ -1,5 +1,5 @@
 package ru.job4j.tracker.start;
-import ru.job4j.tracker.models.Item;
+import ru.job4j.tracker.start.models.Item;
 
 import java.util.ArrayList;
 import java.util.Random;
