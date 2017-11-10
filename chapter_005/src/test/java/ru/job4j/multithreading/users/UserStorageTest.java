@@ -1,10 +1,11 @@
 package ru.job4j.multithreading.users;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.multithreading.users.exeptions.CanNotAddOrUpdateOrDeleteUserException;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  *Test.
@@ -21,24 +22,24 @@ public class UserStorageTest {
 
     @Test(expected = CanNotAddOrUpdateOrDeleteUserException.class)
     public void addedTwoUsersWHisEqualsId() {
-        User user1 = new User(1,100);
-        User user2 = new User(1,200);
+        User user1 = new User(1, 100);
+        User user2 = new User(1, 200);
         userStorage.add(user1);
         userStorage.add(user2);
     }
 
     @Test(expected = CanNotAddOrUpdateOrDeleteUserException.class)
     public void whenUserNotFound() {
-        User user1 = new User(1,100);
-        User user2 = new User(2,200);
+        User user1 = new User(1, 100);
+        User user2 = new User(2, 200);
         userStorage.add(user1);
         userStorage.update(user2);
     }
 
     @Test
     public void whenUserWasUpdate() {
-        User user1 = new User(1,100);
-        User user2 = new User(1,200);
+        User user1 = new User(1, 100);
+        User user2 = new User(1, 200);
         userStorage.add(user1);
         userStorage.update(user2);
         assertThat(userStorage.getStorage().get(1), is(user2));
@@ -46,8 +47,8 @@ public class UserStorageTest {
 
     @Test
     public void whenTransferFromOneUserToSecondUser() throws InterruptedException {
-        User user1 = new User(1,100);
-        User user2 = new User(2,200);
+        User user1 = new User(1, 100);
+        User user2 = new User(2, 200);
         userStorage.add(user1);
         userStorage.add(user2);
         userStorage.transfer(1, 2, 50);
@@ -57,8 +58,8 @@ public class UserStorageTest {
 
     @Test
     public void whenUserWasDelete() throws Exception {
-        User user1 = new User(1,100);
-        User user2 = new User(2,200);
+        User user1 = new User(1, 100);
+        User user2 = new User(2, 200);
         userStorage.add(user1);
         userStorage.add(user2);
         userStorage.delete(user1);
