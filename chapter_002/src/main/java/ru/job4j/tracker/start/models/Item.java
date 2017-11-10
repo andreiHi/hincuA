@@ -28,6 +28,17 @@ public class Item {
      */
     private String[] comments;
 
+    public Item(String id, String name, String desc) {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+    }
+
+    public Item(String name, String desc) {
+        this.name = name;
+        this.desc = desc;
+    }
+
     /**
      * Конструктор.
      */
@@ -48,6 +59,12 @@ public class Item {
         this.desc = desc;
         this.created = created;
         this.comments = comments;
+    }
+
+    public Item(String name, String desc, long created) {
+        this.name = name;
+        this.desc = desc;
+        this.created = created;
     }
 
     /**
