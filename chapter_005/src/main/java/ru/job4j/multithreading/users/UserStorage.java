@@ -31,10 +31,12 @@ public class UserStorage {
      * @param user пользователь.
      */
     public void add(User user) {
-        User u;
-        u = storage.putIfAbsent(user.getId(), user);
-        if (u != null) {
-            throw new CanNotAddOrUpdateOrDeleteUserException("Данный пользователь уже есть в базе данных");
+        synchronized (storage) {
+            User u;
+            u = storage.putIfAbsent(user.getId(), user);
+            if (u != null) {
+                throw new CanNotAddOrUpdateOrDeleteUserException("Данный пользователь уже есть в базе данных");
+            }
         }
     }
 
@@ -43,11 +45,13 @@ public class UserStorage {
      * @param user пользователь.
      */
     public void update(User user) {
-        final int id = user.getId();
-        if (storage.containsKey(id)) {
-            storage.put(id, user);
-        } else {
-            throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
+        synchronized (storage) {
+            final int id = user.getId();
+            if (storage.containsKey(id)) {
+                storage.put(id, user);
+            } else {
+                throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
+            }
         }
     }
 
@@ -61,13 +65,13 @@ public class UserStorage {
      */
     @GuardedBy("storage")
     public void delete(User user) {
-        int id = user.getId();
-        if (storage.containsKey(id)) {
-            synchronized (storage) {
+        synchronized (storage) {
+            int id = user.getId();
+            if (storage.containsKey(id)) {
                 storage.remove(id, user);
+            } else {
+                throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
             }
-        } else {
-            throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
         }
     }
 
