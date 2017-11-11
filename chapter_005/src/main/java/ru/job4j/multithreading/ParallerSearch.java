@@ -1,9 +1,6 @@
 package ru.job4j.multithreading;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 /**
@@ -12,11 +9,29 @@ import java.util.*;
  * @since 0.1.
  */
 public class ParallerSearch {
+    /**
+     * Лист с результатом работы программы.
+     */
     private List<String> result = new ArrayList<>();
+    /**
+     * Очередь для обработки файлов с требуемым расширением.
+     */
     private Queue<File> files = new ArrayDeque<>();
+    /**
+     * Начальная папка окуда следует начать поиск.
+     */
     private final String root;
+    /**
+     * Текст который необходимо найти в файлах.
+     */
     private final String text;
+    /**
+     * Список расширений файлов в которых требуется производить поиск.
+     */
     private final List<String> exts;
+    /**
+     * Нить для поиска файлов нужного расширения.
+     */
     private Thread searchFiles = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -24,24 +39,23 @@ public class ParallerSearch {
             search(file);
         }
     });
+    /**
+     * Нить для поиска текста в найденных файлах.
+     */
     private Thread searchText = new Thread(new Runnable() {
         @Override
         public void run() {
-
             while (searchFiles.isAlive() || !files.isEmpty()) {
+                if (!files.isEmpty()) {
                 File file = files.poll();
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
-                    boolean found = false;
                     while (reader.ready()) {
                         String s = reader.readLine();
                         if (s.contains(text)) {
-                            found = true;
+                            result.add(file.getPath());
                             break;
                         }
-                    }
-                    if (found) {
-                        result.add(file.getPath());
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -49,6 +63,7 @@ public class ParallerSearch {
                     e.printStackTrace();
                 }
             }
+        }
         }
     });
 
@@ -59,9 +74,10 @@ public class ParallerSearch {
     }
 
     public static void main(String[] args) {
-        String root = "/home/andrei/cod";
+       // String root = "/home/andrei/cod";
+        String root = "D://cod";
         String text = "hello world";
-        List<String> exts = Arrays.asList("txt","log");
+        List<String> exts = Arrays.asList("txt", "log");
         ParallerSearch parallerSearch = new ParallerSearch(root, text, exts);
         parallerSearch.searchFiles.start();
         parallerSearch.searchText.start();
@@ -75,6 +91,10 @@ public class ParallerSearch {
         System.out.println(parallerSearch.result);
     }
 
+    /**
+     * Метод рекурсивного поиска файлов в заданной директории.
+     * @param file начальная папка.
+     */
     private void search(File file) {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
@@ -83,7 +103,7 @@ public class ParallerSearch {
                     search(f);
                 } else if (f.isFile()) {
                     String name = f.getName();
-                    if (name.contains("\\.")) {
+                    if (name.contains(".")) {
                         name = name.split("\\.")[1];
                         if (exts.contains(name)) {
                             this.files.add(f);
