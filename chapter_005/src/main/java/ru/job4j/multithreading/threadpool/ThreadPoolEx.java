@@ -1,6 +1,6 @@
 package ru.job4j.multithreading.threadpool;
 
-import java.util.LinkedList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * ThreadPool.
@@ -16,7 +16,7 @@ public class ThreadPoolEx {
     /**
      * Очередь на выполнение задачь.
      */
-    private final LinkedList<Runnable> list;
+    private final ArrayBlockingQueue<Runnable> queue;
     /**
      * Массив нитей которые могут одновременно работать.
      * в нутри них запустятся нити из очереди , если очередь пуста они ждут добавления.
@@ -29,7 +29,7 @@ public class ThreadPoolEx {
 
     public ThreadPoolEx() {
         this.core = Runtime.getRuntime().availableProcessors();
-        this.list = new LinkedList<>();
+        this.queue = new ArrayBlockingQueue<Runnable>(5);
         this.threads = new InnerThreads[core];
 
         for (int i = 0; i < threads.length; i++) {
@@ -41,9 +41,10 @@ public class ThreadPoolEx {
         this.shutDown = true;
     }
     public void add(Runnable work) {
-        synchronized (list) {
-            list.addLast(work);
-            list.notify();
+        try {
+            queue.put(work);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -54,27 +55,18 @@ public class ThreadPoolEx {
     private class InnerThreads extends Thread {
         @Override
         public void run() {
-            Runnable runnable;
+            Runnable runnable = null;
             while (true) {
-                synchronized (list) {
-                    while (list.isEmpty()) {
-                        try {
-                            if (isShutDown()) {
-                                break;
-                            }
-                            list.wait();
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    runnable = list.poll();
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                    if (isShutDown() && list.isEmpty()) {
-                        break;
-                    }
+                try {
+                    runnable = queue.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (runnable != null) {
+                    runnable.run();
+                }
+                if (isShutDown() && queue.isEmpty()) {
+                    break;
                 }
             }
         }
