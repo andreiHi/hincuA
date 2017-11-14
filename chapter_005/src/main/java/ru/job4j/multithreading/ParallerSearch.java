@@ -12,11 +12,11 @@ public class ParallerSearch {
     /**
      * Лист с результатом работы программы.
      */
-    private List<String> result = new ArrayList<>();
+    private final List<String> result = new ArrayList<>();
     /**
      * Очередь для обработки файлов с требуемым расширением.
      */
-    private Queue<File> files = new ArrayDeque<>();
+    private final Queue<File> files = new ArrayDeque<>();
     /**
      * Начальная папка окуда следует начать поиск.
      */
@@ -43,17 +43,30 @@ public class ParallerSearch {
      * Нить для поиска текста в найденных файлах.
      */
     private Thread searchText = new Thread(new Runnable() {
+
         @Override
         public void run() {
             while (searchFiles.isAlive() || !files.isEmpty()) {
-                if (!files.isEmpty()) {
-                File file = files.poll();
+                File file;
+                synchronized (files) {
+                    if (files.isEmpty()) {
+                        try {
+                            System.out.println("Нить ждет добавления файлов в очередь.");
+                            files.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    file = files.poll();
+                    System.out.println("Забираем файл из очереди.");
+                }
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
                     while (reader.ready()) {
                         String s = reader.readLine();
                         if (s.contains(text)) {
                             result.add(file.getPath());
+                            System.out.println("Текст в файле найден, добавляем файл в результат.");
                             break;
                         }
                     }
@@ -62,7 +75,7 @@ public class ParallerSearch {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+
         }
         }
     });
@@ -106,7 +119,17 @@ public class ParallerSearch {
                     if (name.contains(".")) {
                         name = name.split("\\.")[1];
                         if (exts.contains(name)) {
-                            this.files.add(f);
+                            synchronized (this.files) {
+                                this.files.add(f);
+                                System.out.println("Файл соответствующего типа найден.");
+                                try {
+                                    Thread.sleep(100);
+                                    //для имитации работы с большими файлами
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                this.files.notify();
+                            }
                         }
                     }
                 }
