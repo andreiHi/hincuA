@@ -37,4 +37,13 @@ public class User {
     public int getVersion() {
         return version;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", version=" + version +
+                ", id=" + id +
+                '}';
+    }
 }

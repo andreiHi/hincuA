@@ -1,7 +1,7 @@
 package ru.job4j.multithreading.chash;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiFunction;
+
 
 /**
  * .
@@ -21,28 +21,30 @@ public class NonBlockingCash {
     }
     public void update (User user) {
         int v = user.getVersion();
-        map.computeIfPresent(user.getId(), new BiFunction<Integer, User, User>() {
-            @Override
-            public User apply(Integer integer, User user) {
-                if ((v + 1) == integer) {
-                    throw new RuntimeException();
-                }
-                user.setVersion(v + 1);
-                return user;
+        map.computeIfPresent(user.getId(), (integer, user1) -> {
+            if ((v + 1) == user1.getVersion()) {
+                throw new RuntimeException();
             }
+            user1 = user;
+            user1.setVersion(v + 1);
+            return user1;
         });
     }
-}
-class Calculator {
-    public String calc(BiFunction<Integer, Integer, String> bi, Integer i1, Integer i2) {
-        return bi.apply(i1, i2);
+    public User get(int id) {
+        return map.get(id);
     }
 }
+
 class Main {
-    /*from  w  w  w. j a  v a  2 s  . c  o m*/
+
     public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        String result = calculator.calc((a, b) -> ": " + (a + b),3,  5);
-        System.out.println(result);
+
+        User user = new User("Vasea", 1);
+        NonBlockingCash non = new NonBlockingCash();
+        non.add(user);
+        User user1 = new User("Petea", 1);
+        non.update(user1);
+        System.out.println(non.get(1));
+
     }
 }
