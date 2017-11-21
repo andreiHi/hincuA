@@ -1,6 +1,5 @@
 package ru.job4j.multithreading.bomber;
 
-
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -9,25 +8,33 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 0.1.
  */
 public class Start {
-    final  ReentrantLock[][] board;
+    private final  ReentrantLock[][] board;
     public static int getRandomInt(int from, int to) {
         return (int) (from + Math.random() * to);
     }
     public static void main(String[] args) {
         Start start = new Start();
         Bomber bomber = new Bomber(start);
-        System.out.println(getRandomInt(10, 5));
+        Thread t = new Thread(bomber);
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-    public Start() {
-        int xY = getRandomInt(15, 5);
+     Start() {
+        int xY = getRandomInt(15, 6);
         board = new ReentrantLock[xY][xY];
         for (int i = 0; i < xY; i++) {
             for (int j = 0; j < xY; j++) {
                 board[i][j] = new ReentrantLock();
             }
         }
+        System.out.println(String.format("Размер поля установлен %d на %d", xY - 1, xY - 1));
     }
 
-
-
+    public ReentrantLock[][] getBoard() {
+        return board;
+    }
 }

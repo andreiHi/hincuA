@@ -76,7 +76,7 @@ public class Tests {
                 System.out.println("ждем второй таск");
                 String s = futureTask2.get();
                 if (s != null) {
-                    System.out.println("результат второго " +s);
+                    System.out.println("результат второго " + s);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
