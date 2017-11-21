@@ -1,6 +1,7 @@
 package ru.job4j.multithreading.chash;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 
 /**
@@ -13,7 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NonBlockingCash {
     private ConcurrentHashMap<Integer, User> map = new ConcurrentHashMap<>();
     public void add(User user) {
-        map.putIfAbsent(user.getId(), user);
+      //  map.putIfAbsent(user.getId(), user);
+        map.computeIfAbsent(user.getId(), integer -> user);
     }
 
     public void delete (User user) {

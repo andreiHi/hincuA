@@ -9,26 +9,25 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 0.1.
  */
 public class Start {
-    final ReentrantLock[][] board = new ReentrantLock[10][10];
-    public static int getRandomInt() {
-        return (int) (Math.random() * 10);
+    final  ReentrantLock[][] board;
+    public static int getRandomInt(int from, int to) {
+        return (int) (from + Math.random() * to);
     }
     public static void main(String[] args) {
-
+        Start start = new Start();
+        Bomber bomber = new Bomber(start);
+        System.out.println(getRandomInt(10, 5));
     }
-
-    class Bomber implements Runnable {
-
-
-        @Override
-        public void run() {
-            while (true) {
-
+    public Start() {
+        int xY = getRandomInt(15, 5);
+        board = new ReentrantLock[xY][xY];
+        for (int i = 0; i < xY; i++) {
+            for (int j = 0; j < xY; j++) {
+                board[i][j] = new ReentrantLock();
             }
         }
-        public void move () {
-
-        }
     }
+
+
 
 }
