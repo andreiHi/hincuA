@@ -71,7 +71,11 @@ class Consumer implements Runnable {
         Message msg;
 
         try {
-            while (!(msg = queue.take()).getMsg().equals("exit")) {
+            while (true) {
+               msg = queue.take();
+                if (msg.getMsg().equals("exit")) {
+                    break;
+                }
                 Thread.sleep(10);
                 System.out.println("Получено " + msg.getMsg());
             }

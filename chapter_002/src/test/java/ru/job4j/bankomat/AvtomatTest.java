@@ -30,7 +30,7 @@ public class AvtomatTest {
      */
     @Test
     public void changes() {
-        int [] change = a.changes(50,35);
+        int[] change = a.changes(50, 35);
         assertThat(change, is(new int[]{10, 5}));
     }
 

@@ -14,28 +14,25 @@ public class Board {
      * @return String paint.
      */
     public String paint(int width, int height) {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (stringBuilder.length() == 0) {
-                    stringBuilder.append("x");
-                    continue;
+                if (i % 2 == 0 && j % 2 == 0) {
+                    sb.append("x");
                 }
-                if (stringBuilder.toString().endsWith(" ")) {
-                    stringBuilder.append("x");
-                } else if (stringBuilder.toString().endsWith("x")) {
-                    stringBuilder.append(" ");
-                } else {
-                        char ch = stringBuilder.charAt(stringBuilder.length() - 2);
-                    if (ch == 'x') {
-                        stringBuilder.append(" ");
-                    } else {
-                        stringBuilder.append("x");
-                    }
+                if (i % 2 == 0 && j % 2 != 0) {
+                    sb.append(" ");
+                }
+                if (i % 2 != 0 && j % 2 == 0) {
+                    sb.append(" ");
+                }
+                if (i % 2 != 0 && j % 2 != 0) {
+                    sb.append("x");
                 }
             }
-            stringBuilder.append(System.getProperty("line.separator"));
+            sb.append(System.lineSeparator());
         }
-        return stringBuilder.toString();
+        return sb.toString();
     }
+
 }

@@ -42,7 +42,7 @@ class TestLockEx {
     public static void main(String[] args) {
         LockEx lockEx = new LockEx();
         Resurs resurs = new Resurs();
-        for (int i =0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             Thread t = new Thread(new TestThread(resurs, lockEx));
             t.setName("Thread" + i);
             t.start();
@@ -83,7 +83,7 @@ class TestThread implements Runnable {
         lockEx.lock();
         r.setX(0);
         for (int i = 1; i < 6; i++) {
-            System.out.println(Thread.currentThread().getName() + " " +r.getX());
+            System.out.println(Thread.currentThread().getName() + " " + r.getX());
             r.setX(i);
         }
         lockEx.unLock();

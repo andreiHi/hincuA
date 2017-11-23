@@ -22,7 +22,7 @@ public class WordsAndSpaces implements Runnable {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(new File("/home/andrei/projects/hincuA/chapter_005/king.txt")));
+            reader = new BufferedReader(new FileReader(new File("C://projects//hincuA//chapter_005//king.txt")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

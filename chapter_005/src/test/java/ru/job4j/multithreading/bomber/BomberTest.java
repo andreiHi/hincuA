@@ -31,7 +31,7 @@ public class BomberTest {
      */
     @Test
     public void checkBorders() {
-       boolean result = bomber.checkBorders(21,5);
+       boolean result = bomber.checkBorders(21, 5);
        assertFalse(result);
        result = bomber.checkBorders(5, 5);
        assertTrue(result);

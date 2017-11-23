@@ -40,10 +40,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", version=" + version +
-                ", id=" + id +
-                '}';
+        return "User{"
+                + "name='"
+                + name
+                + '\''
+                + ", version="
+                + version
+                + ", id="
+                + id
+                + '}';
     }
 }

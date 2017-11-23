@@ -22,8 +22,8 @@ public class Car implements Runnable {
     public void run() {
         try {
             System.out.println(String.format("Автомобиль %d подьехалк стартовой прямой", carNumber));
-            rase.getSTART().countDown();
-            rase.getSTART().await();
+            rase.getStart().countDown();
+            rase.getStart().await();
             Thread.sleep(rase.getTrackLength() / carSpeed);
             System.out.println(String.format("Автомобиль %d финишировал", carNumber));
         } catch (InterruptedException e) {

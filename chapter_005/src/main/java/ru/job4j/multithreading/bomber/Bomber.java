@@ -63,14 +63,17 @@ public  class Bomber implements Runnable {
      */
     public void move() {
         int number = Start.getRandomInt(0, 4);
-        switch (number) {
-            case 0 : move(-1, 0);
-            break;
-            case 1 : move(0, 1);
-            break;
-            case 2 : move(1, 0);
-            break;
-            case 3 : move(0, -1);
+        if (number == 0) {
+            move(-1, 0);
+
+        } else if (number == 1) {
+            move(0, 1);
+
+        } else if (number == 2) {
+            move(1, 0);
+
+        } else if (number == 3) {
+            move(0, -1);
         }
     }
 

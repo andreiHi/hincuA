@@ -1,6 +1,5 @@
 package ru.job4j.collections.set;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -20,22 +19,17 @@ public class SimpleSetWithLinkedListTest {
      */
     private SimpleSetWithLinkedList<String> set;
 
-    /**
-     * Инициализация.
-     */
-    @Before
-    public  void start() {
-        set = new SimpleSetWithLinkedList<>();
-        set.add("Ivanov");
-        set.add("Ivanov");
-        set.add("Petrov");
-    }
+
 
     /**
      * Метод проверяет уникальность элементов работу итератора.
      */
     @Test
     public void whenAddedTwoElementsWithEqualsNames() {
+        set = new SimpleSetWithLinkedList<>();
+        set.add("Ivanov");
+        set.add("Ivanov");
+        set.add("Petrov");
         Iterator<String> it = set.iterator();
         String ivanov = it.next();
         assertThat(ivanov, is("Ivanov"));

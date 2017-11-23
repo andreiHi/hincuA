@@ -2,8 +2,6 @@ package ru.job4j.collections.list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Связанный список.
@@ -13,10 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 0.1
  */
 public class ContainerAsLinkedList<E> implements Iterable<E> {
-    /**
-     * Замок для синхронизации.
-     */
-    private Lock lock = new ReentrantLock();
+
     /**
      * Первый элемент.
      */
@@ -73,7 +68,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @return итератор.
      */
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Iterator<E>() {
             /**
              * Текущая позиция.
@@ -98,9 +93,8 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
              * @return возврат текущего и сдвиг на следующий
              */
             @Override
-            public E next() {
-                lock.unlock();
-                try {
+            public synchronized E next() {
+
                     Entry<E> returned;
 
                     if (!hasNext()) {
@@ -111,9 +105,6 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
                         indexPosition++;
                     }
                     return  returned.element;
-                } finally {
-                    lock.unlock();
-                }
             }
         };
     }
@@ -123,23 +114,19 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param element элемент.
      * @return тру.
      */
-    public boolean add(E element) {
-        lock.lock();
-        try {
+    public synchronized boolean add(E element) {
+
             this.addLast(element);
             return true;
-        } finally {
-            lock.unlock();
-        }
+
     }
 
     /**
      * Добовление в конец.
      * @param element елемент.
      */
-    public void addLast(E element) {
-        lock.lock();
-        try {
+    public synchronized void addLast(E element) {
+
             Entry<E> lastElement = this.last;
             Entry<E> elementNew = new Entry<E>(lastElement, element, null);
             this.last = elementNew;
@@ -149,18 +136,15 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
                 lastElement.next = elementNew;
             }
             size++;
-        } finally {
-            lock.unlock();
-        }
+
     }
 
     /**
      * Добавление в начало.
      * @param element елемент.
      */
-    public void addFirst(E element) {
-        lock.lock();
-        try {
+    public synchronized void addFirst(E element) {
+
             Entry<E> ferst = this.first;
             Entry<E> newElement = new Entry<E>(null, element, ferst);
             this.first = newElement;
@@ -170,9 +154,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
                 ferst.prev = newElement;
             }
             size++;
-        } finally {
-            lock.unlock();
-        }
+
     }
 
     /**
@@ -180,9 +162,8 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param index индекс.
      * @return елемент.
      */
-    public E get(int index) {
-        lock.lock();
-        try {
+    public synchronized E get(int index) {
+
             if (index < 0 || index >= this.size) {
                 throw new IndexOutOfBoundsException();
             }
@@ -192,18 +173,15 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
                 item = item.next;
             }
             return  item.element;
-        } finally {
-            lock.unlock();
-        }
+
     }
 
     /**
      * Метод удаляет последний элемент.
      * @return удаленный элемент.
      */
-    public E removeLast() {
-        lock.lock();
-        try {
+    public synchronized E removeLast() {
+
             Entry<E> last = this.last;
             if (last.prev == null) {
                 Entry<E> empty = new Entry<>(null, null, null);
@@ -217,18 +195,16 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
             }
             this.size--;
             return last.element;
-        } finally {
-            lock.unlock();
-        }
+
     }
 
     /**
      * Метод удаляет первый элемент из хранилища.
      * @return первый элемент.
      */
-    public E removeFirst() {
-        lock.lock();
-        try {
+    public synchronized E removeFirst() {
+
+
             Entry<E> first = this.first;
             if (first.next == null) {
                 Entry<E> empty = new Entry<>(null, null, null);
@@ -241,9 +217,7 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
             }
             this.size--;
             return first.element;
-        } finally {
-            lock.unlock();
-        }
+
     }
     /**
      * Размер хранилища.
@@ -258,19 +232,18 @@ public class ContainerAsLinkedList<E> implements Iterable<E> {
      * @param value проверяемый элемент.
      * @return true or false.
      */
-    public boolean contains(E value) {
-        lock.lock();
-        try {
-            boolean found = false;
+    public synchronized boolean contains(E value) {
+
+        boolean found;
+
+            found = false;
             for (E e : this) {
                 if (value.equals(e)) {
                     found = true;
                     break;
                 }
             }
-            return found;
-        } finally {
-            lock.unlock();
-        }
+
+        return found;
     }
 }
