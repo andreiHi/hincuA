@@ -14,7 +14,7 @@ public class CountChar implements Runnable {
         BufferedReader reader;
         StringBuilder sb = new StringBuilder();
         try {
-            reader = new BufferedReader(new FileReader(new File("C://projects//hincuA//chapter_005//king.txt")));
+            reader = new BufferedReader(new FileReader(new File("/home/andrei/projects/hincuA/chapter_005/king.txt")));
             while (reader.ready()) {
                 sb.append(reader.readLine());
             }

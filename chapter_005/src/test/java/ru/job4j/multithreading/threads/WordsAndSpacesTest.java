@@ -1,5 +1,6 @@
 package ru.job4j.multithreading.threads;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,6 +12,7 @@ import static org.junit.Assert.*;
  */
 public class WordsAndSpacesTest {
     @Test
+    @Ignore
     public void name() throws Exception {
         WordsAndSpaces words = new WordsAndSpaces();
         words.wordsAndSpaces();
