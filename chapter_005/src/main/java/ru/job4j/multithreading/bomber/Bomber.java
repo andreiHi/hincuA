@@ -73,13 +73,13 @@ public  class Bomber implements Runnable {
         if (number == 0) { //идем на лево
             move(-1, 0);
 
-        } else if (number == 1) {//идем вниз
+        } else if (number == 1) { //идем вниз
             move(0, 1);
 
-        } else if (number == 2) {//идем направо
+        } else if (number == 2) { //идем направо
             move(1, 0);
 
-        } else if (number == 3) {//идем вверх
+        } else if (number == 3) { //идем вверх
             move(0, -1);
         }
     }

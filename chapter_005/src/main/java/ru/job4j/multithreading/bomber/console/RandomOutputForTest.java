@@ -6,7 +6,7 @@ package ru.job4j.multithreading.bomber.console;
  * @since 0.1.
  */
 public class RandomOutputForTest implements Output {
-    private int[]values = {10,5,5,5};
+    private int[]values = {10, 5, 5, 5};
     private int position = 0;
 
     @Override
