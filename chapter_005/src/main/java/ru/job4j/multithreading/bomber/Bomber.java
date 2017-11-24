@@ -41,19 +41,25 @@ public  class Bomber implements Runnable {
     public void run() {
         boolean getLock;
         do {
-            this.x = Start.getRandomInt(0, start.getBoard().length);
-            this.y = Start.getRandomInt(0, start.getBoard().length);
+            //Получаем случайные координаты х и у.
+            this.x = start.getRandomInt(0, start.getBoard().length);
+            this.y = start.getRandomInt(0, start.getBoard().length);
+            //получаем замок из этих координат
             this.lock = start.getBoard()[y][x];
+            //проверяем можем ли мы го захватить
             getLock = this.lock.tryLock();
+            //если не можем цикл повторяется , если лок захвачен то бомбер родился в указанных координатах
         } while (!getLock);
         System.out.println(String.format("%s появился по координатам : %d : %d ", name, y, x));
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
+                //засыпаем на секунду т.к бомбер может ходить раз в секунду
                 TimeUnit.SECONDS.sleep(1);
+                //ходим
                 move();
                 System.out.println(String.format("%s ходит в %d : %d", name, y, x));
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Поток прерван");
             }
         }
     }
@@ -62,17 +68,18 @@ public  class Bomber implements Runnable {
      * Метод рендомно принимает решение куда ходить.
      */
     public void move() {
-        int number = Start.getRandomInt(0, 4);
-        if (number == 0) {
+        //получаем случайное число от 0 до 3 включительно
+        int number = start.getRandomInt(0, 4);
+        if (number == 0) { //идем на лево
             move(-1, 0);
 
-        } else if (number == 1) {
+        } else if (number == 1) {//идем вниз
             move(0, 1);
 
-        } else if (number == 2) {
+        } else if (number == 2) {//идем направо
             move(1, 0);
 
-        } else if (number == 3) {
+        } else if (number == 3) {//идем вверх
             move(0, -1);
         }
     }
@@ -83,22 +90,30 @@ public  class Bomber implements Runnable {
      * @param yY направление по оси у.
      */
     public void move(int xX, int yY) {
+        //получаем координаты куда хотим пойти
         int x = this.x + xX;
         int y = this.y + yY;
         System.out.println(String.format("%s хочет пойти в %d : %d", name, y, x));
+        //проверяем не вылазием ли мы за пределы поля
         if (!checkBorders(x, y)) {
             System.out.println("Сюда нельзя");
+            //еслы вылазием производим перезапрос направления хода
             move();
         } else {
+            //сохраняем замок из точки куда хотим пойти в переменную lock
             ReentrantLock lock = start.getBoard()[y][x];
             try {
+                //пытаемся захватить замок в течении 500 млс
                 boolean get = lock.tryLock(500, TimeUnit.MILLISECONDS);
                 if (get) {
+                    //если захватили отпускаем старый замок перезаписываем в переменную класа свежезахваченный замок
                     this.lock.unlock();
                     this.lock = lock;
+                    //устонавливаем новые координаты бомбера
                     this.x = x;
                     this.y = y;
                 } else {
+                    //если замок не захватился делаем повторный запрос хода
                     move();
                 }
             } catch (InterruptedException e) {

@@ -1,5 +1,8 @@
 package ru.job4j.multithreading.bomber;
 
+import ru.job4j.multithreading.bomber.console.Output;
+import ru.job4j.multithreading.bomber.console.RandomOutput;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -8,12 +11,11 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 0.1.
  */
 public class Start {
+    private Output randomOutput;
     private final  ReentrantLock[][] board;
-    public static int getRandomInt(int from, int to) {
-        return (int) (from + Math.random() * to);
-    }
+
     public static void main(String[] args) {
-        Start start = new Start();
+        Start start = new Start(new RandomOutput());
         Bomber bomber = new Bomber(start);
         Thread t = new Thread(bomber);
         t.start();
@@ -23,8 +25,9 @@ public class Start {
             e.printStackTrace();
         }
     }
-     Start() {
-        int xY = getRandomInt(15, 6);
+     Start(Output output) {
+        this.randomOutput = output;
+        int xY = this.randomOutput.getRandomInt(15, 6);
         board = new ReentrantLock[xY][xY];
         for (int i = 0; i < xY; i++) {
             for (int j = 0; j < xY; j++) {
@@ -36,5 +39,8 @@ public class Start {
 
     public ReentrantLock[][] getBoard() {
         return board;
+    }
+    public int getRandomInt(int from, int to) {
+        return this.randomOutput.getRandomInt(from, to);
     }
 }

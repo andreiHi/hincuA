@@ -2,6 +2,7 @@ package ru.job4j.multithreading.bomber;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.multithreading.bomber.console.RandomOutputForTest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,15 +15,20 @@ import static org.junit.Assert.assertTrue;
 public class BomberTest {
     Bomber bomber;
     Start start;
+
     @Before
     public void start() {
-        start = new Start();
+        start = new Start(new RandomOutputForTest());
         bomber = new Bomber(start);
     }
 
 
     @Test
     public void move() throws Exception {
+        Thread t = new Thread(bomber);
+        t.start();
+        Thread.sleep(10);
+        t.interrupt();
     }
 
 
