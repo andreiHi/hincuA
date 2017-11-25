@@ -1,0 +1,37 @@
+CREATE DATABASE java;
+
+CREATE TABLE category(
+id SERIAL PRIMARY KEY,
+category TEXT
+);
+
+INSERT INTO category (category) values('MAX');
+INSERT INTO category (category) values('MEDIUM');
+INSERT INTO category (category) values('LOW');
+
+CREATE TABLE role (
+id SERIAL PRIMARY KEY,
+role TEXT
+);
+
+INSERT INTO role(role) values('admin');
+INSERT INTO role(role) values('superuser');
+INSERT INTO role(role) values('user');
+INSERT INTO role(role) values('ban');
+
+CREATE TABLE users (
+id SERIAL PRIMARY KEY,
+name CHARACTER VARYING(64),
+login CHARACTER VARYING(64),
+password CHARACTER VARYING(64)
+);
+
+INSERT INTO users(name, login, password) values('Andrei','Andrei', '123');
+INSERT INTO users(name, login, password) values('Vasili','Vasea', '234');
+INSERT INTO users(name, login, password) values('Petr','Petr', '345');
+
+CREATE table usersRole(
+id SERIAL PRIMARY key,
+user_id INTEGER references users(id),
+role_id INTEGER references role(id)
+);

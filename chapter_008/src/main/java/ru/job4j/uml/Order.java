@@ -8,10 +8,9 @@ import java.io.File;
  * @since 0.1.
  */
 public class Order {
-    private User user;
     private int id;
-    String[] comments;
-    File[] files;
-    String state;
-    Category category;
+    private String[] comments;
+    private File[] files;
+    private String state;
+    private Category category;
  }

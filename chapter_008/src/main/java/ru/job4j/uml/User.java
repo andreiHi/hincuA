@@ -8,5 +8,8 @@ package ru.job4j.uml;
 public class User {
     private  int id;
     private String name;
+    private String login;
+    private String password;
     private Role[]roles;
+    private Order[]orders;
 }

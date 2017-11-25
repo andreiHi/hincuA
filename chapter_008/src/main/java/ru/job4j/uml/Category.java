@@ -5,8 +5,8 @@ package ru.job4j.uml;
  * @version $Id$.
  * @since 0.1.
  */
-public class Category {
-    private String max;
-    private String medium;
-    private String low;
+public enum  Category {
+     MAX,
+     MEDIUM,
+    LOW;
 }
