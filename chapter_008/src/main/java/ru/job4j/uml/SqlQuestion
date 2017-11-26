@@ -1,24 +1,20 @@
+--создаем базу данных
 CREATE DATABASE java;
 
-CREATE TABLE category(
-id SERIAL PRIMARY KEY,
-category TEXT
-);
 
-INSERT INTO category (category) values('MAX');
-INSERT INTO category (category) values('MEDIUM');
-INSERT INTO category (category) values('LOW');
-
+--создаем таблицу прав
 CREATE TABLE role (
 id SERIAL PRIMARY KEY,
 role TEXT
 );
 
+--добовляем в нее значения
 INSERT INTO role(role) values('admin');
 INSERT INTO role(role) values('superuser');
 INSERT INTO role(role) values('user');
 INSERT INTO role(role) values('ban');
 
+--создаем таблицу пользователей
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 name CHARACTER VARYING(64),
@@ -26,12 +22,58 @@ login CHARACTER VARYING(64),
 password CHARACTER VARYING(64)
 );
 
+--добовляем пользователей
 INSERT INTO users(name, login, password) values('Andrei','Andrei', '123');
 INSERT INTO users(name, login, password) values('Vasili','Vasea', '234');
 INSERT INTO users(name, login, password) values('Petr','Petr', '345');
 
+--создаем таблицу в которой указаны права пользователей
 CREATE table usersRole(
 id SERIAL PRIMARY key,
 user_id INTEGER references users(id),
 role_id INTEGER references role(id)
 );
+--задаем те или иные права  тем или иным пользователям
+INSERT INTO usersRole(user_id, role_id) values(3,1);
+INSERT INTO usersRole(user_id, role_id) values(3,2);
+INSERT INTO usersRole(user_id, role_id) values(2,3);
+INSERT INTO usersRole(user_id, role_id) values(1,3);
+
+--создаем таблицу коментариев к заявкам
+CREATE TABLE coments(
+  id SERIAL PRIMARY KEY ,
+  text TEXT,
+  id_user INTEGER REFERENCES users(id)
+
+);
+
+--создаем таблицу заявок
+CREATE TABLE orders(
+  id SERIAL PRIMARY KEY ,
+  category TEXT,
+  state TEXT
+
+);
+
+--добовляем в таблицу cjments столбец для сохранения ссылки на id заявки к которой данный коментарий относится
+ALTER TABLE coments ADD COLUMN id_order INTEGER REFERENCES orders(id);
+
+--добовляем в таблицу заявок столбец для хранения id пользователя который создал эту заявку
+ALTER TABLE orders ADD COLUMN id_user INTEGER REFERENCES users(id);
+
+--заполяем таблицу заявок
+INSERT INTO orders (category, state, id_user) VALUES ('IT','new',3);
+INSERT INTO orders (category, state, id_user) VALUES ('IT','old',2);
+INSERT INTO orders (category, state, id_user) VALUES ('transport','execute',1);
+INSERT INTO orders (category, state, id_user) VALUES ('transport','new',2);
+
+--добовляем комментарий
+INSERT INTO coments(text, id_user, id_order) VALUES ('расчитать новые таблицы',3,1);
+
+--удаляем столбец
+ALTER TABLE coments DROP COLUMN id_user;
+
+-- продолжаем заполнять таблицу
+INSERT INTO coments (text,  id_order) VALUES ('произвести рефакторинг',2);
+INSERT INTO coments (text,  id_order) VALUES ('перевезти стол по адресу ул.Лизюкова 15',3);
+INSERT INTO coments (text,  id_order) VALUES ('перевперевозка мебели',4);
