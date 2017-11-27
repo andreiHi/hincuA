@@ -54,8 +54,8 @@ public class MenuTracker {
      */
     public int[] rangs() {
         int[] rang = new int[actions.size()];
-        for (UserAction action : actions) {
-            rang[actions.indexOf(action)] = actions.indexOf(action);
+        for (int i = 0; i < actions.size(); i++) {
+            rang[i] = actions.get(i).key();
         }
         return rang;
     }
@@ -72,11 +72,7 @@ public class MenuTracker {
      * Выводит информацию об действии.
      */
     public void show() {
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
-        }
+        actions.forEach(actoin -> System.out.println(actoin.info()));
     }
 
     /**
@@ -142,9 +138,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Tracker tracker, Input input) {
-            for (Item item : tracker.getAll()) {
-                System.out.println(String.format("%s, %s, %s.", item.getId(), item.getName(), item.getDesc()));
-            }
+            tracker.getAll().forEach(System.out::println);
         }
     }
 
@@ -227,7 +221,10 @@ public class MenuTracker {
             boolean found = false;
             Item item = null;
             while (!found) {
-                id = input.ask("Enter id :");
+                id = input.ask("Enter id or exit :");
+                if (id.equals("exit")) {
+                    break;
+                }
                 item = tracker.findById(id);
                 if (item == null) {
                     System.out.println("Invalid ID enter again.");
@@ -235,7 +232,11 @@ public class MenuTracker {
                     found = true;
                 }
             }
-            input.writeMessage(String.format("%s, %s, %s", item.getId(), item.getName(), item.getDesc()));
+            if (item == null) {
+                System.out.println("The request was canceled.");
+            } else {
+                input.writeMessage(String.valueOf(item));
+            }
         }
     }
 
@@ -274,9 +275,7 @@ public class MenuTracker {
                     found = true;
                 }
             }
-            for (Item item1 : item) {
-                input.writeMessage(String.format("%s, %s,%s", item1.getId(), item1.getName(), item1.getDesc()));
-            }
+            item.forEach(System.out ::println);
         }
     }
 

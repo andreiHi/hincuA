@@ -20,6 +20,7 @@ public class Tests {
         List<String> list = Stream.of("a", "b", "c").collect(toList());
         System.out.println(list);
         System.out.println("------------------------------");
+
         // распечатать лист с помощью форич
         list.forEach(st -> System.out.print(st));
         list.forEach(System.out::println);

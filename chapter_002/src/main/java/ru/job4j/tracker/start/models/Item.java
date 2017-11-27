@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start.models;
 
+import java.util.Arrays;
+
 /**
  * Item - элемент трекера.
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.09.2017.
@@ -145,5 +147,24 @@ public class Item {
      */
     public void setComments(String[] comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{"
+                + "id ='"
+                + id
+                + '\''
+                + ", name ='"
+                + name
+                + '\''
+                + ", desc ='"
+                + desc
+                + '\''
+                + ", created ="
+                + created
+                + ", comments ="
+                + Arrays.toString(comments)
+                + '}';
     }
 }
