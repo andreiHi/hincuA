@@ -13,13 +13,13 @@ import static org.junit.Assert.assertTrue;
  * @since 0.1.
  */
 public class BomberTest {
-    Bomber bomber;
-    Start start;
+    private Bomber bomber;
+    private Start start;
 
     @Before
     public void start() {
         start = new Start(new RandomOutputForTest());
-        bomber = new Bomber(start);
+        bomber = new Bomber(start, "Бомбер");
     }
 
 

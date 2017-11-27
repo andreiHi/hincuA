@@ -16,18 +16,40 @@ public class Start {
 
     public static void main(String[] args) {
         Start start = new Start(new RandomOutput());
-        Bomber bomber = new Bomber(start);
+        start.setBlok();
+        Bomber bomber = new Bomber(start, "Бомбер");
         Thread t = new Thread(bomber);
+        t.setName(bomber.getName());
         t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+//        try {
+//            t.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    /**
+     * Метод устанавливает блоки куда нельзя ходить.
+     */
+    private void setBlok() {
+        //случайное колличество блоков от 10 до 20 штук
+        int countOfBlok = this.randomOutput.getRandomInt(10, 20);
+        System.out.println(String.format("Блоков установлено %d", countOfBlok));
+        for (int i = 0; i < countOfBlok;) {
+            int x = this.randomOutput.getRandomInt(0, board.length);
+            int y = this.randomOutput.getRandomInt(0, board.length);
+            ReentrantLock lock = board[y][x];
+            boolean locked = lock.tryLock();
+            if (locked) {
+                i++;
+            }
         }
     }
-     Start(Output output) {
+
+    Start(Output output) {
         this.randomOutput = output;
-        int xY = this.randomOutput.getRandomInt(15, 6);
+        //устанавливаем случайный размер поля от шириной и высотой от 15 до 20 ячеек.
+        int xY = this.randomOutput.getRandomInt(15, 21);
         board = new ReentrantLock[xY][xY];
         for (int i = 0; i < xY; i++) {
             for (int j = 0; j < xY; j++) {
@@ -36,7 +58,6 @@ public class Start {
         }
         System.out.println(String.format("Размер поля установлен %d на %d", xY - 1, xY - 1));
     }
-
     public ReentrantLock[][] getBoard() {
         return board;
     }

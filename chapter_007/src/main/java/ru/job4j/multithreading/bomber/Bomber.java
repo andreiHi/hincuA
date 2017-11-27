@@ -12,7 +12,8 @@ public  class Bomber implements Runnable {
     /**
      * Имя.
      */
-    private final String name = "Бомбер";
+    private final String name;
+    protected ReentrantLock forLock;
     /**
      * доступ к полю.
      */
@@ -30,12 +31,18 @@ public  class Bomber implements Runnable {
      */
     private int y;
 
-    public Bomber(Start start) {
+    private int timeForTryLock;
+
+    public Bomber(Start start, String name) {
         this.start = start;
+        this.name = name;
+        if (name.equalsIgnoreCase("bomber")) {
+            this.timeForTryLock = 500;
+        } else {
+            this.timeForTryLock = 5000;
+        }
     }
 
-    public Bomber() {
-    }
 
     @Override
     public void run() {
@@ -101,10 +108,16 @@ public  class Bomber implements Runnable {
             move();
         } else {
             //сохраняем замок из точки куда хотим пойти в переменную lock
-            ReentrantLock lock = start.getBoard()[y][x];
+            forLock = start.getBoard()[y][x];
+            if (!lock.tryLock()) {
+                Thread bomber;
+//                if (forLock.getOwner()) {
+//
+//                }
+            }
             try {
-                //пытаемся захватить замок в течении 500 млс
-                boolean get = lock.tryLock(500, TimeUnit.MILLISECONDS);
+                //пытаемся захватить замок в течении timeForTryLock млс
+                boolean get = lock.tryLock(timeForTryLock, TimeUnit.MILLISECONDS);
                 if (get) {
                     //если захватили отпускаем старый замок перезаписываем в переменную класа свежезахваченный замок
                     this.lock.unlock();
@@ -114,12 +127,18 @@ public  class Bomber implements Runnable {
                     this.y = y;
                 } else {
                     //если замок не захватился делаем повторный запрос хода
+                    System.out.println(String.format("Ячейка занята %s идет другую сторону",this.name));
                     move();
+
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**
