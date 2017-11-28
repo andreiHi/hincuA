@@ -19,7 +19,7 @@ public class NpsGuysTest {
     @Before
     public void start() {
         start = new Start(new RandomOutputForTest());
-        npsGuys = new NpsGuys(start, "Бомбер");
+        npsGuys = new NpsGuys(start, Names.Bomber);
     }
 
 

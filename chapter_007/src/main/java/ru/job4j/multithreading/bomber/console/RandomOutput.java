@@ -6,15 +6,11 @@ package ru.job4j.multithreading.bomber.console;
  * @since 0.1.
  */
 public class RandomOutput implements Output {
-    public static void main(String[] args) {
-        RandomOutput randomOutput = new RandomOutput();
-        for (int i =0; i<500; i++) {
-            System.out.println(randomOutput.getRandomInt(10, 21));
-        }
-    }
+
     @Override
     public int getRandomInt(int from, int to) {
 
         return (int) (from + Math.random() * (to - from));
     }
+
 }

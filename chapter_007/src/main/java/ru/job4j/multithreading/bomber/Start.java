@@ -6,26 +6,36 @@ import ru.job4j.multithreading.bomber.console.RandomOutput;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * Главный метод программы.
  * @author Hincu Andrei (andreih1981@gmail.com)on 20.11.2017.
  * @version $Id$.
  * @since 0.1.
  */
 public class Start {
+    /**
+     * Помошник в случайных числах.
+     */
     private Output randomOutput;
+    /**
+     * Игровое поле.
+     */
     private final  ReentrantLock[][] board;
 
     public static void main(String[] args) {
         Start start = new Start(new RandomOutput());
         start.setBlok();
-        NpsGuys npsGuys = new NpsGuys(start, "Бомбер");
-        Thread t = new Thread(npsGuys);
-        t.setName(npsGuys.getName());
+        NpsGuys bomber = new NpsGuys(start, Names.Bomber);
+        Thread t = new Thread(bomber, String.valueOf(Names.Bomber));
         t.start();
-//        try {
-//            t.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        int countofMonsters = start.getRandomInt(5, 10);
+        System.out.println(String.format("Колличество монстров : %d", countofMonsters));
+        //создаем монстров в заданном колличестве
+        for (int i = 0; i < countofMonsters; i++) {
+            NpsGuys monstr = new NpsGuys(start, Names.Monstr);
+            Thread thread = new Thread(monstr, String.valueOf(Names.Monstr));
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 
     /**
@@ -48,15 +58,15 @@ public class Start {
 
     Start(Output output) {
         this.randomOutput = output;
-        //устанавливаем случайный размер поля от шириной и высотой от 15 до 20 ячеек.
-        int xY = this.randomOutput.getRandomInt(15, 21);
+        //устанавливаем случайный размер поля от шириной и высотой от 5 до 10 ячеек.
+        int xY = this.randomOutput.getRandomInt(5, 10);
         board = new ReentrantLock[xY][xY];
         for (int i = 0; i < xY; i++) {
             for (int j = 0; j < xY; j++) {
                 board[i][j] = new ReentrantLock();
             }
         }
-        System.out.println(String.format("Размер поля установлен %d на %d", xY - 1, xY - 1));
+        System.out.println(String.format("Размер поля установлен %d на %d", xY, xY));
     }
     public ReentrantLock[][] getBoard() {
         return board;

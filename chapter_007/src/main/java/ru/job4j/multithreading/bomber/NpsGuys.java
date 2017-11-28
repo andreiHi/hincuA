@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * Класс описывает поведение NPS.
  * @author Hincu Andrei (andreih1981@gmail.com)on 20.11.2017.
  * @version $Id$.
  * @since 0.1.
@@ -12,8 +13,8 @@ public  class NpsGuys implements Runnable {
     /**
      * Имя.
      */
-    private final String name;
-    protected ReentrantLock forLock;
+   // private final String name;
+    private Names name;
     /**
      * доступ к полю.
      */
@@ -33,10 +34,10 @@ public  class NpsGuys implements Runnable {
 
     private int timeForTryLock;
 
-    public NpsGuys(Start start, String name) {
+    public NpsGuys(Start start, Names name) {
         this.start = start;
         this.name = name;
-        if (name.equalsIgnoreCase("bomber")) {
+        if (name.equals(Names.Bomber)) {
             this.timeForTryLock = 500;
         } else {
             this.timeForTryLock = 5000;
@@ -62,13 +63,14 @@ public  class NpsGuys implements Runnable {
             try {
                 //засыпаем на секунду т.к бомбер может ходить раз в секунду
                 TimeUnit.SECONDS.sleep(1);
-                if (this.name.equals("bomber")) {
+                // Если это поток бомбера
+                if (this.name.equals(Names.Bomber)) {
+                    //проверяем не пытался ли кто то захватить данную ячейку во время сна.
                     boolean kill = this.lock.hasQueuedThreads();
+                    //если пытался то бомбер погиб игра закончена
                     if (kill) {
-                        Thread.currentThread().interrupt();
                         System.out.println("Бомбер погиб.");
                         break;
-
                     }
                 }
                 //ходим
@@ -109,31 +111,32 @@ public  class NpsGuys implements Runnable {
         //получаем координаты куда хотим пойти
         int x = this.x + xX;
         int y = this.y + yY;
-        System.out.println(String.format("%s хочет пойти в %d : %d", name, y, x));
+       // System.out.println(String.format("%s хочет пойти в %d : %d", name, y, x));
         //проверяем не вылазием ли мы за пределы поля
         if (!checkBorders(x, y)) {
-            System.out.println("Сюда нельзя");
+            System.out.println(String.format("Сюда нельзя %s", this.name));
             //еслы вылазием производим перезапрос направления хода
             move();
         } else {
             //сохраняем замок из точки куда хотим пойти в переменную lock
-            lock = start.getBoard()[y][x];
+           ReentrantLock lock = start.getBoard()[y][x];
 
             try {
                 //пытаемся захватить замок в течении timeForTryLock млс
+                System.out.println(String.format("%s пытается захватить %d %d", this.name, y, x));
                 boolean get = lock.tryLock(timeForTryLock, TimeUnit.MILLISECONDS);
+                System.out.println(this.name + " получилось " + get);
                 if (get) {
                     //если захватили отпускаем старый замок перезаписываем в переменную класа свежезахваченный замок
                     this.lock.unlock();
                     this.lock = lock;
-                    //устонавливаем новые координаты бомбера
+                    //устонавливаем новые координаты nps
                     this.x = x;
                     this.y = y;
                 } else {
                     //если замок не захватился делаем повторный запрос хода
-                    System.out.println(String.format("Ячейка занята %s идет другую сторону",this.name));
+                    System.out.println(String.format("Ячейка занята %s идет другую сторону", this.name));
                     move();
-
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -141,9 +144,6 @@ public  class NpsGuys implements Runnable {
         }
     }
 
-    public String getName() {
-        return name;
-    }
 
     /**
      * Метод проверяет не находятся ли переданные координаты за пределами поля.
