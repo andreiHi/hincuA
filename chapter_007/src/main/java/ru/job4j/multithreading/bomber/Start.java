@@ -17,9 +17,9 @@ public class Start {
     public static void main(String[] args) {
         Start start = new Start(new RandomOutput());
         start.setBlok();
-        Bomber bomber = new Bomber(start, "Бомбер");
-        Thread t = new Thread(bomber);
-        t.setName(bomber.getName());
+        NpsGuys npsGuys = new NpsGuys(start, "Бомбер");
+        Thread t = new Thread(npsGuys);
+        t.setName(npsGuys.getName());
         t.start();
 //        try {
 //            t.join();

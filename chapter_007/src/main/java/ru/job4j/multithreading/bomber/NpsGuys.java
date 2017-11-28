@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version $Id$.
  * @since 0.1.
  */
-public  class Bomber implements Runnable {
+public  class NpsGuys implements Runnable {
     /**
      * Имя.
      */
@@ -33,7 +33,7 @@ public  class Bomber implements Runnable {
 
     private int timeForTryLock;
 
-    public Bomber(Start start, String name) {
+    public NpsGuys(Start start, String name) {
         this.start = start;
         this.name = name;
         if (name.equalsIgnoreCase("bomber")) {
@@ -62,11 +62,20 @@ public  class Bomber implements Runnable {
             try {
                 //засыпаем на секунду т.к бомбер может ходить раз в секунду
                 TimeUnit.SECONDS.sleep(1);
+                if (this.name.equals("bomber")) {
+                    boolean kill = this.lock.hasQueuedThreads();
+                    if (kill) {
+                        Thread.currentThread().interrupt();
+                        System.out.println("Бомбер погиб.");
+                        break;
+
+                    }
+                }
                 //ходим
                 move();
                 System.out.println(String.format("%s ходит в %d : %d", name, y, x));
             } catch (InterruptedException e) {
-                System.out.println("Поток прерван");
+                System.out.println("Нить прервана.");
             }
         }
     }
@@ -108,13 +117,8 @@ public  class Bomber implements Runnable {
             move();
         } else {
             //сохраняем замок из точки куда хотим пойти в переменную lock
-            forLock = start.getBoard()[y][x];
-            if (!lock.tryLock()) {
-                Thread bomber;
-//                if (forLock.getOwner()) {
-//
-//                }
-            }
+            lock = start.getBoard()[y][x];
+
             try {
                 //пытаемся захватить замок в течении timeForTryLock млс
                 boolean get = lock.tryLock(timeForTryLock, TimeUnit.MILLISECONDS);

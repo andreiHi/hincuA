@@ -12,20 +12,20 @@ import static org.junit.Assert.assertTrue;
  * @version $Id$.
  * @since 0.1.
  */
-public class BomberTest {
-    private Bomber bomber;
+public class NpsGuysTest {
+    private NpsGuys npsGuys;
     private Start start;
 
     @Before
     public void start() {
         start = new Start(new RandomOutputForTest());
-        bomber = new Bomber(start, "Бомбер");
+        npsGuys = new NpsGuys(start, "Бомбер");
     }
 
 
     @Test
     public void move() throws Exception {
-        Thread t = new Thread(bomber);
+        Thread t = new Thread(npsGuys);
         t.start();
         Thread.sleep(10);
         t.interrupt();
@@ -37,9 +37,9 @@ public class BomberTest {
      */
     @Test
     public void checkBorders() {
-       boolean result = bomber.checkBorders(21, 5);
+       boolean result = npsGuys.checkBorders(21, 5);
        assertFalse(result);
-       result = bomber.checkBorders(5, 5);
+       result = npsGuys.checkBorders(5, 5);
        assertTrue(result);
     }
 
