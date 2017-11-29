@@ -19,3 +19,15 @@ INSERT INTO product(maker, model, type) VALUES ('B','1750','Laptop');
 INSERT INTO product(maker, model, type) VALUES ('A','1752','Laptop');
 INSERT INTO product(maker, model, type) VALUES ('E','2113','PC');
 INSERT INTO product(maker, model, type) VALUES ('E','2112','PC');
+
+SELECT *FROM product;
+SELECT DISTINCT maker FROM product WHERE NOT (type ='Laptop');
+--Найти производителя, номер модели и цену каждого компьютера, имеющегося в базе данных:
+SELECT maker , product.model AS  model_1 , pc.model AS  model_2, price
+FROM product INNER JOIN pc ON  pc.model = product.model;
+
+--Привести все модели ПК, их производителей и цену:
+SELECT maker ,product.model AS model_1,pc.model AS model_2,price
+FROM product INNER JOIN pc ON product.model = pc.model
+WHERE type='PC' ORDER BY  maker, pc.model;
+SELECT * FROM product
