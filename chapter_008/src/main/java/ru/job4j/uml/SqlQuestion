@@ -1,3 +1,5 @@
+
+-- Пользователи. Роли. Права ролей. Заявки. Комментарии Заявок. Приложенные Файлы. Состояние заявки. Категории заявки.
 --создаем базу данных
 CREATE DATABASE java;
 
@@ -161,3 +163,23 @@ ALTER TABLE coments DROP COLUMN id_user;
 INSERT INTO coments (text,  id_order) VALUES ('произвести рефакторинг',2);
 INSERT INTO coments (text,  id_order) VALUES ('перевезти стол по адресу ул.Лизюкова 15',3);
 INSERT INTO coments (text,  id_order) VALUES ('перевперевозка мебели',4);
+
+--продолжение
+--добавляем колонку с именем заявки в таблицу orders
+ALTER TABLE orders ADD COLUMN name_order VARCHAR(60);
+--заполняем колонку
+UPDATE orders SET name_order='Расчеты'WHERE id=1;
+UPDATE orders SET name_order='Добавитиь Класс'WHERE id=2;
+UPDATE orders SET name_order='Перевозка'WHERE id=3;
+UPDATE orders SET name_order='Перевозка'WHERE id=4;
+
+--создаем таблицу файлов
+CREATE TABLE files(
+  id SERIAL PRIMARY KEY,
+  file VARCHAR(100),
+  id_order INTEGER REFERENCES orders(id)
+);
+-- заполняем ее
+INSERT INTO files(file, id_order) VALUES ('c:\\image\\pic.jpg',1);
+INSERT INTO files(file, id_order) VALUES ('c:\\image\\pic2.jpg',2);
+INSERT INTO files(file, id_order) VALUES ('c:\\image\\pic3.jpg',2);
