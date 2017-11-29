@@ -1,0 +1,21 @@
+CREATE TABLE product(
+  maker VARCHAR(10),
+  model VARCHAR(50)PRIMARY KEY,
+  type VARCHAR(50)
+);
+INSERT INTO product(maker, model, type) VALUES ('B','1121','PC');
+INSERT INTO product(maker, model, type) VALUES ('A','1232','PC');
+INSERT INTO product(maker, model, type) VALUES ('A','1233','PC');
+INSERT INTO product(maker, model, type) VALUES ('E','1260','PC');
+INSERT INTO product(maker, model, type) VALUES ('A','1276','Printer');
+INSERT INTO product(maker, model, type) VALUES ('D','1288','Printer');
+INSERT INTO product(maker, model, type) VALUES ('A','1298','Laptop');
+INSERT INTO product(maker, model, type) VALUES ('C','1321','Laptop');
+INSERT INTO product(maker, model, type) VALUES ('A','1401','Printer');
+INSERT INTO product(maker, model, type) VALUES ('A','1408','Printer');
+INSERT INTO product(maker, model, type) VALUES ('D','1433','Printer');
+INSERT INTO product(maker, model, type) VALUES ('E','1434','Printer');
+INSERT INTO product(maker, model, type) VALUES ('B','1750','Laptop');
+INSERT INTO product(maker, model, type) VALUES ('A','1752','Laptop');
+INSERT INTO product(maker, model, type) VALUES ('E','2113','PC');
+INSERT INTO product(maker, model, type) VALUES ('E','2112','PC');
