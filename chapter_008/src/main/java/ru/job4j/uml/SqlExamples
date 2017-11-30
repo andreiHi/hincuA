@@ -72,3 +72,31 @@ INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (1,	1,	'
 INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (4,	2,	'2015-12-15',	'2016-04-13');
 INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (2,	2,	'2016-02-18','2016-04-19');
 INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (3,	5,	'2016-02-29',	'2016-04-11');
+
+CREATE TABLE nomenclature(
+  id SERIAL PRIMARY KEY ,
+  name VARCHAR(50)
+);
+CREATE TABLE description(
+  id INTEGER ,
+  description VARCHAR(100)
+);
+INSERT INTO description(id, description) VALUES (1,'Замечательная книга'),
+                                                (3,'Красный карандаш'),
+                                                (5,'Зелёная машинка');
+SELECT * FROM description;
+INSERT INTO nomenclature(name)VALUES ('Книга'),
+                                     ('Табуретка'),
+                                     ('Карандаш');
+
+SELECT *FROM nomenclature;
+SELECT * FROM nomenclature INNER JOIN description ON description.id= nomenclature.id;
+SELECT *FROM nomenclature INNER JOIN description USING (id);
+SELECT * FROM nomenclature ,description;
+
+--LEFT JOIN - Левостороннее внешнее объединенея
+
+SELECT * FROM nomenclature LEFT JOIN description USING (id);
+SELECT nomenclature.name, nomenclature.id FROM nomenclature LEFT JOIN description ON nomenclature.id =description.id
+  WHERE description.description IS NULL;
+

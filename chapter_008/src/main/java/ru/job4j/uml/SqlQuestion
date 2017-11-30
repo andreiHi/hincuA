@@ -183,3 +183,22 @@ CREATE TABLE files(
 INSERT INTO files(file, id_order) VALUES ('c:\\image\\pic.jpg',1);
 INSERT INTO files(file, id_order) VALUES ('c:\\image\\pic2.jpg',2);
 INSERT INTO files(file, id_order) VALUES ('c:\\image\\pic3.jpg',2);
+
+--Query
+SELECT * FROM users;
+SELECT name, login FROM users WHERE id_role =1;
+
+SELECT users.id, users.name, role.role
+FROM role JOIN users ON role.id = users.id_role ORDER BY id;
+
+SELECT role.role, rules.description FROM rules JOIN role_rules ON rules.id = role_rules.id_rules
+JOIN role ON role_rules.id_role = role.id;
+
+SELECT role.role AS status, count(*) AS Count_Of_Rules
+FROM rules JOIN role_rules ON rules.id = role_rules.id_rules
+JOIN role ON role_rules.id_role = role.id
+GROUP BY role.role;
+
+SELECT rules.description FROM rules JOIN role_rules ON rules.id = role_rules.id_rules
+JOIN role ON role_rules.id_role = role.id
+WHERE role.role ='admin';
