@@ -27,11 +27,11 @@ public class Randevu implements Runnable {
             }
             synchronized (start.getAquarium()) {
                 List<Fish> f = start.getAquarium();
-                int one = (int)(Math.random() * f.size());
-                int two = (int)(Math.random() * f.size());
+                int one = (int) (Math.random() * f.size());
+                int two = (int) (Math.random() * f.size());
                 if (one != two) {
                     if (f.get(one).getSex().equals(f.get(two).getSex())) {
-                        System.out.println(String.format("Встретились рыбки %s и %s",f.get(one).getName(), f.get(two).getName()));
+                        System.out.println(String.format("Встретились рыбки %s и %s", f.get(one).getName(), f.get(two).getName()));
                     }
                 }
             }
