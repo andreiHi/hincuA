@@ -1,8 +1,6 @@
 package ru.job4j.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 01.12.2017.
@@ -17,6 +15,13 @@ public class SqlStorage {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, username, password);
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM users;");
+            while (rs.next()) {
+                System.out.println(String.format("%s %s %s", rs.getString("name"), rs.getString("login"), rs.getString("password")));
+            }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

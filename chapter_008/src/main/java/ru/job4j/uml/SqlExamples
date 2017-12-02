@@ -32,71 +32,57 @@ FROM product INNER JOIN pc ON product.model = pc.model
 WHERE type='PC' ORDER BY  maker, pc.model;
 SELECT * FROM product
 
---пример с хабрахабр
-CREATE TABLE books(
-  bookid SERIAL PRIMARY KEY ,
-  title VARCHAR(100),
-  author VARCHAR(50),
-  published DATE,
-  stock INT
+create TABLE pc(
+  code SERIAL PRIMARY KEY,
+  model VARCHAR(50),
+  speed SMALLINT,
+  ram SMALLINT,
+  hd REAL,
+  cd VARCHAR(10),
+  price INTEGER
+
 );
-INSERT INTO books (title, author, published, stock) VALUES ('Scion of Ikshvaku', 'Amish Tripathi',	'2015-06-22',	2);
-INSERT INTO books(title, author, published, stock) VALUES ('The Lost Symbol',	'Dan Brown',	'2010-07-22',	3);
-INSERT INTO books(title, author, published, stock) VALUES ('Who Will Cry When You Die?',	'Robin Sharma',	'2006-06-15',	4);
-INSERT INTO books(title, author, published, stock) VALUES ('Inferno',	'Dan Brown',	'2014-05-05',	3);
-INSERT INTO books(title, author, published, stock) VALUES ('The Fault in our Stars',	'John Green',	'2015-03-01',	3);
-SELECT *FROM books;
-CREATE TABLE members(
-  memberid SERIAL PRIMARY KEY,
-  firstname VARCHAR(50),
-  lastname VARCHAR(50)
+INSERT INTO pc(model, speed, ram, hd, cd, price) VALUES (1232,	500,	64,	5.0,	'12x',	600),
+  (	'1121',	750,	128,	14.0,	'40x',	850),
+  ('1233',	500,	64,	5.0,	'12x',	600),
+  ('1121',600,	128,	14.0,	'40x',	850),
+('1121',	600,	128,	8.0,	'40x',	850),
+(	'1233',	750,	128,	20.0,	'50x',	950),
+(	'1232',	500,	32,	10.0,	'12x',	400),
+(	'1232',	450,	64,	8.0,	'24x',	350),
+(	'1232',	450,	32,	10.0,	'24x',	350),
+(	'1260',	500,	32,	10.0,	'12x',	350),
+(	'1233',	900,	128,	40.0,	'40x',	980),
+(	'1233',	800,	128	,20.0,	'50x',	970);
+select * From pc;
+DROP TABLE pc;
+
+CREATE TABLE laptop(
+  code SERIAL PRIMARY KEY ,
+  model VARCHAR(50),
+  speed SMALLINT,
+  ram SMALLINT,
+  hd REAL,
+  price INTEGER,
+  screen SMALLINT
 );
-INSERT INTO members(firstname, lastname) VALUES ('Sue',	'Mason');
-INSERT INTO members(firstname, lastname) VALUES ('Ellen',	'Horton');
-INSERT INTO members(firstname, lastname) VALUES ('Henry',	'Clarke');
-INSERT INTO members(firstname, lastname) VALUES ('Mike',	'Willis');
-INSERT INTO members(firstname, lastname) VALUES ('Lida',	'Tyler');
-SELECT *FROM books;
 
-CREATE TABLE borrowings(
-  id SERIAL PRIMARY KEY,
-  bookid INTEGER REFERENCES books(bookid),
-  memberid INTEGER REFERENCES members(memberid),
-  borrowdate DATE,
-  returndate DATE
+INSERT INTO laptop (model, speed, ram, hd, price, screen) VALUES (1298,	350,	32,	4.0,	700,	11),
+  ('1321',	500,	64,	8.0,	970,	12),
+('1750',	750,	128,	12.0,	1200,	14),
+('1298',600,	64,	10.0,	1050,	15),
+(	'1752',	750,	128,	10.0,	1150,	14),
+(	'1298',	450,	64,	10.0,	950, 12);
+CREATE TABLE printer(
+  code SERIAL PRIMARY KEY ,
+  model VARCHAR(50),
+  color CHAR(1),
+  type VARCHAR(10),
+  price INTEGER
 );
-SELECT *FROM borrowings;
-INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (1, 3,	'2016-01-20',	'2016-03-17');
-INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (2,	4,	'2016-01-19',	'2016-03-23');
-INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (1,	1,	'2016-02-17',	'2016-05-18');
-INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (4,	2,	'2015-12-15',	'2016-04-13');
-INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (2,	2,	'2016-02-18','2016-04-19');
-INSERT INTO borrowings(bookid, memberid, borrowdate, returndate) VALUES (3,	5,	'2016-02-29',	'2016-04-11');
-
-CREATE TABLE nomenclature(
-  id SERIAL PRIMARY KEY ,
-  name VARCHAR(50)
-);
-CREATE TABLE description(
-  id INTEGER ,
-  description VARCHAR(100)
-);
-INSERT INTO description(id, description) VALUES (1,'Замечательная книга'),
-                                                (3,'Красный карандаш'),
-                                                (5,'Зелёная машинка');
-SELECT * FROM description;
-INSERT INTO nomenclature(name)VALUES ('Книга'),
-                                     ('Табуретка'),
-                                     ('Карандаш');
-
-SELECT *FROM nomenclature;
-SELECT * FROM nomenclature INNER JOIN description ON description.id= nomenclature.id;
-SELECT *FROM nomenclature INNER JOIN description USING (id);
-SELECT * FROM nomenclature ,description;
-
---LEFT JOIN - Левостороннее внешнее объединенея
-
-SELECT * FROM nomenclature LEFT JOIN description USING (id);
-SELECT nomenclature.name, nomenclature.id FROM nomenclature LEFT JOIN description ON nomenclature.id =description.id
-  WHERE description.description IS NULL;
-
+INSERT INTO printer(model, color, type, price) VALUES ('1288',	'n',	'Laser'	,400),
+  ('1408',	'n',	'Matrix',	270),
+  ('1401',	'n',	'Matrix',	150),
+  ('1434',	'y',	'Jet',	290),
+  ('1433',	'y',	'Jet',	270),
+  ('1276',	'n',	'Laser',	400);
