@@ -10,7 +10,7 @@ import java.sql.*;
 public class SqlStorage {
     public static void main(String[] args) {
         String url = "jdbc:postgresql://localhost:5432/java";
-        String username ="postgres";
+        String username = "postgres";
         String password = "5432";
         Connection conn = null;
         try {
@@ -24,7 +24,7 @@ public class SqlStorage {
             st.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (conn != null) {
                 try {
                     conn.close();
