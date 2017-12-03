@@ -12,7 +12,8 @@ import java.sql.SQLException;
  * @since 0.1
  */
 public class Optimizator {
-    private final String url = "jdbc:sqlite:/home/andrei/java.db";
+   // private final String url = "jdbc:sqlite:/home/andrei/java.db";
+    private final String url = "C:/projects//hincuA//chapter_008//src//java.db";
     public static void main(String[] args) {
         Optimizator optimizator = new Optimizator();
 

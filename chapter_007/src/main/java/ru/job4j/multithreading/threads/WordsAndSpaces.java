@@ -22,7 +22,8 @@ public class WordsAndSpaces implements Runnable {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(new File("C://projects//hincuA//chapter_005//king.txt")));
+            final File file = new File("king.txt");
+            reader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
