@@ -18,12 +18,12 @@ public class SqlStorage {
            // Statement st = conn.createStatement();
             //ResultSet rs = st.executeQuery("SELECT * FROM users;");
             PreparedStatement st = conn.prepareStatement("SELECT * FROM users AS u WHERE u.id IN (?, ?, ?)");
-            st.setInt(1,1);
-            st.setInt(2,2);
+            st.setInt(1, 1);
+            st.setInt(2, 2);
             st.setInt(3, 3);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                System.out.println(String.format("%s %s %s %s",rs.getString("id"), rs.getString("name"), rs.getString("login"), rs.getString("password")));
+                System.out.println(String.format("%s %s %s %s", rs.getString("id"), rs.getString("name"), rs.getString("login"), rs.getString("password")));
             }
             rs.close();
             st.close();
