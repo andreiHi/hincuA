@@ -1,9 +1,20 @@
 package ru.job4j.jdbc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.*;
 
 /**
  * .
@@ -12,15 +23,19 @@ import java.sql.Statement;
  * @since 0.1
  */
 public class Optimizator {
-    private final int element = 1000000;
+    private final int element = 1000;
     private Connection connection;
     private ConnectionSqLite connectionSqLite;
+    private final String xml1 = "1.xml";
 
     public Optimizator() {
         connectionSqLite = new ConnectionSqLite();
         connection = connectionSqLite.getConnection();
     }
-
+    public void startProgram() {
+        createTestTable();
+        createFirstXmlWithDom();
+    }
     public static void main(String[] args) {
         Optimizator optimizator = new Optimizator();
         optimizator.createTestTable();
@@ -59,30 +74,98 @@ public class Optimizator {
             Statement statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS TEST");
             statement.executeUpdate("CREATE TABLE TEST(FIELD int)");
-            insert(connection, element);
-//            ResultSet rs = statement.executeQuery("SELECT * FROM TEST");
-//            while (rs.next()) {
-//                System.out.println(rs.getString("FIELD"));
-//            }
+            insert(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void insert(Connection con, int value) {
+
+    public void insert(Connection con) {
         try {
             con.setAutoCommit(false);
-            for (int i = 1; i < value; i += 1000) {
-                PreparedStatement statement = con.prepareStatement("INSERT INTO TEST (FIELD) VALUES (?)");
-                for (int j = i; j < i + 1000; j++) {
-                    statement.setInt(1, j);
-                    //собираем в буфер
-                    statement.addBatch();
-                }
-                //добовляем весь буфер сразу
-                statement.executeBatch();
+            PreparedStatement statement = con.prepareStatement("INSERT INTO TEST (FIELD) VALUES (?)");
+            for (int i = 1; i < element + 1; i++) {
+                statement.setInt(1, i);
+                statement.addBatch();
             }
+            statement.executeBatch();
             con.setAutoCommit(true);
         } catch (SQLException e) {
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     */
+    public void createFirstXmlWithDom() {
+        createFile(xml1);
+        DocumentBuilderFactory builderFactory;
+        DocumentBuilder documentBuilder;
+        Document doc;
+        try {
+            builderFactory = DocumentBuilderFactory.newInstance();
+            documentBuilder = builderFactory.newDocumentBuilder();
+            doc = documentBuilder.newDocument();
+
+            Element root = doc.createElement("entries");
+            doc.appendChild(root);
+
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM TEST");
+            while (rs.next()) {
+                Element entry = doc.createElement("entry");
+                root.appendChild(entry);
+                Element field = doc.createElement("field");
+                field.setTextContent(rs.getString("FIELD"));
+                entry.appendChild(field);
+            }
+            writeDocument(doc, xml1);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createFile(String path) {
+        File xml1 = new File(path);
+        try {
+            boolean created = xml1.createNewFile();
+            if (created) {
+                System.out.println(String.format("Файл %s создан.", path));
+            } else {
+                System.out.println(String.format("Файл %s уже существует и будет перезаписан.", path));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeDocument(Document document, String path) {
+        Transformer transformer;
+        DOMSource domSource;
+        FileOutputStream fos;
+        try {
+            transformer = TransformerFactory.newInstance().newTransformer();
+            domSource = new DOMSource(document);
+            fos = new FileOutputStream(path);
+            StreamResult streamResult = new StreamResult(fos);
+            //две строки которые преобразуют хмл к выводу в столбик, а не в строчку
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            //делает отступ от края страницы
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.transform(domSource, streamResult);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
             e.printStackTrace();
         }
     }

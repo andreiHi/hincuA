@@ -1,6 +1,7 @@
 package ru.job4j.jdbc;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -17,7 +18,14 @@ public class OptimizatorTest {
        connectionSqLite = new ConnectionSqLite();
    }
     @Test
+    @Ignore
     public void create() {
        optimizator.createTestTable();
+    }
+
+    @Test
+    @Ignore
+    public void createFile() throws Exception {
+        optimizator.createFirstXmlWithDom();
     }
 }
