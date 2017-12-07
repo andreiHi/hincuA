@@ -22,7 +22,7 @@ import java.sql.*;
  * @since 0.1
  */
 public class Optimizator {
-    private final int element = 1000000;
+    private final int element = 1000;
     private Connection connection;
     private ConnectionSqLite connectionSqLite;
     private final String xml1 = "1.xml";
@@ -104,7 +104,7 @@ public class Optimizator {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             connectionSqLite.closeConnect();
         }
         return doc;
