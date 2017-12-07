@@ -10,27 +10,24 @@ import org.junit.Test;
  * @since 0.1.
  */
 public class OptimizatorTest {
-   private Optimizator optimizator;
-   ConnectionSqLite connectionSqLite;
-   @Before
+    private Optimizator optimizator;
+
+    @Before
     public void init() {
-       optimizator = new Optimizator();
-       connectionSqLite = new ConnectionSqLite();
-   }
-    @Test
-    @Ignore
-    public void create() {
-       optimizator.createTestTable();
+        optimizator = new Optimizator();
     }
 
     @Test
     @Ignore
     public void createFile() throws Exception {
+        optimizator.createTestTable();
         optimizator.createFirstXmlWithDom();
+        optimizator.convert();
+        optimizator.parsing();
     }
 
     @Test
     public void name() throws Exception {
-       optimizator.convert();
+        optimizator.startProgram();
     }
 }

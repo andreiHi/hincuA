@@ -11,8 +11,8 @@ import java.sql.SQLException;
  */
 public class ConnectionSqLite {
     private final String driver = "org.sqlite.JDBC";
-   // private final String url =  "jdbc:sqlite:D:/sqlite/java.db";
-    private final String url =  "jdbc:sqlite:/home/andrei/java.db";
+    private final String url =  "jdbc:sqlite:D:/sqlite/java.db";
+   // private final String url =  "jdbc:sqlite:/home/andrei/java.db";
 
     private Connection connection;
     public Connection getConnection() {
@@ -30,7 +30,7 @@ public class ConnectionSqLite {
             e.printStackTrace();
         }
     }
-    private void closeConnect() {
+    public void closeConnect() {
         try {
             connection.close();
         } catch (SQLException e) {

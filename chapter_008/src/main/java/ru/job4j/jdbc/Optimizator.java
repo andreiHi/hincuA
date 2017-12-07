@@ -1,12 +1,10 @@
 package ru.job4j.jdbc;
 
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -24,7 +22,7 @@ import java.sql.*;
  * @since 0.1
  */
 public class Optimizator {
-    private final int element = 1000;
+    private final int element = 1000000;
     private Connection connection;
     private ConnectionSqLite connectionSqLite;
     private final String xml1 = "1.xml";
@@ -32,46 +30,17 @@ public class Optimizator {
     private final String xsl = "converter.xsl";
 
     public Optimizator() {
-        connectionSqLite = new ConnectionSqLite();
-        connection = connectionSqLite.getConnection();
+        this.connectionSqLite = new ConnectionSqLite();
+        this.connection = connectionSqLite.getConnection();
     }
     public void startProgram() {
         createTestTable();
-        createFirstXmlWithDom();
+        Document document = createFirstXmlWithDom();
+        writeDocument(document, xml1);
+        convert();
+        parsing();
     }
-    public static void main(String[] args) {
-        Optimizator optimizator = new Optimizator();
-        optimizator.createTestTable();
-//        // load the sqlite-JDBC driver using the current class loader
-//        try {
-//            Class.forName("org.sqlite.JDBC");
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Connection connection = null;
-//        try {
-//            // create a database connection
-//            connection = DriverManager.getConnection("jdbc:sqlite:D:/sqlite/java.db");
-//            Statement statement = connection.createStatement();
-//            statement.setQueryTimeout(30);  // set timeout to 30 sec.
-//
-//            int i = statement.executeUpdate("DROP TABLE IF EXISTS person");
-//            statement.executeUpdate("CREATE TABLE person (id INTEGER, name STRING)");
-//            statement.executeUpdate("INSERT INTO person VALUES(1, 'leo')");
-//            statement.executeUpdate("INSERT INTO person VALUES(2, 'yui')");
-//            ResultSet rs = statement.executeQuery("SELECT * FROM person");
-//            while (rs.next()) {
-//                // read the result set
-//                System.out.println("name = " + rs.getString("name"));
-//                System.out.println("id = " + rs.getInt("id"));
-//            }
-//        } catch (SQLException e) {
-//            // if the error message is "out of memory",
-//            // it probably means no database file is found
-//            System.err.println(e.getMessage());
-//        }
-    }
+
     public void createTestTable() {
         try {
             Statement statement = connection.createStatement();
@@ -106,13 +75,15 @@ public class Optimizator {
     /**
      *
      */
-    public void createFirstXmlWithDom() {
+    public Document createFirstXmlWithDom() {
         createFile(xml1);
         DocumentBuilderFactory builderFactory;
         DocumentBuilder documentBuilder;
-        Document doc;
+        Document doc = null;
         try {
             builderFactory = DocumentBuilderFactory.newInstance();
+            builderFactory.setNamespaceAware(true);
+            builderFactory.setIgnoringElementContentWhitespace(true);
             documentBuilder = builderFactory.newDocumentBuilder();
             doc = documentBuilder.newDocument();
 
@@ -128,12 +99,15 @@ public class Optimizator {
                 field.setTextContent(rs.getString("FIELD"));
                 entry.appendChild(field);
             }
-            writeDocument(doc, xml1);
+          //  removeWhitespaceNodes(doc.getDocumentElement());
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            connectionSqLite.closeConnect();
         }
+        return doc;
     }
 
     public void createFile(String path) {
@@ -160,6 +134,7 @@ public class Optimizator {
             fos = new FileOutputStream(path);
             StreamResult streamResult = new StreamResult(fos);
             //две строки которые преобразуют хмл к выводу в столбик, а не в строчку
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             //делает отступ от края страницы
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
@@ -172,6 +147,11 @@ public class Optimizator {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Метод с поьмощью xsl трансформирует 1xml в 2xml в соответствии с требованиями.
+     * Сохроняет результат в файл 2.xml.
+     */
     public void convert() {
         Source xmlInput = new StreamSource(new File(xml1));
         Source xslFile = new StreamSource(new File(xsl));
@@ -180,6 +160,8 @@ public class Optimizator {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer(xslFile);
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.transform(xmlInput, xmlOutput);
         } catch (TransformerConfigurationException e) {
@@ -189,5 +171,40 @@ public class Optimizator {
         }
     }
 
+    /**
+     * метод удаляет все пробелы из дерева.
+     * @param e корень дерева.
+     */
+    public  void removeWhitespaceNodes(Element e) {
+        NodeList children = e.getChildNodes();
+        for (int i = children.getLength() - 1; i >= 0; i--) {
+            Node child = children.item(i);
+            if (child instanceof Text && ((Text) child).getData().trim().length() == 0) {
+                e.removeChild(child);
+            } else if (child instanceof Element) {
+                removeWhitespaceNodes((Element) child);
+            }
+        }
+    }
+
+    /**
+     *Метод парсит 2.xml и выводит полученный результат.
+     */
+    public void parsing() {
+        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+        Handler handler = new Handler();
+        SAXParser parser;
+        try {
+            parser = parserFactory.newSAXParser();
+            parser.parse(new File(xml2), handler);
+            System.out.println(handler.getCount());
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
