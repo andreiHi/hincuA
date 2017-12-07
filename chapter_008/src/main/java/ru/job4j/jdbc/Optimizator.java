@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +28,8 @@ public class Optimizator {
     private Connection connection;
     private ConnectionSqLite connectionSqLite;
     private final String xml1 = "1.xml";
+    private final String xml2 = "2.xml";
+    private final String xsl = "converter.xsl";
 
     public Optimizator() {
         connectionSqLite = new ConnectionSqLite();
@@ -134,9 +137,9 @@ public class Optimizator {
     }
 
     public void createFile(String path) {
-        File xml1 = new File(path);
+        File xml = new File(path);
         try {
-            boolean created = xml1.createNewFile();
+            boolean created = xml.createNewFile();
             if (created) {
                 System.out.println(String.format("Файл %s создан.", path));
             } else {
@@ -169,5 +172,22 @@ public class Optimizator {
             e.printStackTrace();
         }
     }
+    public void convert() {
+        Source xmlInput = new StreamSource(new File(xml1));
+        Source xslFile = new StreamSource(new File(xsl));
+        createFile(xml2);
+        Result xmlOutput = new StreamResult(xml2);
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer(xslFile);
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.transform(xmlInput, xmlOutput);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

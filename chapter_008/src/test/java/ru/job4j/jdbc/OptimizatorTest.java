@@ -28,4 +28,9 @@ public class OptimizatorTest {
     public void createFile() throws Exception {
         optimizator.createFirstXmlWithDom();
     }
+
+    @Test
+    public void name() throws Exception {
+       optimizator.convert();
+    }
 }
