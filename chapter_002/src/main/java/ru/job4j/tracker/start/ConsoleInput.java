@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start;
 
+import ru.job4j.tracker.start.input.Input;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
