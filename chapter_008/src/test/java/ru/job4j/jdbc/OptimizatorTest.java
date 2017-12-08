@@ -8,6 +8,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,7 +46,7 @@ public class OptimizatorTest {
      */
     @Test
     @Ignore
-    public void whenWasAdedTwoElementsInTestTable() throws Exception {
+    public void whenWasAddTwoElementsInTestTable() throws Exception {
         optimizator.setElement(2);
         optimizator.createTestTable();
         Connection con = DriverManager.getConnection(url);
@@ -71,26 +74,56 @@ public class OptimizatorTest {
         System.out.println(String.format("Время работы программы : %d сек.", time));
     }
 
+    /**
+     * Test проверяет если колличество элементов равно 2 то в 1.xml
+     * будут два узла со значениями 1 и 2 соответственно.
+     * @throws Exception ex.
+     */
     @Test
     @Ignore
-    public void name() throws Exception {
+    public void whenAddNewTwoElementsThenDocumentHasThisElements() throws Exception {
         optimizator.setElement(2);
         optimizator.createTestTable();
         Document document = optimizator.createFirstXmlWithDom();
-        System.out.println(document.getDocumentElement().getNodeName());
         NodeList list = document.getElementsByTagName("entry");
-        System.out.println(list.getLength());
         String[]elements = new String[2];
         int count = 0;
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element e = (Element) node;
-                elements[count] = e.getElementsByTagName("field").item(0).getTextContent();
+                elements[count++] = e.getElementsByTagName("field").item(0).getTextContent();
             }
         }
-        for (String element : elements) {
-            System.out.println(element);
+        String[]ex = {"1", "2"};
+        assertThat(elements, is(ex));
+    }
+
+    /**
+     * Test проверяет то что после конвертирования 1.xml
+     * значение узлов стало их атрибутами.
+     * @throws Exception ex.
+     */
+    @Test
+    @Ignore
+    public void whenNodeHasValueThenNOdeHasAttribute() throws Exception {
+        optimizator.setElement(2);
+        optimizator.createTestTable();
+        optimizator.convert();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File("2.xml"));
+        NodeList list = document.getElementsByTagName("entry");
+        String[]elements = new String[2];
+        int count = 0;
+        for (int i = 0; i < list.getLength(); i++) {
+            Node node = list.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element e = (Element) node;
+                elements[count++] = e.getAttribute("field");
+            }
         }
+        String[]ex = {"1", "2"};
+        assertThat(elements, is(ex));
     }
 }
