@@ -22,17 +22,47 @@ import java.sql.*;
  * @since 0.1
  */
 public class Optimizator {
-    private final int element = 1000;
+    /**
+     * Установка количества элементов для обработки.
+     * @param element элементы.
+     */
+    public void setElement(int element) {
+        this.element = element;
+    }
+
+    /**
+     * колличество элементов.
+     */
+    private int element = 2;
+    /**
+     * Соединение с бд.
+     */
     private Connection connection;
+    /**
+     * Ссылка на клас соединения.
+     */
     private ConnectionSqLite connectionSqLite;
+    /**
+     * Путь к первому xml файлу.
+     */
     private final String xml1 = "1.xml";
+    /**
+     * Путь к второму xml файлу.
+     */
     private final String xml2 = "2.xml";
+    /**
+     * Путь к xsl файлу.
+     */
     private final String xsl = "converter.xsl";
 
     public Optimizator() {
         this.connectionSqLite = new ConnectionSqLite();
         this.connection = connectionSqLite.getConnection();
     }
+
+    /**
+     * Запуск Програмы.
+     */
     public void startProgram() {
         createTestTable();
         Document document = createFirstXmlWithDom();
@@ -41,6 +71,9 @@ public class Optimizator {
         parsing();
     }
 
+    /**
+     * Метод создает Новую таблицу TEST в бд.
+     */
     public void createTestTable() {
         try {
             Statement statement = connection.createStatement();
@@ -52,10 +85,16 @@ public class Optimizator {
         }
     }
 
-    public void insert(Connection con) {
+    /**
+     * Медод подключается к бд и заполняет ее значениями в соответствии
+     * с требованиями к задаче.
+     * @param con соединение с бд.
+     */
+    private void insert(Connection con) {
         try {
             con.setAutoCommit(false);
-            PreparedStatement statement = con.prepareStatement("INSERT INTO TEST (FIELD) VALUES (?)");
+            PreparedStatement statement = con.prepareStatement(
+                    "INSERT INTO TEST (FIELD) VALUES (?)");
             for (int i = 1; i < element + 1; i++) {
                 statement.setInt(1, i);
                 statement.addBatch();
@@ -73,7 +112,8 @@ public class Optimizator {
     }
 
     /**
-     *
+     * Метод читает информацию из бд формирует дерево DOM.
+     * и возвращает его к записи.
      */
     public Document createFirstXmlWithDom() {
         createFile(xml1);
@@ -110,6 +150,11 @@ public class Optimizator {
         return doc;
     }
 
+    /**
+     *
+     * Метод создает файл или проверяет его наличие в системе.
+     * @param path путь к файлу.
+     */
     public void createFile(String path) {
         File xml = new File(path);
         try {
@@ -124,6 +169,11 @@ public class Optimizator {
         }
     }
 
+    /**
+     * Метод сохраняет документ в файл.
+     * @param document документ.
+     * @param path путь к файлу.
+     */
     public void writeDocument(Document document, String path) {
         Transformer transformer;
         DOMSource domSource;
@@ -197,7 +247,7 @@ public class Optimizator {
         try {
             parser = parserFactory.newSAXParser();
             parser.parse(new File(xml2), handler);
-            System.out.println(handler.getCount());
+            System.out.println(String.format("Сумма элементов : %d", handler.getCount()));
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (ParserConfigurationException e) {

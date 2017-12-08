@@ -1,4 +1,4 @@
-package ru.job4j.jdbc;
+package ru.job4j.jdbc.xmlexemples;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.12.2017.
