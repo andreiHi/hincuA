@@ -17,6 +17,11 @@ public abstract class BaseAction implements UserAction {
      */
     private int key;
 
+    @Override
+    public int key() {
+        return key;
+    }
+
     /**
      * Конструктор.
      * @param name имя подменю.

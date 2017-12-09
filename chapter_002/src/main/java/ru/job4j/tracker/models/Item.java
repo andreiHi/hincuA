@@ -1,5 +1,6 @@
 package ru.job4j.tracker.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +61,10 @@ public class Item {
         this.comments.add(comment);
     }
 
+    public long getCreated() {
+        return created;
+    }
+
     /**
      * Конструктор.
      */
@@ -113,6 +118,10 @@ public class Item {
         return desc;
     }
 
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
     /**
      * сеттер деск.
      * @param desc desk
@@ -124,17 +133,17 @@ public class Item {
     @Override
     public String toString() {
         return "Item{"
-                + "id='"
+                + "id = '"
                 + id
                 + '\''
-                + ", name='"
+                + ", name = '"
                 + name
                 + '\''
-                + ", desc='"
+                + ", desc = '"
                 + desc
                 + '\''
-                + ", created="
-                + new Date(created)
+                + ", created : "
+                + new SimpleDateFormat("dd-MM-YYYY").format(new Date(created))
                 + '}';
     }
 }

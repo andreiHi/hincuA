@@ -100,4 +100,10 @@ public class TrackerTest {
         Item item1 = tracker.findById(id);
         assertThat(id, is(item1.getId()));
     }
+
+    @Test
+    public void name() throws Exception {
+    Item item = new Item("aaa", "aaa");
+        System.out.println(item);
+    }
 }

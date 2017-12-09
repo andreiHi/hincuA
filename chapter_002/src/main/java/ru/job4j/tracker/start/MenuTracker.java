@@ -100,15 +100,6 @@ public class MenuTracker {
         }
 
         /**
-         * Ключь.
-         * @return key.
-         */
-        @Override
-        public int key() {
-            return 0;
-        }
-
-        /**
          * Исполнение добовления.
          * @param tracker tracker.
          * @param input input.
@@ -135,11 +126,6 @@ public class MenuTracker {
         }
 
         @Override
-        public int key() {
-            return 1;
-        }
-
-        @Override
         public void execute(Tracker tracker, Input input) {
             tracker.getAll().forEach(System.out::println);
         }
@@ -158,14 +144,6 @@ public class MenuTracker {
             super(name, key);
         }
 
-        /**
-         * key.
-         * @return key.
-         */
-        @Override
-        public int key() {
-            return 3;
-        }
 
         /**
          * Метод удаляет заявку.
@@ -202,15 +180,6 @@ public class MenuTracker {
          */
         FindById(String name, int key) {
             super(name, key);
-        }
-
-        /**
-         * key.
-         * @return key.
-         */
-        @Override
-        public int key() {
-            return 4;
         }
 
         /**
@@ -256,14 +225,6 @@ public class MenuTracker {
             super(name, key);
         }
 
-        /**
-         * key.
-         * @return key.
-         */
-        @Override
-        public int key() {
-            return 5;
-        }
 
         @Override
         public void execute(Tracker tracker, Input input) {
@@ -295,14 +256,6 @@ public class MenuTracker {
             super(name, key);
         }
 
-        /**
-         * key.
-         * @return key.
-         */
-        @Override
-        public int key() {
-            return 6;
-        }
 
         /**
          *Exit.
@@ -311,6 +264,7 @@ public class MenuTracker {
          */
         @Override
         public void execute(Tracker tracker, Input input) {
+            tracker.close();
             input.writeMessage("Tracker shutdown. Goodbye!");
         }
     }
@@ -326,14 +280,6 @@ public class MenuTracker {
          */
         EditItem(String name, int key) {
             super(name, key);
-        }
-        /**
-         * key.
-         * @return key.
-         */
-        @Override
-        public int key() {
-            return 2;
         }
 
         /**
