@@ -1,6 +1,8 @@
-package ru.job4j.tracker.start.models;
+package ru.job4j.tracker.models;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Item - элемент трекера.
@@ -28,7 +30,7 @@ public class Item {
     /**
      * comment.
      */
-    private String[] comments;
+    private List<String> comments;
 
     public Item(String id, String name, String desc) {
         this.id = id;
@@ -36,9 +38,26 @@ public class Item {
         this.desc = desc;
     }
 
+    /**
+     * Конструктор класса.
+     * @param name имя заякки.
+     * @param desc описание.
+     */
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
+        this.created = System.currentTimeMillis();
+    }
+
+    /**
+     * Метод добовляет новый коментарий к заявке.
+     * @param comment коментарий.
+     */
+    public void addComment(String comment) {
+        if (this.comments == null) {
+            this.comments = new ArrayList<>();
+        }
+        this.comments.add(comment);
     }
 
     /**
@@ -46,21 +65,6 @@ public class Item {
      */
     public Item() {
 
-    }
-    /**
-     * Конструктор.
-     * @param id id.
-     * @param name name.
-     * @param desc desk.
-     * @param created created.
-     * @param comments comment.
-     */
-    public Item(String id, String name, String desc, long created, String[] comments) {
-        this.id = id;
-        this.name = name;
-        this.desc = desc;
-        this.created = created;
-        this.comments = comments;
     }
 
     public Item(String name, String desc, long created) {
@@ -117,54 +121,20 @@ public class Item {
         this.desc = desc;
     }
 
-    /**
-     * геттер created.
-     * @return created.
-     */
-    public long getCreated() {
-        return created;
-    }
-
-    /**
-     * сеттер created.
-     * @param created created.
-     */
-    public void setCreated(long created) {
-        this.created = created;
-    }
-
-    /**
-     * геттер comments.
-     * @return comments.
-     */
-    public String[] getComments() {
-        return comments;
-    }
-
-    /**
-     * сеттер comennts.
-     * @param comments comments.
-     */
-    public void setComments(String[] comments) {
-        this.comments = comments;
-    }
-
     @Override
     public String toString() {
         return "Item{"
-                + "id ='"
+                + "id='"
                 + id
                 + '\''
-                + ", name ='"
+                + ", name='"
                 + name
                 + '\''
-                + ", desc ='"
+                + ", desc='"
                 + desc
                 + '\''
-                + ", created ="
-                + created
-                + ", comments ="
-                + Arrays.toString(comments)
+                + ", created="
+                + new Date(created)
                 + '}';
     }
 }
