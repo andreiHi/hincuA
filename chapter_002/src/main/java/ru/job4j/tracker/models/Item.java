@@ -31,7 +31,7 @@ public class Item {
     /**
      * comment.
      */
-    private List<String> comments;
+    private List<Comment> comments;
 
     public Item(String id, String name, String desc) {
         this.id = id;
@@ -58,7 +58,7 @@ public class Item {
         if (this.comments == null) {
             this.comments = new ArrayList<>();
         }
-        this.comments.add(comment);
+        this.comments.add(new Comment(comment));
     }
 
     public long getCreated() {

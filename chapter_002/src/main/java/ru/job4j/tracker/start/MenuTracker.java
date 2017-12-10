@@ -208,6 +208,7 @@ public class MenuTracker {
                 System.out.println("The request was canceled.");
             } else {
                 input.writeMessage(String.valueOf(item));
+                new MenuComments(tracker, input, item.getId());
             }
         }
     }

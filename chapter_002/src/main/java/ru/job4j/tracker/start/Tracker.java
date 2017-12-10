@@ -2,10 +2,12 @@ package ru.job4j.tracker.start;
 
 import ru.job4j.tracker.connection.ConnectionSQL;
 import ru.job4j.tracker.connection.Query;
+import ru.job4j.tracker.models.Comment;
 import ru.job4j.tracker.models.Item;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.09.2017.
@@ -43,7 +45,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         try {
-            preparedStatement = connection.prepareStatement(Query.INSERT);
+            preparedStatement = connection.prepareStatement(Query.INSERT_NEW_ITEM);
             preparedStatement.setString(1, item.getName());
             preparedStatement.setString(2, item.getDesc());
             preparedStatement.setTimestamp(3, new Timestamp(item.getCreated()));
@@ -92,7 +94,7 @@ public class Tracker {
             items.clear();
         }
         try {
-            ResultSet rs = statement.executeQuery(Query.SELECT_ALL);
+            ResultSet rs = statement.executeQuery(Query.SELECT_ALL_ITEMS);
             while (rs.next()) {
                 Item item = new Item();
                 item.setId(rs.getString("id"));
@@ -135,7 +137,6 @@ public class Tracker {
             if (rs != null) {
                 while (rs.next()) {
                     item = new Item();
-                    System.out.println("log");
                     item.setId(rs.getString("id"));
                     item.setName(rs.getString("name"));
                     item.setDesc(rs.getString("description"));
@@ -151,6 +152,37 @@ public class Tracker {
     public void close() {
         try {
             connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public List<Comment> getAllComments(String id) {
+        List<Comment> comments = new ArrayList<>();
+        //todo
+        try {
+            preparedStatement = connection.prepareStatement(Query.SELECT_ALL_COMMENTS);
+            preparedStatement.setInt(1, Integer.parseInt(id));
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Comment comment = new Comment();
+                comment.setId(rs.getInt("id"));
+                comment.setText(rs.getString("description"));
+                comment.setCreate(rs.getTimestamp("data_create").getTime());
+                comments.add(comment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
+    }
+    public void addNewComment(String id, String text) {
+        try {
+            statement.executeUpdate(Query.CREATE_COMMENTS_TABLE);
+            preparedStatement = connection.prepareStatement(Query.INSERT_NEW_COMMENT);
+            preparedStatement.setInt(1, Integer.parseInt(id));
+            preparedStatement.setString(2, text);
+            preparedStatement.setTimestamp(3, new Timestamp(new Date(System.currentTimeMillis()).getTime()));
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
