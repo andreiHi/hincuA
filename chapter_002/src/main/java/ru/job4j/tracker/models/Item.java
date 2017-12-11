@@ -20,7 +20,13 @@ public class Item {
      * name.
      */
     private String name;
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     /**
+
      * desc.
      */
    private String desc;

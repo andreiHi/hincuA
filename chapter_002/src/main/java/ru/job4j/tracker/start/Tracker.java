@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Клвас Трэкер.
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.09.2017.
  * @version $Id$.
  * @since 0.1.
@@ -46,11 +47,16 @@ public class Tracker {
      * @return - заявка.
      */
     public Item add(Item item) {
-        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.INSERT_NEW_ITEM)) {
+        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.INSERT_NEW_ITEM, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setString(2, item.getDesc());
             preparedStatement.setTimestamp(3, new Timestamp(item.getCreated()));
             preparedStatement.executeUpdate();
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    item.setId(String.valueOf(generatedKeys.getInt(1)));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,14 +68,14 @@ public class Tracker {
      */
     public void update(Item item) {
         if (item != null) {
-            int index = 0;
-            for (Item item1 : this.items) {
-                if (item1.getId().equals(item.getId())) {
-                    index = items.indexOf(item1);
-                    break;
-                }
-            }
-            this.items.set(index, item);
+        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.UPDATE_ITEM)) {
+            preparedStatement.setString(1, item.getName());
+            preparedStatement.setString(2, item.getDesc());
+            preparedStatement.setInt(3, Integer.parseInt(item.getId()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         }
     }
 
@@ -79,8 +85,15 @@ public class Tracker {
      */
     public void delete(Item item) {
         if (item != null) {
-            if (this.items.contains(item)) {
-                this.items.remove(item);
+            try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.REMOVE_ALL_COMMENTS)) {
+                preparedStatement.setInt(1, Integer.parseInt(item.getId()));
+                preparedStatement.executeUpdate();
+                try (final PreparedStatement preparedStatement1 = connection.prepareStatement(Query.DELETE_ITEM)) {
+                    preparedStatement1.setInt(1, Integer.parseInt(item.getId()));
+                    preparedStatement1.executeUpdate();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -114,6 +127,10 @@ public class Tracker {
         return items;
     }
 
+    /**
+     * Метод заполняет список получеными из запроса данными.
+     * @param rs результат запроса к бд.
+     */
     private void complete(ResultSet rs) {
         if (items == null) {
             items = new ArrayList<>();
@@ -148,6 +165,7 @@ public class Tracker {
             if (!items.isEmpty()) {
                 item = items.get(0);
             }
+            item.setComments(getAllComments(id));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,6 +179,12 @@ public class Tracker {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Метод возвращает все коментарии к заявке.
+     * @param id id заявки.
+     * @return список коментариев.
+     */
     public List<Comment> getAllComments(String id) {
         List<Comment> comments = new ArrayList<>();
         try (final Statement statement = connection.createStatement();
@@ -181,6 +205,13 @@ public class Tracker {
         }
         return comments;
     }
+
+    /**
+     * Метод добавляет новый коментарий к заявке.
+     * @param id id заявки.
+     * @param text содержимое коментария.
+     * @return 0 или 1 успешна ли операция.
+     */
     public int addNewComment(String id, String text) {
         int result = 0;
         try (final Statement statement = this.connection.createStatement();

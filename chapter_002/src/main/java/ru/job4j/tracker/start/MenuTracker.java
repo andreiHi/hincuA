@@ -50,7 +50,6 @@ public class MenuTracker {
         this.actions.add(new MenuTracker.FindById("Find by Id.", 4));
         this.actions.add(new FindByName("Find by Name.", 5));
         this.actions.add(new Exit("Exit.", 6));
-
     }
 
     /**
@@ -110,7 +109,8 @@ public class MenuTracker {
         public void execute(Tracker tracker, Input input) {
             String name = input.ask("Enter name:");
             String desc = input.ask("Enter description:");
-            tracker.add(new Item(name, desc));
+            Item item = tracker.add(new Item(name, desc));
+            input.writeMessage(String.format("Your item has been saved for id: %s", item.getId()));
         }
     }
 
@@ -193,9 +193,8 @@ public class MenuTracker {
          */
         @Override
         public void execute(Tracker tracker, Input input) {
-            boolean found = false;
             Item item = null;
-            while (!found) {
+            do {
                 String id = input.ask("Enter id:");
                 if (EXIT.equalsIgnoreCase(id)) {
                     break;
@@ -203,10 +202,8 @@ public class MenuTracker {
                 item = tracker.findById(id);
                 if (item == null) {
                     System.out.println("Invalid ID enter again or tape exit:");
-                } else {
-                    found = true;
                 }
-            }
+            } while (item == null);
             if (item == null) {
                 System.out.println("The request was canceled.");
             } else {
@@ -309,6 +306,8 @@ public class MenuTracker {
                     String name = input.ask("Enter name:");
                     String desc = input.ask("Enter description:");
                     tracker.update(new Item(id, name, desc));
+                    input.writeMessage("Item was updated successfully.");
+
                 }
             }
         }
