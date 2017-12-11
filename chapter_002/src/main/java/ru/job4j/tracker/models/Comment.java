@@ -38,14 +38,13 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{"
-                +"Id = "
+                + "Id = "
                 + id
-                + "text = '"
+                + ", text = '"
                 + text
                 + '\''
                 + ", create = "
                 + new SimpleDateFormat("dd-MM-YYYY").format(new Date(create))
-                +
-                '}';
+                + '}';
     }
 }

@@ -6,6 +6,7 @@ import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.models.Item;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * MenuTracker.
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 
 public class MenuTracker {
+    private static final String EXIT = "exit";
     /**
      * Input.
      */
@@ -106,8 +108,8 @@ public class MenuTracker {
          */
         @Override
         public void execute(Tracker tracker, Input input) {
-            String name = input.ask("Enter name :");
-            String desc = input.ask("Enter description :");
+            String name = input.ask("Enter name:");
+            String desc = input.ask("Enter description:");
             tracker.add(new Item(name, desc));
         }
     }
@@ -152,14 +154,16 @@ public class MenuTracker {
          */
         @Override
         public void execute(Tracker tracker, Input input) {
-            String id = "";
             boolean found = false;
             Item item = null;
             while (!found) {
-                id = input.ask("Enter id :");
+                String id = input.ask("Enter id:");
+                if (EXIT.equalsIgnoreCase(id)) {
+                    break;
+                }
                 item = tracker.findById(id);
                 if (item == null) {
-                    System.out.println("Invalid ID enter again.");
+                    System.out.println("Invalid ID enter again or tape exit:");
                 } else {
                     found = true;
                 }
@@ -189,17 +193,16 @@ public class MenuTracker {
          */
         @Override
         public void execute(Tracker tracker, Input input) {
-            String id = "";
             boolean found = false;
             Item item = null;
             while (!found) {
-                id = input.ask("Enter id or exit :");
-                if (id.equals("exit")) {
+                String id = input.ask("Enter id:");
+                if (EXIT.equalsIgnoreCase(id)) {
                     break;
                 }
                 item = tracker.findById(id);
                 if (item == null) {
-                    System.out.println("Invalid ID enter again.");
+                    System.out.println("Invalid ID enter again or tape exit:");
                 } else {
                     found = true;
                 }
@@ -207,7 +210,7 @@ public class MenuTracker {
             if (item == null) {
                 System.out.println("The request was canceled.");
             } else {
-                input.writeMessage(String.valueOf(item));
+                input.writeMessage(item.toString());
                 new MenuComments(tracker, input, item.getId());
             }
         }
@@ -226,16 +229,18 @@ public class MenuTracker {
             super(name, key);
         }
 
-
         @Override
         public void execute(Tracker tracker, Input input) {
             boolean found = false;
-            ArrayList<Item> item = new ArrayList<>();
+            List<Item> item = new ArrayList<>();
             while (!found) {
-                String name = input.ask("Enter name :");
+                String name = input.ask("Enter name:");
+                if (EXIT.equalsIgnoreCase(name)) {
+                    break;
+                }
                 item = tracker.findByName(name);
                 if (item.size() == 0) {
-                    System.out.println("Invalid name enter again.");
+                    System.out.println("Invalid name enter again or tape exit:");
                 } else {
                     found = true;
                 }
@@ -290,24 +295,24 @@ public class MenuTracker {
          */
         @Override
         public void execute(Tracker tracker, Input input) {
-            String id = "";
             boolean found = false;
-            Item item = null;
             while (!found) {
-                id = input.ask("Enter id :");
-                item = tracker.findById(id);
-                if ("exit".equalsIgnoreCase(id)) {
+               String id = input.ask("Enter id:");
+               Item item = tracker.findById(id);
+                if (EXIT.equalsIgnoreCase(id)) {
                     break;
                 }
                 if (item == null) {
-                    System.out.println("Invalid ID enter again or tape exit.");
+                    System.out.println("Invalid ID enter again or tape exit:");
                 } else {
                     found = true;
-                    String name = input.ask("Enter name :");
-                    String desc = input.ask("Enter description :");
+                    String name = input.ask("Enter name:");
+                    String desc = input.ask("Enter description:");
                     tracker.update(new Item(id, name, desc));
                 }
             }
         }
+
+
     }
 }

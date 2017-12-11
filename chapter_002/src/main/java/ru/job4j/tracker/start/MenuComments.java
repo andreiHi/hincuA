@@ -23,8 +23,8 @@ public class MenuComments {
 
     public void init() {
         list.add(new ShowAllComments("Show all comments from this item.", 0));
-        list.add(new AddNewComent("Add new comment.", 1));
-        list.add(new DeleteComent("Delete comment.", 2));
+        list.add(new AddNewComment("Add new comment.", 1));
+        list.add(new DeleteComment("Delete comment.", 2));
         list.add(new ExitFromComments("Exit from this submenu.", 3));
         this.rang = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -38,7 +38,7 @@ public class MenuComments {
             showAllActions();
             k = input.ask("Select:", rang);
             execute(k);
-        } while (k !=rang[3]);
+        } while (k != rang[3]);
     }
    public void execute(int k) {
         list.get(k).execute(tracker, input);
@@ -46,6 +46,7 @@ public class MenuComments {
     private void showAllActions() {
         list.forEach(list-> System.out.println(list.info()));
     }
+
     public MenuComments(Tracker tracker, Input input, String id) {
         this.tracker = tracker;
         this.input = input;
@@ -53,7 +54,7 @@ public class MenuComments {
         init();
     }
 
-    class  ShowAllComments extends BaseAction{
+    class  ShowAllComments extends BaseAction {
 
         /**
          * Конструктор.
@@ -75,36 +76,45 @@ public class MenuComments {
             }
         }
     }
-    class AddNewComent extends BaseAction{
+    class AddNewComment extends BaseAction {
         /**
          * Конструктор.
          *
          * @param name имя подменю.
          * @param key  номер подменю.
          */
-        public AddNewComent(String name, int key) {
+        public AddNewComment(String name, int key) {
             super(name, key);
         }
 
         @Override
         public void execute(Tracker tracker, Input input) {
             String text = input.ask("Write comment:");
-            tracker.addNewComment(id, text);
+            if (tracker.addNewComment(id, text) > 0) {
+                input.writeMessage("Comment was added successfully.");
+            } else {
+                input.writeMessage("Something wrong.");
+            }
         }
     }
-    class DeleteComent extends BaseAction{
+    class DeleteComment extends BaseAction {
         /**
          * Конструктор.
          * @param name имя подменю.
          * @param key  номер подменю.
          */
-        public DeleteComent(String name, int key) {
+        public DeleteComment(String name, int key) {
             super(name, key);
         }
 
         @Override
         public void execute(Tracker tracker, Input input) {
-           // tracker.deleteComment
+            String text = input.ask("Write id of comment, or All to remove all comments from this item :");
+            if (tracker.deleteComment(id, text) > 0) {
+                input.writeMessage("Deletion was successful.");
+            } else {
+                input.writeMessage("Something wrong.");
+            }
         }
     }
 
@@ -122,7 +132,7 @@ public class MenuComments {
 
         @Override
         public void execute(Tracker tracker, Input input) {
-            input.writeMessage("Was selected Exit from comments for this item.");
+            input.writeMessage("Exit from comments for this item.");
         }
     }
 }
