@@ -136,6 +136,17 @@ public class Item {
         this.desc = desc;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Item{" +
+//                "id='" + id + '\'' +
+//                ", name='" + name + '\'' +
+//                ", desc='" + desc + '\'' +
+//                ", created=" + created +
+//                ", comments=" + comments +
+//                '}';
+//    }
+
     @Override
     public String toString() {
         return "Item{"
@@ -151,5 +162,29 @@ public class Item {
                 + ", created : "
                 + new SimpleDateFormat("dd-MM-YYYY").format(new Date(created))
                 + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (created != item.created) return false;
+        if (id != null ? !id.equals(item.id) : item.id != null) return false;
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (desc != null ? !desc.equals(item.desc) : item.desc != null) return false;
+        return comments != null ? comments.equals(item.comments) : item.comments == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (desc != null ? desc.hashCode() : 0);
+        result = 31 * result + (int) (created ^ (created >>> 32));
+        result = 31 * result + (comments != null ? comments.hashCode() : 0);
+        return result;
     }
 }

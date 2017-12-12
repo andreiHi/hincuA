@@ -23,8 +23,13 @@ public class StabInputTest {
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // создаём Tracker
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
-        new StartUi(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.getAll().get(0).getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        new StartUi(input, tracker).init();
+        //   создаём StartUI и вызываем метод init()
+        tracker = new Tracker();
+        Item item = tracker.getAll().get(0);
+        assertThat(item.getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        tracker.delete(item);
+        tracker.close();
     }
 
     /**
@@ -40,8 +45,11 @@ public class StabInputTest {
         Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
         // создаём StartUI и вызываем метод init()
         new StartUi(input, tracker).init();
+        tracker = new Tracker();
         // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
         assertThat(tracker.findById(item.getId()).getName(), is("test name"));
+        tracker.delete(item);
+        tracker.close();
     }
 
     /**

@@ -164,8 +164,8 @@ public class Tracker {
             }
             if (!items.isEmpty()) {
                 item = items.get(0);
+                item.setComments(getAllComments(id));
             }
-            item.setComments(getAllComments(id));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -203,7 +203,7 @@ public class Tracker {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return comments;
+        return comments.isEmpty() ? null : comments;
     }
 
     /**
