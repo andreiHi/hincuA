@@ -166,15 +166,27 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Item item = (Item) o;
 
-        if (created != item.created) return false;
-        if (id != null ? !id.equals(item.id) : item.id != null) return false;
-        if (name != null ? !name.equals(item.name) : item.name != null) return false;
-        if (desc != null ? !desc.equals(item.desc) : item.desc != null) return false;
+        if (created != item.created) {
+            return false;
+        }
+        if (id != null ? !id.equals(item.id) : item.id != null) {
+            return false;
+        }
+        if (name != null ? !name.equals(item.name) : item.name != null) {
+            return false;
+        }
+        if (desc != null ? !desc.equals(item.desc) : item.desc != null) {
+            return false;
+        }
         return comments != null ? comments.equals(item.comments) : item.comments == null;
     }
 

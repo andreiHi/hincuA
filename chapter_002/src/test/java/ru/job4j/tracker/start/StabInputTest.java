@@ -5,6 +5,10 @@ import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.StubInput;
 import ru.job4j.tracker.models.Item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -52,21 +56,6 @@ public class StabInputTest {
         tracker.close();
     }
 
-    /**
-     *Тест метода showAll.
-     */
-    @Test
-    public void whenTrackerHasItemsThenShowAll() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDesc1");
-        Item item1 = new Item("test2", "testDesc2");
-        tracker.add(item);
-        tracker.add(item1);
-        Input input = new StubInput(new String[]{"1", "6"});
-        new StartUi(input, tracker).init();
-        assertThat(tracker.findById(item.getId()).getName(), is("test1"));
-        assertThat(tracker.findById(item1.getId()).getName(), is("test2"));
-    }
 
     /**
      * Тест метода deleteItem.
@@ -76,11 +65,17 @@ public class StabInputTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
-        tracker.add(item);
-        tracker.add(item1);
+        item = tracker.add(item);
+        item1 = tracker.add(item1);
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUi(input, tracker).init();
-        assertThat(tracker.getAll().get(0).getName(), is("test2"));
+        tracker = new Tracker();
+        List<Item> list = new ArrayList<>();
+        list.add(item1);
+        assertThat(list, is(tracker.getAll()));
+        tracker.delete(item);
+        tracker.delete(item1);
+        tracker.close();
     }
 
     /**
@@ -91,11 +86,16 @@ public class StabInputTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
-        tracker.add(item);
-        tracker.add(item1);
-        Input input = new StubInput(new String[]{"4", item1.getId(), "6"});
+        item = tracker.add(item);
+        item1 = tracker.add(item1);
+        Input input = new StubInput(new String[]{"4", item1.getId(), "3", "6"});
         new StartUi(input, tracker).init();
-        assertThat(tracker.findById(item1.getId()).getName(), is("test2"));
+        tracker = new Tracker();
+        Item ex = tracker.findById(item.getId());
+        assertThat(ex.getName(), is("test1"));
+        tracker.delete(item);
+        tracker.delete(item1);
+        tracker.close();
     }
 
     /**
@@ -106,10 +106,15 @@ public class StabInputTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
-        tracker.add(item);
-        tracker.add(item1);
+        item = tracker.add(item);
+        item1 = tracker.add(item1);
         Input input = new StubInput(new String[]{"5", item1.getName(), "6"});
         new StartUi(input, tracker).init();
-        assertThat(tracker.findByName(item1.getName()).get(0).getName(), is("test2"));
+        tracker = new Tracker();
+        List<Item> ex = new ArrayList<>(Arrays.asList(item1));
+        assertThat(tracker.findByName(item1.getName()), is(ex));
+        tracker.delete(item);
+        tracker.delete(item1);
+        tracker.close();
     }
 }

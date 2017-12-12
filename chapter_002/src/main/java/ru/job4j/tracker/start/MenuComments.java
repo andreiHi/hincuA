@@ -69,7 +69,7 @@ public class MenuComments {
         @Override
         public void execute(Tracker tracker, Input input) {
             List<Comment> comments = tracker.getAllComments(id);
-            if (!comments.isEmpty()) {
+            if (comments != null) {
                 comments.forEach(System.out::println);
             } else {
                 input.writeMessage("This item has no comments.");
