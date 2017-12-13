@@ -2,6 +2,7 @@ package ru.job4j.condition;
 
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
@@ -29,5 +30,25 @@ public class TriangleTest {
         double expected = 2D;
         //Проверяем результат и ожидаемое значение.
         assertThat(result, closeTo(expected, 0.1));
+    }
+
+    @Test
+    public void noExistTriangle() throws Exception {
+        Triangle triangle = new Triangle();
+        boolean ex = triangle.exist(2, 1, 1);
+        assertThat(ex, is(false));
+    }
+
+    @Test
+    public void existTriangle() throws Exception {
+        Triangle triangle = new Triangle();
+        boolean ex = triangle.exist(2, 1, 2);
+        assertThat(ex, is(true));
+    }
+    @Test
+    public void nexistTriangle() throws Exception {
+        Triangle triangle = new Triangle();
+        boolean ex = triangle.exist(2, 1, 3);
+        assertThat(ex, is(true));
     }
 }

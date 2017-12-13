@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.tracker.models.Item;
@@ -16,20 +18,27 @@ import static org.junit.Assert.assertThat;
  * @since 0.1.
  */
 public class TrackerTest {
+    private Tracker tracker;
+    @Before
+    public void init() {
+        tracker = new Tracker();
+    }
+    @After
+    public void close() {
+        tracker.close();
+    }
     /**
      * Test add new Item.
      */
     @Test
     @Ignore
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription");
         Item item1 = tracker.add(item);
         String id = item1.getId();
         Item i = tracker.findById(id);
         assertThat(item1, is(i));
         tracker.delete(item1);
-        tracker.close();
     }
 
     /**
@@ -38,7 +47,6 @@ public class TrackerTest {
     @Test
     @Ignore
     public void whenUpdateItemThenTrackerHasItemUpdate() {
-        Tracker tracker = new Tracker();
         Item item = new Item("test1",  "testDiscription");
         item = tracker.add(item);
         item.setDesc("newDescription");
@@ -46,7 +54,6 @@ public class TrackerTest {
         Item fromTracer = tracker.findById(item.getId());
         assertThat("newDescription", is(fromTracer.getDesc()));
         tracker.delete(item);
-        tracker.close();
     }
 
     /**
@@ -55,13 +62,11 @@ public class TrackerTest {
     @Test
     @Ignore
     public void whenTrackerHasTwoItemsThenDeletingHeHasOneItem() {
-        Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDiscr");
         item = tracker.add(item);
         tracker.delete(item);
         item = tracker.findById(item.getId());
         assertThat(null, is(item));
-        tracker.close();
     }
 
     /**
@@ -70,7 +75,6 @@ public class TrackerTest {
     @Test
     @Ignore
     public void whenTrackerHasTwoItemsThenFindAllReturnAll() {
-        Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDiscr");
         Item item2 = new Item("test2", "testDiscr");
         item = tracker.add(item);
@@ -82,16 +86,14 @@ public class TrackerTest {
         assertThat(result, is(ex));
         tracker.delete(item);
         tracker.delete(item2);
-        tracker.close();
     }
 
     /**
      *Test findByName.
      */
     @Test
-    @Ignore
+   @Ignore
     public void whenTrackerHasTwoItemWithEqualsNameThenReturnThisItems() {
-        Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDiscr");
         Item item2 = new Item("test1", "testDiscr");
         item = tracker.add(item);
@@ -103,7 +105,6 @@ public class TrackerTest {
         assertThat(result, is(ex));
         tracker.delete(item);
         tracker.delete(item2);
-        tracker.close();
     }
 
     /**
@@ -112,13 +113,11 @@ public class TrackerTest {
     @Test
     @Ignore
     public void whenTrackerHasTwoItemsAndFindByIdThenReturnItemById() {
-        Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDiscr");
         item = tracker.add(item);
         String id = item.getId();
         Item item2 = tracker.findById(id);
         assertThat(id, is(item2.getId()));
         tracker.delete(item);
-        tracker.close();
     }
 }
