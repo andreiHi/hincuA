@@ -5,12 +5,13 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.tracker.models.Item;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.09.2017.
@@ -19,9 +20,17 @@ import static org.junit.Assert.assertThat;
  */
 public class TrackerTest {
     private Tracker tracker;
+    private Item item;
+    private Item item1;
+
     @Before
     public void init() {
-        tracker = new Tracker();
+        this.item = new Item("test1", "testDescription");
+      //  this.item1 = new Item("test1", "testDescription");
+       // tracker = new Tracker();
+        Item itemResult = new Item("1", "test1",  "testDescription");
+        tracker = mock(Tracker.class);
+        when(tracker.add(item)).thenReturn(itemResult);
     }
     @After
     public void close() {
@@ -31,13 +40,10 @@ public class TrackerTest {
      * Test add new Item.
      */
     @Test
-    @Ignore
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Item item = new Item("test1", "testDescription");
         Item item1 = tracker.add(item);
         String id = item1.getId();
-        Item i = tracker.findById(id);
-        assertThat(item1, is(i));
+        assertThat(item1.getId(), is(id));
         tracker.delete(item1);
     }
 
@@ -47,7 +53,6 @@ public class TrackerTest {
     @Test
     @Ignore
     public void whenUpdateItemThenTrackerHasItemUpdate() {
-        Item item = new Item("test1",  "testDiscription");
         item = tracker.add(item);
         item.setDesc("newDescription");
         tracker.update(item);

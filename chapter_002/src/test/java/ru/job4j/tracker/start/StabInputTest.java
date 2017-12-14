@@ -1,17 +1,21 @@
 package ru.job4j.tracker.start;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.StubInput;
 import ru.job4j.tracker.models.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 /**
  * .
@@ -21,17 +25,29 @@ import static org.junit.Assert.assertThat;
  * @since 0.1
  */
 public class StabInputTest {
+    private Tracker tracker;
+    private Item item;
+    private Item res;
+    @Before
+    public void init() {
+        this.tracker = Mockito.mock(Tracker.class);
+        this.item = new Item("test name", "desc");
+        this.res = new Item("1", "test name", "desc");
+        Mockito.when(tracker.add(item)).thenReturn(res);
+
+    }
     /**
      * Тест добавления нового элемента.
      */
     @Test
     @Ignore
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();     // создаём Tracker
+
+       // when(tracker.getAll()).thenReturn(new ArrayList<Item>(Arrays.asList(res)));
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
         new StartUi(input, tracker).init();
         //   создаём StartUI и вызываем метод init()
-        tracker = new Tracker();
+   //     tracker = new Tracker();
         Item item = tracker.getAll().get(0);
         assertThat(item.getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
         tracker.delete(item);
@@ -122,5 +138,11 @@ public class StabInputTest {
         tracker.delete(item);
         tracker.delete(item1);
         tracker.close();
+    }
+
+    @Test
+    public void name() throws Exception {
+        Item a = tracker.add(item);
+        System.out.println(a);
     }
 }
