@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.tracker.models.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class TrackerTest {
     @Before
     public void init() {
         this.item = new Item("test1", "testDescription");
-      //  this.item1 = new Item("test1", "testDescription");
-       // tracker = new Tracker();
+        //  this.item1 = new Item("test1", "testDescription");
+        // tracker = new Tracker();
         Item itemResult = new Item("1", "test1",  "testDescription");
         tracker = mock(Tracker.class);
         when(tracker.add(item)).thenReturn(itemResult);
@@ -85,8 +86,8 @@ public class TrackerTest {
         item = tracker.add(item);
         item2 = tracker.add(item2);
         ArrayList<Item> result = new ArrayList<>();
-                result.add(item);
-                result.add(item2);
+        result.add(item);
+        result.add(item2);
         List<Item> ex = tracker.getAll();
         assertThat(result, is(ex));
         tracker.delete(item);
@@ -97,15 +98,15 @@ public class TrackerTest {
      *Test findByName.
      */
     @Test
-   @Ignore
+    @Ignore
     public void whenTrackerHasTwoItemWithEqualsNameThenReturnThisItems() {
         Item item = new Item("test1", "testDiscr");
         Item item2 = new Item("test1", "testDiscr");
         item = tracker.add(item);
         item2 = tracker.add(item2);
         ArrayList<Item> result = new ArrayList<>();
-                result.add(item);
-                result.add(item2);
+        result.add(item);
+        result.add(item2);
         List<Item> ex =  tracker.findByName("test1");
         assertThat(result, is(ex));
         tracker.delete(item);

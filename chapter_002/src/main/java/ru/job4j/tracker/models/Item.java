@@ -175,9 +175,9 @@ public class Item {
 
         Item item = (Item) o;
 
-        if (created != item.created) {
-            return false;
-        }
+//        if (created != item.created) {
+//            return false;
+//        }
         if (id != null ? !id.equals(item.id) : item.id != null) {
             return false;
         }

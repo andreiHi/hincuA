@@ -10,11 +10,11 @@ import ru.job4j.tracker.models.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -40,10 +40,8 @@ public class StabInputTest {
      * Тест добавления нового элемента.
      */
     @Test
-    @Ignore
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-
-       // when(tracker.getAll()).thenReturn(new ArrayList<Item>(Arrays.asList(res)));
+        when(tracker.getAll()).thenReturn(new ArrayList<Item>(Arrays.asList(res)));
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
         new StartUi(input, tracker).init();
         //   создаём StartUI и вызываем метод init()
@@ -60,19 +58,23 @@ public class StabInputTest {
     @Test
     @Ignore
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        // создаём Tracker
-        Tracker tracker = new Tracker();
         //Напрямую добавляем заявку
-        Item item = tracker.add(new Item());
+        Item item1 = tracker.add(this.item);
+        when(tracker.findById(item1.getId())).thenReturn(item1);
         //создаём StubInput с последовательностью действий
-        Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
-        // создаём StartUI и вызываем метод init()
+        Input input = new StubInput(new String[]{"2", item1.getId(), "test", "desc", "6"});
         new StartUi(input, tracker).init();
-        tracker = new Tracker();
-        // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-        assertThat(tracker.findById(item.getId()).getName(), is("test name"));
-        tracker.delete(item);
-        tracker.close();
+        verify(tracker).add(this.item);
+        verify(tracker).findById(item1.getId());
+        item1.setName("test");
+        verify(tracker).update(item1);
+        // создаём StartUI и вызываем метод init()
+
+//        tracker = new Tracker();
+//        // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+//        assertThat(tracker.findById(item.getId()).getName(), is("test name"));
+//        tracker.delete(item);
+//        tracker.close();
     }
 
 
@@ -138,11 +140,5 @@ public class StabInputTest {
         tracker.delete(item);
         tracker.delete(item1);
         tracker.close();
-    }
-
-    @Test
-    public void name() throws Exception {
-        Item a = tracker.add(item);
-        System.out.println(a);
     }
 }

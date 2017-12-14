@@ -19,6 +19,7 @@ public class Tracker {
     /**
      * Хранилище заявок.
      */
+    private Item[] items1 = new Item[100];
     private List<Item> items;
     /**
      * Подключение к бд.
@@ -68,14 +69,14 @@ public class Tracker {
      */
     public void update(Item item) {
         if (item != null) {
-        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.UPDATE_ITEM)) {
-            preparedStatement.setString(1, item.getName());
-            preparedStatement.setString(2, item.getDesc());
-            preparedStatement.setInt(3, Integer.parseInt(item.getId()));
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.UPDATE_ITEM)) {
+                preparedStatement.setString(1, item.getName());
+                preparedStatement.setString(2, item.getDesc());
+                preparedStatement.setInt(3, Integer.parseInt(item.getId()));
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
