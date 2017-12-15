@@ -15,6 +15,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -56,7 +57,6 @@ public class StabInputTest {
      * Тест метода edit изменяем существующий элемент.
      */
     @Test
-    @Ignore
     public void whenUpdateThenTrackerHasUpdatedValue() {
         //Напрямую добавляем заявку
         Item item1 = tracker.add(this.item);
@@ -140,5 +140,49 @@ public class StabInputTest {
         tracker.delete(item);
         tracker.delete(item1);
         tracker.close();
+    }
+
+    /**
+     * Метод проверяет последовательность вызова методов с соответствующими аргументами при удалении заявки.
+     */
+    @Test
+    public void whenWasCallDeleteMethod() {
+        Item add = this.tracker.add(this.item);
+        when(tracker.findById(add.getId())).thenReturn(add);
+        Input input = new StubInput(new String[]{"3", add.getId(), "6"});
+        new StartUi(input, tracker).init();
+        verify(tracker).add(item);
+        verify(tracker).findById(add.getId());
+        verify(tracker).delete(add);
+        verify(tracker).close();
+        verifyNoMoreInteractions(tracker);
+    }
+
+    /**
+     * Тест проверяет последовательность вызова методов
+     * при поиске заявки по id.
+     */
+    @Test
+    public void whenWasCallFindByIdMethod() {
+        when(tracker.findById(res.getId())).thenReturn(res);
+        Input input = new StubInput(new String[]{"4", res.getId(), "3", "6"});
+        new StartUi(input, tracker).init();
+        verify(tracker).findById(res.getId());
+        verify(tracker).close();
+        verifyNoMoreInteractions(tracker);
+    }
+
+    /**
+     * Тест проверяет последовательность вызова методов с соответствующими аргументами
+     * при вызове findByName метода.
+     */
+    @Test
+    public void whenWasCallFindByNameMethod() {
+        when(tracker.findByName(res.getName())).thenReturn(new ArrayList<Item>(Arrays.asList(res)));
+        Input input = new StubInput(new String[]{"5", res.getName(), "6"});
+        new StartUi(input, tracker).init();
+        verify(tracker).findByName(res.getName());
+        verify(tracker).close();
+        verifyNoMoreInteractions(tracker);
     }
 }
