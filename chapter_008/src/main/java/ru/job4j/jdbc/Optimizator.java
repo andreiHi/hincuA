@@ -4,6 +4,9 @@ package ru.job4j.jdbc;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -14,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * .
@@ -135,21 +140,29 @@ public class Optimizator {
             while (rs.next()) {
                 Element entry = doc.createElement("entry");
                 root.appendChild(entry);
+
                 Element field = doc.createElement("field");
                 field.setTextContent(rs.getString("FIELD"));
                 entry.appendChild(field);
             }
-          //  removeWhitespaceNodes(doc.getDocumentElement());
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+            //  removeWhitespaceNodes(doc.getDocumentElement());
+        } catch (ParserConfigurationException | SQLException e) {
             e.printStackTrace();
         } finally {
             connectionSqLite.closeConnect();
         }
         return doc;
     }
+    public void createFirstXmlWithJAXB() {
+        try  {
+            JAXBContext context = JAXBContext.newInstance(Entries.class);
+            Marshaller marshaller = context.createMarshaller();
+            List<Entries.Field> fields = new LinkedList<>();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
 
+    }
     /**
      *
      * Метод создает файл или проверяет его наличие в системе.
@@ -189,11 +202,7 @@ public class Optimizator {
             //делает отступ от края страницы
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.transform(domSource, streamResult);
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
+        } catch (FileNotFoundException | TransformerException e) {
             e.printStackTrace();
         }
     }
@@ -214,8 +223,6 @@ public class Optimizator {
             transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.transform(xmlInput, xmlOutput);
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
         } catch (TransformerException e) {
             e.printStackTrace();
         }
@@ -248,11 +255,7 @@ public class Optimizator {
             parser = parserFactory.newSAXParser();
             parser.parse(new File(xml2), handler);
             System.out.println(String.format("Сумма элементов : %d", handler.getCount()));
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SAXException | ParserConfigurationException | IOException e) {
             e.printStackTrace();
         }
     }

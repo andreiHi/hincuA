@@ -49,6 +49,6 @@ public class TriangleTest {
     public void nexistTriangle() throws Exception {
         Triangle triangle = new Triangle();
         boolean ex = triangle.exist(2, 1, 3);
-        assertThat(ex, is(true));
+        assertThat(ex, is(false));
     }
 }
