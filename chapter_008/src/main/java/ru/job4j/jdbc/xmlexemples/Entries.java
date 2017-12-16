@@ -1,4 +1,4 @@
-package ru.job4j.jdbc;
+package ru.job4j.jdbc.xmlexemples;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

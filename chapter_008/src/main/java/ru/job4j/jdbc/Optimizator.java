@@ -4,21 +4,16 @@ package ru.job4j.jdbc;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.parsers.*;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * .
@@ -38,7 +33,7 @@ public class Optimizator {
     /**
      * колличество элементов.
      */
-    private int element = 2;
+    private int element = 10;
     /**
      * Соединение с бд.
      */
@@ -72,6 +67,12 @@ public class Optimizator {
         createTestTable();
         Document document = createFirstXmlWithDom();
         writeDocument(document, xml1);
+        convert();
+        parsing();
+    }
+    public void startProgramWithSax() {
+        createTestTable();
+        createFirstXmlWithSAX();
         convert();
         parsing();
     }
@@ -153,15 +154,31 @@ public class Optimizator {
         }
         return doc;
     }
-    public void createFirstXmlWithJAXB() {
-        try  {
-            JAXBContext context = JAXBContext.newInstance(Entries.class);
-            Marshaller marshaller = context.createMarshaller();
-            List<Entries.Field> fields = new LinkedList<>();
-        } catch (JAXBException e) {
+    public void createFirstXmlWithSAX() {
+        createFile(xml1);
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+        try {
+            XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(xml1));
+            writer.writeStartDocument();
+            writer.writeStartElement("entries");
+
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM TEST");
+            while (rs.next()) {
+                writer.writeStartElement("field");
+                writer.writeStartElement("entry");
+                writer.writeCharacters(rs.getString("FIELD"));
+                writer.writeEndElement();
+                writer.writeEndElement();
+            }
+            writer.writeEndElement();
+            writer.writeEndDocument();
+            writer.flush();
+            writer.close();
+        } catch (XMLStreamException | IOException | SQLException e) {
             e.printStackTrace();
         }
-
     }
     /**
      *

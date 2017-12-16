@@ -74,6 +74,11 @@ public class OptimizatorTest {
         System.out.println(String.format("Время работы программы : %d сек.", time));
     }
 
+    @Test
+    public void startProgramWithSAX() {
+        optimizator.startProgramWithSax();
+    }
+
     /**
      * Test проверяет если колличество элементов равно 2 то в 1.xml
      * будут два узла со значениями 1 и 2 соответственно.
