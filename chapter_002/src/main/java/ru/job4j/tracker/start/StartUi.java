@@ -1,5 +1,6 @@
 package ru.job4j.tracker.start;
 
+import ru.job4j.tracker.connection.ConnectionSQL;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.ValidateInput;
 
@@ -34,7 +35,7 @@ public class StartUi {
      * @param args отсутствует.
      */
     public static void main(String[] args) {
-        new StartUi(new ValidateInput(), new Tracker()).init();
+        new StartUi(new ValidateInput(), new Tracker(new ConnectionSQL())).init();
     }
 
     /**

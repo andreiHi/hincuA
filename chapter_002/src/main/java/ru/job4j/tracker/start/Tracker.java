@@ -19,15 +19,14 @@ public class Tracker {
     /**
      * Хранилище заявок.
      */
-    private Item[] items1 = new Item[100];
     private List<Item> items;
     /**
      * Подключение к бд.
      */
     private final Connection connection;
 
-    public Tracker() {
-        this.connection = new ConnectionSQL().getConnection();
+    public Tracker(ConnectionSQL connectionSQL) {
+        this.connection = connectionSQL.getConnection();
         init();
     }
 
@@ -48,13 +47,13 @@ public class Tracker {
      * @return - заявка.
      */
     public Item add(Item item) {
-        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.INSERT_NEW_ITEM, Statement.RETURN_GENERATED_KEYS)) {
+        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.INSERT_NEW_ITEM, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setString(2, item.getDesc());
             preparedStatement.setTimestamp(3, new Timestamp(item.getCreated()));
             preparedStatement.executeUpdate();
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
+                while (generatedKeys.next()) {
                     item.setId(String.valueOf(generatedKeys.getInt(1)));
                 }
             }

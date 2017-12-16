@@ -75,6 +75,7 @@ public class OptimizatorTest {
     }
 
     @Test
+    @Ignore
     public void startProgramWithSAX() {
         optimizator.startProgramWithSax();
     }
