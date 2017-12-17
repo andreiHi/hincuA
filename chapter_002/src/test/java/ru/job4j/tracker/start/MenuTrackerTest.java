@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
  * @version $Id$.
  * @since 0.1.
  */
-public class TrackerTestMockito {
+public class MenuTrackerTest {
     @Mock
     private Tracker tracker;
     @Mock
