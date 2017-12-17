@@ -146,6 +146,10 @@ public class TrackerTestMockito {
         verify(mocResultSet, times(1)).getTimestamp(anyString());
     }
 
+    /**
+     * Тест проверяет последовательность и колличество вызовов при поиске по ID.
+     * @throws Exception ex.
+     */
     @Test
     public void whenWasCalledFindById() throws Exception {
         new Tracker(connectionSQL).findById("1");
@@ -155,6 +159,63 @@ public class TrackerTestMockito {
         verify(mocResultSet, times(3)).next();
         verify(mocResultSet, times(3)).getString(anyString());
         verify(mocResultSet, times(1)).getTimestamp(anyString());
+    }
 
+    /**
+     * Тест проверяет колличество и последовательность вызовов при показе всех коментариев к заявке.
+     * @throws Exception ех.
+     */
+    @Test
+    public void whenWasCalledGetAllComments() throws Exception {
+        new Tracker(connectionSQL).getAllComments("1");
+        verify(connection, times(2)).createStatement();
+        verify(connection, times(1)).prepareStatement(anyString());
+        verify(mocStatment, times(2)).executeUpdate(anyString());
+        verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
+        verify(mocPreparedStatement, times(1)).executeQuery();
+        verify(mocResultSet, times(2)).next();
+        verify(mocResultSet, times(1)).getInt(anyString());
+        verify(mocResultSet, times(1)).getString(anyString());
+        verify(mocResultSet, times(1)).getTimestamp(any());
+    }
+
+    /**
+     * Тест проверяет последовательность и колличество вызовов при добавлении нового коментария.
+     * @throws Exception ех.
+     */
+    @Test
+    public void whenWasCalledAddNewComment() throws Exception {
+        new Tracker(connectionSQL).addNewComment("1", "test1");
+        verify(connection, times(2)).createStatement();
+        verify(connection, times(1)).prepareStatement(anyString());
+        verify(mocStatment, times(2)).executeUpdate(anyString());
+        verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
+        verify(mocPreparedStatement, times(1)).setString(anyInt(), anyString());
+        verify(mocPreparedStatement, times(1)).setTimestamp(anyInt(), any());
+        verify(mocPreparedStatement, times(1)).executeUpdate();
+    }
+
+    /**
+     * Тест прикотором удаляются все коментарии из заявки.
+     * @throws Exception ех.
+     */
+    @Test
+    public void whenWasCalledDeleteAllComments() throws Exception {
+        new Tracker(connectionSQL).deleteComment("1", "all");
+        verify(connection, times(1)).prepareStatement(anyString());
+        verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
+        verify(mocPreparedStatement, times(1)).executeUpdate();
+    }
+
+    /**
+     * Тест при котором удаляется один коментарий.
+     * @throws Exception ех.
+     */
+    @Test
+    public void whenWasCalledDeleteOneComments() throws Exception {
+        new Tracker(connectionSQL).deleteComment("1", "2");
+        verify(connection, times(1)).prepareStatement(anyString());
+        verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
+        verify(mocPreparedStatement, times(1)).executeUpdate();
     }
 }
