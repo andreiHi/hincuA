@@ -51,6 +51,7 @@ public class TrackerTestMockito {
         doNothing().when(mocPreparedStatement).setInt(anyInt(), anyInt());
         doNothing().when(mocPreparedStatement).setString(anyInt(), anyString());
         doNothing().when(mocPreparedStatement).setTimestamp(anyInt(), any());
+        when(mocPreparedStatement.executeQuery()).thenReturn(mocResultSet);
 
         when(mocResultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
         when(mocResultSet.getInt(anyInt())).thenReturn(1);
@@ -113,17 +114,47 @@ public class TrackerTestMockito {
         new Tracker(connectionSQL).delete(item);
         verify(connection, times(2)).prepareStatement(anyString());
         verify(item, times(2)).getId();
-        verify(mocPreparedStatement, times(2)).setInt(anyInt(),anyInt() );
+        verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(2)).executeUpdate();
     }
 
+    /**
+     *Тест проверяет последовательность вызовов методов при показе всех заявок.
+     * @throws Exception ex.
+     */
     @Test
     public void whenWasCalledGetAllMethod() throws Exception {
         new Tracker(connectionSQL).getAll();
-        verify(connection, times(1)).createStatement();
+        verify(connection, times(2)).createStatement();
         verify(mocStatment, times(1)).executeQuery(anyString());
         verify(mocResultSet, times(2)).next();
         verify(mocResultSet, times(3)).getString(anyString());
         verify(mocResultSet, times(1)).getTimestamp(anyString());
+    }
+
+    /**
+     * Тест проверяет последовательность и колличество вызовов при поиске заявки по имени.
+     * @throws Exception ех.
+     */
+    @Test
+    public void whenWasCalledFindByName() throws Exception {
+        new Tracker(connectionSQL).findByName("test");
+        verify(connection, times(1)).prepareStatement(anyString());
+        verify(mocPreparedStatement, times(1)).setString(anyInt(), anyString());
+        verify(mocResultSet, times(2)).next();
+        verify(mocResultSet, times(3)).getString(anyString());
+        verify(mocResultSet, times(1)).getTimestamp(anyString());
+    }
+
+    @Test
+    public void whenWasCalledFindById() throws Exception {
+        new Tracker(connectionSQL).findById("1");
+        verify(connection, times(2)).prepareStatement(anyString());
+        verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
+        verify(mocPreparedStatement, times(2)).executeQuery();
+        verify(mocResultSet, times(3)).next();
+        verify(mocResultSet, times(3)).getString(anyString());
+        verify(mocResultSet, times(1)).getTimestamp(anyString());
+
     }
 }
