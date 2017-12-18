@@ -1,6 +1,9 @@
-package ru.job4j.jdbc;
+package ru.job4j.jdbc.xmlexemples;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 01.12.2017.
@@ -12,31 +15,26 @@ public class SqlStorage {
         String url = "jdbc:postgresql://localhost:5432/java";
         String username = "postgres";
         String password = "5432";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, username, password);
+
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
            // Statement st = conn.createStatement();
             //ResultSet rs = st.executeQuery("SELECT * FROM users;");
             PreparedStatement st = conn.prepareStatement("SELECT * FROM users AS u WHERE u.id IN (?, ?, ?)");
             st.setInt(1, 1);
             st.setInt(2, 2);
             st.setInt(3, 3);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                System.out.println(String.format("%s %s %s %s", rs.getString("id"), rs.getString("name"), rs.getString("login"), rs.getString("password")));
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println(String.format("%s %s %s %s",
+                            rs.getString("id"),
+                            rs.getString("name"),
+                            rs.getString("login"),
+                            rs.getString("password")));
+                }
+                st.close();
             }
-            rs.close();
-            st.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }

@@ -21,27 +21,21 @@ import java.sql.*;
  * @version $Id$
  * @since 0.1
  */
-public class Optimizator {
-    /**
-     * Установка количества элементов для обработки.
-     * @param element элементы.
-     */
-    public void setElement(int element) {
-        this.element = element;
+public class OptimizationXML {
+
+    public int getElement() {
+        return element;
     }
 
     /**
      * колличество элементов.
      */
-    private int element = 10;
+    private int element;
     /**
      * Соединение с бд.
      */
     private Connection connection;
-    /**
-     * Ссылка на клас соединения.
-     */
-    private ConnectionSqLite connectionSqLite;
+
     /**
      * Путь к первому xml файлу.
      */
@@ -55,34 +49,37 @@ public class Optimizator {
      */
     private final String xsl = "converter.xsl";
 
-    public Optimizator() {
-        this.connectionSqLite = new ConnectionSqLite();
+    public OptimizationXML(ConnectionSqLite connectionSqLite, int element) {
         this.connection = connectionSqLite.getConnection();
+        this.element = element;
     }
 
     /**
-     * Запуск Програмы.
+     * Запуск c DOM.
      */
-    public void startProgram() {
+    public void startProgramDOM() {
         createTestTable();
-        Document document = createFirstXmlWithDom();
-        writeDocument(document, xml1);
-        convert();
-        parsing();
+        Document document = createFirstXmlWithDom(new File(xml1), DocumentBuilderFactory.newInstance());
+        writeDocumentDOM(document, xml1);
+        convert(new File(xml1), new File(xsl), new File(xml2));
+        parsing(SAXParserFactory.newInstance(), new Handler(), new File(xml2));
     }
+
+    /**
+     * Запук с SAX.
+     */
     public void startProgramWithSax() {
         createTestTable();
-        createFirstXmlWithSAX();
-        convert();
-        parsing();
+        createFirstXmlWithSAX(new File(xml1), XMLOutputFactory.newInstance());
+        convert(new File(xml1), new File(xsl), new File(xml2));
+        parsing(SAXParserFactory.newInstance(), new Handler(), new File(xml2));
     }
 
     /**
      * Метод создает Новую таблицу TEST в бд.
      */
     public void createTestTable() {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS TEST");
             statement.executeUpdate("CREATE TABLE TEST(FIELD int)");
             insert(connection);
@@ -121,22 +118,19 @@ public class Optimizator {
      * Метод читает информацию из бд формирует дерево DOM.
      * и возвращает его к записи.
      */
-    public Document createFirstXmlWithDom() {
-        createFile(xml1);
-        DocumentBuilderFactory builderFactory;
+    public Document createFirstXmlWithDom(File input, DocumentBuilderFactory factory) {
+        createFile(input.getPath());
         DocumentBuilder documentBuilder;
         Document doc = null;
-        try {
-            builderFactory = DocumentBuilderFactory.newInstance();
-            builderFactory.setNamespaceAware(true);
-            builderFactory.setIgnoringElementContentWhitespace(true);
-            documentBuilder = builderFactory.newDocumentBuilder();
+        try (Statement statement = connection.createStatement()) {
+            factory.setNamespaceAware(true);
+            factory.setIgnoringElementContentWhitespace(true);
+            documentBuilder = factory.newDocumentBuilder();
             doc = documentBuilder.newDocument();
 
             Element root = doc.createElement("entries");
             doc.appendChild(root);
 
-            Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM TEST");
             while (rs.next()) {
                 Element entry = doc.createElement("entry");
@@ -149,21 +143,22 @@ public class Optimizator {
             //  removeWhitespaceNodes(doc.getDocumentElement());
         } catch (ParserConfigurationException | SQLException e) {
             e.printStackTrace();
-        } finally {
-            connectionSqLite.closeConnect();
         }
         return doc;
     }
-    public void createFirstXmlWithSAX() {
-        createFile(xml1);
-        XMLOutputFactory factory = XMLOutputFactory.newInstance();
-        factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
-        try {
-            XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(xml1));
-            writer.writeStartDocument();
-            writer.writeStartElement("entries");
 
-            Statement statement = connection.createStatement();
+    /**
+     *Создание и запись первого XML файла.
+     * @param input путь к файлу.
+     * @param factory фабрика.
+     */
+    public void createFirstXmlWithSAX(File input, XMLOutputFactory factory) {
+        createFile(input.getPath());
+        factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
+        try (Statement statement = connection.createStatement()) {
+            XMLStreamWriter writer = factory.createXMLStreamWriter(new BufferedWriter(new FileWriter(xml1)));
+            writer.writeStartDocument("UTF-8","1.1");
+            writer.writeStartElement("entries");
             ResultSet rs = statement.executeQuery("SELECT * FROM TEST");
             while (rs.next()) {
                 writer.writeStartElement("field");
@@ -204,7 +199,7 @@ public class Optimizator {
      * @param document документ.
      * @param path путь к файлу.
      */
-    public void writeDocument(Document document, String path) {
+    public void writeDocumentDOM(Document document, String path) {
         Transformer transformer;
         DOMSource domSource;
         FileOutputStream fos;
@@ -228,11 +223,11 @@ public class Optimizator {
      * Метод с поьмощью xsl трансформирует 1xml в 2xml в соответствии с требованиями.
      * Сохроняет результат в файл 2.xml.
      */
-    public void convert() {
-        Source xmlInput = new StreamSource(new File(xml1));
-        Source xslFile = new StreamSource(new File(xsl));
-        createFile(xml2);
-        Result xmlOutput = new StreamResult(xml2);
+    public void convert(File inputFile, File xsl, File outputFile) {
+        Source xmlInput = new StreamSource(inputFile);
+        Source xslFile = new StreamSource(xsl);
+        createFile(outputFile.getPath());
+        Result xmlOutput = new StreamResult(outputFile);
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer(xslFile);
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -264,13 +259,11 @@ public class Optimizator {
     /**
      *Метод парсит 2.xml и выводит полученный результат.
      */
-    public void parsing() {
-        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-        Handler handler = new Handler();
+    public void parsing(SAXParserFactory factory, Handler handler, File input) {
         SAXParser parser;
         try {
-            parser = parserFactory.newSAXParser();
-            parser.parse(new File(xml2), handler);
+            parser = factory.newSAXParser();
+            parser.parse(input, handler);
             System.out.println(String.format("Сумма элементов : %d", handler.getCount()));
         } catch (SAXException | ParserConfigurationException | IOException e) {
             e.printStackTrace();

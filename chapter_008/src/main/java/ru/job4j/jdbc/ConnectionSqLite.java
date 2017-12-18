@@ -35,12 +35,4 @@ public class ConnectionSqLite {
             e.printStackTrace();
         }
     }
-    public void closeConnect() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

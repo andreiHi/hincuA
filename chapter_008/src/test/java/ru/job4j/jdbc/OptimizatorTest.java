@@ -25,13 +25,18 @@ import static org.junit.Assert.assertThat;
  * @since 0.1.
  */
 public class OptimizatorTest {
-    private Optimizator optimizator;
+    private OptimizationXML optimizator;
     String url;
-
+    private final String xml1 = "1.xml";
+    private final String xml2 = "2.xml";
+    /**
+     * Путь к xsl файлу.
+     */
+    private final String xsl = "converter.xsl";
     @Before
     @Ignore
     public void init() {
-        optimizator = new Optimizator();
+        optimizator = new OptimizationXML(new ConnectionSqLite(), 1000);
         if (System.getProperty("os.name").equals("Linux")) {
             this.url = "jdbc:sqlite:/home/andrei/java.db";
         } else {
@@ -47,17 +52,20 @@ public class OptimizatorTest {
     @Test
     @Ignore
     public void whenWasAddTwoElementsInTestTable() throws Exception {
-        optimizator.setElement(2);
         optimizator.createTestTable();
         Connection con = DriverManager.getConnection(url);
         Statement st = con .createStatement();
         ResultSet rt = st.executeQuery("SELECT * FROM TEST");
-        int[]result = new int[2];
+        int[]result = new int[optimizator.getElement()];
         int count = 0;
         while (rt.next()) {
             result[count++] = rt.getInt("FIELD");
         }
-        int[]ex = {1, 2};
+        int[]ex = new int[optimizator.getElement()];
+        int count2 = 0;
+        for (int i = 0; i < ex.length; i++) {
+            ex[count2++] = count2;
+        }
         assertThat(result, is(ex));
     }
 
@@ -67,9 +75,9 @@ public class OptimizatorTest {
      */
     @Test
     @Ignore
-    public void startProgram() throws Exception {
+    public void startProgramWithDOM() throws Exception {
         long time = System.currentTimeMillis();
-        optimizator.startProgram();
+        optimizator.startProgramDOM();
         time = (System.currentTimeMillis() - time) / 1000;
         System.out.println(String.format("Время работы программы : %d сек.", time));
     }
@@ -77,7 +85,10 @@ public class OptimizatorTest {
     @Test
     @Ignore
     public void startProgramWithSAX() {
+        long time = System.currentTimeMillis();
         optimizator.startProgramWithSax();
+        time = (System.currentTimeMillis() - time) / 1000;
+        System.out.println(String.format("Время работы программы : %d сек.", time));
     }
 
     /**
@@ -88,11 +99,10 @@ public class OptimizatorTest {
     @Test
     @Ignore
     public void whenAddNewTwoElementsThenDocumentHasThisElements() throws Exception {
-        optimizator.setElement(2);
         optimizator.createTestTable();
-        Document document = optimizator.createFirstXmlWithDom();
+        Document document = optimizator.createFirstXmlWithDom(new File(xml1), DocumentBuilderFactory.newInstance());
         NodeList list = document.getElementsByTagName("entry");
-        String[]elements = new String[2];
+        String[]elements = new String[optimizator.getElement()];
         int count = 0;
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
@@ -101,7 +111,11 @@ public class OptimizatorTest {
                 elements[count++] = e.getElementsByTagName("field").item(0).getTextContent();
             }
         }
-        String[]ex = {"1", "2"};
+        String[]ex = new String[optimizator.getElement()];
+        int count2 = 0;
+        for (int i = 0; i < ex.length; i++) {
+            ex[count2++] = String.valueOf(count2);
+        }
         assertThat(elements, is(ex));
     }
 
@@ -113,14 +127,13 @@ public class OptimizatorTest {
     @Test
     @Ignore
     public void whenNodeHasValueThenNOdeHasAttribute() throws Exception {
-        optimizator.setElement(2);
         optimizator.createTestTable();
-        optimizator.convert();
+        optimizator.convert(new File(xml1), new File(xsl), new File(xml2));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new File("2.xml"));
         NodeList list = document.getElementsByTagName("entry");
-        String[]elements = new String[2];
+        String[]elements = new String[optimizator.getElement()];
         int count = 0;
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
@@ -129,7 +142,11 @@ public class OptimizatorTest {
                 elements[count++] = e.getAttribute("field");
             }
         }
-        String[]ex = {"1", "2"};
+        String[]ex = new String[optimizator.getElement()];
+        int count2 = 0;
+        for (int i = 0; i < ex.length; i++) {
+            ex[count2++] = String.valueOf(count2);
+        }
         assertThat(elements, is(ex));
     }
 }
