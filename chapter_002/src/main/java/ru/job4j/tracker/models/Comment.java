@@ -47,4 +47,12 @@ public class Comment {
                 + new SimpleDateFormat("dd-MM-YYYY").format(new Date(create))
                 + '}';
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
 }

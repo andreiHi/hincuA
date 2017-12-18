@@ -5,10 +5,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ru.job4j.tracker.connection.ConnectionSQL;
+import ru.job4j.tracker.models.Comment;
 import ru.job4j.tracker.models.Item;
 
 import java.sql.*;
+import java.util.List;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -46,15 +50,21 @@ public class MenuTrackerTest {
 
         when(mocStatment.executeUpdate(any())).thenReturn(1);
         when(mocStatment.executeQuery(any())).thenReturn(mocResultSet);
+        when(mocStatment.executeUpdate(anyString())).thenReturn(1);
 
         when(mocPreparedStatement.getGeneratedKeys()).thenReturn(mocResultSet);
         doNothing().when(mocPreparedStatement).setInt(anyInt(), anyInt());
         doNothing().when(mocPreparedStatement).setString(anyInt(), anyString());
         doNothing().when(mocPreparedStatement).setTimestamp(anyInt(), any());
         when(mocPreparedStatement.executeQuery()).thenReturn(mocResultSet);
+        when(mocPreparedStatement.executeUpdate()).thenReturn(1);
 
         when(mocResultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
         when(mocResultSet.getInt(anyInt())).thenReturn(1);
+        when(mocResultSet.getString("id")).thenReturn("1");
+        when(mocResultSet.getInt("id")).thenReturn(1);
+        when(mocResultSet.getString("name")).thenReturn("test");
+        when(mocResultSet.getString("description")).thenReturn("testDescription");
         when(mocResultSet.getTimestamp(anyString())).thenReturn(new Timestamp(System.currentTimeMillis()));
         when(item.getName()).thenReturn("name");
         when(item.getDesc()).thenReturn("test");
@@ -73,6 +83,7 @@ public class MenuTrackerTest {
         verify(connectionSQL, times(1)).getConnection();
         verify(connection, times(1)).createStatement();
         verify(mocStatment, times(1)).executeUpdate(anyString());
+        assertThat(mocStatment.executeUpdate(anyString()), is(1));
     }
 
     /**
@@ -81,7 +92,7 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenAddedNewItem() throws Exception {
-        new Tracker(connectionSQL).add(item);
+        Item result = new Tracker(connectionSQL).add(item);
         verify(connection, times(1)).prepareStatement(anyString(), anyInt());
         verify(mocPreparedStatement, times(2)).setString(anyInt(), anyString());
         verify(mocPreparedStatement, times(1)).setTimestamp(anyInt(), any());
@@ -89,7 +100,8 @@ public class MenuTrackerTest {
         verify(mocPreparedStatement, times(1)).getGeneratedKeys();
         verify(mocResultSet, times(2)).next();
         verify(mocResultSet, times(1)).getInt(1);
-        verify(item, times(1)).setId(any());
+        verify(item, times(1)).setId(String.valueOf(1));
+        assertThat(result.getId(), is("1"));
     }
 
     /**
@@ -103,6 +115,7 @@ public class MenuTrackerTest {
         verify(mocPreparedStatement, times(2)).setString(anyInt(), anyString());
         verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(1)).executeUpdate();
+        assertThat(mocPreparedStatement.executeUpdate(), is(1));
     }
 
     /**
@@ -114,8 +127,10 @@ public class MenuTrackerTest {
         new Tracker(connectionSQL).delete(item);
         verify(connection, times(2)).prepareStatement(anyString());
         verify(item, times(2)).getId();
+        assertThat(item.getId(), is("1"));
         verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(2)).executeUpdate();
+        assertThat(mocPreparedStatement.executeUpdate(), is(1));
     }
 
     /**
@@ -124,12 +139,17 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenWasCalledGetAllMethod() throws Exception {
-        new Tracker(connectionSQL).getAll();
+        List<Item>result = new Tracker(connectionSQL).getAll();
         verify(connection, times(2)).createStatement();
         verify(mocStatment, times(1)).executeQuery(anyString());
         verify(mocResultSet, times(2)).next();
-        verify(mocResultSet, times(3)).getString(anyString());
+        verify(mocResultSet).getString("id");
+        verify(mocResultSet).getString("name");
+        verify(mocResultSet).getString("description");
         verify(mocResultSet, times(1)).getTimestamp(anyString());
+        Item resItem = result.get(0);
+        assertThat(resItem.getName(), is("test"));
+        assertThat(resItem.getId(), is("1"));
     }
 
     /**
@@ -138,12 +158,18 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenWasCalledFindByName() throws Exception {
-        new Tracker(connectionSQL).findByName("test");
+        List<Item>result = new Tracker(connectionSQL).findByName("test");
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(1)).setString(anyInt(), anyString());
         verify(mocResultSet, times(2)).next();
-        verify(mocResultSet, times(3)).getString(anyString());
+        verify(mocResultSet).getString("id");
+        verify(mocResultSet).getString("name");
+        verify(mocResultSet).getString("description");
         verify(mocResultSet, times(1)).getTimestamp(anyString());
+        Item resItem = result.get(0);
+        assertThat(item.getName(), is("name"));
+        assertThat(resItem.getName(), is("test"));
+        assertThat(resItem.getId(), is("1"));
     }
 
     /**
@@ -152,13 +178,18 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenWasCalledFindById() throws Exception {
-        new Tracker(connectionSQL).findById("1");
+        Item result = new Tracker(connectionSQL).findById("1");
         verify(connection, times(2)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(2)).executeQuery();
         verify(mocResultSet, times(3)).next();
-        verify(mocResultSet, times(3)).getString(anyString());
+        verify(mocResultSet).getString("id");
+        verify(mocResultSet).getString("name");
+        verify(mocResultSet).getString("description");
         verify(mocResultSet, times(1)).getTimestamp(anyString());
+        assertThat(item.getId(), is("1"));
+        assertThat(result.getName(), is("test"));
+        assertThat(result.getId(), is("1"));
     }
 
     /**
@@ -167,16 +198,19 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenWasCalledGetAllComments() throws Exception {
-        new Tracker(connectionSQL).getAllComments("1");
+        List<Comment> result = new Tracker(connectionSQL).getAllComments("1");
         verify(connection, times(2)).createStatement();
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocStatment, times(2)).executeUpdate(anyString());
         verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(1)).executeQuery();
         verify(mocResultSet, times(2)).next();
-        verify(mocResultSet, times(1)).getInt(anyString());
-        verify(mocResultSet, times(1)).getString(anyString());
+        verify(mocResultSet, times(1)).getInt("id");
+        verify(mocResultSet, times(1)).getString("description");
         verify(mocResultSet, times(1)).getTimestamp(any());
+        Comment comment = result.get(0);
+        assertThat(comment.getId(), is(1));
+        assertThat(comment.getText(), is("testDescription"));
     }
 
     /**
@@ -193,6 +227,7 @@ public class MenuTrackerTest {
         verify(mocPreparedStatement, times(1)).setString(anyInt(), anyString());
         verify(mocPreparedStatement, times(1)).setTimestamp(anyInt(), any());
         verify(mocPreparedStatement, times(1)).executeUpdate();
+
     }
 
     /**
@@ -205,6 +240,7 @@ public class MenuTrackerTest {
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(1)).executeUpdate();
+        assertThat(mocPreparedStatement.executeUpdate(), is(1));
     }
 
     /**
@@ -217,5 +253,6 @@ public class MenuTrackerTest {
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(1)).executeUpdate();
+        assertThat(mocPreparedStatement.executeUpdate(), is(1));
     }
 }
