@@ -139,7 +139,7 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenWasCalledGetAllMethod() throws Exception {
-        List<Item>result = new Tracker(connectionSQL).getAll();
+        List<Item> result = new Tracker(connectionSQL).getAll();
         verify(connection, times(2)).createStatement();
         verify(mocStatment, times(1)).executeQuery(anyString());
         verify(mocResultSet, times(2)).next();
@@ -158,7 +158,7 @@ public class MenuTrackerTest {
      */
     @Test
     public void whenWasCalledFindByName() throws Exception {
-        List<Item>result = new Tracker(connectionSQL).findByName("test");
+        List<Item> result = new Tracker(connectionSQL).findByName("test");
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(1)).setString(anyInt(), anyString());
         verify(mocResultSet, times(2)).next();
