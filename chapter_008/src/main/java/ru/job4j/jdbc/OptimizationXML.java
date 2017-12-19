@@ -157,7 +157,7 @@ public class OptimizationXML {
         factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
         try (Statement statement = connection.createStatement()) {
             XMLStreamWriter writer = factory.createXMLStreamWriter(new BufferedWriter(new FileWriter(xml1)));
-            writer.writeStartDocument("UTF-8","1.1");
+            writer.writeStartDocument("UTF-8", "1.1");
             writer.writeStartElement("entries");
             ResultSet rs = statement.executeQuery("SELECT * FROM TEST");
             while (rs.next()) {

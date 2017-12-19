@@ -13,11 +13,11 @@ public class Main {
             B b = new B();
         }
 
-        public Main(){
+        public Main() {
             printVariable();
         }
 
-        protected void printVariable(){
+        protected void printVariable() {
             variable = "variable is initialized in Main Class";
         }
     }
@@ -25,11 +25,11 @@ public class Main {
    class B extends Main {
         String variable = null;
 
-        public B(){
+        public B() {
             System.out.println("variable value = " + variable);
         }
 
-        protected void printVariable(){
+        protected void printVariable() {
             variable = "variable is initialized in B Class";
         }
     }

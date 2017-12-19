@@ -8,16 +8,15 @@ package ru.job4j;
  * @since 0.1
  */
 public class Test1 {
+    private Test1() {
+    }
 
     public int test() {
         return 10;
 
     }
 
-    public static void main(String[] args) {
-        Test1 t = new Test2();
-        t.test();
 
-    }
+
 
 }

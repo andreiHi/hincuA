@@ -1,6 +1,7 @@
 package ru.job4j.jdbc;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -99,6 +100,7 @@ public class OptimizationXMLTest {
     }
 
     @Test
+    @Ignore
     public void whenCalledCreateFirstWithSax() throws Exception {
         OptimizationXML optimizationXML = new OptimizationXML(connectionSqLite, 10);
         optimizationXML.createFirstXmlWithSAX(file, factory);
