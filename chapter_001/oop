@@ -1,9 +1,0 @@
-классы и обьекты
-1. Как правильно создать объект?
-    а) Test test = new Test(value);
-    б) Test t =  Test(String value);
-    c) Test = new Test(String value);
-    д) Test t = new Test();
-================================================
-2. Что такое объект?
-    а)
