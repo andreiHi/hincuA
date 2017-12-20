@@ -34,11 +34,10 @@ class Count {
 
     /**
      * Метод прибавляет значение к счетчику.
-     * @param v значение.
      */
-    void increment(long v) {
+    void increment() {
         synchronized (this) {
-            count += v;
+            count += (long) 1;
         }
     }
     @GuardedBy("this")
@@ -67,7 +66,7 @@ class CountThread extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < 1000; i++) {
-            count.increment(1);
+            count.increment();
         }
     }
 }
