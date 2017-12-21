@@ -1,10 +1,11 @@
-package ru.job4j.tracker.start;
+package ru.job4j.tracker;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.tracker.models.Item;
+import ru.job4j.tracker.start.Tracker;
 
 import java.util.ArrayList;
 import java.util.List;

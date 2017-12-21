@@ -1,4 +1,4 @@
-package ru.job4j.tracker.start;
+package ru.job4j.start;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -9,6 +9,8 @@ import ru.job4j.tracker.connection.ConnectionSQL;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.StubInput;
 import ru.job4j.tracker.models.Item;
+import ru.job4j.tracker.start.StartUi;
+import ru.job4j.tracker.start.Tracker;
 
 import java.util.ArrayList;
 import java.util.Arrays;

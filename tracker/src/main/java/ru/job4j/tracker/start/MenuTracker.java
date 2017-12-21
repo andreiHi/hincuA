@@ -44,10 +44,10 @@ public class MenuTracker {
      */
     public void fillActions() {
         this.actions.add(new AddItem("Add Item.", 0));
-        this.actions.add(new MenuTracker.ShowAllItems("Show all Items.", 1));
+        this.actions.add(new ShowAllItems("Show all Items.", 1));
         this.actions.add(new EditItem("Edit item.", 2));
         this.actions.add(new DeleteItem("Delete Item.", 3));
-        this.actions.add(new MenuTracker.FindById("Find by Id.", 4));
+        this.actions.add(new FindById("Find by Id.", 4));
         this.actions.add(new FindByName("Find by Name.", 5));
         this.actions.add(new Exit("Exit.", 6));
     }
