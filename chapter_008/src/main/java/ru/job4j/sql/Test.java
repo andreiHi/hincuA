@@ -7,6 +7,7 @@ import ru.job4j.sql.items.Advert;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -16,11 +17,6 @@ import java.util.*;
  */
 public class Test {
     public static void main(String[] args) throws IOException {
-//        List<String> strings = new ArrayList<>();
-//        strings.add("k1/sk1/ssk1");
-//        strings.add("k2/sk2/ssk2");
-//        Test t = new Test();
-//        t.addNewItems(strings).forEach(System.out::println);
         Document doc = Jsoup.connect("http://www.sql.ru/forum/job-offers").get();
         Element link = doc.select("a").first();
         String relHref = link.attr("href"); // == "/"
@@ -31,23 +27,15 @@ public class Test {
         System.out.println(format.format(new Date()));
         //19 дек 17, 10:30
         //25 дек 17, 22:32
-    }
-    public List<String> addNewItems(List<String> strings) {
-        List<String> result = new ArrayList<>();
-        for (Iterator<String> iterator = strings.iterator(); iterator.hasNext();) {
-            String s = iterator.next();
-            String[] str = s.split("/");
-            String item = "";
-            for (int i = 0; i < str.length - 1; i++) {
-                item += str[i];
-                if (!result.contains(item)) {
-                    result.add(item);
-                    item += "/";
-                }
-            }
-            result.add(s);
+        String d  = "сегодня, 20:54";
+        Calendar cal = Calendar.getInstance();
+        if (d.startsWith("сегодня")) {
+            d = d.replaceAll("сегодня", new SimpleDateFormat("d MMM yy").format(cal.getTime()));
+            System.out.println(d);
         }
-        return result;
+        System.out.println(format.format(cal.getTime()));
+       // LocalDateTime
     }
+
 
 }

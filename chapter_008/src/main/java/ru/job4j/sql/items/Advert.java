@@ -1,6 +1,7 @@
 package ru.job4j.sql.items;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public class Advert {
     private String title;
     private String text;
     private Author author;
-    private Date date;
+    private Calendar date = Calendar.getInstance();
 
     public Advert() {
     }
@@ -52,11 +53,11 @@ public class Advert {
         this.author = author;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
@@ -114,7 +115,7 @@ public class Advert {
                 + author
                 + System.lineSeparator()
                 + "Date = "
-               // + dateFormat.format(date == null ? date = new Date(1) : date)
+                + dateFormat.format(date.getTime())
                 + System.lineSeparator()
                 + "====================================================";
     }

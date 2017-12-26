@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,9 @@ import java.util.List;
  * @since 0.1.
  */
 public class Sql {
-    private static final String URL = "http://www.sql.ru/forum/job-offers";
-    SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yy, HH:mm");
+    private static final String URL = "http://www.sql.ru/forum/job-offers/1";
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yy, HH:mm");
+    private SimpleDateFormat datePrepare = new SimpleDateFormat("d MMM yy");
 
     public static void main(String[] args) {
         DB db = new DB();
@@ -64,9 +66,13 @@ public class Sql {
                     advert.setAuthor(aut);
                     String data = authors.last().text();
                     try {
-                       // data = prepare(data);
-                        Date date = dateFormat.parse(data);
-                        advert.setDate(date);
+                        if (data != null) {
+                            data = prepare(data);
+                            Calendar cal = Calendar.getInstance();
+                            //Calendar date = dateFormat.parse(data);
+                            cal.setTime(dateFormat.parse(data));
+                            advert.setDate(cal);
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -82,10 +88,18 @@ public class Sql {
         }
         return result;
     }
-//private final String today = "сегодня";
-//    private String prepare(String data) {
-//        String d = data;
-//        if (d.)
-//        return d;
-//    }
+
+    private String prepare(String data) {
+       final String today = "сегодня";
+        final String yesterday = "вчера";
+        if (data.startsWith(today)) {
+            data = data.replaceAll(today, datePrepare.format(Calendar.getInstance().getTime()));
+        }
+        if (data.startsWith(yesterday)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1);
+            data  = data.replaceAll(yesterday, datePrepare.format(calendar.getTime()));
+        }
+        return data;
+    }
 }
