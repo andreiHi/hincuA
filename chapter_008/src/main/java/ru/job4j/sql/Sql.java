@@ -14,7 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,8 +23,8 @@ import java.util.List;
  */
 public class Sql {
     private static final String URL = "http://www.sql.ru/forum/job-offers/1";
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yy, HH:mm");
-    private SimpleDateFormat datePrepare = new SimpleDateFormat("d MMM yy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
+    private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
 
     public static void main(String[] args) {
         DB db = new DB();
@@ -40,19 +39,21 @@ public class Sql {
         try {
             Document doc = Jsoup.connect(urlSite).get();
             Elements element = doc.getElementsByAttributeValue("class", "forumtable");
-            Elements adverts = element.select("tr");
+            Elements tagAdverts = element.select("tr");
             int count = 0;
 
-            for (Element node : adverts) {
+            for (Element node : tagAdverts) {
                 Advert advert = new Advert();
                 System.out.println(count++);
                 Elements refAndText = node.getElementsByAttributeValue("class", "postslisttopic");
                 refAndText.forEach(firstElement -> {
                     Element element1 = firstElement.child(0);
                     String url = element1.attr("href");
-                    String text = element1.text();
+                    String title = element1.text();
                     advert.setUrl(url);
-                    advert.setTitle(text);
+                    advert.setTitle(title);
+                    String text = getTextFromUrl(url);
+                    advert.setText(text);
 
                 });
                 Elements authors = node.getElementsByAttributeValue("class", "altCol");
@@ -69,8 +70,7 @@ public class Sql {
                         if (data != null) {
                             data = prepare(data);
                             Calendar cal = Calendar.getInstance();
-                            //Calendar date = dateFormat.parse(data);
-                            cal.setTime(dateFormat.parse(data));
+                            cal.setTime(DATE_FORMAT.parse(data));
                             advert.setDate(cal);
                         }
                     } catch (ParseException e) {
@@ -93,13 +93,27 @@ public class Sql {
        final String today = "сегодня";
         final String yesterday = "вчера";
         if (data.startsWith(today)) {
-            data = data.replaceAll(today, datePrepare.format(Calendar.getInstance().getTime()));
+            data = data.replaceAll(today, DATE_PREPARE.format(Calendar.getInstance().getTime()));
         }
         if (data.startsWith(yesterday)) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, -1);
-            data  = data.replaceAll(yesterday, datePrepare.format(calendar.getTime()));
+            data  = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
         }
         return data;
+    }
+    private String getTextFromUrl(String url) {
+        String text = "";
+        try {
+            Document doc = Jsoup.connect(url).get();
+            Elements elements = doc.getElementsByAttributeValue("class", "msgBody");
+            if (elements.size() > 1) {
+                Element element = elements.get(1);
+                text = element.text();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text;
     }
 }
