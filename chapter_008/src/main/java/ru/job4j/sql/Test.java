@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 25.12.2017.
@@ -36,9 +38,23 @@ public class Test {
 //            System.out.println(d);
 //        }
 //        System.out.println(format.format(cal.getTime()));
-       // LocalDateTime
+        // LocalDateTime
+        String s = "fsfsf Java Script dadadsA";
 
+        new Test().validAdvert(s);
     }
 
+    private void validAdvert(String text) {
 
+        Pattern pattern =  Pattern.compile("[j,J]ava\\W?(?=SE/EE|EE|SE|^Script)?");
+
+        Matcher  matcher = pattern.matcher(text);
+        //System.out.println(matcher.find());
+        int count = 0;
+        while (matcher.find()) {
+         count++;
+            System.out.println(matcher.group()+" " + count);
+        }
+
+    }
 }

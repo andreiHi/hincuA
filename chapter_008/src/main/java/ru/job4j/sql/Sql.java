@@ -88,7 +88,7 @@ public class Sql {
     private boolean validAdvert(String text) {
         boolean ok = false;
         if (text.contains("java") || text.contains("Java") || text.contains("JavaSE/EE") || text.contains("JavaEE")) {
-            ok = !text.contains("Java Script");
+            ok = !text.contains("Java Script") && !text.contains("JavaScript");
         }
     return ok;
     }
