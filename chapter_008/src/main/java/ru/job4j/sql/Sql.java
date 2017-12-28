@@ -27,7 +27,7 @@ public class Sql {
     private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
 
     public static void main(String[] args) {
-        DB db = new DB();
+        //DB db = new DB();
         Sql sql = new Sql();
         sql.scanAdvertFromSqlRu(URL);
 
@@ -43,41 +43,37 @@ public class Sql {
             int count = 0;
 
             for (Element node : tagAdverts) {
-                Advert advert = new Advert();
+                Advert advert = null;
                 System.out.println(count++);
                 Elements refAndText = node.getElementsByAttributeValue("class", "postslisttopic");
-                refAndText.forEach(firstElement -> {
+                for (Element firstElement : refAndText) {
                     Element element1 = firstElement.child(0);
                     String url = element1.attr("href");
+                    String text = getTextFromUrl(url);
+                    if (!validAdvert(text)) {
+                        break;
+                    }
+                    advert = new Advert();
                     String title = element1.text();
                     advert.setUrl(url);
                     advert.setTitle(title);
-                    String text = getTextFromUrl(url);
                     advert.setText(text);
-
-                });
-                Elements authors = node.getElementsByAttributeValue("class", "altCol");
-                Element author = authors.first();
-                if (author != null) {
-                    Author aut = new Author();
-                    String url = author.child(0).attr("href");
-                    String name = author.text();
-                    aut.setName(name);
-                    aut.setUrl(url);
-                    advert.setAuthor(aut);
-                    String data = authors.last().text();
-                    try {
-                        if (data != null) {
-                            data = prepare(data);
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTime(DATE_FORMAT.parse(data));
-                            advert.setDate(cal);
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                 }
-                System.out.println(advert);
+                if (advert != null) {
+                    Elements authors = node.getElementsByAttributeValue("class", "altCol");
+                    Element author = authors.first();
+                    if (author != null) {
+                        Author aut = new Author();
+                        String url = author.child(0).attr("href");
+                        String name = author.text();
+                        aut.setName(name);
+                        aut.setUrl(url);
+                        advert.setAuthor(aut);
+                        String data = authors.last().text();
+                        advert.setDate(prepareDate(data));
+                    }
+                    System.out.println(advert);
+                }
 
             }
             Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
@@ -89,18 +85,33 @@ public class Sql {
         return result;
     }
 
-    private String prepare(String data) {
-       final String today = "сегодня";
-        final String yesterday = "вчера";
-        if (data.startsWith(today)) {
-            data = data.replaceAll(today, DATE_PREPARE.format(Calendar.getInstance().getTime()));
+    private boolean validAdvert(String text) {
+        boolean ok = false;
+        if (text.contains("java") || text.contains("Java") || text.contains("JavaSE/EE") || text.contains("JavaEE")) {
+            ok = !text.contains("Java Script");
         }
-        if (data.startsWith(yesterday)) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, -1);
-            data  = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
+    return ok;
+    }
+
+    private Calendar prepareDate(String data) {
+        Calendar calendar = Calendar.getInstance();
+        if (data != null) {
+            final String today = "сегодня";
+            final String yesterday = "вчера";
+            if (data.startsWith(today)) {
+                data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
+            }
+            if (data.startsWith(yesterday)) {
+                calendar.add(Calendar.DATE, -1);
+                data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
+            }
+            try {
+                calendar.setTime(DATE_FORMAT.parse(data));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
-        return data;
+        return calendar;
     }
     private String getTextFromUrl(String url) {
         String text = "";
