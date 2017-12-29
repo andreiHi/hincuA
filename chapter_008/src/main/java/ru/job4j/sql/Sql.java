@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 22.12.2017.
@@ -22,17 +23,27 @@ import java.util.List;
  * @since 0.1.
  */
 public class Sql {
-    private static final String URL = "http://www.sql.ru/forum/job-offers/1";
+    private static final String URL = "http://www.sql.ru/forum/job-offers";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
     private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
 
     public static void main(String[] args) {
         //DB db = new DB();
         Sql sql = new Sql();
-        sql.scanAdvertFromSqlRu(URL);
-
+        List <Advert>list = sql.scanAdvertFromSqlRu(URL);
+        list.forEach(System.out::println);
     }
-
+    public String getNextPageUrl(String url) {
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
+        String nextPageUrl = elements.last().getElementsByTag("b").next().attr("href");
+        return nextPageUrl;
+    }
 
     public List<Advert> scanAdvertFromSqlRu(String urlSite) {
         List<Advert> result = new ArrayList<>();
@@ -62,23 +73,17 @@ public class Sql {
                 if (advert != null) {
                     Elements authors = node.getElementsByAttributeValue("class", "altCol");
                     Element author = authors.first();
-                    if (author != null) {
-                        Author aut = new Author();
-                        String url = author.child(0).attr("href");
-                        String name = author.text();
-                        aut.setName(name);
-                        aut.setUrl(url);
-                        advert.setAuthor(aut);
-                        String data = authors.last().text();
-                        advert.setDate(prepareDate(data));
-                    }
-                    System.out.println(advert);
+                    Author aut = new Author();
+                    String url = author.child(0).attr("href");
+                    String name = author.text();
+                    aut.setName(name);
+                    aut.setUrl(url);
+                    advert.setAuthor(aut);
+                    String data = authors.last().text();
+                    advert.setDate(prepareDate(data));
+                    result.add(advert);
                 }
-
             }
-            Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,11 +91,7 @@ public class Sql {
     }
 
     private boolean validAdvert(String text) {
-        boolean ok = false;
-        if (text.contains("java") || text.contains("Java") || text.contains("JavaSE/EE") || text.contains("JavaEE")) {
-            ok = !text.contains("Java Script") && !text.contains("JavaScript");
-        }
-    return ok;
+        return Pattern.compile("[j,J]ava\\s?(?=SE/EE|SE|EE)?(?!\\s?[s,S]cript)").matcher(text).find();
     }
 
     private Calendar prepareDate(String data) {

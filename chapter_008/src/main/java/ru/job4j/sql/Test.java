@@ -38,23 +38,19 @@ public class Test {
 //            System.out.println(d);
 //        }
 //        System.out.println(format.format(cal.getTime()));
-        // LocalDateTime
-        String s = "fsfsf Java Script dadadsA";
+        // LocalDateTimeDo
+        String today = "сегодня, 13:09";
 
-        new Test().validAdvert(s);
+
     }
 
     private void validAdvert(String text) {
 
-        Pattern pattern =  Pattern.compile("[j,J]ava\\W?(?=SE/EE|EE|SE|^Script)?");
+        Pattern pattern =  Pattern.compile("[j,J]ava\\s?(?=SE/EE|EE|SE)?(?!\\s?[s,S]cript)");
 
         Matcher  matcher = pattern.matcher(text);
-        //System.out.println(matcher.find());
-        int count = 0;
-        while (matcher.find()) {
-         count++;
-            System.out.println(matcher.group()+" " + count);
-        }
+        System.out.println(matcher.find());
+
 
     }
 }
