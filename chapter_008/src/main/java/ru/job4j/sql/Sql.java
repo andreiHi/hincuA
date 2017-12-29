@@ -5,11 +5,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.sql.database.DB;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;
 
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,12 +28,21 @@ public class Sql {
     private static final String URL = "http://www.sql.ru/forum/job-offers";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
     private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
+    private DB db;
+    private Connection dbConnection;
+    private List<Advert>adverts;
+
+    public Sql(DB db) {
+        this.db = db;
+        this.dbConnection = db.getConnection();
+        this.adverts = new ArrayList<>();
+    }
 
     public static void main(String[] args) {
         DB db = new DB();
-        Sql sql = new Sql();
-        List<Advert> list = sql.scanAdvertFromSqlRu(URL);
-        list.forEach(System.out::println);
+        Sql sql = new Sql(db);
+        sql.scanPageSqlRu(URL);
+        sql.adverts.forEach(System.out::println);
     }
     public String getNextPageUrl(String url) {
         Document doc = null;
@@ -45,12 +56,12 @@ public class Sql {
         }
         return nextPageUrl;
     }
-    public void scanpagesSqlRu(String url) {
-        scanAdvertFromSqlRu(URL);
+    public void scanPageSqlRu(String url) {
+       db.createTables();
+      scanAdvertFromSqlRu(URL, adverts);
 
     }
-    public List<Advert> scanAdvertFromSqlRu(String urlSite) {
-        List<Advert> result = new ArrayList<>();
+    public List<Advert> scanAdvertFromSqlRu(String urlSite, List<Advert>adverts) {
         try {
             Document doc = Jsoup.connect(urlSite).get();
             Elements element = doc.getElementsByAttributeValue("class", "forumtable");
@@ -85,14 +96,14 @@ public class Sql {
                     advert.setAuthor(aut);
                     String data = authors.last().text();
                     advert.setDate(prepareDate(data));
-                    result.add(advert);
+                    adverts.add(advert);
                 }
             }
             System.out.println(count);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return adverts;
     }
 
     private boolean validAdvert(String text) {
