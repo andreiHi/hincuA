@@ -12,6 +12,8 @@ import java.util.Date;
  */
 public class Advert {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yy, HH:mm");
+
+    private int id;
     private String url;
     private String title;
     private String text;
@@ -69,9 +71,10 @@ public class Advert {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Advert advert = (Advert) o;
-
+        if (id != advert.id) {
+            return false;
+        }
         if (url != null ? !url.equals(advert.url) : advert.url != null) {
             return false;
         }
@@ -89,7 +92,8 @@ public class Advert {
 
     @Override
     public int hashCode() {
-        int result = url != null ? url.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (author != null ? author.hashCode() : 0);
@@ -97,9 +101,20 @@ public class Advert {
         return result;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Advert :"
+                + "ID :"
+                + id
+                + System.lineSeparator()
                 + "Title = '"
                 + title
                 + "\',"

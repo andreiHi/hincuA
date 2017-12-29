@@ -4,6 +4,7 @@ import org.junit.Test;
 import ru.job4j.testtask.figures.Elephant;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 /**
  * Test.
@@ -70,5 +71,12 @@ public class ElephantTest {
         boolean result = elephant.isOneCell(new Cell(3, 1));
         boolean ex = true;
         assertThat(result, is(ex));
+    }
+    @Test
+    public void whenIsOnCellE() {
+        Elephant elephant = new Elephant("Белый", new Cell(3, 1));
+        Cell cell = new Cell(4, 2);
+        elephant.clonE(cell);
+        assertEquals(elephant.isOneCell(cell), true);
     }
 }

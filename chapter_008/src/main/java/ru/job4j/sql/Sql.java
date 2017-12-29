@@ -28,23 +28,27 @@ public class Sql {
     private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
 
     public static void main(String[] args) {
-        //DB db = new DB();
+        DB db = new DB();
         Sql sql = new Sql();
-        List <Advert>list = sql.scanAdvertFromSqlRu(URL);
+        List<Advert> list = sql.scanAdvertFromSqlRu(URL);
         list.forEach(System.out::println);
     }
     public String getNextPageUrl(String url) {
         Document doc = null;
+        String nextPageUrl = "";
         try {
             doc = Jsoup.connect(url).get();
+            Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
+            nextPageUrl = elements.last().getElementsByTag("b").next().attr("href");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
-        String nextPageUrl = elements.last().getElementsByTag("b").next().attr("href");
         return nextPageUrl;
     }
+    public void scanpagesSqlRu(String url) {
+        scanAdvertFromSqlRu(URL);
 
+    }
     public List<Advert> scanAdvertFromSqlRu(String urlSite) {
         List<Advert> result = new ArrayList<>();
         try {
@@ -55,7 +59,7 @@ public class Sql {
 
             for (Element node : tagAdverts) {
                 Advert advert = null;
-                System.out.println(count++);
+                count++;
                 Elements refAndText = node.getElementsByAttributeValue("class", "postslisttopic");
                 for (Element firstElement : refAndText) {
                     Element element1 = firstElement.child(0);
@@ -84,6 +88,7 @@ public class Sql {
                     result.add(advert);
                 }
             }
+            System.out.println(count);
         } catch (IOException e) {
             e.printStackTrace();
         }

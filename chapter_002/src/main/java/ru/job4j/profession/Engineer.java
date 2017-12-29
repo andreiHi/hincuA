@@ -25,10 +25,10 @@ public class Engineer extends Profession {
 
     /**
      *Создание проэкта.
-     * @param diplom - диплом.
+     * @param building - диплом.
      * @return - проэкт.
      */
-    public String proect(String diplom) {
-       return this.getName() + " проэктирует " + diplom;
+    public String proect(String building) {
+       return this.getName() + " проэктирует " + building;
     }
 }
