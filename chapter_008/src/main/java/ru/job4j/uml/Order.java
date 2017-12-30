@@ -9,7 +9,6 @@ import java.io.File;
  */
 public class Order {
     private int id;
-    private User autor;
     private String category;
     private String[] comments;
     private File[] files;

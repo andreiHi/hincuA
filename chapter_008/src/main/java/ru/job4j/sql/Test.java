@@ -23,8 +23,8 @@ import java.util.regex.Pattern;
 public class Test {
     public static void main(String[] args) throws IOException {
     Sql sql = new Sql(new DB());
-    String a = sql.getNextPageUrl("http://www.sql.ru/forum/job-offers/642");
-        System.out.println(a == null);
+    //String a = sql.getNextPageUrl("http://www.sql.ru/forum/job-offers/642");
+     //   System.out.println(a == null);
 
     }
 

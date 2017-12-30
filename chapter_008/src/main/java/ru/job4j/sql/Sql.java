@@ -8,6 +8,8 @@ import org.jsoup.select.Elements;
 import ru.job4j.sql.database.DB;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;
+import ru.job4j.sql.items.Item;
+import ru.job4j.sql.items.PageParser;
 
 
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.regex.Pattern;
 
 /**
@@ -25,57 +28,42 @@ import java.util.regex.Pattern;
  * @since 0.1.
  */
 public class Sql {
-    private static final String URL = "http://www.sql.ru/forum/job-offers";
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
     private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
     private DB db;
     private Connection dbConnection;
-    private List<Advert>adverts;
+    private List<Advert> adverts;
     private Calendar dateLastUptdate;
+    private ArrayBlockingQueue<Item> queue;
 
     public Sql(DB db) {
         this.db = db;
         this.dbConnection = db.getConnection();
         this.adverts = new ArrayList<>();
+        this.queue = new ArrayBlockingQueue<Item>(500);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         DB db = new DB();
         Sql sql = new Sql(db);
-        sql.scanPageSqlRu(URL);
-        sql.adverts.forEach(System.out::println);
+
+    sql.test();
+        //sql.scanPageSqlRu(URL);
+
     }
-    public String getNextPageUrl(String url) {
-        Document doc = null;
-        String nextPageUrl = "";
-        try {
-            doc = Jsoup.connect(url).get();
-            Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
-            nextPageUrl = elements.last().getElementsByTag("b").next().attr("href");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void test() throws InterruptedException {
+        PageParser pageParser = new PageParser(queue, db);
+       // pageParser.scanAllAdvertFromSqlRu("http://www.sql.ru/forum/job-offers", queue);
+        pageParser.run();
+        while (true) {
+            Item i = queue.take();
+           System.out.println(i);
         }
-        return nextPageUrl;
     }
-    public void scanPageSqlRu(String url) {
-       db.createTables();
-       long lastTimeFromBd = db.getLastTimeOfUpdate();
-        if (lastTimeFromBd == 0) {
-            String urlpage = "";
-            do {
-                scanAdvertFromSqlRu()
-            } while (!urlpage.isEmpty());
-
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(lastTimeFromBd);
-            this.dateLastUptdate = calendar;
-        }
-       scanAdvertFromSqlRu(url, adverts);
 
 
-    }
-    public List<Advert> scanAdvertFromSqlRu(String urlSite, List<Advert>adverts) {
+    public List<Advert> scanAdvertFromSqlRu(String urlSite, List<Advert> adverts) {
         try {
             Document doc = Jsoup.connect(urlSite).get();
             Elements element = doc.getElementsByAttributeValue("class", "forumtable");
@@ -130,12 +118,12 @@ public class Sql {
             final String today = "сегодня";
             final String yesterday = "вчера";
             //if (data.startsWith(today)) {
-                data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
+            data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
             //}
-           // if (data.startsWith(yesterday)) {
-                calendar.add(Calendar.DATE, -1);
-                data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
-           // }
+            // if (data.startsWith(yesterday)) {
+            calendar.add(Calendar.DATE, -1);
+            data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
+            // }
             try {
                 calendar.setTime(DATE_FORMAT.parse(data));
             } catch (ParseException e) {
