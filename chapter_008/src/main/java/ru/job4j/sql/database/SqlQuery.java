@@ -23,5 +23,6 @@ public class SqlQuery {
             + "  id_autor INTEGER REFERENCES author(id),\n"
             + "  date TIMESTAMP WITHOUT TIME ZONE\n"
             + ")";
+    public static final String SELECT_MAX_DATE = "SELECT max(date) AS max_date FROM adverts";
 
 }

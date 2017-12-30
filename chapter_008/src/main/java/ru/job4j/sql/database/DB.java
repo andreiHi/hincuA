@@ -1,9 +1,7 @@
 package ru.job4j.sql.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Calendar;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 23.12.2017.
@@ -36,5 +34,19 @@ public class DB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public long getLastTimeOfUpdate() {
+        long data_max = 0;
+        try (final Statement st = this.connection.createStatement()) {
+            ResultSet rs = st.executeQuery(SqlQuery.SELECT_MAX_DATE);
+            if (rs.next()) {
+                if (rs.getTimestamp("max_date") != null) {
+                    data_max = rs.getTimestamp("max_date").getTime();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data_max;
     }
 }

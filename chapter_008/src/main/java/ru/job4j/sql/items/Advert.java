@@ -18,7 +18,7 @@ public class Advert {
     private String title;
     private String text;
     private Author author;
-    private Calendar date = Calendar.getInstance();
+    private Calendar date;
 
     public Advert() {
     }
@@ -111,6 +111,7 @@ public class Advert {
 
     @Override
     public String toString() {
+        String data = date == null ? "No time to show." : dateFormat.format(date.getTime());
         return "Advert :"
                 + "ID :"
                 + id
@@ -130,7 +131,7 @@ public class Advert {
                 + author
                 + System.lineSeparator()
                 + "Date = "
-                + dateFormat.format(date.getTime())
+                + data
                 + System.lineSeparator()
                 + "====================================================";
     }

@@ -31,6 +31,7 @@ public class Sql {
     private DB db;
     private Connection dbConnection;
     private List<Advert>adverts;
+    private Calendar dateLastUptdate;
 
     public Sql(DB db) {
         this.db = db;
@@ -58,7 +59,20 @@ public class Sql {
     }
     public void scanPageSqlRu(String url) {
        db.createTables();
-      scanAdvertFromSqlRu(URL, adverts);
+       long lastTimeFromBd = db.getLastTimeOfUpdate();
+        if (lastTimeFromBd == 0) {
+            String urlpage = "";
+            do {
+                scanAdvertFromSqlRu()
+            } while (!urlpage.isEmpty());
+
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(lastTimeFromBd);
+            this.dateLastUptdate = calendar;
+        }
+       scanAdvertFromSqlRu(url, adverts);
+
 
     }
     public List<Advert> scanAdvertFromSqlRu(String urlSite, List<Advert>adverts) {
@@ -115,13 +129,13 @@ public class Sql {
         if (data != null) {
             final String today = "сегодня";
             final String yesterday = "вчера";
-            if (data.startsWith(today)) {
+            //if (data.startsWith(today)) {
                 data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
-            }
-            if (data.startsWith(yesterday)) {
+            //}
+           // if (data.startsWith(yesterday)) {
                 calendar.add(Calendar.DATE, -1);
                 data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
-            }
+           // }
             try {
                 calendar.setTime(DATE_FORMAT.parse(data));
             } catch (ParseException e) {
