@@ -1,4 +1,4 @@
-package main.java.ru.job4j.multithreading.poducer;
+package ru.job4j.multithreading.poducer;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.11.2017.

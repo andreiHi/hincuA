@@ -3,4 +3,4 @@
  * @version $Id$.
  * @since 0.1.
  */
-package main.java.ru.job4j.multithreading.poducer;
+package ru.job4j.multithreading.poducer;

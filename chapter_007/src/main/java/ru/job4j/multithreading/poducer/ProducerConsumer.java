@@ -1,4 +1,4 @@
-package main.java.ru.job4j.multithreading.poducer;
+package ru.job4j.multithreading.poducer;
 
 /**
  * Тест notify() and wait().
