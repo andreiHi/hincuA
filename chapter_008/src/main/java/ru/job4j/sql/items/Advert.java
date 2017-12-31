@@ -1,5 +1,6 @@
 package ru.job4j.sql.items;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,17 +13,25 @@ import java.util.Date;
  */
 public class Advert {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yy, HH:mm");
-
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
+    private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
     private int id;
     private String url;
     private String title;
     private String text;
     private Author author;
     private Calendar date;
+    private Calendar publicationDate;
 
     public Advert() {
     }
+    public Calendar getPublicationDate() {
+        return publicationDate;
+    }
 
+    public void setPublicationDate(String data) {
+        this.publicationDate = prepareDate(data);
+    }
     public String getUrl() {
         return url;
     }
@@ -59,8 +68,8 @@ public class Advert {
         return date;
     }
 
-    public void setDate(Calendar date) {
-        this.date = date;
+    public void setDate(String data) {
+        this.date = prepareDate(data);
     }
 
     @Override
@@ -71,7 +80,9 @@ public class Advert {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Advert advert = (Advert) o;
+
         if (id != advert.id) {
             return false;
         }
@@ -87,7 +98,10 @@ public class Advert {
         if (author != null ? !author.equals(advert.author) : advert.author != null) {
             return false;
         }
-        return date != null ? date.equals(advert.date) : advert.date == null;
+        if (date != null ? !date.equals(advert.date) : advert.date != null) {
+            return false;
+        }
+        return publicationDate != null ? publicationDate.equals(advert.publicationDate) : advert.publicationDate == null;
     }
 
     @Override
@@ -98,6 +112,7 @@ public class Advert {
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (author != null ? author.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (publicationDate != null ? publicationDate.hashCode() : 0);
         return result;
     }
 
@@ -112,6 +127,7 @@ public class Advert {
     @Override
     public String toString() {
         String data = date == null ? "No time to show." : dateFormat.format(date.getTime());
+        String publishData = publicationDate == null ? "No time to show." : dateFormat.format(publicationDate.getTime());
         return "Advert :"
                 + "ID :"
                 + id
@@ -133,6 +149,29 @@ public class Advert {
                 + "Date = "
                 + data
                 + System.lineSeparator()
+                +"Publication date = "
+                + publishData
+                + System.lineSeparator()
                 + "====================================================";
+    }
+    public Calendar prepareDate(String data) {
+        Calendar calendar = Calendar.getInstance();
+        if (data != null) {
+            final String today = "сегодня";
+            final String yesterday = "вчера";
+            //if (data.startsWith(today)) {
+            data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
+            //}
+            // if (data.startsWith(yesterday)) {
+            calendar.add(Calendar.DATE, -1);
+            data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
+            // }
+            try {
+                calendar.setTime(DATE_FORMAT.parse(data));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return calendar;
     }
 }

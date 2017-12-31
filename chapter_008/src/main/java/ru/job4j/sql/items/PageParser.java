@@ -17,11 +17,11 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class PageParser implements Runnable {
     private static final String URL = "http://www.sql.ru/forum/job-offers";
-    private ArrayBlockingQueue<Item> queue;
+    private ArrayBlockingQueue<Advert> queue;
     private DB db;
     private Calendar dateLastUptdate;
 
-    public PageParser(ArrayBlockingQueue<Item> queue, DB db) {
+    public PageParser(ArrayBlockingQueue<Advert> queue, DB db) {
         this.queue = queue;
         this.db = db;
     }
@@ -35,7 +35,7 @@ public class PageParser implements Runnable {
             do {
                 scanAllAdvertFromSqlRu(url, queue);
                 url = getNextPageUrl(url);
-            } while (!url.endsWith("5"));
+            } while (!url.endsWith("10"));
 
         } else {
             Calendar calendar = Calendar.getInstance();
@@ -43,30 +43,33 @@ public class PageParser implements Runnable {
             this.dateLastUptdate = calendar;
         }
     }
-    public void scanAllAdvertFromSqlRu(String url, ArrayBlockingQueue<Item> queue) {
+    public void scanAllAdvertFromSqlRu(String url, ArrayBlockingQueue<Advert> queue) {
         try {
             Document doc = Jsoup.connect(url).get();
             Elements element = doc.getElementsByAttributeValue("class", "forumtable");
             Elements tagAdverts = element.select("tr");
             int count = 0;
-            for (Element node : tagAdverts) {
-                Item item = new Item();
+            for (int i = 4; i < tagAdverts.size(); i++) {
+                Element node = tagAdverts.get(i);
+                Advert adverd = new Advert();
                 count++;
                 Elements refAndText = node.getElementsByAttributeValue("class", "postslisttopic");
                 for (Element firstElement : refAndText) {
                     Element element1 = firstElement.child(0);
                     String urlItem = element1.attr("href");
-                    item.setUrl(urlItem);
+                    adverd.setUrl(urlItem);
                 }
-                if (item != null) {
-                    Elements items = node.getElementsByAttributeValue("class", "altCol");
-                    Element dataNode = items.last();
-                    if (dataNode != null) {
-                        String data = dataNode.text();
-                        item.setPublicationDate(db.prepareDate(data));
-                    }
-                }
-                queue.put(item);
+                Elements items = node.getElementsByAttributeValue("class", "altCol");
+//                Element author = items.first();
+//                Author aut = new Author();
+//                String url1 = author.child(0).attr("href");
+//                String name = author.text();
+//                aut.setName(name);
+//                aut.setUrl(url1);
+//                adverd.setAuthor(aut);
+                String data = items.last().text();
+                adverd.setPublicationDate(data);
+                queue.put(adverd);
             }
 
             System.out.println(count);

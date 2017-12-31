@@ -8,14 +8,10 @@ import org.jsoup.select.Elements;
 import ru.job4j.sql.database.DB;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;
-import ru.job4j.sql.items.Item;
 import ru.job4j.sql.items.PageParser;
-
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -28,38 +24,34 @@ import java.util.regex.Pattern;
  * @since 0.1.
  */
 public class Sql {
-
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
-    private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
     private DB db;
     private Connection dbConnection;
     private List<Advert> adverts;
     private Calendar dateLastUptdate;
-    private ArrayBlockingQueue<Item> queue;
+    private ArrayBlockingQueue<Advert> queue;
 
     public Sql(DB db) {
         this.db = db;
         this.dbConnection = db.getConnection();
         this.adverts = new ArrayList<>();
-        this.queue = new ArrayBlockingQueue<Item>(500);
+        this.queue = new ArrayBlockingQueue<Advert>(500);
     }
 
     public static void main(String[] args) throws InterruptedException {
+        long t = System.currentTimeMillis();
         DB db = new DB();
         Sql sql = new Sql(db);
-
     sql.test();
+    t = System.currentTimeMillis() - t;
+        System.out.println(t);
         //sql.scanPageSqlRu(URL);
 
     }
     public void test() throws InterruptedException {
         PageParser pageParser = new PageParser(queue, db);
-       // pageParser.scanAllAdvertFromSqlRu("http://www.sql.ru/forum/job-offers", queue);
+      //  pageParser.scanAllAdvertFromSqlRu("http://www.sql.ru/forum/job-offers", queue);
         pageParser.run();
-        while (true) {
-            Item i = queue.take();
-           System.out.println(i);
-        }
+            queue.forEach(System.out::println);
     }
 
 
@@ -97,7 +89,7 @@ public class Sql {
                     aut.setUrl(url);
                     advert.setAuthor(aut);
                     String data = authors.last().text();
-                    advert.setDate(prepareDate(data));
+                    advert.setDate(data);
                     adverts.add(advert);
                 }
             }
@@ -112,26 +104,6 @@ public class Sql {
         return Pattern.compile("[j,J]ava\\s?(?=SE/EE|SE|EE)?(?!\\s?[s,S]cript)").matcher(text).find();
     }
 
-    private Calendar prepareDate(String data) {
-        Calendar calendar = Calendar.getInstance();
-        if (data != null) {
-            final String today = "сегодня";
-            final String yesterday = "вчера";
-            //if (data.startsWith(today)) {
-            data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
-            //}
-            // if (data.startsWith(yesterday)) {
-            calendar.add(Calendar.DATE, -1);
-            data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
-            // }
-            try {
-                calendar.setTime(DATE_FORMAT.parse(data));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return calendar;
-    }
     private String getTextFromUrl(String url) {
         String text = "";
         try {

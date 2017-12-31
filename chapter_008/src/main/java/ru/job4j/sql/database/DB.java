@@ -11,8 +11,7 @@ import java.util.Calendar;
  * @since 0.1.
  */
 public class DB {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
-    private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
+
     private Connection connection;
     private String url = "jdbc:postgresql://localhost:5432/sql.ru";
     private String user = "postgres";
@@ -53,24 +52,5 @@ public class DB {
         }
         return dataMax;
     }
-    public Calendar prepareDate(String data) {
-        Calendar calendar = Calendar.getInstance();
-        if (data != null) {
-            final String today = "сегодня";
-            final String yesterday = "вчера";
-            //if (data.startsWith(today)) {
-            data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
-            //}
-            // if (data.startsWith(yesterday)) {
-            calendar.add(Calendar.DATE, -1);
-            data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
-            // }
-            try {
-                calendar.setTime(DATE_FORMAT.parse(data));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return calendar;
-    }
+
 }
