@@ -7,6 +7,15 @@ package ru.job4j.sql.items;
  * @since 0.1.
  */
 public class Author {
+    public Author() {
+    }
+
+    public Author(String name, String url) {
+
+        this.name = name;
+        this.url = url;
+    }
+
     private String name;
     private String url;
 
@@ -53,14 +62,10 @@ public class Author {
 
     @Override
     public String toString() {
-        return "{"
-                + "name = '"
+        return "Name = "
                 + name
-                + "\',"
-                + System.lineSeparator()
-                + "url = '"
+                + ". Url: "
                 + url
-                + '\''
-                + '}';
+                + '.';
     }
 }

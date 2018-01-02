@@ -1,13 +1,11 @@
 package ru.job4j.sql;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import ru.job4j.sql.database.DB;
 import ru.job4j.sql.items.Advert;
+import ru.job4j.sql.items.Author;
 
-
-import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -16,41 +14,20 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @since 0.1.
  */
 public class Test {
-    ArrayBlockingQueue<Advert>queue;
-    public static void main(String[] args) throws IOException {
-  Test t = new Test();
-  t.scanAllAdvertFromSqlRu("http://www.sql.ru/forum/job-offers/2");
+    ArrayBlockingQueue<Advert> queue;
 
-    }
 
-    public void scanAllAdvertFromSqlRu(String url) {
-        try {
-            Document doc = Jsoup.connect(url).get();
-            Elements element = doc.getElementsByAttributeValue("class", "forumtable");
-            Elements tagAdverts = element.select("tr");
-            int count = 0;
-            for (int i = 4; i < tagAdverts.size(); i++) {
-                Element node = tagAdverts.get(i);
-                Advert advert = new Advert();
-                count++;
-                Elements refAndText = node.getElementsByAttributeValue("class", "postslisttopic");
-                for (Element firstElement : refAndText) {
-                    Element element1 = firstElement.child(0);
-                    String urlItem = element1.attr("href");
-                    advert.setUrl(urlItem);
-                }
-                Elements items = node.getElementsByAttributeValue("class", "altCol");
-                Element dataNode = items.last();
-                if (dataNode != null) {
-                    String data = dataNode.text();
-                    advert.setPublicationDate(data);
-                }
-                System.out.println(advert);
-            }
+    public static void main(String[] args) {
+            DB db = new DB();
+            db.createTables();
+            Advert advert = new Advert();
+            Author author = new Author("asasa", "dadsd");
+            advert.setAuthor(author);
+            advert.setText("sdasdsdasdd");
+            db.addNewAdvert(advert);
 
-            System.out.println(count);
-        } catch (IOException e) {
-            e.printStackTrace();
+
         }
+
+
     }
-}

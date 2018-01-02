@@ -1,22 +1,11 @@
 package ru.job4j.sql;
 
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import ru.job4j.sql.database.DB;
 import ru.job4j.sql.items.Advert;
-import ru.job4j.sql.items.Author;
-import ru.job4j.sql.items.PageParser;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.regex.Pattern;
+import java.util.concurrent.*;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 22.12.2017.
@@ -26,96 +15,25 @@ import java.util.regex.Pattern;
 public class Sql {
     private DB db;
     private Connection dbConnection;
-    private List<Advert> adverts;
-    private Calendar dateLastUptdate;
     private ArrayBlockingQueue<Advert> queue;
 
     public Sql(DB db) {
         this.db = db;
         this.dbConnection = db.getConnection();
-        this.adverts = new ArrayList<>();
         this.queue = new ArrayBlockingQueue<Advert>(500);
     }
 
     public static void main(String[] args) throws InterruptedException {
-        long t = System.currentTimeMillis();
         DB db = new DB();
         Sql sql = new Sql(db);
-    sql.test();
-    t = System.currentTimeMillis() - t;
-        System.out.println(t);
-        //sql.scanPageSqlRu(URL);
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+        PageParser pageParser = new PageParser(sql.queue, sql.db);
+        service.scheduleWithFixedDelay(pageParser, 0, 1, TimeUnit.DAYS);
+        service.scheduleWithFixedDelay(new AdvertScanner(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
+        service.scheduleWithFixedDelay(new AdvertScanner(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
+        service.scheduleWithFixedDelay(new AdvertScanner(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
 
     }
-    public void test() throws InterruptedException {
-        PageParser pageParser = new PageParser(queue, db);
-      //  pageParser.scanAllAdvertFromSqlRu("http://www.sql.ru/forum/job-offers", queue);
-        pageParser.run();
-            queue.forEach(System.out::println);
-    }
 
 
-    public List<Advert> scanAdvertFromSqlRu(String urlSite, List<Advert> adverts) {
-        try {
-            Document doc = Jsoup.connect(urlSite).get();
-            Elements element = doc.getElementsByAttributeValue("class", "forumtable");
-            Elements tagAdverts = element.select("tr");
-            int count = 0;
-
-            for (Element node : tagAdverts) {
-                Advert advert = null;
-                count++;
-                Elements refAndText = node.getElementsByAttributeValue("class", "postslisttopic");
-                for (Element firstElement : refAndText) {
-                    Element element1 = firstElement.child(0);
-                    String url = element1.attr("href");
-                    String text = getTextFromUrl(url);
-                    if (!validAdvert(text)) {
-                        break;
-                    }
-                    advert = new Advert();
-                    String title = element1.text();
-                    advert.setUrl(url);
-                    advert.setTitle(title);
-                    advert.setText(text);
-                }
-                if (advert != null) {
-                    Elements authors = node.getElementsByAttributeValue("class", "altCol");
-                    Element author = authors.first();
-                    Author aut = new Author();
-                    String url = author.child(0).attr("href");
-                    String name = author.text();
-                    aut.setName(name);
-                    aut.setUrl(url);
-                    advert.setAuthor(aut);
-                    String data = authors.last().text();
-                    advert.setDate(data);
-                    adverts.add(advert);
-                }
-            }
-            System.out.println(count);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return adverts;
-    }
-
-    private boolean validAdvert(String text) {
-        return Pattern.compile("[j,J]ava\\s?(?=SE/EE|SE|EE)?(?!\\s?[s,S]cript)").matcher(text).find();
-    }
-
-    private String getTextFromUrl(String url) {
-        String text = "";
-        try {
-            Document doc = Jsoup.connect(url).get();
-            Elements elements = doc.getElementsByAttributeValue("class", "msgBody");
-            if (elements.size() > 1) {
-                Element element = elements.get(1);
-                text = element.text();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return text;
-    }
 }

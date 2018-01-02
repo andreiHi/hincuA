@@ -1,5 +1,8 @@
 package ru.job4j.sql.database;
 
+import ru.job4j.sql.items.Advert;
+import ru.job4j.sql.items.Author;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,4 +56,39 @@ public class DB {
         return dataMax;
     }
 
+    public void addNewAdvert(Advert advert) {
+        try (final PreparedStatement ps = this.connection.prepareStatement(SqlQuery.SELECT_TEXT)) {
+            ps.setString(1, advert.getText());
+           ResultSet rs =  ps.executeQuery();
+           int idText;
+           int idAuthor;
+            if (!rs.next()) {
+                try (PreparedStatement preparedStatement = this.connection.prepareStatement(SqlQuery.INSERT_TEXT,
+                                                                           PreparedStatement.RETURN_GENERATED_KEYS)) {
+                    preparedStatement.setString(1, advert.getText());
+                    preparedStatement.executeUpdate();
+                    ResultSet set = preparedStatement.getGeneratedKeys();
+                    while (set.next()) {
+                        idText = set.getInt(1);
+                        System.out.println(idText);
+                    }
+                }
+                try (PreparedStatement preparedStatement = this.connection.prepareStatement(SqlQuery.INSERT_AUTHOR,
+                                                                           PreparedStatement.RETURN_GENERATED_KEYS)) {
+                    Author author = advert.getAuthor();
+                    preparedStatement.setString(1, author.getName());
+                    preparedStatement.setString(2, author.getUrl());
+                    preparedStatement.executeUpdate();
+                    ResultSet set = preparedStatement.getGeneratedKeys();
+                    while (set.next()) {
+                        idAuthor = set.getInt(1);
+                        System.out.println(idAuthor);
+                    }
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

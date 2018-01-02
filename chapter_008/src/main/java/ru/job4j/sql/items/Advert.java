@@ -29,8 +29,9 @@ public class Advert {
         return publicationDate;
     }
 
-    public void setPublicationDate(String data) {
-        this.publicationDate = prepareDate(data);
+    public void setPublicationDate(long data) {
+        this.publicationDate = Calendar.getInstance();
+        this.publicationDate.setTimeInMillis(data);
     }
     public String getUrl() {
         return url;
@@ -68,8 +69,9 @@ public class Advert {
         return date;
     }
 
-    public void setDate(String data) {
-        this.date = prepareDate(data);
+    public void setDate(long data) {
+        this.date = Calendar.getInstance();
+        this.date.setTimeInMillis(data);
     }
 
     @Override
@@ -143,29 +145,25 @@ public class Advert {
                 + text
                 + '\''
                 + System.lineSeparator()
-                + "Author = "
+                + "Author: "
                 + author
                 + System.lineSeparator()
                 + "Date = "
                 + data
                 + System.lineSeparator()
-                +"Publication date = "
+                + "Publication date = "
                 + publishData
                 + System.lineSeparator()
                 + "====================================================";
     }
-    public Calendar prepareDate(String data) {
+    public static Calendar prepareDate(String data) {
         Calendar calendar = Calendar.getInstance();
         if (data != null) {
             final String today = "сегодня";
             final String yesterday = "вчера";
-            //if (data.startsWith(today)) {
             data = data.replaceAll(today, DATE_PREPARE.format(calendar.getTime()));
-            //}
-            // if (data.startsWith(yesterday)) {
             calendar.add(Calendar.DATE, -1);
             data = data.replaceAll(yesterday, DATE_PREPARE.format(calendar.getTime()));
-            // }
             try {
                 calendar.setTime(DATE_FORMAT.parse(data));
             } catch (ParseException e) {

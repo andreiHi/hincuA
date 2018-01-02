@@ -21,8 +21,12 @@ public class SqlQuery {
             + "  url VARCHAR(100),\n"
             + "  text_id INTEGER REFERENCES text_adverts(id),\n"
             + "  id_autor INTEGER REFERENCES author(id),\n"
-            + "  date TIMESTAMP WITHOUT TIME ZONE\n"
+            + "  date_publish TIMESTAMP WITHOUT TIME ZONE,\n"
+            + "  date_create TIMESTAMP WITHOUT TIME ZONE\n"
             + ")";
     public static final String SELECT_MAX_DATE = "SELECT max(date) AS max_date FROM adverts";
-
+    public static final String SELECT_TEXT = "SELECT text_adverts.id FROM text_adverts\n"
+            + "WHERE text = ?";
+    public static final String INSERT_TEXT = "INSERT INTO text_adverts (text) VALUES (?)";
+    public static final String INSERT_AUTHOR = "INSERT INTO author(name, url) VALUES (?,?)";
 }
