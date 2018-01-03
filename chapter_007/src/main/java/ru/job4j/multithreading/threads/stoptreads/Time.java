@@ -9,9 +9,9 @@ public class Time implements Runnable {
     private int time;
     private Thread t;
 
-    public Time(int time) {
+    public Time(int time, Thread thread) {
         this.time = time;
-        t = new Thread(this);
+        this.t = thread;
     }
     public void start() {
         t.start();
@@ -21,6 +21,9 @@ public class Time implements Runnable {
         System.out.println("Начало работы программы Time");
         try {
             Thread.sleep(time);
+            if (t.isAlive()) {
+                t.interrupt();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

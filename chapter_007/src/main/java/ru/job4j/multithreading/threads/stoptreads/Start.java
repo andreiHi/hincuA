@@ -8,21 +8,19 @@ package ru.job4j.multithreading.threads.stoptreads;
  */
 public class Start {
     public static void main(String[] args) {
-        int totalTime = 1000;
+        int totalTime = 10;
         CountChar countChar = new CountChar();
-        Time time = new Time(totalTime);
-        time.start();
         Thread charterCountThread = new Thread(countChar);
         charterCountThread.start();
-
-        while (time.getT().isAlive()) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        Time time = new Time(totalTime, charterCountThread);
+        Thread thread = new Thread(time);
+        thread.start();
+        try {
+            charterCountThread.join();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        charterCountThread.interrupt();
         System.out.println("Программа завершает работу.");
     }
 }
