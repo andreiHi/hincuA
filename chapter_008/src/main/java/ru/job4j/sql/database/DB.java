@@ -35,7 +35,6 @@ public class DB {
     public void createTables() {
         try (final Statement statement = connection.createStatement()) {
             statement.executeUpdate(SqlQuery.CREATE_AUTHOR_TABLE);
-            statement.executeUpdate(SqlQuery.CREATE_TABLE_TEXT);
             statement.executeUpdate(SqlQuery.CREATE_TABLE_ADVERTS);
         } catch (SQLException e) {
             e.printStackTrace();

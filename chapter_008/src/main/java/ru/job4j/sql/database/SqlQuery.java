@@ -11,22 +11,18 @@ public class SqlQuery {
             + "  name VARCHAR(50),\n"
             + "  url VARCHAR(100)\n"
             + ")";
-    public static final String CREATE_TABLE_TEXT = "CREATE TABLE IF NOT EXISTS text_adverts(\n"
-            + "  id SERIAL PRIMARY KEY ,\n"
-            + "  text TEXT\n"
-            + ")";
+
     public static final String CREATE_TABLE_ADVERTS = "CREATE TABLE IF NOT EXISTS adverts(\n"
             + "  id SERIAL PRIMARY KEY,\n"
             + "  title VARCHAR(200),\n"
             + "  url VARCHAR(100),\n"
-            + "  text_id INTEGER REFERENCES text_adverts(id),\n"
+            + "  text TEXT,\n"
             + "  id_autor INTEGER REFERENCES author(id),\n"
             + "  date_publish TIMESTAMP WITHOUT TIME ZONE,\n"
             + "  date_create TIMESTAMP WITHOUT TIME ZONE\n"
             + ")";
     public static final String SELECT_MAX_DATE = "SELECT max(date) AS max_date FROM adverts";
-    public static final String SELECT_TEXT = "SELECT text_adverts.id FROM text_adverts\n"
+    public static final String SELECT_TEXT = "SELECT adverts.id FROM adverts\n"
             + "WHERE text = ?";
-    public static final String INSERT_TEXT = "INSERT INTO text_adverts (text) VALUES (?)";
     public static final String INSERT_AUTHOR = "INSERT INTO author(name, url) VALUES (?,?)";
 }
