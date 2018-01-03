@@ -36,6 +36,8 @@ public class DB {
         try (final Statement statement = connection.createStatement()) {
             statement.executeUpdate(SqlQuery.CREATE_AUTHOR_TABLE);
             statement.executeUpdate(SqlQuery.CREATE_TABLE_ADVERTS);
+            statement.executeUpdate(SqlQuery.CREATE_FUNCTION_ADD_AUTHOR);
+            statement.executeUpdate(SqlQuery.CREATE_FUNCTION_ADD_ADVERT);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,36 +58,16 @@ public class DB {
     }
 
     public void addNewAdvert(Advert advert) {
-        try (final PreparedStatement ps = this.connection.prepareStatement(SqlQuery.SELECT_TEXT)) {
-            ps.setString(1, advert.getText());
-           ResultSet rs =  ps.executeQuery();
-           int idText;
-           int idAuthor;
-            if (!rs.next()) {
-                try (PreparedStatement preparedStatement = this.connection.prepareStatement(SqlQuery.INSERT_TEXT,
-                                                                           PreparedStatement.RETURN_GENERATED_KEYS)) {
-                    preparedStatement.setString(1, advert.getText());
-                    preparedStatement.executeUpdate();
-                    ResultSet set = preparedStatement.getGeneratedKeys();
-                    while (set.next()) {
-                        idText = set.getInt(1);
-                        System.out.println(idText);
-                    }
-                }
-                try (PreparedStatement preparedStatement = this.connection.prepareStatement(SqlQuery.INSERT_AUTHOR,
-                                                                           PreparedStatement.RETURN_GENERATED_KEYS)) {
-                    Author author = advert.getAuthor();
-                    preparedStatement.setString(1, author.getName());
-                    preparedStatement.setString(2, author.getUrl());
-                    preparedStatement.executeUpdate();
-                    ResultSet set = preparedStatement.getGeneratedKeys();
-                    while (set.next()) {
-                        idAuthor = set.getInt(1);
-                        System.out.println(idAuthor);
-                    }
-                }
-
-            }
+        try (PreparedStatement ps = this.connection.prepareStatement(SqlQuery.ADD_ADVERT)) {
+            Author author = advert.getAuthor();
+            ps.setString(1, author.getName());
+            ps.setString(2, author.getUrl());
+            ps.setString(3, advert.getTitle());
+            ps.setString(4, advert.getUrl());
+            ps.setString(5, advert.getText());
+            ps.setTimestamp(6, new Timestamp(advert.getPublicationDate().getTimeInMillis()));
+            ps.setTimestamp(7, new Timestamp(advert.getDate().getTimeInMillis()));
+            ResultSet resultSet = ps.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -29,6 +29,7 @@ public class AdvertScanner implements Runnable {
 
     @Override
     public void run() {
+        int count = 0;
         do {
             try {
                 Advert advert = adverts.poll(1000, TimeUnit.MILLISECONDS);
@@ -52,7 +53,9 @@ public class AdvertScanner implements Runnable {
                     author.setUrl(urlAuthor);
                     author.setName(nameAuthor);
                     advert.setAuthor(author);
+                    System.out.println(advert);
                     db.addNewAdvert(advert);
+                    System.out.println(count++);
                 }
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();

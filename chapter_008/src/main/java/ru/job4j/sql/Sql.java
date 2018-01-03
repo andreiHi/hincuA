@@ -20,7 +20,7 @@ public class Sql {
     public Sql(DB db) {
         this.db = db;
         this.dbConnection = db.getConnection();
-        this.queue = new ArrayBlockingQueue<Advert>(500);
+        this.queue = new ArrayBlockingQueue<Advert>(5000);
     }
 
     public static void main(String[] args) throws InterruptedException {

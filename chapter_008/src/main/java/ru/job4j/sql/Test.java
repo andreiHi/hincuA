@@ -7,6 +7,7 @@ import ru.job4j.sql.items.Author;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 25.12.2017.
@@ -25,7 +26,6 @@ public class Test {
             advert.setAuthor(author);
             advert.setText("sdasdsdasdd");
             db.addNewAdvert(advert);
-
 
         }
 
