@@ -6,7 +6,10 @@ import ru.job4j.sql.Sql;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * Класс бд подключения и запросов.
@@ -17,12 +20,13 @@ import java.sql.*;
 public class DB {
 
     private Connection connection;
-    private String url = "jdbc:postgresql://localhost:5432/sql.ru";
-    private String user = "postgres";
-    private  String password = "5432";
+    private String url;
+    private String user;
+    private  String password;
     private static final Logger LOG = LogManager.getLogger(Sql.class);
 
-    public DB() {
+    public DB(String settingsFile) {
+        loadSettings(settingsFile);
         try {
             this.connection = DriverManager.getConnection(url, user, password);
             System.out.println("Соединение с бд установлено.");
@@ -30,6 +34,23 @@ public class DB {
         } catch (SQLException e) {
             e.printStackTrace();
             LOG.error("Connection ERROR", e);
+        }
+    }
+
+    /**
+     * Метод загружает параметры подключения к бд из файла.
+     * @param settingsFile имя файла настроек подключения.
+     */
+    private void loadSettings(String settingsFile) {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(settingsFile)) {
+            Properties pr = new Properties();
+            pr.load(in);
+            this.url = pr.getProperty("db.url");
+            this.user = pr.getProperty("db.user");
+            this.password = pr.getProperty("db.password");
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -73,7 +94,7 @@ public class DB {
      * @param advert объявление.
      */
     public void addNewAdvert(Advert advert) {
-        try (PreparedStatement ps = this.connection.prepareStatement(SqlQuery.ADD_ADVERT)) {
+        try (final PreparedStatement ps = this.connection.prepareStatement(SqlQuery.ADD_ADVERT)) {
             Author author = advert.getAuthor();
             ps.setString(1, author.getName());
             ps.setString(2, author.getUrl());
@@ -82,10 +103,12 @@ public class DB {
             ps.setString(5, advert.getText());
             ps.setTimestamp(6, new Timestamp(advert.getPublicationDate().getTimeInMillis()));
             ps.setTimestamp(7, new Timestamp(advert.getDate().getTimeInMillis()));
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("add_advert");
-                LOG.debug(advert + "was saved with id " + id);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("add_advert");
+                    advert.setId(id);
+                    LOG.debug(advert + "was saved with id " + id);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

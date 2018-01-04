@@ -28,13 +28,13 @@ public class Sql {
      * @param args нет.
      */
     public static void main(String[] args) {
-        DB db = new DB();
+        String settingsFile = "settings.properties";
+        DB db =   new DB(settingsFile);
         Sql sql = new Sql(db);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
         service.scheduleWithFixedDelay(new PageParser(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
         service.scheduleWithFixedDelay(new AdvertScanner(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
         service.scheduleWithFixedDelay(new AdvertScanner(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
         service.scheduleWithFixedDelay(new AdvertScanner(sql.queue, sql.db), 0, 1, TimeUnit.DAYS);
-
     }
 }
