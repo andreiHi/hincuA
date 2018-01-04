@@ -1,5 +1,7 @@
 package ru.job4j.sql;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,29 +19,41 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @since 0.1.
  */
 public class PageParser implements Runnable {
+    private static final Logger LOG = LogManager.getLogger(PageParser.class);
     private static final String URL = "http://www.sql.ru/forum/job-offers";
     private ArrayBlockingQueue<Advert> queue;
     private DB db;
+    private int count = 0;
 
     public PageParser(ArrayBlockingQueue<Advert> queue, DB db) {
         this.queue = queue;
         this.db = db;
     }
 
+    /**
+     * Метод запускает сканирование объявлений до последней даты в бд или до
+     * начала 2017 года.
+     */
     @Override
     public void run() {
         Calendar calendar = Calendar.getInstance();
-       // db.createTables();
         long lastTimeFromBd = db.getLastTimeOfUpdate();
         if (lastTimeFromBd == 0) {
-            calendar.set(2017, Calendar.DECEMBER, 0, 0, 0);
+            calendar.set(2017, Calendar.JANUARY, 0, 0, 0);
         } else {
             calendar.setTimeInMillis(lastTimeFromBd);
         }
         scanAllAdvertFromSqlRu(URL, queue, calendar);
+        LOG.info("Was scanned " + count);
+        System.out.println(String.format("Was scanned %d", count));
     }
 
-
+    /**
+     * Рекурсивное сканирование страниц с объявлениями.
+     * @param url адресс страницы.
+     * @param queue хранилище полученных ссылок.
+     * @param calendar дата до которой производится сканирование.
+     */
     public void scanAllAdvertFromSqlRu(String url, ArrayBlockingQueue<Advert> queue, Calendar calendar) {
         long endTime = calendar.getTimeInMillis();
         try {
@@ -59,14 +73,15 @@ public class PageParser implements Runnable {
                 advert.setPublicationDate(dataMils);
                 String urlItem = refAndText.first().getElementsByTag("a").attr("href");
                 advert.setUrl(urlItem);
-                //System.out.println(advert);
                 queue.put(advert);
+                this.count++;
             }
             Elements elements = doc.getElementsByAttributeValue("class", "sort_options");
             String nextPageUrl = elements.last().getElementsByTag("b").next().attr("href");
             scanAllAdvertFromSqlRu(nextPageUrl, queue, calendar);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            LOG.error("Error during scanning", e);
         }
     }
 

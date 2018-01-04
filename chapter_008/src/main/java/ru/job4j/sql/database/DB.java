@@ -1,14 +1,15 @@
 package ru.job4j.sql.database;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import ru.job4j.sql.Sql;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
+ * Класс бд подключения и запросов.
  * @author Hincu Andrei (andreih1981@gmail.com)on 23.12.2017.
  * @version $Id$.
  * @since 0.1.
@@ -19,6 +20,8 @@ public class DB {
     private String url = "jdbc:postgresql://localhost:5432/sql.ru";
     private String user = "postgres";
     private  String password = "5432";
+    private static final Logger LOG = LogManager.getLogger(Sql.class);
+
     public DB() {
         try {
             this.connection = DriverManager.getConnection(url, user, password);
@@ -26,13 +29,13 @@ public class DB {
             createTables();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("Connection ERROR", e);
         }
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
+    /**
+     * Метод создает таблицы и функции в бд если их еще нет.
+     */
     public void createTables() {
         try (final Statement statement = connection.createStatement()) {
             statement.executeUpdate(SqlQuery.CREATE_AUTHOR_TABLE);
@@ -41,8 +44,14 @@ public class DB {
             statement.executeUpdate(SqlQuery.CREATE_FUNCTION_ADD_ADVERT);
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("Error when was create table and functions", e);
         }
     }
+
+    /**
+     * Метод возвращает дату последнего обновления в милисекундах.
+     * @return 0 если бд пустая или дата последнего обновления.
+     */
     public long getLastTimeOfUpdate() {
         long dataMax = 0;
         try (final Statement st = this.connection.createStatement()) {
@@ -54,10 +63,15 @@ public class DB {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("Query error", e);
         }
         return dataMax;
     }
 
+    /**
+     * Метод сохраняет обьявление в бд и записывает в лог id и само объявление.
+     * @param advert объявление.
+     */
     public void addNewAdvert(Advert advert) {
         try (PreparedStatement ps = this.connection.prepareStatement(SqlQuery.ADD_ADVERT)) {
             Author author = advert.getAuthor();
@@ -69,8 +83,13 @@ public class DB {
             ps.setTimestamp(6, new Timestamp(advert.getPublicationDate().getTimeInMillis()));
             ps.setTimestamp(7, new Timestamp(advert.getDate().getTimeInMillis()));
             ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("add_advert");
+                LOG.debug(advert + "was saved with id " + id);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("Error when advert was add in db", e);
         }
     }
 }

@@ -1,5 +1,7 @@
 package ru.job4j.sql;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -9,27 +11,33 @@ import ru.job4j.sql.items.Author;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-/**
+/** Сканер объявлений.
  * @author Hincu Andrei (andreih1981@gmail.com)on 31.12.2017.
  * @version $Id$.
  * @since 0.1.
  */
 public class AdvertScanner implements Runnable {
+    /**
+     * Хранилище всех объявлений.
+     */
     private ArrayBlockingQueue<Advert> adverts;
     private DB db;
+    private static final Logger LOG = LogManager.getLogger(AdvertScanner.class);
 
     public AdvertScanner(ArrayBlockingQueue<Advert> adverts, DB db) {
         this.adverts = adverts;
         this.db = db;
     }
 
+    /**
+     * Метод проверяет текст объявления на валидность, если соответствует
+     * доформировываем объект и перередаем его в метод на сохранение в бд.
+     */
     @Override
     public void run() {
-        int count = 0;
         do {
             try {
                 Advert advert = adverts.poll(10000, TimeUnit.MILLISECONDS);
@@ -53,12 +61,11 @@ public class AdvertScanner implements Runnable {
                     author.setUrl(urlAuthor);
                     author.setName(nameAuthor);
                     advert.setAuthor(author);
-                    System.out.println(advert);
                     db.addNewAdvert(advert);
-                    System.out.println(count++);
                 }
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
+                LOG.error("Error during ad processing", e);
             }
         } while (!adverts.isEmpty());
     }

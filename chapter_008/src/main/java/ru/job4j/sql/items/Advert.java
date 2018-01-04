@@ -1,9 +1,11 @@
 package ru.job4j.sql.items;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Объявление.
@@ -12,6 +14,7 @@ import java.util.Date;
  * @since 0.1.
  */
 public class Advert {
+    private static final Logger LOG = LogManager.getLogger(Advert.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yy, HH:mm");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM yy, HH:mm");
     private static final SimpleDateFormat DATE_PREPARE = new SimpleDateFormat("d MMM yy");
@@ -156,6 +159,12 @@ public class Advert {
                 + System.lineSeparator()
                 + "====================================================";
     }
+
+    /**
+     * Метод обрабатывает строку получая из нее дату.
+     * @param data строка.
+     * @return дата с использованием класса Calendar.
+     */
     public static Calendar prepareDate(String data) {
         Calendar calendar = Calendar.getInstance();
         if (data != null) {
@@ -168,6 +177,7 @@ public class Advert {
                 calendar.setTime(DATE_FORMAT.parse(data));
             } catch (ParseException e) {
                 e.printStackTrace();
+                LOG.error("Can not process the date", e);
             }
         }
         return calendar;
