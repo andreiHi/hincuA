@@ -32,7 +32,7 @@ public class AdvertScanner implements Runnable {
         int count = 0;
         do {
             try {
-                Advert advert = adverts.poll(1000, TimeUnit.MILLISECONDS);
+                Advert advert = adverts.poll(10000, TimeUnit.MILLISECONDS);
                 String text;
                 Document doc = Jsoup.connect(advert.getUrl()).get();
                 Elements elements = doc.getElementsByAttributeValue("class", "msgTable");

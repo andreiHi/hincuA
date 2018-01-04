@@ -29,10 +29,10 @@ public class PageParser implements Runnable {
     @Override
     public void run() {
         Calendar calendar = Calendar.getInstance();
-        db.createTables();
+       // db.createTables();
         long lastTimeFromBd = db.getLastTimeOfUpdate();
         if (lastTimeFromBd == 0) {
-            calendar.set(2017, Calendar.JANUARY, 0, 0, 0);
+            calendar.set(2017, Calendar.DECEMBER, 0, 0, 0);
         } else {
             calendar.setTimeInMillis(lastTimeFromBd);
         }
@@ -59,6 +59,7 @@ public class PageParser implements Runnable {
                 advert.setPublicationDate(dataMils);
                 String urlItem = refAndText.first().getElementsByTag("a").attr("href");
                 advert.setUrl(urlItem);
+                //System.out.println(advert);
                 queue.put(advert);
             }
             Elements elements = doc.getElementsByAttributeValue("class", "sort_options");

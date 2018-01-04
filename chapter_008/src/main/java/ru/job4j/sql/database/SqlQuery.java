@@ -9,12 +9,12 @@ public class SqlQuery {
     public static final String CREATE_AUTHOR_TABLE = "CREATE TABLE IF NOT EXISTS author(\n"
             + "  id  SERIAL PRIMARY KEY,\n"
             + "  name  VARCHAR(50) UNIQUE ,\n"
-            + "  url VARCHAR(100))";
+            + "  url VARCHAR(500))";
 
     public static final String CREATE_TABLE_ADVERTS = "CREATE TABLE IF NOT EXISTS adverts(\n"
             + "  id SERIAL PRIMARY KEY,\n"
             + "  title VARCHAR(200),\n"
-            + "  url VARCHAR(100),\n"
+            + "  url VARCHAR(500),\n"
             + "  text_adv TEXT UNIQUE ,\n"
             + "  id_autor INTEGER REFERENCES author(id),\n"
             + "  date_publish TIMESTAMP,\n"
@@ -22,7 +22,7 @@ public class SqlQuery {
     public static final String SELECT_MAX_DATE = "SELECT max(date_publish) AS max_date FROM adverts";
 
     public static final String CREATE_FUNCTION_ADD_AUTHOR = "CREATE OR REPLACE FUNCTION add_author"
-            + "(name_t VARCHAR(50), url_t VARCHAR(100)) RETURNS INTEGER\n"
+            + "(name_t VARCHAR(50), url_t VARCHAR(500)) RETURNS INTEGER\n"
             + "AS $$\n"
             + "DECLARE\n"
             + "  v int;\n"
@@ -35,7 +35,7 @@ public class SqlQuery {
             + "$$language plpgsql";
     public static final String CREATE_FUNCTION_ADD_ADVERT = "CREATE OR REPLACE FUNCTION add_advert"
             + "( author_name VARCHAR(50), author_url VARCHAR(100),\n"
-            + "  adv_title VARCHAR(200), adv_url VARCHAR(100), adv_text TEXT, data_p TIMESTAMP, data_c TIMESTAMP) RETURNS INTEGER\n"
+            + "  adv_title VARCHAR(200), adv_url VARCHAR(500), adv_text TEXT, data_p TIMESTAMP, data_c TIMESTAMP) RETURNS INTEGER\n"
             + "AS $$\n"
             + "DECLARE\n"
             + "  b INTEGER;\n"

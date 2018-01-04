@@ -1,5 +1,6 @@
 package ru.job4j.sql;
 
+import org.apache.log4j.Logger;
 import ru.job4j.sql.database.DB;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;
@@ -17,15 +18,9 @@ import java.util.concurrent.TimeUnit;
 public class Test {
     ArrayBlockingQueue<Advert> queue;
 
-
+static Logger logger = Logger.getLogger(Test.class);
     public static void main(String[] args) {
-            DB db = new DB();
-            db.createTables();
-            Advert advert = new Advert();
-            Author author = new Author("asasa", "dadsd");
-            advert.setAuthor(author);
-            advert.setText("sdasdsdasdd");
-            db.addNewAdvert(advert);
+    logger.warn("Hello");
 
         }
 

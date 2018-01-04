@@ -23,6 +23,7 @@ public class DB {
         try {
             this.connection = DriverManager.getConnection(url, user, password);
             System.out.println("Соединение с бд установлено.");
+            createTables();
         } catch (SQLException e) {
             e.printStackTrace();
         }
