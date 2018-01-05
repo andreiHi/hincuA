@@ -12,9 +12,9 @@ import java.io.InputStreamReader;
  * @since 0.1
  */
 public class ControlPanel implements Runnable {
-    private Lift lift;
+    private final Lift lift;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private String floorCall = "Введите этаж на котором человек вызывает лифт: ";
+    private String levelCall = "Введите этаж на котором человек вызывает лифт: ";
     private String callTarget = "Введите этаж на который необходимо переместиться: ";
     public ControlPanel(Lift lift) {
         this.lift = lift;
@@ -22,22 +22,12 @@ public class ControlPanel implements Runnable {
 
     @Override
     public void run() {
-        synchronized (lift) {
-            try {
-                while (true) {
-                    int rs = askPerson(floorCall);
-                    lift.notify();
-                    lift.wait();
-                    rs = askPerson(callTarget);
-                    lift.notifyAll();
-                    lift.wait();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        while (true) {
+            changeLevel(levelCall);
+            changeLevel(callTarget);
         }
-
     }
+
     public int askPerson(String s) {
         int level;
         System.out.println(s);
@@ -54,5 +44,17 @@ public class ControlPanel implements Runnable {
             }
         }
         return level;
+    }
+    public void changeLevel(String s) {
+        synchronized (lift) {
+            int rs = askPerson(s);
+            lift.setLevelNeed(rs);
+            lift.notify();
+            try {
+                lift.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

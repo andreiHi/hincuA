@@ -11,7 +11,9 @@ public class Start {
     public static void main(String[] args) {
      Lift lift = new Lift(args);
      ControlPanel panel = new ControlPanel(lift);
-        new Thread(panel).start();
+     new Thread(lift).start();
+     new Thread(panel).start();
 
     }
+
 }
