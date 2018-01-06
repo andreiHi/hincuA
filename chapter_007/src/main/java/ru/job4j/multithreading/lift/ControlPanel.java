@@ -1,5 +1,8 @@
 package ru.job4j.multithreading.lift;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +14,9 @@ import java.io.InputStreamReader;
  * @version $Id$
  * @since 0.1
  */
+@ThreadSafe
 public class ControlPanel implements Runnable {
+    @GuardedBy("this")
     private final Lift lift;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private String levelCall = "Введите этаж на котором человек вызывает лифт: ";
@@ -28,12 +33,23 @@ public class ControlPanel implements Runnable {
         }
     }
 
+    /**
+     * Метод для обшения с пользователем.
+     * @param s вопрос пользователю.
+     * @return ответ пользователя.
+     */
     public int askPerson(String s) {
-        int level;
+        int level = 0;
         System.out.println(s);
         while (true) {
             try {
-                level = Integer.parseInt(reader.readLine());
+                String line = reader.readLine();
+                try {
+                    level = Integer.parseInt(line);
+                } catch (NumberFormatException e) {
+                    System.out.println("Введенные данные не коректны, повторите ввод: ");
+                    continue;
+                }
                 if (level > 0 && level <= lift.getLevel()) {
                     break;
                 } else {
@@ -45,6 +61,11 @@ public class ControlPanel implements Runnable {
         }
         return level;
     }
+
+    /**
+     * Метод для передачи данных лифту для исполнения.
+     * @param s вопрос для пользователя.
+     */
     public void changeLevel(String s) {
         synchronized (lift) {
             int rs = askPerson(s);

@@ -1,17 +1,17 @@
 package ru.job4j.multithreading.lift;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import net.jcip.annotations.ThreadSafe;
 
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Класс лифт.
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.01.2018.
  * @version $Id$.
  * @since 0.1.
  */
+@ThreadSafe
 public class Lift implements Runnable {
-    private static final Logger LOG = LogManager.getLogger(Lift.class);
     private int level;
     private int heightLevel;
     private int speed;
@@ -46,50 +46,64 @@ public class Lift implements Runnable {
         }
 
     }
+
+    /**
+     * Метод для управления дверьми лифта.
+     * @param waitingTime время ожидания между открытием и закрытием дверей.
+     */
     public void openClose(int waitingTime) {
         try {
             synchronized (this) {
                 System.out.println("Лифт открыл двери.");
-                //this.notifyAll();
-            }
-            TimeUnit.SECONDS.sleep(waitingTime);
-            System.out.println("Лифт закрыл двери.");
-
-            synchronized (this) {
+                TimeUnit.SECONDS.sleep(waitingTime);
+                System.out.println("Лифт закрыл двери.");
                 this.notifyAll();
-               // this.wait();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Медод инициализирует этажи здания в соответствии с полученными параметрами.
+     * @param level колличество этажей.
+     */
     public void init(int level) {
         this.levels = new String[level];
         for (int i = 0; i < levels.length; i++) {
-            levels[i] = String.format("Проежаем этаж %d", i + 1);
+            levels[i] = String.format("Лифт проежает этаж %d", i + 1);
         }
 
     }
 
+    /**
+     * Метод производит перемещение лифта в заданном направлении.
+     * @param rs требуемый этаж.
+     */
     public void move(int rs) {
-        if (rs - 1  == currentPosition) {
-            openClose(waitingTime);
-        } else {
-            if (rs -1 > currentPosition) {
-                int count = 0;
-                for (int i = currentPosition + 1; i < rs - 1; i++) {
-                    try {
-                        count++;
-                        TimeUnit.SECONDS.sleep(heightLevel / speed);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println(count);
-                    System.out.println(levels[i]);
-                }
+        try {
+            rs = rs - 1;
+            if (rs == currentPosition) {
                 openClose(waitingTime);
-                this.currentPosition = rs - 1;
+            } else {
+                if (rs > currentPosition) {
+                    for (int i = currentPosition; i < rs; i++) {
+                        TimeUnit.SECONDS.sleep(heightLevel / speed);
+                        System.out.println(levels[i]);
+                    }
+                    openClose(waitingTime);
+                    this.currentPosition = rs;
+                } else {
+                    for (int i = currentPosition; i > rs; i--) {
+                        System.out.println(levels[i]);
+                        TimeUnit.SECONDS.sleep(heightLevel / speed);
+                    }
+                    openClose(waitingTime);
+                    this.currentPosition = rs;
+                }
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,8 +1,7 @@
 package ru.job4j.multithreading.lift;
 
 /**
- * .
- *
+ * Запуск программы.
  * @author Hincu Andrei (andreih1981@gmail.com) by 05.01.18;
  * @version $Id$
  * @since 0.1
