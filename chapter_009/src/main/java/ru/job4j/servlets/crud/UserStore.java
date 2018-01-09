@@ -3,6 +3,13 @@ package ru.job4j.servlets.crud;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 08.01.2018.
  * @version $Id$.
@@ -11,12 +18,40 @@ import org.apache.log4j.Logger;
 public class UserStore {
 
     private static final Logger LOG = LogManager.getLogger(UserStore.class);
-    private static final UserStore instance = new UserStore();
+    private static final UserStore ISTANCE = new UserStore();
+    private Connection connection;
+    private String login;
+    private String password;
+    private String url;
+    private String file = "settings.properties";
 
     private UserStore() {
+        try {
+            initParam();
+            this.connection = DriverManager.getConnection(url, login, password);
+            LOG.debug("Соединение с бд установлено.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
+        }
+    }
+    private void initParam() {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(file)) {
+            Properties pr = new Properties();
+            pr.load(in);
+            this.url = pr.getProperty("db.url");
+            this.login = pr.getProperty("db.user");
+            this.password = pr.getProperty("db.password");
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
+        }
+    }
+    public static UserStore getIstance() {
+        return ISTANCE;
     }
 
-    public static UserStore getInstance() {
-        return instance;
+    public static void main(String[] args) {
+        getIstance();
     }
 }
