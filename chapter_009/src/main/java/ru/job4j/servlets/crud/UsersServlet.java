@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class UsersServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UsersServlet.class);
-
+    private final UserStore userStore = UserStore.getIstance();
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

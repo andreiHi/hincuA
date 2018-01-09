@@ -13,7 +13,39 @@ import java.util.Calendar;
 public class User {
     private static final Logger LOG = LogManager.getLogger(User.class);
     private  String name;
-    private String ogin;
+    private String login;
     private String email;
     private Calendar createDate;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
 }
