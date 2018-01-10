@@ -32,7 +32,6 @@ public class DB {
             System.out.println("Соединение с бд установлено.");
             createTables();
         } catch (SQLException e) {
-            e.printStackTrace();
             LOG.error("Connection ERROR", e);
         }
     }
@@ -49,7 +48,6 @@ public class DB {
             this.user = pr.getProperty("db.user");
             this.password = pr.getProperty("db.password");
         } catch (IOException e) {
-            e.printStackTrace();
             LOG.error(e.getMessage(), e);
         }
     }
@@ -76,14 +74,14 @@ public class DB {
     public long getLastTimeOfUpdate() {
         long dataMax = 0;
         try (final Statement st = this.connection.createStatement()) {
-            ResultSet rs = st.executeQuery(SqlQuery.SELECT_MAX_DATE);
-            if (rs.next()) {
-                if (rs.getTimestamp("max_date") != null) {
-                    dataMax = rs.getTimestamp("max_date").getTime();
+            try (final ResultSet rs = st.executeQuery(SqlQuery.SELECT_MAX_DATE)) {
+                if (rs.next()) {
+                    if (rs.getTimestamp("max_date") != null) {
+                        dataMax = rs.getTimestamp("max_date").getTime();
+                    }
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             LOG.error("Query error", e);
         }
         return dataMax;
@@ -103,7 +101,7 @@ public class DB {
             ps.setString(5, advert.getText());
             ps.setTimestamp(6, new Timestamp(advert.getPublicationDate().getTimeInMillis()));
             ps.setTimestamp(7, new Timestamp(advert.getDate().getTimeInMillis()));
-            try (ResultSet resultSet = ps.executeQuery()) {
+            try (final ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("add_advert");
                     advert.setId(id);
@@ -111,7 +109,6 @@ public class DB {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             LOG.error("Error when advert was add in db", e);
         }
     }

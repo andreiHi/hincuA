@@ -80,7 +80,6 @@ public class PageParser implements Runnable {
             String nextPageUrl = elements.last().getElementsByTag("b").next().attr("href");
             scanAllAdvertFromSqlRu(nextPageUrl, queue, calendar);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             LOG.error("Error during scanning", e);
         }
     }

@@ -176,7 +176,6 @@ public class Advert {
             try {
                 calendar.setTime(DATE_FORMAT.parse(data));
             } catch (ParseException e) {
-                e.printStackTrace();
                 LOG.error("Can not process the date", e);
             }
         }

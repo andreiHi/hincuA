@@ -64,7 +64,6 @@ public class AdvertScanner implements Runnable {
                     db.addNewAdvert(advert);
                 }
             } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
                 LOG.error("Error during ad processing", e);
             }
         } while (!adverts.isEmpty());
