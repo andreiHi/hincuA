@@ -2,6 +2,7 @@ package ru.job4j.multithreading.lift;
 
 import net.jcip.annotations.ThreadSafe;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 @ThreadSafe
 public class Lift implements Runnable {
+    private ArrayBlockingQueue<Integer> queue;
     private int level;
     private int heightLevel;
     private int speed;
@@ -24,7 +26,8 @@ public class Lift implements Runnable {
         return level;
     }
 
-    public Lift(String...param) {
+    public Lift(String[]param, ArrayBlockingQueue<Integer> q) {
+        this.queue = q;
         this.level       = Integer.parseInt(param[0]);
         this.heightLevel = Integer.parseInt(param[1]);
         this.speed       = Integer.parseInt(param[2]);
@@ -35,14 +38,20 @@ public class Lift implements Runnable {
     @Override
     public void run() {
         while (true) {
-            synchronized (this) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//            synchronized (this) {
+//                try {
+//                    this.wait();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            try {
+                int i = queue.take();
+                move(i);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            move(levelNeed);
+            //move(levelNeed);
         }
 
     }

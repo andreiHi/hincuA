@@ -6,6 +6,7 @@ import net.jcip.annotations.ThreadSafe;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * .
@@ -18,11 +19,14 @@ import java.io.InputStreamReader;
 public class ControlPanel implements Runnable {
     @GuardedBy("this")
     private final Lift lift;
+    private ArrayBlockingQueue<Integer>queue;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private String levelCall = "Введите этаж на котором человек вызывает лифт: ";
     private String callTarget = "Введите этаж на который необходимо переместиться: ";
-    public ControlPanel(Lift lift) {
+
+    public ControlPanel(Lift lift, ArrayBlockingQueue<Integer> queue) {
         this.lift = lift;
+        this.queue = queue;
     }
 
     @Override
