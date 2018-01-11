@@ -47,7 +47,6 @@ class TestLockEx {
             t.setName("Thread" + i);
             t.start();
         }
-
     }
 }
 
