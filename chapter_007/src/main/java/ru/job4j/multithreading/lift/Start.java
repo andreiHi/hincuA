@@ -19,13 +19,13 @@ public class Start {
             System.exit(0);
         }
         //очередь для запросов из подьезда
-        ArrayBlockingQueue<Integer> ext = new ArrayBlockingQueue<Integer>(5);
+        ArrayBlockingQueue<Integer> ext = new ArrayBlockingQueue<Integer>(Integer.parseInt(args[0]));
         //очередь для запросов из лифта
-        ArrayBlockingQueue<Integer> insaid = new ArrayBlockingQueue<Integer>(5);
-        Lift lift = new Lift(args[0], args[1], args[2], args[3], ext, insaid);
+        ArrayBlockingQueue<Integer> inside = new ArrayBlockingQueue<Integer>(Integer.parseInt(args[0]));
+        Lift lift = new Lift(args[0], args[1], args[2], args[3], ext, inside);
 
         new Thread(lift).start();
-
+        new Thread(new ControlPanel(ext, inside, args[0])).start();
 
     }
 

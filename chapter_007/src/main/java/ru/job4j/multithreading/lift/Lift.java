@@ -14,56 +14,46 @@ import java.util.concurrent.TimeUnit;
 @ThreadSafe
 public class Lift implements Runnable {
     private ArrayBlockingQueue<Integer> ext;
-    private ArrayBlockingQueue<Integer> insaid;
+    private ArrayBlockingQueue<Integer> inside;
     private int level;
     private int heightLevel;
     private int speed;
     private int waitingTime;
     private String[]levels;
     private int currentPosition;
-    private int levelNeed;
 
-    public Lift(String arg, String arg1, String arg2, String arg3, ArrayBlockingQueue<Integer> ext, ArrayBlockingQueue<Integer> insaid) {
-    this.ext = ext;
-    this.insaid = insaid;
-    this.level = Integer.parseInt(arg);
-    this.heightLevel = Integer.parseInt(arg1);
-    this.speed = Integer.parseInt(arg2);
-    this.waitingTime = Integer.parseInt(arg3);
+    public Lift(String arg, String arg1, String arg2, String arg3, ArrayBlockingQueue<Integer> ext, ArrayBlockingQueue<Integer> inside) {
+        this.ext = ext;
+        this.inside = inside;
+        this.level = Integer.parseInt(arg);
+        this.heightLevel = Integer.parseInt(arg1);
+        this.speed = Integer.parseInt(arg2);
+        this.waitingTime = Integer.parseInt(arg3);
+        init(level);
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-//    public Lift(String[]param, ArrayBlockingQueue<Integer> q) {
-//        this.queue = q;
-//        this.level       = Integer.parseInt(param[0]);
-//        this.heightLevel = Integer.parseInt(param[1]);
-//        this.speed       = Integer.parseInt(param[2]);
-//        this.waitingTime = Integer.parseInt(param[3]);
-//        init(level);
-//    }
-
+    /**
+     * Если очереди пусты лифт спит.
+     */
     @Override
     public void run() {
         while (true) {
-//            synchronized (this) {
-//                try {
-//                    this.wait();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
             try {
-                int i = ext.take();
-                move(i);
+                while (inside.isEmpty() && ext.isEmpty()) {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                }
+                if (!ext.isEmpty()) {
+                    int floor = ext.take();
+                    move(floor);
+                }
+                if (!inside.isEmpty()) {
+                    int floor = inside.take();
+                    move(floor);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //move(levelNeed);
         }
-
     }
 
     /**
@@ -72,12 +62,9 @@ public class Lift implements Runnable {
      */
     public void openClose(int waitingTime) {
         try {
-            synchronized (this) {
-                System.out.println("Лифт открыл двери.");
-                TimeUnit.SECONDS.sleep(waitingTime);
-                System.out.println("Лифт закрыл двери.");
-                this.notifyAll();
-            }
+            System.out.println("Лифт открыл двери.");
+            TimeUnit.SECONDS.sleep(waitingTime);
+            System.out.println("Лифт закрыл двери.");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -92,7 +79,6 @@ public class Lift implements Runnable {
         for (int i = 0; i < levels.length; i++) {
             levels[i] = String.format("Лифт проежает этаж %d", i + 1);
         }
-
     }
 
     /**
@@ -124,9 +110,5 @@ public class Lift implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setLevelNeed(int levelNeed) {
-        this.levelNeed = levelNeed;
     }
 }
