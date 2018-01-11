@@ -19,7 +19,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class ControlPanel implements Runnable {
     @GuardedBy("this")
     private final Lift lift;
-    private ArrayBlockingQueue<Integer>queue;
+    private ArrayBlockingQueue<Integer> queue;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private String levelCall = "Введите этаж на котором человек вызывает лифт: ";
     private String callTarget = "Введите этаж на который необходимо переместиться: ";

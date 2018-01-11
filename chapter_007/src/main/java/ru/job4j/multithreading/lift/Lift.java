@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
  */
 @ThreadSafe
 public class Lift implements Runnable {
-    private ArrayBlockingQueue<Integer> queue;
+    private ArrayBlockingQueue<Integer> ext;
+    private ArrayBlockingQueue<Integer> insaid;
     private int level;
     private int heightLevel;
     private int speed;
@@ -22,18 +23,27 @@ public class Lift implements Runnable {
     private int currentPosition;
     private int levelNeed;
 
+    public Lift(String arg, String arg1, String arg2, String arg3, ArrayBlockingQueue<Integer> ext, ArrayBlockingQueue<Integer> insaid) {
+    this.ext = ext;
+    this.insaid = insaid;
+    this.level = Integer.parseInt(arg);
+    this.heightLevel = Integer.parseInt(arg1);
+    this.speed = Integer.parseInt(arg2);
+    this.waitingTime = Integer.parseInt(arg3);
+    }
+
     public int getLevel() {
         return level;
     }
 
-    public Lift(String[]param, ArrayBlockingQueue<Integer> q) {
-        this.queue = q;
-        this.level       = Integer.parseInt(param[0]);
-        this.heightLevel = Integer.parseInt(param[1]);
-        this.speed       = Integer.parseInt(param[2]);
-        this.waitingTime = Integer.parseInt(param[3]);
-        init(level);
-    }
+//    public Lift(String[]param, ArrayBlockingQueue<Integer> q) {
+//        this.queue = q;
+//        this.level       = Integer.parseInt(param[0]);
+//        this.heightLevel = Integer.parseInt(param[1]);
+//        this.speed       = Integer.parseInt(param[2]);
+//        this.waitingTime = Integer.parseInt(param[3]);
+//        init(level);
+//    }
 
     @Override
     public void run() {
@@ -46,7 +56,7 @@ public class Lift implements Runnable {
 //                }
 //            }
             try {
-                int i = queue.take();
+                int i = ext.take();
                 move(i);
             } catch (InterruptedException e) {
                 e.printStackTrace();

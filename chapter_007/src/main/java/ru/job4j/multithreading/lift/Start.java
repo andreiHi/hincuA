@@ -10,11 +10,22 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class Start {
     public static void main(String[] args) {
-        ArrayBlockingQueue<Integer>queue = new ArrayBlockingQueue<Integer>(5);
-     Lift lift = new Lift(args, queue);
-     ControlPanel panel = new ControlPanel(lift, queue);
-     new Thread(lift).start();
-     new Thread(panel).start();
+        try {
+            if (args.length < 4) {
+                throw new Exception("Введены не все данные для старта");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        //очередь для запросов из подьезда
+        ArrayBlockingQueue<Integer> ext = new ArrayBlockingQueue<Integer>(5);
+        //очередь для запросов из лифта
+        ArrayBlockingQueue<Integer> insaid = new ArrayBlockingQueue<Integer>(5);
+        Lift lift = new Lift(args[0], args[1], args[2], args[3], ext, insaid);
+
+        new Thread(lift).start();
+
 
     }
 
