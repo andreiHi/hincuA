@@ -43,7 +43,7 @@ public class ControlPanel implements Input {
         }
         do {
            work = checkInsideOrOutside();
-        }while (work);
+        } while (work);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ControlPanel implements Input {
                         work = true;
                     }
                     break;
-                } else if(line.equals("0")) {
+                } else if (line.equals("0")) {
                     ext.put(0);
                     work = false;
                     break;

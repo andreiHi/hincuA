@@ -16,7 +16,7 @@ public class ImputForTest implements Input {
     private String[]answers;
     private int floor;
     private int count;
-    private String ln = System.getProperty("Line.separator");
+    private String ln = System.getProperty("line.separator");
 
     public ImputForTest(ArrayBlockingQueue<Integer> inside, ArrayBlockingQueue<Integer> ext, String args, String[]answers) {
         this.inside = inside;
@@ -46,7 +46,7 @@ public class ImputForTest implements Input {
                         work = true;
                     }
                     break;
-                } else if(line.equals("0")) {
+                } else if (line.equals("0")) {
                     ext.put(0);
                     work = false;
                     break;
@@ -78,6 +78,6 @@ public class ImputForTest implements Input {
         }
         do {
             work = checkInsideOrOutside();
-        }while (work);
+        } while (work);
     }
 }

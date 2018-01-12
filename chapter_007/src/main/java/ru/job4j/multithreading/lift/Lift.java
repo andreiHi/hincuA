@@ -73,6 +73,10 @@ public class Lift implements Runnable {
         }
     }
 
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
     /**
      * Медод инициализирует этажи здания в соответствии с полученными параметрами.
      * @param level колличество этажей.
