@@ -48,4 +48,21 @@ public class User {
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "name='"
+                + name
+                + '\''
+                + ", login='"
+                + login
+                + '\''
+                + ", email='"
+                + email
+                + '\''
+                + ", createDate="
+                + createDate.getTime()
+                + '}';
+    }
 }

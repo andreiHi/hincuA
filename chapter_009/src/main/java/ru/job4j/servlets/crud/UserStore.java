@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Properties;
 
 /**
@@ -28,11 +29,13 @@ public class UserStore {
     private UserStore() {
         try {
             initParam();
+            Class.forName("org.postgresql.Driver");
             this.connection = DriverManager.getConnection(url, login, password);
             LOG.debug("Соединение с бд установлено.");
         } catch (SQLException e) {
-            e.printStackTrace();
             LOG.error(e.getMessage(), e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
     private void initParam() {
@@ -43,7 +46,6 @@ public class UserStore {
             this.login = pr.getProperty("db.user");
             this.password = pr.getProperty("db.password");
         } catch (IOException e) {
-            e.printStackTrace();
             LOG.error(e.getMessage(), e);
         }
     }
@@ -52,6 +54,6 @@ public class UserStore {
     }
 
     public static void main(String[] args) {
-        getIstance();
+        System.out.println(Calendar.getInstance().getTime());
     }
 }
