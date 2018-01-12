@@ -9,6 +9,19 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @since 0.1
  */
 public class Start {
+    private Lift lift;
+    private Input input;
+
+    public Start(Lift lift, Input input) {
+        this.lift = lift;
+        this.input = input;
+    }
+
+    public void start() {
+        new Thread(this.lift).start();
+        new Thread(this.input).start();
+    }
+
     public static void main(String[] args) {
         try {
             if (args.length < 4) {
@@ -23,9 +36,12 @@ public class Start {
         //очередь для запросов из лифта
         ArrayBlockingQueue<Integer> inside = new ArrayBlockingQueue<Integer>(Integer.parseInt(args[0]));
         Lift lift = new Lift(args[0], args[1], args[2], args[3], ext, inside);
+        Input input = new ControlPanel(ext, inside, args[0]);
 
-        new Thread(lift).start();
-        new Thread(new ControlPanel(ext, inside, args[0])).start();
+        Start start = new Start(lift, input);
+        start.start();
+//        new Thread(lift).start();
+//        new Thread(new ControlPanel(ext, inside, args[0])).start();
 
     }
 

@@ -15,7 +15,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @since 0.1
  */
 @ThreadSafe
-public class ControlPanel implements Runnable {
+public class ControlPanel implements Input {
 
     private ArrayBlockingQueue<Integer> inside;
     private ArrayBlockingQueue<Integer> ext;
@@ -23,6 +23,7 @@ public class ControlPanel implements Runnable {
     private int floor;
     private static final String P = "P";
     private static final String L = "L";
+    private String ln = System.getProperty("line.separator");
 
 
     public ControlPanel(ArrayBlockingQueue<Integer> ext, ArrayBlockingQueue<Integer> inside, String args) {
@@ -33,27 +34,26 @@ public class ControlPanel implements Runnable {
 
     @Override
     public void run() {
-        int callLevel = askPerson("Введите этаж вызова: ");
+        boolean work;
+        int callLevel = askPerson("Введите этаж вызова или 0 для выхода из программы: ");
         try {
             ext.put(callLevel);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while (true) {
-            checkInsideOrOutside();
-        }
+        do {
+           work = checkInsideOrOutside();
+        }while (work);
     }
 
     /**
      * Метод запрашивает пользователя от куда будет осуществлятся ввод из лифта L или подъезда P
      * и добавляет запросы в соответствующие очереди.
      */
-    public void checkInsideOrOutside() {
-        System.out.println("Введите:"
-                                     + System.lineSeparator()
-                                     + "P если вызов из подъезда,"
-                                     + System.lineSeparator()
-                                     + "L если вызов из лифта: ");
+    @Override
+    public boolean checkInsideOrOutside() {
+        boolean work = false;
+        System.out.println(String.format("Введите: %s P если вызов из подъезда, %s L если вызов из лифта: ", ln, ln));
         while (true) {
             try {
                 String line = reader.readLine();
@@ -61,13 +61,19 @@ public class ControlPanel implements Runnable {
                     int callLevel = askPerson("Введите этаж вызова: ");
                     if (!ext.contains(callLevel)) {
                         ext.put(callLevel);
+                        work = true;
                     }
                     break;
                 } else if (line.equalsIgnoreCase(L)) {
                     int callLevel = askPerson("Введите этаж на который хотите переместиться :");
                     if (!inside.contains(callLevel)) {
                         inside.put(callLevel);
+                        work = true;
                     }
+                    break;
+                } else if(line.equals("0")) {
+                    ext.put(0);
+                    work = false;
                     break;
                 } else {
                     System.out.println("Введенные данные не коректны, повторите ввод: ");
@@ -76,12 +82,14 @@ public class ControlPanel implements Runnable {
                 e.printStackTrace();
             }
         }
+        return work;
     }
     /**
      * Метод для обшения с пользователем.
      * @param s вопрос пользователю.
      * @return ответ пользователя.
      */
+    @Override
     public int askPerson(String s) {
         int level;
         System.out.println(s);

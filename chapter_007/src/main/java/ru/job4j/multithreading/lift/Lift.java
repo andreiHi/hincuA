@@ -44,6 +44,9 @@ public class Lift implements Runnable {
                 }
                 if (!ext.isEmpty()) {
                     int floor = ext.take();
+                    if (floor == 0) {
+                        break;
+                    }
                     move(floor);
                 }
                 if (!inside.isEmpty()) {
