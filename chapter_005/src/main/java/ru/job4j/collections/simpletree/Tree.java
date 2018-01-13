@@ -25,6 +25,9 @@ public class Tree<T extends Comparable<T>> implements SimpleTree<T> {
     public boolean add(T parent, T child) {
         boolean found = false;
         if (!findBy(child).isPresent()) {
+            if (!findBy(parent).isPresent()) {
+                this.root.add(new Node<>(parent));
+            }
           Node<T> p =  findBy(parent).get();
           p.add(new Node<>(child));
             found = true;

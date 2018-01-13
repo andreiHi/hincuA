@@ -2,8 +2,6 @@ package ru.job4j.collections.simpletree;
 
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
