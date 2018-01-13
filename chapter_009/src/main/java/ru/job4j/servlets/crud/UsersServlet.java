@@ -18,7 +18,7 @@ import java.util.Calendar;
  */
 public class UsersServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UsersServlet.class);
-    private final UserStore userStore = UserStore.getIstance();
+    private final UserStore userStore = UserStore.getInstance();
     private User user;
     /**
      * обновление данных пользователя.
@@ -74,6 +74,9 @@ public class UsersServlet extends HttpServlet {
         this.user.setName(req.getParameter("name"));
         this.user.setEmail(req.getParameter("email"));
         this.user.setCreateDate(Calendar.getInstance());
+       // userStore.addNewUser(this.user);
         doGet(req, resp);
+        this.user = null;
+
     }
 }
