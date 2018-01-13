@@ -52,17 +52,17 @@ public class User {
     @Override
     public String toString() {
         return "User{"
-                + "name='"
+                + "name = '"
                 + name
                 + '\''
-                + ", login='"
+                + ", login = '"
                 + login
                 + '\''
-                + ", email='"
+                + ", email = '"
                 + email
                 + '\''
-                + ", createDate="
-                + createDate.getTime()
+                + ", createDate = "
+                + createDate.getTime().toString()
                 + '}';
     }
 }

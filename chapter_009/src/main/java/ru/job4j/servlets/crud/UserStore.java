@@ -57,10 +57,10 @@ public class UserStore {
         return INSTANCE;
     }
 
-    public static void main(String[] args) {
-        System.out.println(Calendar.getInstance().getTime());
-    }
-
+    /**
+     * Метод добавляет нового пользователя в бд.
+     * @param user пользователь.
+     */
     public void addNewUser(User user) {
         try (PreparedStatement ps = this.connection.prepareStatement(SQLquery.ADD_NEW_USER)) {
             ps.setString(1, user.getLogin());
@@ -73,4 +73,66 @@ public class UserStore {
         }
     }
 
+    /**
+     * Метод находит пользователя по логину.
+     * @param login логин.
+     * @return пользователь или null если такого нет в бд.
+     */
+    public User getUserByLogin(String login) {
+        User user = null;
+        try (PreparedStatement ps = this.connection.prepareStatement(SQLquery.GET_USER_BY_LOGIN)) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    user = new User();
+                    user.setName(rs.getString("name"));
+                    user.setLogin(rs.getString("login"));
+                    user.setEmail(rs.getString("email"));
+                    long time = rs.getTimestamp("date").getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(time);
+                    user.setCreateDate(calendar);
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return  user;
+    }
+
+    /**
+     * Метод обновляет данные пользователя.
+     * @param oldLogin логин до обновления.
+     * @param user пользователь с обновленными данными.
+     * @return 1 если пользователь обновлен или 0 если такого нет в бд.
+     **/
+    public int updateUser(String oldLogin, User user) {
+        int i = 0;
+        try (PreparedStatement ps = this.connection.prepareStatement(SQLquery.UPDATE_USER)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getLogin());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, oldLogin);
+            i = ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return i;
+    }
+
+    /**
+     * Метод удаляет данные пользователя из бд.
+     * @param login логин.
+     * @return 0 если такого нет в бд или 1 если данные удалены.
+     */
+    public int deleteUser(String login) {
+        int i = 0;
+        try (PreparedStatement ps = this.connection.prepareStatement(SQLquery.DELETE_USER)) {
+            ps.setString(1, login);
+            i = ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return i;
+    }
 }

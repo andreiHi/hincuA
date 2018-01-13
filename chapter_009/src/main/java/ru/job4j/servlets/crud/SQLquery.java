@@ -16,5 +16,9 @@ public class SQLquery {
             + "  email VARCHAR(100),\n"
             + "  date TIMESTAMP\n"
             + ")";
-    public static final String ADD_NEW_USER ="INSERT INTO users (login, name, email, date) VALUES (?, ?, ?, ?)";
+    public static final String ADD_NEW_USER = "INSERT INTO users (login, name, email, date) VALUES (?, ?, ?, ?)";
+    public static final String GET_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
+    public static final String UPDATE_USER = "UPDATE users SET name = ?, login = ?, email = ? WHERE login = ?";
+    public static final String DELETE_USER = "DELETE FROM users WHERE login = ?";
+
 }

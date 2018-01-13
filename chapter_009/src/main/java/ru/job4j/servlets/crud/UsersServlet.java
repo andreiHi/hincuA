@@ -29,7 +29,21 @@ public class UsersServlet extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.setContentType("text/html");
+        this.user = new User();
+        String oldLogin = req.getParameter("login");
+        this.user.setName(req.getParameter("newName"));
+        this.user.setLogin(req.getParameter("newLogin"));
+        this.user.setEmail(req.getParameter("newEmail"));
+        int i = this.userStore.updateUser(oldLogin, user);
+        PrintWriter pw = new PrintWriter(resp.getOutputStream());
+        if (i > 0) {
+            pw.append("User was update successful.");
+        } else {
+            pw.append("User who's this login das not exist.");
+        }
+        pw.flush();
+        this.user = null;
     }
 
     /**
@@ -41,7 +55,16 @@ public class UsersServlet extends HttpServlet {
      */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.setContentType("text/html");
+        String login = req.getParameter("login");
+        int i = this.userStore.deleteUser(login);
+        PrintWriter pw = new PrintWriter(resp.getOutputStream());
+        if (i > 0) {
+            pw.append("User was delete successful.");
+        } else {
+            pw.append("User who's this login das not exist.");
+        }
+        pw.flush();
     }
 
     /**
@@ -54,9 +77,18 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
+        String login = req.getParameter("login");
+        if (login != null) {
+            this.user = this.userStore.getUserByLogin(login);
+        }
         PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
-        printWriter.append(user.toString());
+        if (this.user != null) {
+            printWriter.append(user.toString());
+        } else {
+            printWriter.append("User with this login does not exist");
+        }
         printWriter.flush();
+        this.user = null;
     }
 
     /**
@@ -74,9 +106,10 @@ public class UsersServlet extends HttpServlet {
         this.user.setName(req.getParameter("name"));
         this.user.setEmail(req.getParameter("email"));
         this.user.setCreateDate(Calendar.getInstance());
-       // userStore.addNewUser(this.user);
-        doGet(req, resp);
+        userStore.addNewUser(this.user);
         this.user = null;
-
+        PrintWriter pw = new PrintWriter(resp.getOutputStream());
+        pw.append("User was saved successful");
+        pw.flush();
     }
 }
