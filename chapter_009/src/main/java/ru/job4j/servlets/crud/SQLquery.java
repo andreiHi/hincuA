@@ -20,5 +20,6 @@ public class SQLquery {
     public static final String GET_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
     public static final String UPDATE_USER = "UPDATE users SET name = ?, login = ?, email = ? WHERE login = ?";
     public static final String DELETE_USER = "DELETE FROM users WHERE login = ?";
+    public static final String SELECT_ALL_USERS = "Select * FROM users";
 
 }

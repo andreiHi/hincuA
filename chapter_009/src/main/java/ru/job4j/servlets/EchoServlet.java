@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,13 +20,38 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class EchoServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(EchoServlet.class);
-    List<String> users = new CopyOnWriteArrayList<String>();
+    private List<String> users = new CopyOnWriteArrayList<String>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append("hello world." + this.users);
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+
+        StringBuilder sb = new StringBuilder("<table>");
+        for (String login : this.users) {
+            sb.append("<tr><td>"
+                    + login
+                    + "</td></tr>");
+        }
+        sb.append("</table>");
+        writer.append("<!DOCTYPE html>"
+                + "<html lang=\"en\">"
+                + "<head>"
+                + "    <meta charset=\"UTF-8\">"
+                + "    <title>My First Web Page!</title>"
+                + "</head>"
+                + "<body>"
+                + "<h1>Хранилище пользователей</h1>"
+                + "<form action='"
+                + req.getContextPath()
+                + "/echo' method='post'>"
+                + "Name : <input type='text' name='login'>"
+                + "<input type='submit'>"
+                + "</form>"
+                + "<br/>"
+                + sb.toString()
+                + "</body>"
+                + "</html>");
         writer.flush();
     }
 

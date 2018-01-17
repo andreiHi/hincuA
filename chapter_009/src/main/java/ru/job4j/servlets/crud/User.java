@@ -3,6 +3,7 @@ package ru.job4j.servlets.crud;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -51,18 +52,19 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{"
-                + "name = '"
+        return "User "
+                + "Name = '"
                 + name
                 + '\''
-                + ", login = '"
+                + ", Login = '"
                 + login
                 + '\''
-                + ", email = '"
+                + ", Email = '"
                 + email
                 + '\''
-                + ", createDate = "
-                + createDate.getTime().toString()
-                + '}';
+                + ", Date = "
+                + new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
+                //+ createDate.getTime().toString()
+
     }
 }
