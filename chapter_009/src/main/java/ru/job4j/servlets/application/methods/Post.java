@@ -69,6 +69,8 @@ public class Post extends HttpServlet {
                     + "    <title>Add New User</title>"
                     + "</head>"
                     + "<body>"
+                    + " <h2><a href='"+ req.getContextPath() + "'>Назад.</a></h2>"
+                    +"<br/>"
                     + "<h3>Пользователь был успешно добавлен</h3>"
                     + "</body>"
                     + "</html>");
