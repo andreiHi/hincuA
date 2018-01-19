@@ -24,7 +24,28 @@ public class Put extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-        writer.append("hello world");
+        writer.append("<!DOCTYPE html>" +
+                "<html lang='en'>" +
+                "<head>" +
+                "    <meta charset='UTF-8'>" +
+                "    <title>Update</title>" +
+                " <h1 align=center>Обновление данных пользователя.</a></h1>" +
+                "</head>" +
+                "<body>" +
+                "<h3><form action='' method='PUT' align = center>" +
+                "Old  Login : <input type='text' name='oldlogin' value ='"+ req.getParameter("login")+"' disabled>"+
+                "<br/>"+
+                "New Login : <input type='text' name='login'>"+
+                "<br/>"+
+                "New Name  : <input type='text' name='name'>"+
+                "<br/>"+
+                "New Email : <input type='text' name='email'>"+
+                "<br/>"+
+                "<button type='submit'  formmethod=\"PUT\">Update</button>"+
+                "</form></h3>" +
+
+                "</body>" +
+                "</html>");
         writer.flush();
     }
 

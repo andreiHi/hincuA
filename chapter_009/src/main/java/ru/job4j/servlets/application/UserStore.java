@@ -8,10 +8,10 @@ import ru.job4j.servlets.crud.User;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -46,18 +46,6 @@ public class UserStore {
         return add;
     }
 
-//    private static final Object SYNC = new Object();
-//    private static volatile UserStore userStore;
-//    public static UserStore getUserStore() {
-//        if (userStore == null) {
-//            synchronized (SYNC) {
-//                if (userStore == null) {
-//                    userStore = new UserStore();
-//                }
-//            }
-//        }
-//        return userStore;
-//    }
 
     private static class UserStoreHolder {
         private static final UserStore INSTANCE = new UserStore();
@@ -83,8 +71,26 @@ public class UserStore {
             LOG.error(e.getMessage(), e);
         }
     }
-
-    public BasicDataSource getDataSource() {
-        return dataSource;
+    public List<User> selectUsers() {
+        List<User>  list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(SQLquery.SELECT_ALL_USERS)) {
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        User user = new User();
+                        user.setName(rs.getString("name"));
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(rs.getTimestamp("date").getTime());
+                        user.setCreateDate(calendar);
+                        user.setLogin(rs.getString("login"));
+                        user.setEmail(rs.getString("email"));
+                        list.add(user);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return list;
     }
 }
