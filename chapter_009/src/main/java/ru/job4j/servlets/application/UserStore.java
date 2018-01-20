@@ -25,11 +25,15 @@ public class UserStore {
     private String file = "settings.properties";
     private Properties pr;
     private BasicDataSource dataSource;
-
     private UserStore() {
         initParam();
     }
 
+    /**
+     * Метод добавляет нового пользователя.
+     * @param user пользователь.
+     * @return успешно или нет.
+     */
     public boolean addNewUser(User user) {
         boolean add = false;
         try (final Connection connection = dataSource.getConnection()) {
@@ -46,6 +50,11 @@ public class UserStore {
         return add;
     }
 
+    /**
+     * Метод обновляет данные пользователя.
+     * @param user пользователь с новыми данными.
+     * @param oldLogin логин обновляемого пользователя.
+     */
     public void update(User user, String oldLogin) {
         try (final Connection connection = this.dataSource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(SQLquery.UPDATE_USER)) {
@@ -53,6 +62,21 @@ public class UserStore {
                 ps.setString(2, user.getName());
                 ps.setString(3, user.getEmail());
                 ps.setString(4, oldLogin);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+           LOG.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Метод удалят пользователя.
+     * @param login логин пользователя.
+     */
+    public void deleteUser(String login) {
+        try (final Connection connection = this.dataSource.getConnection()) {
+            try (final PreparedStatement ps = connection.prepareStatement(SQLquery.DELETE_USER)) {
+                ps.setString(1, login);
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
@@ -85,6 +109,11 @@ public class UserStore {
             LOG.error(e.getMessage(), e);
         }
     }
+
+    /**
+     * Метод получения всех пользователей.
+     * @return лит пользователей.
+     */
     public List<User> selectUsers() {
         List<User>  list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {

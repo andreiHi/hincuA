@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
 
 /**
  * Добавление нового пользователя.
@@ -39,7 +38,7 @@ public class Post extends HttpServlet {
                 + "<h1 align=center>Добавление нового пользователя.</h1>"
                 + "<h3><form action='"
                 + req.getContextPath()
-                + "/new' method='post' align=center>"
+                + "/new' method='post' align='center'>"
                 + "Name :  <input type='text' name='name' placeholder='Name'><br>"
                 + "Login : <input type='text' name='login' placeholder='Login'><br>"
                 + "E-mail: <input type='email' name='email' placeholder='Email' autocomplete='off'><br>"

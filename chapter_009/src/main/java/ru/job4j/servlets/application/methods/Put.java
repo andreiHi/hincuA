@@ -1,7 +1,5 @@
 package ru.job4j.servlets.application.methods;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import ru.job4j.servlets.application.UserStore;
 import ru.job4j.servlets.crud.User;
 
@@ -20,7 +18,6 @@ import java.io.PrintWriter;
  * @since 0.1.
  */
 public class Put extends HttpServlet {
-    private static final Logger LOG = LogManager.getLogger(Put.class);
     private static UserStore userStore = UserStore.getInstance();
 
     @Override
@@ -36,7 +33,9 @@ public class Put extends HttpServlet {
                 + " <h1 align=center>Обновление данных пользователя.</a></h1>"
                 + "</head>"
                 + "<body>"
-                + "<h3><form action='"+req.getContextPath()+"/edit' method='post' align = center>"
+                + "<h3><form action='"
+                + req.getContextPath()
+                + "/edit' method='post' align = center>"
                 + "Old  Login : <input type='text' name='oldlogin' value ='"
                 + req.getParameter("login")
                 + "'>"

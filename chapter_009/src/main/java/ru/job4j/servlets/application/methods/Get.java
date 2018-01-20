@@ -58,7 +58,7 @@ public class Get extends HttpServlet {
                     + " />"
                     + "<button type='submit'>Update</button>"
                     + "</form>"
-                    +"</td>"
+                    + "</td>"
             );
             sb.append("<td>"
                     + "<form action='"
