@@ -18,6 +18,16 @@ public class User {
     private String email;
     private Calendar createDate;
 
+    public User() {
+    }
+
+    public User(String login, String name, String email) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.createDate = Calendar.getInstance();
+    }
+
     public String getName() {
         return name;
     }
@@ -64,7 +74,7 @@ public class User {
                 + '\''
                 + ", Date = "
                 + new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
-                //+ createDate.getTime().toString()
+        //+ createDate.getTime().toString()
 
     }
 }

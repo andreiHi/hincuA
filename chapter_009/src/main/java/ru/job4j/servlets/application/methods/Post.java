@@ -63,14 +63,10 @@ public class Post extends HttpServlet {
         if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
             doGet(req, resp);
         } else {
-            User user  = new User();
-            user.setLogin(login);
-            user.setName(name);
-            user.setEmail(email);
-            user.setCreateDate(Calendar.getInstance());
+            User user  = new User(login, name, email);
             boolean add = userStore.addNewUser(user);
-            PrintWriter writer = resp.getWriter();
             if (add) {
+                PrintWriter writer = resp.getWriter();
                 writer.append("<!DOCTYPE html>"
                         + "<html lang='en'>"
                         + "<head>"
@@ -85,8 +81,8 @@ public class Post extends HttpServlet {
                         + "<h3>Пользователь был успешно добавлен</h3>"
                         + "</body>"
                         + "</html>");
+                writer.flush();
             }
-            writer.flush();
         }
     }
 }

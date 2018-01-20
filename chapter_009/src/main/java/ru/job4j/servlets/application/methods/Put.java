@@ -2,6 +2,8 @@ package ru.job4j.servlets.application.methods;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ru.job4j.servlets.application.UserStore;
+import ru.job4j.servlets.crud.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,41 +21,69 @@ import java.io.PrintWriter;
  */
 public class Put extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(Put.class);
+    private static UserStore userStore = UserStore.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
+        req.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-        writer.append("<!DOCTYPE html>" +
-                "<html lang='en'>" +
-                "<head>" +
-                "    <meta charset='UTF-8'>" +
-                "    <title>Update</title>" +
-                " <h1 align=center>Обновление данных пользователя.</a></h1>" +
-                "</head>" +
-                "<body>" +
-                "<h3><form action='' method='PUT' align = center>" +
-                "Old  Login : <input type='text' name='oldlogin' value ='"+ req.getParameter("login")+"' disabled>"+
-                "<br/>"+
-                "New Login : <input type='text' name='login'>"+
-                "<br/>"+
-                "New Name  : <input type='text' name='name'>"+
-                "<br/>"+
-                "New Email : <input type='text' name='email'>"+
-                "<br/>"+
-                "<button type='submit'  formmethod=\"PUT\">Update</button>"+
-                "</form></h3>" +
-
-                "</body>" +
-                "</html>");
+        writer.append("<!DOCTYPE html>"
+                + "<html lang='en'>"
+                + "<head>"
+                + "    <meta charset='UTF-8'>"
+                + "    <title>Update</title>"
+                + " <h1 align=center>Обновление данных пользователя.</a></h1>"
+                + "</head>"
+                + "<body>"
+                + "<h3><form action='"+req.getContextPath()+"/edit' method='post' align = center>"
+                + "Old  Login : <input type='text' name='oldlogin' value ='"
+                + req.getParameter("login")
+                + "'>"
+                + "<br/>"
+                + "New Login : <input type='text' name='login'>"
+                + "<br/>"
+                + "New Name  : <input type='text' name='name'>"
+                + "<br/>"
+                + "New Email : <input type='text' name='email'>"
+                + "<br/>"
+                + "<button type='submit'>Update</button>"
+                + "</form></h3>"
+                + "</body>"
+                + "</html>");
         writer.flush();
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
+        req.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-        writer.append("hello world");
-        writer.flush();
+        String login = req.getParameter("login");
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String oldLogin = req.getParameter("oldlogin");
+        if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
+            doGet(req, resp);
+        } else {
+            User user = new User(login, name, email);
+            userStore.update(user, oldLogin);
+            writer.append("<!DOCTYPE html>"
+                    + "<html lang='en'>"
+                    + "<head>"
+                    + "    <meta charset='UTF-8'>"
+                    + "    <title>Update User</title>"
+                    + "</head>"
+                    + "<body>"
+                    + " <h2><a href='"
+                    + req.getContextPath()
+                    + "/users'>Назад.</a></h2>"
+                    + "<br/>"
+                    + "<h3>Данные пользователя обновлены.</h3>"
+                    + "</body>"
+                    + "</html>");
+            writer.flush();
+        }
+
     }
 }

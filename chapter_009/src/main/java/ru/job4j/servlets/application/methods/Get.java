@@ -50,8 +50,12 @@ public class Get extends HttpServlet {
                     + new SimpleDateFormat("dd-MM-YYYY").format(user.getCreateDate().getTime())
                     + "</td>");
             sb.append("<td>"
-                    + "<form action='" + req.getContextPath() + "/edit' method='PUT'>"
-                    + "<input type='hidden' name='login' value=" + user.getLogin() + " />"
+                    + "<form action='"
+                    + req.getContextPath()
+                    + "/edit'>"
+                    + "<input type='hidden' name='login' value="
+                    + user.getLogin()
+                    + " />"
                     + "<button type='submit'>Update</button>"
                     + "</form>"
                     +"</td>"
@@ -59,7 +63,10 @@ public class Get extends HttpServlet {
             sb.append("<td>"
                     + "<form action='"
                     + req.getContextPath()
-                    + "/delete' method='delete'>"
+                    + "/delete'>"
+                    + "<input type='hidden' name='login' value="
+                    + user.getLogin()
+                    + " />"
                     + "<button type='submit'>Delete</button>"
                     + "</form>");
             sb.append("</td></tr>");

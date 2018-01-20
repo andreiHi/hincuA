@@ -41,9 +41,23 @@ public class UserStore {
                 add = ps.executeUpdate() > 0;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return add;
+    }
+
+    public void update(User user, String oldLogin) {
+        try (final Connection connection = this.dataSource.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(SQLquery.UPDATE_USER)) {
+                ps.setString(1, user.getLogin());
+                ps.setString(2, user.getName());
+                ps.setString(3, user.getEmail());
+                ps.setString(4, oldLogin);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+           LOG.error(e.getMessage(), e);
+        }
     }
 
 
