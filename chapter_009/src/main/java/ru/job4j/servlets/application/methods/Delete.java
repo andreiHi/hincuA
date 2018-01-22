@@ -68,6 +68,7 @@ public class Delete extends HttpServlet {
                 + "                <button type='submit'>Yes</button>"
                 + "            </form>"
                 + "        </td>"
+                + "<td>"
                 + "            <form  action='"
                 + req.getContextPath()
                 + "/users' >"

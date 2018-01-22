@@ -17,6 +17,16 @@ public class User {
     private String login;
     private String email;
     private Calendar createDate;
+    private String date;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public User() {
     }
@@ -26,6 +36,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.createDate = Calendar.getInstance();
+        this.date = new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
     }
 
     public String getName() {
@@ -56,8 +67,13 @@ public class User {
         return createDate;
     }
 
+    public String getDate() {
+        return date;
+    }
+
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
+        this.date = new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
     }
 
     @Override
@@ -73,7 +89,7 @@ public class User {
                 + email
                 + '\''
                 + ", Date = "
-                + new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
+                + date;
         //+ createDate.getTime().toString()
 
     }

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import ru.job4j.servlets.application.UserStore;
 import ru.job4j.servlets.crud.User;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,27 +28,30 @@ public class Post extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
-        PrintWriter writer = resp.getWriter();
-        writer.append("<!DOCTYPE html>"
-                + "<html lang='en'>"
-                + "<head>"
-                + "    <meta charset='UTF-8'>"
-                + "    <title>Title</title>"
-                + "</head>"
-                + "<body>"
-                + "<h1 align=center>Добавление нового пользователя.</h1>"
-                + "<h3><form action='"
-                + req.getContextPath()
-                + "/new' method='post' align='center'>"
-                + "Name :  <input type='text' name='name' placeholder='Name'><br>"
-                + "Login : <input type='text' name='login' placeholder='Login'><br>"
-                + "E-mail: <input type='email' name='email' placeholder='Email' autocomplete='off'><br>"
-                + "<button type='submit'>Добавить</button>"
-                + "</form><h3>"
-                + "</body>"
-                + "</html>");
-
-        writer.flush();
+        RequestDispatcher dispatcher = req.getRequestDispatcher("userForm.jsp");
+        req.setAttribute("user", null);
+        dispatcher.forward(req, resp);
+//        PrintWriter writer = resp.getWriter();
+//        writer.append("<!DOCTYPE html>"
+//                + "<html lang='en'>"
+//                + "<head>"
+//                + "    <meta charset='UTF-8'>"
+//                + "    <title>Title</title>"
+//                + "</head>"
+//                + "<body>"
+//                + "<h1 align=center>Добавление нового пользователя.</h1>"
+//                + "<h3><form action='"
+//                + req.getContextPath()
+//                + "/new' method='post' align='center'>"
+//                + "Name :  <input type='text' name='name' placeholder='Name'><br>"
+//                + "Login : <input type='text' name='login' placeholder='Login'><br>"
+//                + "E-mail: <input type='email' name='email' placeholder='Email' autocomplete='off'><br>"
+//                + "<button type='submit'>Добавить</button>"
+//                + "</form><h3>"
+//                + "</body>"
+//                + "</html>");
+//
+//        writer.flush();
     }
 
     @Override
@@ -55,7 +59,7 @@ public class Post extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
-        String login = req.getParameter("login");
+        String login = req.getParameter("newLogin");
         String name = req.getParameter("name");
         String email = req.getParameter("email");
 

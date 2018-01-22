@@ -84,6 +84,30 @@ public class UserStore {
         }
     }
 
+    public User getUser(String login) {
+        User user = null;
+        try (Connection connection = this.dataSource.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(SQLquery.GET_USER_BY_LOGIN)) {
+                ps.setString(1, login);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        user = new User();
+                        user.setId(rs.getString("id"));
+                        user.setLogin(rs.getString("login"));
+                        user.setName(rs.getString("name"));
+                        user.setEmail(rs.getString("email"));
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(rs.getTimestamp("date").getTime());
+                        user.setCreateDate(calendar);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
 
     private static class UserStoreHolder {
         private static final UserStore INSTANCE = new UserStore();
@@ -121,6 +145,7 @@ public class UserStore {
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
                         User user = new User();
+                        user.setId(rs.getString("id"));
                         user.setName(rs.getString("name"));
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(rs.getTimestamp("date").getTime());
