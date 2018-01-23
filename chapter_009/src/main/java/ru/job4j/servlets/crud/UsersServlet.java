@@ -112,4 +112,9 @@ public class UsersServlet extends HttpServlet {
         pw.append("User was saved successful");
         pw.flush();
     }
+
+    @Override
+    public void destroy() {
+        this.userStore.close();
+    }
 }

@@ -135,4 +135,20 @@ public class UserStore {
         }
         return i;
     }
+
+    public void close() {
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                   LOG.error(e.getMessage(), e);
+                }
+            }
+        }
+    }
 }
