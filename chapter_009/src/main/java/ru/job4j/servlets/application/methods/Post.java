@@ -1,7 +1,5 @@
 package ru.job4j.servlets.application.methods;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import ru.job4j.servlets.application.UserStore;
 import ru.job4j.servlets.crud.User;
 
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Добавление нового пользователя.
@@ -20,72 +17,32 @@ import java.io.PrintWriter;
  * @since 0.1.
  */
 public class Post extends HttpServlet {
-    private static final Logger LOG = LogManager.getLogger(Post.class);
     private  final UserStore userStore = UserStore.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        resp.setCharacterEncoding("UTF-8");
-        req.setCharacterEncoding("UTF-8");
-        RequestDispatcher dispatcher = req.getRequestDispatcher("userForm.jsp");
-        req.setAttribute("user", null);
-        dispatcher.forward(req, resp);
-//        PrintWriter writer = resp.getWriter();
-//        writer.append("<!DOCTYPE html>"
-//                + "<html lang='en'>"
-//                + "<head>"
-//                + "    <meta charset='UTF-8'>"
-//                + "    <title>Title</title>"
-//                + "</head>"
-//                + "<body>"
-//                + "<h1 align=center>Добавление нового пользователя.</h1>"
-//                + "<h3><form action='"
-//                + req.getContextPath()
-//                + "/new' method='post' align='center'>"
-//                + "Name :  <input type='text' name='name' placeholder='Name'><br>"
-//                + "Login : <input type='text' name='login' placeholder='Login'><br>"
-//                + "E-mail: <input type='email' name='email' placeholder='Email' autocomplete='off'><br>"
-//                + "<button type='submit'>Добавить</button>"
-//                + "</form><h3>"
-//                + "</body>"
-//                + "</html>");
-//
-//        writer.flush();
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        resp.setCharacterEncoding("UTF-8");
-        req.setCharacterEncoding("UTF-8");
         String login = req.getParameter("newLogin");
         String name = req.getParameter("name");
         String email = req.getParameter("email");
-
+        req.setAttribute("method", "add");
         if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
-            doGet(req, resp);
+            req.setAttribute("state", "empty");
         } else {
-            User user  = new User(login, name, email);
-            boolean add = userStore.addNewUser(user);
-            if (add) {
-                PrintWriter writer = resp.getWriter();
-                writer.append("<!DOCTYPE html>"
-                        + "<html lang='en'>"
-                        + "<head>"
-                        + "    <meta charset='UTF-8'>"
-                        + "    <title>Add New User</title>"
-                        + "</head>"
-                        + "<body>"
-                        + " <h2><a href='"
-                        + req.getContextPath()
-                        + "/users'>Назад.</a></h2>"
-                        + "<br/>"
-                        + "<h3>Пользователь был успешно добавлен</h3>"
-                        + "</body>"
-                        + "</html>");
-                writer.flush();
+            User user = this.userStore.getUser(login);
+            if (user != null) {
+                req.setAttribute("state", "exist");
+            } else {
+                user  = new User(login, name, email);
+                this.userStore.addNewUser(user);
+                req.setAttribute("state", "success");
             }
         }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("responsePage.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        userStore.close();
     }
 }

@@ -4,31 +4,33 @@
 <head>
     <title>UserForm</title>
 </head>
-<body style="background: #8d8d8d">
-<%!User user;%>
+<body>
 <%!String login = "";%>
 <%!String name = "";%>
 <%!String email = "";%>
-<%--<% User user = (User) request.getAttribute("user");%>--%>
-<%if ((user = (User) request.getAttribute("user"))==null){
+<%!String forward = "";%>
+
+<%if (request.getParameter("update") != null){
+    login=request.getParameter("login");
+    name=request.getParameter("name");
+    email=request.getParameter("email");
+    forward = request.getContextPath()+"/edit";
+%>
+<h1 align="center">Обновление данных пользователя.</h1>
+
+<%} else {
+    forward = request.getContextPath()+"/new";
 %>
 <h1 align="center">Добавление нового пользователя.</h1>
-<%} else {
-    login = user.getLogin();
-    name=user.getName();
-    email=user.getEmail();
-%>
 
-<h1 align="center">Обновление пользователя.</h1>
 <%}%>
 
-<form action="" method="post">
+<form action="<%=forward%>" method="post">
 
 <table style="border: 1px solid black;" cellpadding="3" cellspacing="1" align="center" border="1">
     <tr>
         <th>Login</th>
         <td><input type="text" name="newLogin" value="<%=login%>"
-                   <%--<%if (user!=null)%>value="<%${user.getName()}%>"--%>
                    size="45"/></td>
     </tr>
     <tr>
@@ -41,10 +43,16 @@
     </tr>
     <tr>
         <td colspan="2" align="center">
-        <input type="submit" value="Save"<%user=null;%>>
+            <input type="hidden" name="oldLogin" value="<%=request.getParameter("login")%>">
+        <input type="submit" value="Save">
         </td>
     </tr>
 </table>
 </form>
 </body>
+<%
+login = "";
+name = "";
+email ="";
+%>
 </html>

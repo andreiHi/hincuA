@@ -89,4 +89,9 @@ public class Get extends HttpServlet {
         writer.flush();
         list.clear();
     }
+
+    @Override
+    public void destroy() {
+        userStore.close();
+    }
 }

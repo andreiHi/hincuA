@@ -58,8 +58,8 @@ public class UserStore {
     public void update(User user, String oldLogin) {
         try (final Connection connection = this.dataSource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(SQLquery.UPDATE_USER)) {
-                ps.setString(1, user.getLogin());
-                ps.setString(2, user.getName());
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getLogin());
                 ps.setString(3, user.getEmail());
                 ps.setString(4, oldLogin);
                 ps.executeUpdate();
@@ -106,6 +106,14 @@ public class UserStore {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public void close() {
+        try {
+            dataSource.close();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
 

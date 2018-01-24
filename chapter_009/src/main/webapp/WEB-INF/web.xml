@@ -55,4 +55,13 @@
         <servlet-name>Post</servlet-name>
         <url-pattern>/new</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ForwardServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.application.methods.ForwardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ForwardServlet</servlet-name>
+        <url-pattern>/forward</url-pattern>
+    </servlet-mapping>
 </web-app>
