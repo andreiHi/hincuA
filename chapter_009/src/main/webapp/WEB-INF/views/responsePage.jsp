@@ -50,6 +50,9 @@
     &nbsp;&nbsp;&nbsp;
     <%--<a href="<%=request.getContextPath()%>/WEB-INF/views/UserForm.jsp"><%=repeat%></a>--%>
     <form action="<%=request.getContextPath()%>/forward" method="post">
+        <input type="hidden" name="login" value="<%=request.getParameter("newLogin")%>">
+        <input type="hidden" name="name" value="<%=request.getParameter("name")%>">
+        <input type="hidden" name="email" value="<%=request.getParameter("email")%>">
         <input type="submit" name="update" value="<%=repeat%>"/>
     </form>
     <%}%>
