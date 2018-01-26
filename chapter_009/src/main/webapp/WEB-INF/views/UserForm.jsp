@@ -9,7 +9,7 @@
 <%!String name = "";%>
 <%!String email = "";%>
 <%!String forward = "";%>
-
+<%System.out.println(request.getParameter("update"));%>
 <%if (request.getParameter("update") != null){
     login=request.getParameter("login");
     name=request.getParameter("name");

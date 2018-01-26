@@ -34,7 +34,7 @@ public class Put extends HttpServlet {
             userStore.update(user, oldLogin);
             req.setAttribute("state", "successEdit");
         }
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/responsePage.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp");
         dispatcher.forward(req, resp);
     }
 

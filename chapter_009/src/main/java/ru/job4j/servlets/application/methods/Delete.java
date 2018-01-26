@@ -24,7 +24,7 @@ public class Delete extends HttpServlet {
         String login = req.getParameter("login");
         this.userStore.deleteUser(login);
         req.setAttribute("method", "deleteSuccess");
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/responsePage.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/responsePage.jsp");
         dispatcher.forward(req, resp);
     }
 

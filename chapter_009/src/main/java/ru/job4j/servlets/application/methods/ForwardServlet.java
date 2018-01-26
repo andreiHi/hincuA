@@ -14,11 +14,13 @@ public class ForwardServlet extends DispatcherServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("update") != null) {
-            super.forward("/userForm.jsp", req, resp);
+            super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
         }
         if (req.getParameter("delete") != null) {
             req.setAttribute("method", "delete");
-            super.forward("/responsePage.jsp", req, resp);
+            super.forward("/WEB-INF/views/responsePage.jsp", req, resp);
+        } else {
+            super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
         }
     }
 }

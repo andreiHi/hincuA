@@ -4,6 +4,11 @@
 <%!private String repeat;%>
 <%!private boolean delete;%>
 
+<html>
+<head>
+    <title>Answer</title>
+</head>
+<body>
 <%
     String method = (String) request.getAttribute("method");
     if ("add".equals(method)) {
@@ -35,20 +40,18 @@
     }
 %>
 
-<html>
-<head>
-    <title>Answer</title>
-</head>
-<body>
 
 <h1 align="center"><%=namePage%></h1>
 <h2 align="center"><%=stateOfExequ%></h2>
 <%if (!delete) {%>
 <h2 align="center">
-    <a href="index.jsp">На главную.</a>
+    <a href="<%=request.getContextPath()%>/">На главную.</a>
     <%if (repeat != null) {%>
     &nbsp;&nbsp;&nbsp;
-    <a href="userForm.jsp"><%=repeat%></a>
+    <%--<a href="<%=request.getContextPath()%>/WEB-INF/views/UserForm.jsp"><%=repeat%></a>--%>
+    <form action="<%=request.getContextPath()%>/forward" method="post">
+        <input type="submit" name="update" value="<%=repeat%>"/>
+    </form>
     <%}%>
 </h2>
 <%} else {  %>
@@ -61,7 +64,7 @@
             </form>
         </td>
         <td>
-            <form action="index.jsp">
+            <form action="<%=request.getContextPath()%>/">
                 <input type="submit" value="Нет">
             </form>
         </td>

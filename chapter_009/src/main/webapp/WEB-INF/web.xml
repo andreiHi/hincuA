@@ -12,7 +12,7 @@
     <servlet>
         <servlet-name>UsersServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.crud.UsersServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>UsersServlet</servlet-name>
@@ -20,13 +20,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Get</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.Get</servlet-class>
+        <servlet-name>UsersController</servlet-name>
+        <servlet-class>ru.job4j.servlets.application.methods.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Get</servlet-name>
-        <url-pattern>/users</url-pattern>
+        <servlet-name>UsersController</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <servlet>

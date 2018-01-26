@@ -37,7 +37,7 @@ public class Post extends HttpServlet {
                 req.setAttribute("state", "success");
             }
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("responsePage.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp");
         dispatcher.forward(req, resp);
     }
 
