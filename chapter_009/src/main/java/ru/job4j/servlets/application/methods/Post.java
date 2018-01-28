@@ -3,7 +3,6 @@ package ru.job4j.servlets.application.methods;
 import ru.job4j.servlets.application.UserStore;
 import ru.job4j.servlets.crud.User;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,21 +23,23 @@ public class Post extends HttpServlet {
         String login = req.getParameter("newLogin");
         String name = req.getParameter("name");
         String email = req.getParameter("email");
-        req.setAttribute("method", "add");
+        User user;
         if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
-            req.setAttribute("state", "empty");
+            user = new User(login, name, email);
+            req.setAttribute("user",  user);
+            req.setAttribute("title", "Заполните все данные.");
+            req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         } else {
-            User user = this.userStore.getUser(login);
+            user = this.userStore.getUser(login);
             if (user != null) {
-                req.setAttribute("state", "exist");
+                req.setAttribute("title", "Пользователь с таким логином уже существует.");
             } else {
                 user  = new User(login, name, email);
                 this.userStore.addNewUser(user);
-                req.setAttribute("state", "success");
+                req.setAttribute("title", "Пользователь успешно добавлен.");
             }
+            req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp");
-        dispatcher.forward(req, resp);
     }
 
     @Override

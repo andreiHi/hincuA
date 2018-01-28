@@ -1,8 +1,5 @@
 package ru.job4j.servlets.crud;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -12,7 +9,6 @@ import java.util.Calendar;
  * @since 0.1.
  */
 public class User {
-    private static final Logger LOG = LogManager.getLogger(User.class);
     private  String name;
     private String login;
     private String email;
@@ -71,6 +67,10 @@ public class User {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
         this.date = new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
@@ -90,7 +90,6 @@ public class User {
                 + '\''
                 + ", Date = "
                 + date;
-        //+ createDate.getTime().toString()
 
     }
 }

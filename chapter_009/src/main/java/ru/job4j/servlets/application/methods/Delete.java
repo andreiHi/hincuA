@@ -2,7 +2,6 @@ package ru.job4j.servlets.application.methods;
 
 import ru.job4j.servlets.application.UserStore;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +19,10 @@ public class Delete extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
         String login = req.getParameter("login");
         this.userStore.deleteUser(login);
-        req.setAttribute("method", "deleteSuccess");
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/responsePage.jsp");
-        dispatcher.forward(req, resp);
+        req.setAttribute("title", "Пользователь был успешно удален.");
+        req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
     }
 
     @Override

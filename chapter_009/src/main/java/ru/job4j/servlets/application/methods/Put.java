@@ -3,7 +3,6 @@ package ru.job4j.servlets.application.methods;
 import ru.job4j.servlets.application.UserStore;
 import ru.job4j.servlets.crud.User;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,15 +26,18 @@ public class Put extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String oldLogin = req.getParameter("oldLogin");
+        User user;
         if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
-            req.setAttribute("state", "emptyEdit");
+            req.setAttribute("title", "Заполните все данные.");
+            user = new User(oldLogin, name, email);
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         } else {
-            User user = new User(login, name, email);
+            user = new User(login, name, email);
             userStore.update(user, oldLogin);
-            req.setAttribute("state", "successEdit");
+            req.setAttribute("title", "Данные пользователя успешно обновлены.");
+            req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp");
-        dispatcher.forward(req, resp);
     }
 
     @Override
