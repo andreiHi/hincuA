@@ -11,10 +11,29 @@ import java.util.Calendar;
 public class User {
     private  String name;
     private String login;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private String email;
     private Calendar createDate;
     private String date;
     private String id;
+    private String password;
 
     public String getId() {
         return id;
@@ -27,8 +46,9 @@ public class User {
     public User() {
     }
 
-    public User(String login, String name, String email) {
+    public User(String login, String name, String email, String password) {
         this.login = login;
+        this.password = password;
         this.name = name;
         this.email = email;
         this.createDate = Calendar.getInstance();

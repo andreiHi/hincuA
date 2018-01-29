@@ -18,7 +18,7 @@ public class ForwardServlet extends DispatcherServlet {
         if (req.getParameter("update") != null) {
             req.setAttribute("title", "Обновление данных пользователя.");
             req.setAttribute("path", String.format("%s/edit", req.getContextPath()));
-            User user = new User(req.getParameter("login"), req.getParameter("name"), req.getParameter("email"));
+            User user = new User(req.getParameter("login"), req.getParameter("name"), req.getParameter("email"), null);
             req.setAttribute("user", user);
             super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
         }

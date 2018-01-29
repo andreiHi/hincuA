@@ -9,24 +9,26 @@ import ru.job4j.servlets.crud.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 14.01.2018.
  * @version $Id$.
  * @since 0.1.
  */
-public class UserStore {
-    private static final Logger LOG = LogManager.getLogger(UserStore.class);
+public class UserStorage {
+    private static final Logger LOG = LogManager.getLogger(UserStorage.class);
 
     private String file = "settings.properties";
     private Properties pr;
     private BasicDataSource dataSource;
-    private UserStore() {
+
+    private UserStorage() {
         initParam();
+        createTables();
     }
 
     /**
@@ -65,7 +67,7 @@ public class UserStore {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
-           LOG.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -80,7 +82,7 @@ public class UserStore {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
-           LOG.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -118,10 +120,10 @@ public class UserStore {
 
 
     private static class UserStoreHolder {
-        private static final UserStore INSTANCE = new UserStore();
+        private static final UserStorage INSTANCE = new UserStorage();
     }
 
-    public static UserStore getInstance() {
+    public static UserStorage getInstance() {
         return UserStoreHolder.INSTANCE;
     }
 
@@ -142,12 +144,28 @@ public class UserStore {
         }
     }
 
+    private void createTables() {
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement st = connection.createStatement()) {
+                st.executeUpdate(SQLquery.CREATE_TABLE_ROLE);
+                st.executeUpdate(SQLquery.CREATE_TABLE_USERS);
+                try (ResultSet rs = st.executeQuery(SQLquery.SELECT_ALL_USERS)) {
+                    if (!rs.next()) {
+                        st.executeUpdate(SQLquery.CREATE_ROLES);
+                        st.executeUpdate(SQLquery.CREATE_ROOT_USER);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Метод получения всех пользователей.
      * @return лит пользователей.
      */
     public List<User> selectUsers() {
-        List<User>  list = new ArrayList<>();
+        List<User>  list = new CopyOnWriteArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(SQLquery.SELECT_ALL_USERS)) {
                 try (ResultSet rs = ps.executeQuery()) {
@@ -155,6 +173,8 @@ public class UserStore {
                         User user = new User();
                         user.setId(rs.getString("id"));
                         user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                        user.setRole(rs.getString("role"));
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(rs.getTimestamp("date").getTime());
                         user.setCreateDate(calendar);
@@ -168,5 +188,21 @@ public class UserStore {
             LOG.error(e.getMessage(), e);
         }
         return list;
+    }
+    public boolean isCredential(String login, String password) {
+        boolean exist = false;
+        System.out.println(login);
+        System.out.println(password);
+        System.out.println(selectUsers());
+        List<User> list = selectUsers();
+        for (User user : list) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                exist = true;
+                break;
+            } else {
+                System.out.println(false);
+            }
+        }
+        return exist;
     }
 }

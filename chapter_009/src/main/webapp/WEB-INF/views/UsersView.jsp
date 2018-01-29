@@ -16,8 +16,10 @@
     <tr>
         <th>id</th>
         <th>Login</th>
+        <th>Password</th>
         <th>Name</th>
         <th>Email</th>
+        <th>Role</th>
         <th>Date</th>
         <th>Update</th>
         <th>Delete</th>

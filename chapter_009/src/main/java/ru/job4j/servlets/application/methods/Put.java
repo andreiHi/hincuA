@@ -1,6 +1,6 @@
 package ru.job4j.servlets.application.methods;
 
-import ru.job4j.servlets.application.UserStore;
+import ru.job4j.servlets.application.UserStorage;
 import ru.job4j.servlets.crud.User;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * @since 0.1.
  */
 public class Put extends HttpServlet {
-    private static UserStore userStore = UserStore.getInstance();
+    private static UserStorage userStorage = UserStorage.getInstance();
 
 
     @Override
@@ -29,12 +29,12 @@ public class Put extends HttpServlet {
         User user;
         if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
             req.setAttribute("title", "Заполните все данные.");
-            user = new User(oldLogin, name, email);
+            user = new User(oldLogin, name, email, null);
             req.setAttribute("user", user);
             req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         } else {
-            user = new User(login, name, email);
-            userStore.update(user, oldLogin);
+            user = new User(login, name, email, null);
+            userStorage.update(user, oldLogin);
             req.setAttribute("title", "Данные пользователя успешно обновлены.");
             req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
         }
@@ -42,6 +42,6 @@ public class Put extends HttpServlet {
 
     @Override
     public void destroy() {
-        userStore.close();
+        userStorage.close();
     }
 }

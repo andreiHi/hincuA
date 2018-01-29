@@ -1,6 +1,6 @@
 package ru.job4j.servlets.application.methods;
 
-import ru.job4j.servlets.application.UserStore;
+import ru.job4j.servlets.application.UserStorage;
 import ru.job4j.servlets.crud.User;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * @since 0.1.
  */
 public class Post extends HttpServlet {
-    private  final UserStore userStore = UserStore.getInstance();
+    private  final UserStorage userStorage = UserStorage.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,17 +25,17 @@ public class Post extends HttpServlet {
         String email = req.getParameter("email");
         User user;
         if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
-            user = new User(login, name, email);
+            user = new User(login, name, email, null);
             req.setAttribute("user",  user);
             req.setAttribute("title", "Заполните все данные.");
             req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         } else {
-            user = this.userStore.getUser(login);
+            user = this.userStorage.getUser(login);
             if (user != null) {
                 req.setAttribute("title", "Пользователь с таким логином уже существует.");
             } else {
-                user  = new User(login, name, email);
-                this.userStore.addNewUser(user);
+                user  = new User(login, name, email, null);
+                this.userStorage.addNewUser(user);
                 req.setAttribute("title", "Пользователь успешно добавлен.");
             }
             req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
@@ -44,6 +44,6 @@ public class Post extends HttpServlet {
 
     @Override
     public void destroy() {
-        userStore.close();
+        userStorage.close();
     }
 }

@@ -1,6 +1,6 @@
 package ru.job4j.servlets.application.methods;
 
-import ru.job4j.servlets.application.UserStore;
+import ru.job4j.servlets.application.UserStorage;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,18 +15,18 @@ import java.io.IOException;
  * @since 0.1.
  */
 public class Delete extends HttpServlet {
-    private UserStore userStore = UserStore.getInstance();
+    private UserStorage userStorage = UserStorage.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
-        this.userStore.deleteUser(login);
+        this.userStorage.deleteUser(login);
         req.setAttribute("title", "Пользователь был успешно удален.");
         req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
     }
 
     @Override
     public void destroy() {
-        userStore.close();
+        userStorage.close();
     }
 }
