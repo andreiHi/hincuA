@@ -26,7 +26,8 @@ public class SQLquery {
     public static final String GET_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
     public static final String UPDATE_USER = "UPDATE users SET name = ?, login = ?, email = ? WHERE login = ?";
     public static final String DELETE_USER = "DELETE FROM users WHERE login = ?";
-    public static final String SELECT_ALL_USERS = "SELECT * FROM users LEFT JOIN role ON users.role=role.id";
+    public static final String SELECT_ALL_USERS = "SELECT users.id as id, name, login,email, date, role.role as role, password"
+            + " FROM users LEFT JOIN role ON users.role=role.id";
     public static final String CREATE_ROLES = "INSERT INTO role (role)  VALUES ('admin'), ('user')";
     public static final String CREATE_ROOT_USER = "INSERT INTO users(login, role, password, date) VALUES ('root', 1, 'root' ,now())";
 

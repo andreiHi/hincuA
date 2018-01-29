@@ -28,8 +28,10 @@
         <tr>
             <td><c:out value="${user.id}"/></td>
             <td><c:out value="${user.login}"/></td>
+            <td><c:out value="${user.password}"/></td>
             <td><c:out value="${user.name}"/></td>
             <td><c:out value="${user.email}"/></td>
+            <td><c:out value="${user.role}"/></td>
             <td><c:out value="${user.date}"/></td>
             <td>
                 <form action="${pageContext.servletContext.contextPath}/forward" method="post">

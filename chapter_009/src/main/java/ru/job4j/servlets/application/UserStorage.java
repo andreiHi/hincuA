@@ -9,6 +9,7 @@ import ru.job4j.servlets.crud.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
@@ -191,18 +192,20 @@ public class UserStorage {
     }
     public boolean isCredential(String login, String password) {
         boolean exist = false;
-        System.out.println(login);
-        System.out.println(password);
-        System.out.println(selectUsers());
         List<User> list = selectUsers();
         for (User user : list) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 exist = true;
                 break;
-            } else {
-                System.out.println(false);
             }
         }
+        List list1 = new ArrayList<Integer>();
+        list1.add(new Object());
+        list1.add(111);
+        list1.add("111");
+        System.out.println(list1.size());
         return exist;
+
+
     }
 }

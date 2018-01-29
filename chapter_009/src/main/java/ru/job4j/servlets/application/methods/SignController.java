@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
+ * /singin
  * @author Hincu Andrei (andreih1981@gmail.com)on 28.01.2018.
  * @version $Id$.
  * @since 0.1.
@@ -35,7 +36,7 @@ public class SignController extends HttpServlet {
             }
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
-            req.setAttribute("error", "Credential is invalid.");
+            req.setAttribute("error", "Identification is invalid.");
             doGet(req, resp);
         }
     }
