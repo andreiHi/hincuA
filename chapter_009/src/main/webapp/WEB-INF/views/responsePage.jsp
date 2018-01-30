@@ -6,10 +6,18 @@
     <title>Answer</title>
 </head>
 <body>
-
+<table align="right">
+    <tr>
+        <td>Welcome: <strong><c:out value="${login}"/></strong></td>
+        <td>
+            <form action="${pageContext.servletContext.contextPath}/" method="post">
+                <input type="submit" name="exit" value="Log out">
+            </form>
+        </td>
+    </tr>
+</table>
 <h1 align="center"><c:out value="${title}"/></h1>
 <c:if test="${ask != null}">
-
 <table align="center">
     <tr >
         <td>

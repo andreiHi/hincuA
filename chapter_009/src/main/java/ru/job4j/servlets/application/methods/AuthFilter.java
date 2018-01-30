@@ -34,6 +34,11 @@ public class AuthFilter implements Filter {
                     ((HttpServletResponse) response).sendRedirect(String.format("%s/signin", req.getContextPath()));
                     return;
                 }
+                if (req.getParameter("exit") != null) {
+                    session.invalidate();
+                    ((HttpServletResponse) response).sendRedirect(String.format("%s/signin", req.getContextPath()));
+                    return;
+                }
             }
            chain.doFilter(request, response);
         }

@@ -9,7 +9,6 @@ import ru.job4j.servlets.crud.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
@@ -45,6 +44,7 @@ public class UserStorage {
                 ps.setString(2, user.getName());
                 ps.setString(3, user.getEmail());
                 ps.setTimestamp(4, new Timestamp(user.getCreateDate().getTimeInMillis()));
+                ps.setString(5, user.getPassword());
                 add = ps.executeUpdate() > 0;
             }
         } catch (SQLException e) {
@@ -64,7 +64,8 @@ public class UserStorage {
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getLogin());
                 ps.setString(3, user.getEmail());
-                ps.setString(4, oldLogin);
+                ps.setString(4, user.getPassword());
+                ps.setString(5, oldLogin);
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
@@ -98,6 +99,8 @@ public class UserStorage {
                         user.setId(rs.getString("id"));
                         user.setLogin(rs.getString("login"));
                         user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                        user.setRole(rs.getString("role"));
                         user.setEmail(rs.getString("email"));
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(rs.getTimestamp("date").getTime());
@@ -199,13 +202,26 @@ public class UserStorage {
                 break;
             }
         }
-        List list1 = new ArrayList<Integer>();
-        list1.add(new Object());
-        list1.add(111);
-        list1.add("111");
-        System.out.println(list1.size());
         return exist;
-
-
+    }
+    public boolean isAdmin(String login) {
+        boolean isAdmin = false;
+        final String admin = "admin";
+            try (final Connection connection = dataSource.getConnection()) {
+                try (final PreparedStatement ps = connection.prepareStatement(SQLquery.CHECK_IS_USER_A_ADMIN)) {
+                    ps.setString(1, login);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            if (admin.equals(rs.getString("role"))) {
+                                isAdmin = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        return isAdmin;
     }
 }

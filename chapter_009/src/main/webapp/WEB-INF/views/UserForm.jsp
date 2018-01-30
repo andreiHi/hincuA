@@ -5,6 +5,16 @@
     <title>UserForm</title>
 </head>
 <body>
+<table align="right">
+    <tr>
+        <td>Welcome: <strong><c:out value="${login}"/></strong></td>
+        <td>
+            <form action="${pageContext.servletContext.contextPath}/" method="post">
+                <input type="submit" name="exit" value="Log out">
+            </form>
+        </td>
+    </tr>
+</table><br>
 <h1 align="center">${title}</h1>
 <form action="${path}" method="post">
 
@@ -17,6 +27,10 @@
     <tr>
         <th>Name</th>
         <td><input type="text" name="name" size="45" value="<c:out value="${user.name}"/>"/></td>
+    </tr>
+    <tr>
+        <th>Password</th>
+        <td><input type="password" name="password" size="45" value="<c:out value="${user.password}"/>"/></td>
     </tr>
     <tr>
         <th>Email</th>

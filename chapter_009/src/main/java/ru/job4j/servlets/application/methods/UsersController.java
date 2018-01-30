@@ -1,12 +1,16 @@
 package ru.job4j.servlets.application.methods;
 
 import ru.job4j.servlets.application.UserStorage;
+import ru.job4j.servlets.crud.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Начальное отображение.
@@ -19,7 +23,18 @@ public class UsersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", userStorage.selectUsers());
+        String login = (String) req.getSession().getAttribute("login");
+        if (userStorage.isAdmin(login)) {
+            req.setAttribute("users", userStorage.selectUsers());
+            HttpSession session = req.getSession();
+            synchronized (session) {
+                session.setAttribute("admin", "admin");
+            }
+        } else {
+            List<User> user = new CopyOnWriteArrayList<>();
+            user.add(userStorage.getUser(login));
+            req.setAttribute("users", user);
+        }
         req.getRequestDispatcher("/WEB-INF/views/UsersView.jsp").forward(req, resp);
     }
 

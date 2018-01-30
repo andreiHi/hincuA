@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * /edit
  * Обновление пользователя.
  * @author Hincu Andrei (andreih1981@gmail.com)on 14.01.2018.
  * @version $Id$.
@@ -24,16 +25,17 @@ public class Put extends HttpServlet {
         req.setAttribute("method", "update");
         String login = req.getParameter("newLogin");
         String name = req.getParameter("name");
+        String password = req.getParameter("password");
         String email = req.getParameter("email");
         String oldLogin = req.getParameter("oldLogin");
         User user;
-        if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
+        if (login.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             req.setAttribute("title", "Заполните все данные.");
-            user = new User(oldLogin, name, email, null);
+            user = new User(oldLogin, name, email, password);
             req.setAttribute("user", user);
             req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         } else {
-            user = new User(login, name, email, null);
+            user = new User(login, name, email, password);
             userStorage.update(user, oldLogin);
             req.setAttribute("title", "Данные пользователя успешно обновлены.");
             req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);

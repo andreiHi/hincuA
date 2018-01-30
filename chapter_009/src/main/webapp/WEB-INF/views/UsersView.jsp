@@ -5,23 +5,25 @@
     <title>Users</title>
 </head>
 <body>
+
 <table align="right">
     <tr>
-        <td><c:out value="${login}"/></td>
+        <td>Welcome: <strong><c:out value="${login}"/></strong></td>
         <td>
-            <form action="" method="post">
-                <input type="submit" name="exit" value="Exit">
+            <form action="${pageContext.servletContext.contextPath}/" method="post">
+                <input type="submit" name="exit" value="Log out">
             </form>
         </td>
     </tr>
-</table>
+</table><br>
+
 <h1 align="center">Хранилище пользователей</h1>
+<c:if test="${admin != null}">
 <h2 align="center"><form action="${pageContext.servletContext.contextPath}/forward" method="post">
     <input type="submit" name="new" value="Добавить нового пользователя">
 </form></h2>
+</c:if>
 <h3 align="center">Список пользователей</h3>
-
-
 <table style="border: 1px solid black;" cellpadding="3" cellspacing="1" align="center" border="1" >
     <tr>
         <th>id</th>
