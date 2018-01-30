@@ -35,6 +35,7 @@ public class SimpleContainer<T> implements Iterable<T> {
      */
     public SimpleContainer(int size) {
         this.size = size;
+        this.container = (T[]) new Object[size];
     }
 
     /**
@@ -54,12 +55,14 @@ public class SimpleContainer<T> implements Iterable<T> {
             private int currentIndex = 0;
             @Override
             public boolean hasNext() {
-                return currentIndex < size;
+                synchronized (container) {
+                    return currentIndex < size;
+                }
             }
 
             @Override
             public T next() {
-                synchronized (this) {
+                synchronized (container) {
                     if (hasNext()) {
                         return container[currentIndex++];
                     } else {
@@ -76,10 +79,8 @@ public class SimpleContainer<T> implements Iterable<T> {
      */
     @GuardedBy("container")
     public void add(T value) {
-        synchronized (this) {
-            if (this.container == null) {
-                container = (T[]) new Object[size];
-            }
+        synchronized (container) {
+
             if (position == size) {
                 int newSize = this.size * 3 / 2 + 1;
                 container = Arrays.copyOf(container, newSize);
@@ -95,7 +96,7 @@ public class SimpleContainer<T> implements Iterable<T> {
      * @return элемент.
      */
     public T get(int index) {
-        synchronized (this) {
+        synchronized (container) {
             if (index >= this.size) {
                 throw new IndexOutOfBoundsException();
             } else {
@@ -113,7 +114,7 @@ public class SimpleContainer<T> implements Iterable<T> {
 
             boolean found = false;
             if (container != null) {
-                synchronized (this) {
+                synchronized (container) {
                 for (int i = 0; i < position; i++) {
                     T o = container[i];
                     if (o != null) {
