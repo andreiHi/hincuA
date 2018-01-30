@@ -5,6 +5,16 @@
     <title>Users</title>
 </head>
 <body>
+<table align="right">
+    <tr>
+        <td><c:out value="${login}"/></td>
+        <td>
+            <form action="" method="post">
+                <input type="submit" name="exit" value="Exit">
+            </form>
+        </td>
+    </tr>
+</table>
 <h1 align="center">Хранилище пользователей</h1>
 <h2 align="center"><form action="${pageContext.servletContext.contextPath}/forward" method="post">
     <input type="submit" name="new" value="Добавить нового пользователя">

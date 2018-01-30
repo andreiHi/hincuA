@@ -3,6 +3,7 @@ package ru.job4j.servlets.application.methods;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.servlets.application.UserStorage;
+import ru.job4j.servlets.crud.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +20,7 @@ import java.io.IOException;
  */
 public class SignController extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(SignController.class);
+    private final UserStorage userStorage = UserStorage.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,15 +31,22 @@ public class SignController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (UserStorage.getInstance().isCredential(login, password)) {
+        if (userStorage.isCredential(login, password)) {
            HttpSession session = req.getSession();
+           User user = userStorage.getUser(login);
             synchronized (session) {
                 session.setAttribute("login", login);
+                session.setAttribute("user", user);
             }
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
             req.setAttribute("error", "Identification is invalid.");
             doGet(req, resp);
         }
+    }
+
+    @Override
+    public void destroy() {
+        this.userStorage.close();
     }
 }
