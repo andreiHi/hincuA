@@ -16,7 +16,7 @@ public class SimpleHashSetTest {
      */
     @Test
     public void whenUsedSetWithArrayAndWithHash() {
-        SimpleHashSet<Integer> set = new SimpleHashSet();
+        SimpleHashSet<Integer> set = new SimpleHashSet(1000000);
         long t = -System.currentTimeMillis();
         for (int i = 0; i < 100000; i++) {
             set.put(i);
@@ -24,7 +24,7 @@ public class SimpleHashSetTest {
         long timeWithHash = System.currentTimeMillis() + t;
 
 
-        SimpleSet<Integer> set1 = new SimpleSet<>();
+        SimpleSet<Integer> set1 = new SimpleSet<>(10);
         long tS = -System.currentTimeMillis();
         for (int i = 0; i < 100000; i++) {
             set1.add(i);

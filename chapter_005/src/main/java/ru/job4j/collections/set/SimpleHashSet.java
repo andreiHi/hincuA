@@ -28,9 +28,12 @@ public class SimpleHashSet<E> extends SimpleSet<E> {
     /**
      * Конструктор.
      */
-    public SimpleHashSet() {
+    public SimpleHashSet(int size) {
+        super(size);
         this.table = new Entry[size];
     }
+
+
 
     /**
      * Вложенный класс для создания связанных списков при кализии.

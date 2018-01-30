@@ -26,7 +26,7 @@ public class SimpleSetTest {
      */
     @Before
     public void start() {
-        set = new SimpleSet<>();
+        set = new SimpleSet<>(10);
         set.add("Ivanov");
         set.add("Ivanov");
         set.add("Petrov");

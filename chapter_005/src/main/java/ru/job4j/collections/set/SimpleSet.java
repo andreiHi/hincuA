@@ -11,6 +11,11 @@ import ru.job4j.collections.list.SimpleContainer;
  * @since 0.1
  */
 public class SimpleSet<E> extends SimpleContainer<E> {
+    public SimpleSet(int size) {
+        super(size);
+    }
+
+
 
     @Override
     public void add(E value) {
