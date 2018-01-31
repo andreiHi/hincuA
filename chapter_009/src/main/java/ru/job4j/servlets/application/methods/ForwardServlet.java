@@ -1,5 +1,6 @@
 package ru.job4j.servlets.application.methods;
 
+import ru.job4j.servlets.application.UserStorage;
 import ru.job4j.servlets.crud.User;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,13 @@ import java.io.IOException;
  * @since 0.1.
  */
 public class ForwardServlet extends DispatcherServlet {
+    private UserStorage userStorage = UserStorage.getInstance();
+
+    @Override
+    public void destroy() {
+        userStorage.close();
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("update") != null) {
@@ -29,6 +37,7 @@ public class ForwardServlet extends DispatcherServlet {
         }
         if (req.getParameter("new") != null) {
             req.setAttribute("title", "Добавление нового пользователя.");
+            req.setAttribute("roles", userStorage.getRoles());
             req.setAttribute("path", String.format("%s/new", req.getContextPath()));
             super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
         }

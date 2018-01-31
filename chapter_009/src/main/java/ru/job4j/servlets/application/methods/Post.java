@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * /new
  * Добавление нового пользователя.
  * @author Hincu Andrei (andreih1981@gmail.com)on 14.01.2018.
  * @version $Id$.
@@ -23,9 +24,12 @@ public class Post extends HttpServlet {
         String login = req.getParameter("newLogin");
         String name = req.getParameter("name");
         String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String role = req.getParameter("select");
+        //TODO
         User user;
-        if (login.isEmpty() || name.isEmpty() || email.isEmpty()) {
-            user = new User(login, name, email, null);
+        if (login.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            user = new User(login, name, email, password);
             req.setAttribute("user",  user);
             req.setAttribute("title", "Заполните все данные.");
             req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
@@ -34,7 +38,7 @@ public class Post extends HttpServlet {
             if (user != null) {
                 req.setAttribute("title", "Пользователь с таким логином уже существует.");
             } else {
-                user  = new User(login, name, email, null);
+                user  = new User(login, name, email, password);
                 this.userStorage.addNewUser(user);
                 req.setAttribute("title", "Пользователь успешно добавлен.");
             }

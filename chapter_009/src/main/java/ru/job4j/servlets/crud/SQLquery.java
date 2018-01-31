@@ -33,4 +33,5 @@ public class SQLquery {
     public static final String CREATE_ROOT_USER = "INSERT INTO users(login, role, password, date) VALUES ('root', 1, 'root' ,now())";
     public static final String CHECK_IS_USER_A_ADMIN = "SELECT role.role as role FROM users LEFT JOIN role ON users.role = role.id WHERE users.login = ?";
 
+    public static final String GET_ROLES = "SELECT role.role FROM role";
 }

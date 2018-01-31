@@ -5,10 +5,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.servlets.crud.SQLquery;
 import ru.job4j.servlets.crud.User;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
@@ -120,6 +122,23 @@ public class UserStorage {
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
+    }
+
+    public List<String> getRoles() {
+        List<String> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement st = connection.createStatement()) {
+                try (ResultSet rs = st.executeQuery(SQLquery.GET_ROLES)) {
+                    while (rs.next()) {
+                        list.add(rs.getString("role"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        return list;
     }
 
 

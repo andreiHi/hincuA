@@ -28,6 +28,18 @@
         <th>Name</th>
         <td><input type="text" name="name" size="45" value="<c:out value="${user.name}"/>"/></td>
     </tr>
+<c:if test="${admin != null}">
+    <tr>
+        <th>Role</th>
+        <td>
+            <select name="select" size="1" >
+                <c:forEach items="${roles}" var="role">
+                <option value="<c:out value="${role}"/>"><c:out value="${role}"/></option>
+                </c:forEach>
+            </select>
+        </td>
+    </tr>
+</c:if>
     <tr>
         <th>Password</th>
         <td><input type="password" name="password" size="45" value="<c:out value="${user.password}"/>"/></td>
