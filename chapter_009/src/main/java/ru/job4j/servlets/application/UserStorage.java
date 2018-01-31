@@ -5,7 +5,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.servlets.crud.SQLquery;
 import ru.job4j.servlets.crud.User;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +46,7 @@ public class UserStorage {
                 ps.setString(3, user.getEmail());
                 ps.setTimestamp(4, new Timestamp(user.getCreateDate().getTimeInMillis()));
                 ps.setString(5, user.getPassword());
+                ps.setString(6, user.getRole());
                 add = ps.executeUpdate() > 0;
             }
         } catch (SQLException e) {
@@ -90,6 +90,11 @@ public class UserStorage {
         }
     }
 
+    /**
+     * Метод для получения всех данных пользователя.
+     * @param login логин пользователя.
+     * @return обьект с данными.
+     */
     public User getUser(String login) {
         User user = null;
         try (Connection connection = this.dataSource.getConnection()) {
@@ -111,7 +116,7 @@ public class UserStorage {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return user;
     }
@@ -124,6 +129,10 @@ public class UserStorage {
         }
     }
 
+    /**
+     * Метод формирует список существующих в системе ролей.
+     * @return список ролей.
+     */
     public List<String> getRoles() {
         List<String> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
@@ -150,7 +159,9 @@ public class UserStorage {
         return UserStoreHolder.INSTANCE;
     }
 
-
+    /**
+     * Инициализация параметров подключения к бд.
+     */
     private void initParam() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream(file)) {
             this.pr = new Properties();
@@ -167,6 +178,9 @@ public class UserStorage {
         }
     }
 
+    /**
+     * Метод создает начальные таблицы с начальным пользователем root.
+     */
     private void createTables() {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement st = connection.createStatement()) {
@@ -212,6 +226,13 @@ public class UserStorage {
         }
         return list;
     }
+
+    /**
+     * Метод проверяет валидность введенных данных при авторизации пользователя.
+     * @param login логин.
+     * @param password пароль.
+     * @return совподает или нет.
+     */
     public boolean isCredential(String login, String password) {
         boolean exist = false;
         List<User> list = selectUsers();
@@ -223,24 +244,30 @@ public class UserStorage {
         }
         return exist;
     }
+
+    /**
+     * Метод проверяет является ли данный пользователь админом.
+     * @param login логин пользователя.
+     * @return да или нет.
+     */
     public boolean isAdmin(String login) {
         boolean isAdmin = false;
         final String admin = "admin";
-            try (final Connection connection = dataSource.getConnection()) {
-                try (final PreparedStatement ps = connection.prepareStatement(SQLquery.CHECK_IS_USER_A_ADMIN)) {
-                    ps.setString(1, login);
-                    try (ResultSet rs = ps.executeQuery()) {
-                        while (rs.next()) {
-                            if (admin.equals(rs.getString("role"))) {
-                                isAdmin = true;
-                                break;
-                            }
+        try (final Connection connection = dataSource.getConnection()) {
+            try (final PreparedStatement ps = connection.prepareStatement(SQLquery.CHECK_IS_USER_A_ADMIN)) {
+                ps.setString(1, login);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        if (admin.equals(rs.getString("role"))) {
+                            isAdmin = true;
+                            break;
                         }
                     }
                 }
-            } catch (SQLException e) {
-                LOG.error(e.getMessage(), e);
             }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
         return isAdmin;
     }
 }

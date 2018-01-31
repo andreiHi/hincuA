@@ -26,10 +26,9 @@ public class Post extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String role = req.getParameter("select");
-        //TODO
         User user;
         if (login.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            user = new User(login, name, email, password);
+            user = new User(login, name, email, password, role);
             req.setAttribute("user",  user);
             req.setAttribute("title", "Заполните все данные.");
             req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
@@ -38,7 +37,7 @@ public class Post extends HttpServlet {
             if (user != null) {
                 req.setAttribute("title", "Пользователь с таким логином уже существует.");
             } else {
-                user  = new User(login, name, email, password);
+                user  = new User(login, name, email, password, role);
                 this.userStorage.addNewUser(user);
                 req.setAttribute("title", "Пользователь успешно добавлен.");
             }

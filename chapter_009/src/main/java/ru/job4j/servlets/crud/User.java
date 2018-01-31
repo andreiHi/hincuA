@@ -46,13 +46,14 @@ public class User {
     public User() {
     }
 
-    public User(String login, String name, String email, String password) {
+    public User(String login, String name, String email, String password, String role) {
         this.login = login;
         this.password = password;
         this.name = name;
         this.email = email;
         this.createDate = Calendar.getInstance();
         this.date = new SimpleDateFormat("dd-MM-YYYY").format(createDate.getTime());
+        this.role = role;
     }
 
     public String getName() {

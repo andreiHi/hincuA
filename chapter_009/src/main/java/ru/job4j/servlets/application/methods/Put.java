@@ -31,11 +31,11 @@ public class Put extends HttpServlet {
         User user;
         if (login.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             req.setAttribute("title", "Заполните все данные.");
-            user = new User(oldLogin, name, email, password);
+            user = new User(oldLogin, name, email, password, null);
             req.setAttribute("user", user);
             req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         } else {
-            user = new User(login, name, email, password);
+            user = new User(login, name, email, password, null);
             userStorage.update(user, oldLogin);
             req.setAttribute("title", "Данные пользователя успешно обновлены.");
             req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);

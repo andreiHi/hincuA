@@ -5,7 +5,7 @@
     <title>UserForm</title>
 </head>
 <body>
-<table align="right">
+<div><table align="right">
     <tr>
         <td>Welcome: <strong><c:out value="${login}"/></strong></td>
         <td>
@@ -14,7 +14,7 @@
             </form>
         </td>
     </tr>
-</table><br>
+</table></div><br>
 <h1 align="center">${title}</h1>
 <form action="${path}" method="post">
 

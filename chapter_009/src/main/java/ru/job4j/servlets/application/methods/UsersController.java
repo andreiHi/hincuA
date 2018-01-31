@@ -27,9 +27,7 @@ public class UsersController extends HttpServlet {
         if (userStorage.isAdmin(login)) {
             req.setAttribute("users", userStorage.selectUsers());
             HttpSession session = req.getSession();
-            synchronized (session) {
-                session.setAttribute("admin", "admin");
-            }
+            session.setAttribute("admin", "admin");
         } else {
             List<User> user = new CopyOnWriteArrayList<>();
             user.add(userStorage.getUser(login));

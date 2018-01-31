@@ -32,9 +32,7 @@ public class SignController extends HttpServlet {
         String password = req.getParameter("password");
         if (userStorage.isCredential(login, password)) {
            HttpSession session = req.getSession();
-            synchronized (session) {
-                session.setAttribute("login", login);
-            }
+            session.setAttribute("login", login);
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
             req.setAttribute("error", "Identification is invalid.");

@@ -22,15 +22,16 @@ public class SQLquery {
             + "  id SERIAL PRIMARY KEY ,"
             + "  role VARCHAR(20)"
             + ")";
-    public static final String ADD_NEW_USER = "INSERT INTO users (login, name, email, date,password) VALUES (?, ?, ?, ?, ?)";
+    public static final String ADD_NEW_USER = "INSERT INTO users (login, name, email, date, password, role)"
+            + "VALUES (?,?,?,?,?,(Select role.id FROM role WHERE role.role=?))";
     public static final String GET_USER_BY_LOGIN = "SELECT users.id as id, name, login,email, date, role.role as role, password "
             + "FROM users LEFT JOIN role ON users.role=role.id WHERE users.login = ?";
     public static final String UPDATE_USER = "UPDATE users SET name = ?, login = ?, email = ?, password = ? WHERE login = ?";
     public static final String DELETE_USER = "DELETE FROM users WHERE login = ?";
     public static final String SELECT_ALL_USERS = "SELECT users.id as id, name, login,email, date, role.role as role, password"
             + " FROM users LEFT JOIN role ON users.role=role.id ORDER BY users.id";
-    public static final String CREATE_ROLES = "INSERT INTO role (role)  VALUES ('admin'), ('user')";
-    public static final String CREATE_ROOT_USER = "INSERT INTO users(login, role, password, date) VALUES ('root', 1, 'root' ,now())";
+    public static final String CREATE_ROLES = "INSERT INTO role (role)  VALUES ('user'), ('admin')";
+    public static final String CREATE_ROOT_USER = "INSERT INTO users(login, role, password, date) VALUES ('root', 2, 'root' ,now())";
     public static final String CHECK_IS_USER_A_ADMIN = "SELECT role.role as role FROM users LEFT JOIN role ON users.role = role.id WHERE users.login = ?";
 
     public static final String GET_ROLES = "SELECT role.role FROM role";

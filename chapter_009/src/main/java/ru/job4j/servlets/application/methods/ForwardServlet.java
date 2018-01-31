@@ -25,8 +25,9 @@ public class ForwardServlet extends DispatcherServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("update") != null) {
             req.setAttribute("title", "Обновление данных пользователя.");
+            req.setAttribute("roles", userStorage.getRoles());
             req.setAttribute("path", String.format("%s/edit", req.getContextPath()));
-            User user = new User(req.getParameter("login"), req.getParameter("name"), req.getParameter("email"), null);
+            User user = new User(req.getParameter("login"), req.getParameter("name"), req.getParameter("email"), req.getParameter("password"), req.getParameter("role"));
             req.setAttribute("user", user);
             super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
         }
