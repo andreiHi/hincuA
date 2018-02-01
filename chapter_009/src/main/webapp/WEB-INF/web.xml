@@ -21,7 +21,7 @@
 
     <servlet>
         <servlet-name>UsersController</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.UsersController</servlet-class>
+        <servlet-class>ru.job4j.servlets.application.controller.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -31,7 +31,7 @@
 
     <servlet>
         <servlet-name>Delete</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.Delete</servlet-class>
+        <servlet-class>ru.job4j.servlets.application.controller.Delete</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Delete</servlet-name>
@@ -40,7 +40,7 @@
 
     <servlet>
         <servlet-name>Put</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.Put</servlet-class>
+        <servlet-class>ru.job4j.servlets.application.controller.Put</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Put</servlet-name>
@@ -49,7 +49,7 @@
 
     <servlet>
         <servlet-name>Post</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.Post</servlet-class>
+        <servlet-class>ru.job4j.servlets.application.controller.Post</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Post</servlet-name>
@@ -58,7 +58,7 @@
 
     <servlet>
         <servlet-name>ForwardServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.ForwardServlet</servlet-class>
+        <servlet-class>ru.job4j.servlets.application.controller.ForwardServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ForwardServlet</servlet-name>
@@ -67,7 +67,7 @@
 
     <servlet>
         <servlet-name>Signin</servlet-name>
-        <servlet-class>ru.job4j.servlets.application.methods.SignController</servlet-class>
+        <servlet-class>ru.job4j.servlets.application.controller.SignController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Signin</servlet-name>
@@ -76,7 +76,7 @@
 
     <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>ru.job4j.servlets.application.methods.AuthFilter</filter-class>
+        <filter-class>ru.job4j.servlets.application.controller.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>

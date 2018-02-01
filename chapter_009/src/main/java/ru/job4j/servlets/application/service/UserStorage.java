@@ -1,10 +1,9 @@
-package ru.job4j.servlets.application;
+package ru.job4j.servlets.application.service;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import ru.job4j.servlets.crud.SQLquery;
-import ru.job4j.servlets.crud.User;
+import ru.job4j.servlets.application.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;

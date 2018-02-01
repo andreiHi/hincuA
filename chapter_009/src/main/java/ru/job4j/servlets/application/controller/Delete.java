@@ -1,6 +1,6 @@
-package ru.job4j.servlets.application.methods;
+package ru.job4j.servlets.application.controller;
 
-import ru.job4j.servlets.application.UserStorage;
+import ru.job4j.servlets.application.service.UserStorage;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

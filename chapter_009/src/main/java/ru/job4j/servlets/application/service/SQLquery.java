@@ -1,4 +1,4 @@
-package ru.job4j.servlets.crud;
+package ru.job4j.servlets.application.service;
 
 /**
  * .

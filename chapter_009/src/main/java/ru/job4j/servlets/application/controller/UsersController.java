@@ -1,7 +1,7 @@
-package ru.job4j.servlets.application.methods;
+package ru.job4j.servlets.application.controller;
 
-import ru.job4j.servlets.application.UserStorage;
-import ru.job4j.servlets.crud.User;
+import ru.job4j.servlets.application.service.UserStorage;
+import ru.job4j.servlets.application.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

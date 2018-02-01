@@ -1,4 +1,4 @@
-package ru.job4j.servlets.application.methods;
+package ru.job4j.servlets.application.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

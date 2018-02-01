@@ -1,4 +1,4 @@
-package ru.job4j.servlets.application.methods;
+package ru.job4j.servlets.application.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

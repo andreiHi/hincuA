@@ -1,4 +1,4 @@
-package ru.job4j.servlets.crud;
+package ru.job4j.servlets.application.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
