@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.job4j.servlets.application.service.UserStorage;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,11 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * .
@@ -27,8 +23,7 @@ import static org.mockito.Mockito.when;
  * @since 0.1
  */
 public class UsersControllerTest {
-    @Mock
-    private UserStorage userStorage;
+
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -37,13 +32,12 @@ public class UsersControllerTest {
     private HttpSession session;
     @Mock
     private RequestDispatcher dispatcher;
-    private String login = "login";
+    private String login = "root";
     @Before
     public void setUp() throws ServletException, IOException {
         MockitoAnnotations.initMocks(this);
-        when(userStorage.isAdmin(anyString())).thenReturn(true);
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(anyString())).thenReturn(login);
+        when(session.getAttribute("login")).thenReturn(login);
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
 
     }
@@ -52,7 +46,9 @@ public class UsersControllerTest {
     public void doGet() throws ServletException, IOException {
         new UsersController().doGet(request, response);
         verify(request, atLeast(1)).getSession();
-        verify(session, atLeast(1)).getAttribute(anyString());
+        verify(session, atLeast(1)).getAttribute("login");
+        verify(request, atLeast(1)).setAttribute(anyString(), any());
+
     }
 
 }

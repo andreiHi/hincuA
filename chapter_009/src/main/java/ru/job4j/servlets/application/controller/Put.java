@@ -22,7 +22,6 @@ public class Put extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("method", "update");
         String login = req.getParameter("newLogin");
         String name = req.getParameter("name");
         String password = req.getParameter("password");

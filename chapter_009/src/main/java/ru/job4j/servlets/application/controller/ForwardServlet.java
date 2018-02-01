@@ -4,6 +4,7 @@ import ru.job4j.servlets.application.service.UserStorage;
 import ru.job4j.servlets.application.model.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.IOException;
  * @version $Id$.
  * @since 0.1.
  */
-public class ForwardServlet extends DispatcherServlet {
+public class ForwardServlet extends HttpServlet {
     private UserStorage userStorage = UserStorage.getInstance();
 
     @Override
@@ -29,18 +30,18 @@ public class ForwardServlet extends DispatcherServlet {
             req.setAttribute("path", String.format("%s/edit", req.getContextPath()));
             User user = new User(req.getParameter("login"), req.getParameter("name"), req.getParameter("email"), req.getParameter("password"), req.getParameter("role"));
             req.setAttribute("user", user);
-            super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         }
         if (req.getParameter("delete") != null) {
             req.setAttribute("ask", req.getParameter("login"));
             req.setAttribute("title", String.format("Удалить пользователя с логином %s ?", req.getParameter("login")));
-            super.forward("/WEB-INF/views/responsePage.jsp", req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/responsePage.jsp").forward(req, resp);
         }
         if (req.getParameter("new") != null) {
             req.setAttribute("title", "Добавление нового пользователя.");
             req.setAttribute("roles", userStorage.getRoles());
             req.setAttribute("path", String.format("%s/new", req.getContextPath()));
-            super.forward("/WEB-INF/views/UserForm.jsp", req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/UserForm.jsp").forward(req, resp);
         }
     }
 }
