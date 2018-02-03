@@ -24,7 +24,8 @@
 		<module>chapter_008</module>
         <module>tracker</module>
 		<module>chapter_009</module>
-	</modules>
+        <module>chapter_009HTML</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
