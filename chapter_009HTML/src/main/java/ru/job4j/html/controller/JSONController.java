@@ -27,13 +27,14 @@ public class JSONController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String ansver = req.getParameter("select");
+        String answer = req.getParameter("select");
         List<Address> list = new ArrayList<>();
-        if (ansver.equals("country")) {
+        if (answer.equals("country")) {
             list.addAll(dbConnection.getAllCountries());
         }
-        if (ansver.equals("towns")) {
-            list.addAll(dbConnection.getAllTowns());
+        if (answer.equals("towns")) {
+            System.out.println(req.getParameter("id"));
+            list.addAll(dbConnection.getAllTowns(req.getParameter("id")));
         }
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");

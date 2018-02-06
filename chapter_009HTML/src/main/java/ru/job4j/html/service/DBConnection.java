@@ -7,10 +7,7 @@ import ru.job4j.html.model.Address;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -31,10 +28,7 @@ public class DBConnection {
         createTables();
     }
 
-    public List<Address> getAllTowns() {
-        List<Address> list = new ArrayList<>();
-        return list;
-    }
+
 
     private static class DBConnHolder {
         private static final DBConnection INSTANCE = new DBConnection();
@@ -96,10 +90,28 @@ public class DBConnection {
             try (ResultSet rs = st.executeQuery(SQLQuery.GET_ALL_COUNTRIES)) {
                 if (!rs.next()) {
                     st.executeUpdate(SQLQuery.ADD_COUNTIES);
+                    st.executeUpdate(SQLQuery.ADD_TOWNS);
                 }
             }
         } catch (SQLException e) {
            LOG.error(e.getMessage(), e);
         }
+    }
+    public List<Address> getAllTowns(String id) {
+        List<Address> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(SQLQuery.SELECT_TOWNS_BY_ID)
+        ) {
+            ps.setInt(1, Integer.parseInt(id));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new Address(rs.getString("id"), rs.getString("name")));
+                }
+            }
+
+        } catch (SQLException e) {
+          LOG.error(e.getMessage(), e);
+        }
+        return list;
     }
 }

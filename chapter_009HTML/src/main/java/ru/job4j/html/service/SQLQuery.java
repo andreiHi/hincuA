@@ -46,4 +46,17 @@ public class SQLQuery {
             + "  ('USA'),"
             + "  ('Canada'),"
             + "  ('Moldova')";
+    public static final String ADD_TOWNS = "INSERT INTO towns(name, country_id) VALUES ('New-York', (SELECT id FROM country WHERE country.country = 'USA')),"
+            +            "  ('Texas', (SELECT id FROM country WHERE country.country='USA')),"
+            +            "  ('Los-Angeles', (SELECT id FROM country WHERE country.country='USA')),"
+            +            "  ('Moscou', (SELECT id FROM country WHERE country.country='Russia')),"
+            +            "  ('Magadan', (SELECT id FROM country WHERE country.country='Russia')),"
+            +            "  ('Voronej', (SELECT id FROM country WHERE country.country='Russia')),"
+            +            " ('Chisinau', (SELECT id FROM country WHERE country.country='Moldova')),"
+            +            "  ('Cahul', (SELECT id FROM country WHERE country.country='Moldova')),"
+            +            "  ('Montreal',(SELECT id FROM country WHERE country.country='Canada')),"
+            +            "  ('Toronto',(SELECT id FROM country WHERE country.country='Canada')),"
+            +            "  ('Ottava',(SELECT id FROM country WHERE country.country='Canada')),"
+            +            "  ('Victoria',(SELECT id FROM country WHERE country.country='Canada'))";
+    public static final String SELECT_TOWNS_BY_ID = "SELECT  towns.id as id, towns.name as name FROM towns WHERE towns.country_id=?";
 }
