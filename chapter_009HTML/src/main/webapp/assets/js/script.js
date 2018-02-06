@@ -1,6 +1,9 @@
 $(document).ready(function () {
     showtowns();
-    $('#country_id').change(selectcity());
+    $('#country_id').change(function () {
+        var id = $(this).val();
+        selectcity(id);
+    });
 
     $("#ajax").submit(function () {
         var error = false;
@@ -34,6 +37,6 @@ function showtowns() {
         }
     });
 }
-function selectcity() {
-  alert.console.log('country was selected');
+function selectcity(id) {
+  alert(id);
 }

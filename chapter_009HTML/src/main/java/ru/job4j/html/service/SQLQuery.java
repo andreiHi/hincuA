@@ -42,4 +42,8 @@ public class SQLQuery {
     public static final String CHECK_IS_USER_A_ADMIN = "SELECT role.role as role FROM users LEFT JOIN role ON users.role = role.id WHERE users.login = ?";
 
     public static final String GET_ROLES = "SELECT role.role FROM role";
+    public static final String ADD_COUNTIES = "INSERT INTO country(country) VALUES ('Russia'),"
+            + "  ('USA'),"
+            + "  ('Canada'),"
+            + "  ('Moldova')";
 }

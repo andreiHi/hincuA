@@ -93,6 +93,11 @@ public class DBConnection {
                     st.executeUpdate(SQLQuery.CREATE_ROOT_USER);
                 }
             }
+            try (ResultSet rs = st.executeQuery(SQLQuery.GET_ALL_COUNTRIES)) {
+                if (!rs.next()) {
+                    st.executeUpdate(SQLQuery.ADD_COUNTIES);
+                }
+            }
         } catch (SQLException e) {
            LOG.error(e.getMessage(), e);
         }
