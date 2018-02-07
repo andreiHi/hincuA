@@ -9,7 +9,7 @@ $(document).ready(function () {
         }
         selectcity(country_id);
     });
-
+    checklogin();
     $("#ajax").submit(function () {
         var error = false;
         var form = $(this);
@@ -26,8 +26,9 @@ $(document).ready(function () {
                  method:"post",
                  url:'/items/json',
                  data:f,
-                 complete:function () {
-
+                 complete:function (result) {
+                    var response = JSON.parse(response.responseText);
+                    alert(response);
                  }
              });
         }
@@ -66,5 +67,19 @@ function selectcity(country_id) {
             $('#city_id').html('<option value="0">-Выберите город-</option>' + options);
             $('#city_id').attr('disabled', false);
         }
+    });
+}
+function checklogin() {
+    $('#login').change(function () {
+      var login = $(this).val();
+      $.ajax({
+          method:"get",
+          url:'/items/json',
+          data:{login:'login'},
+          complete:function (result) {
+              var exist = JSON.parse(result.responseText);
+              alert(exist);
+          }
+      });
     });
 }

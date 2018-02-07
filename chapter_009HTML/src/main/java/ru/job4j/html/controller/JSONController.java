@@ -36,6 +36,7 @@ public class JSONController extends HttpServlet {
             System.out.println(req.getParameter("id"));
             list.addAll(dbConnection.getAllTowns(req.getParameter("id")));
         }
+        System.out.println(req.getPart("login"));
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");
         String json = new Gson().toJson(list);
