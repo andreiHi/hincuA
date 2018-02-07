@@ -28,6 +28,21 @@ public class DBConnection {
         createTables();
     }
 
+    public boolean checkLogin(String login) {
+        boolean exists = false;
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(SQLQuery.GET_USER_BY_LOGIN)
+        ) {
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                exists = true;
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return exists;
+    }
 
 
     private static class DBConnHolder {

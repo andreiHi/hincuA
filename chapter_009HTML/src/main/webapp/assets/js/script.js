@@ -21,10 +21,17 @@ $(document).ready(function () {
             }
         });
         if (!error) {
+            var errmsg = $('#errmsg').val();
+            alert(errmsg);
+            if ('Логин занят'== errmsg) {
+                alert('Логин занят!!!');
+                return(false);
+            }
              var f = form.serialize();
              $.ajax({
                  method:"post",
-                 url:'/items/json',
+                 url:'/items/user',
+                 dataType: 'json',
                  data:f,
                  complete:function (result) {
                     var response = JSON.parse(response.responseText);
@@ -70,16 +77,21 @@ function selectcity(country_id) {
     });
 }
 function checklogin() {
-    $('#login').change(function () {
-      var login = $(this).val();
-      $.ajax({
-          method:"get",
-          url:'/items/json',
-          data:{login:'login'},
-          complete:function (result) {
-              var exist = JSON.parse(result.responseText);
-              alert(exist);
-          }
-      });
+    $('#login').on('input', function () {
+        var msg = $(this).val();
+        $.ajax({
+            method:"get",
+            url:'/items/user',
+            data:{select:'login', login:msg},
+            complete:function (result) {
+                var valid = JSON.parse(result.responseText);
+                var answer = true;
+                if (true==valid){
+                    $("#errmsg").text("Логин занят");
+                } else {
+                    $("#errmsg").text("Логин доступен");
+                }
+            }
+        });
     });
 }

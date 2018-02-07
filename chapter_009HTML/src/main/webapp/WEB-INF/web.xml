@@ -17,6 +17,14 @@
         <servlet-name>JSONController</servlet-name>
         <url-pattern>/json</url-pattern>
     </servlet-mapping>
+   <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>ru.job4j.html.controller.UserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
 
     <filter>
          <filter-name>EncodingFilter</filter-name>
