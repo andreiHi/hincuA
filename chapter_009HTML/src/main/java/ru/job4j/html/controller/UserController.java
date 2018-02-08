@@ -3,6 +3,7 @@ package ru.job4j.html.controller;
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ru.job4j.html.model.User;
 import ru.job4j.html.service.DBConnection;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 07.02.2018.
@@ -45,7 +49,14 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");
-        String name = req.getParameter("login");
-        System.out.println(name);
+        String login = req.getParameter("login");
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String country = req.getParameter("country_id");
+        String touwn = req.getParameter("city_id");
+        User user = new User(login, name, email, password, country, touwn,
+                "user");
+        System.out.println(user);
     }
 }

@@ -21,23 +21,17 @@ $(document).ready(function () {
             }
         });
         if (!error) {
-            var errmsg = $('#errmsg').val();
-            alert(errmsg);
-            if ('Логин занят'== errmsg) {
-                alert('Логин занят!!!');
-                return(false);
-            }
-             var f = form.serialize();
-             $.ajax({
-                 method:"post",
-                 url:'/items/user',
-                 dataType: 'json',
-                 data:f,
-                 complete:function (result) {
+            var dataForm = form.serialize();
+            $.ajax({
+                method:"post",
+                url:'/items/user',
+                dataType: 'json',
+                data:dataForm,
+                complete:function (result) {
                     var response = JSON.parse(response.responseText);
                     alert(response);
-                 }
-             });
+                }
+            });
         }
     });
 
@@ -88,8 +82,10 @@ function checklogin() {
                 var answer = true;
                 if (true==valid){
                     $("#errmsg").text("Логин занят");
+                    $("#button").html('<button disabled type="submit" id="submit" class="btn btn-default btn-lg">Зарегистрироваться</button>');
                 } else {
                     $("#errmsg").text("Логин доступен");
+                    $("#button").html('<button type="submit" id="submit" class="btn btn-default btn-lg">Зарегистрироваться</button>');
                 }
             }
         });
