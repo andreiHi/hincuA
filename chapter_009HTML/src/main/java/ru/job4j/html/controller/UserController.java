@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 07.02.2018.
@@ -54,9 +52,13 @@ public class UserController extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String country = req.getParameter("country_id");
-        String touwn = req.getParameter("city_id");
-        User user = new User(login, name, email, password, country, touwn,
-                "user");
-        System.out.println(user);
+        String town = req.getParameter("city_id");
+        User user = new User(login, name, email, password, country, town, "user", new Timestamp(System.currentTimeMillis()));
+        boolean add = dbConnection.addNewUser(user);
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+        String json = new Gson().toJson(add);
+        pw.append(json);
+        System.out.println(add);
+        pw.flush();
     }
 }

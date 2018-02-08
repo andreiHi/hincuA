@@ -23,18 +23,20 @@ $(document).ready(function () {
         if (!error) {
             var dataForm = form.serialize();
             $.ajax({
-                method:"post",
+                method:"POST",
                 url:'/items/user',
-                dataType: 'json',
                 data:dataForm,
-                complete:function (result) {
-                    var response = JSON.parse(response.responseText);
-                    alert(response);
+                success:function (result) {
+                   if (true==result) {
+                       alert(result);
+                       $('#ajax').html('<h2>Пользователь добавлен</h2>');
+                       setTimeout(func, 2000);
+                   }
+
                 }
             });
         }
     });
-
 });
 
 function showtowns() {
@@ -79,7 +81,6 @@ function checklogin() {
             data:{select:'login', login:msg},
             complete:function (result) {
                 var valid = JSON.parse(result.responseText);
-                var answer = true;
                 if (true==valid){
                     $("#errmsg").text("Логин занят");
                     $("#button").html('<button disabled type="submit" id="submit" class="btn btn-default btn-lg">Зарегистрироваться</button>');
@@ -90,4 +91,7 @@ function checklogin() {
             }
         });
     });
+}
+function func(data) {
+//TODO
 }

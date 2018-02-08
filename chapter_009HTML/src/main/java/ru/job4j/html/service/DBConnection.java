@@ -4,6 +4,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.html.model.Address;
+import ru.job4j.html.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +20,9 @@ import java.util.Properties;
  */
 public class DBConnection {
     private static final Logger LOG = LogManager.getLogger(DBConnection.class);
-    private String file = "settings.properties";
-    private Properties pr;
+    private static final String DB_SETTINGS_FILE = "settings.properties";
+    private static final String SQL_FILE = "sql.properties";
+    private Properties sql;
     private BasicDataSource dataSource;
 
     private DBConnection() {
@@ -31,7 +33,7 @@ public class DBConnection {
     public boolean checkLogin(String login) {
         boolean exists = false;
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement ps = connection.prepareStatement(SQLQuery.GET_USER_BY_LOGIN)
+            PreparedStatement ps = connection.prepareStatement(sql.getProperty("GET_USER_BY_LOGIN"))
         ) {
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
@@ -44,6 +46,26 @@ public class DBConnection {
         return exists;
     }
 
+    public boolean addNewUser(User user) {
+        boolean add = false;
+        try (final Connection connection = this.dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql.getProperty("ADD_NEW_USER"))
+        ){//login, name, email, password, countryId, townId, role, date
+            ps.setString(1, user.getLogin());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPassword());
+            ps.setInt(5, Integer.parseInt(user.getCountryId()));
+            ps.setInt(6, Integer.parseInt(user.getTownId()));
+            ps.setString(7, user.getRole());
+            ps.setTimestamp(8, user.getData());
+           add = ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return add;
+    }
+
 
     private static class DBConnHolder {
         private static final DBConnection INSTANCE = new DBConnection();
@@ -52,9 +74,13 @@ public class DBConnection {
         return DBConnHolder.INSTANCE;
     }
     private void initParam() {
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream(file)) {
-            this.pr = new Properties();
-            this.pr.load(is);
+        try (InputStream isDb = getClass().getClassLoader().getResourceAsStream(DB_SETTINGS_FILE);
+             InputStream isSql = getClass().getClassLoader().getResourceAsStream(SQL_FILE)
+        ) {
+            this.sql = new Properties();
+            this.sql.load(isSql);
+            Properties pr = new Properties();
+            pr.load(isDb);
             this.dataSource = new BasicDataSource();
             this.dataSource.setDriverClassName(pr.getProperty("db.class"));
             this.dataSource.setUrl(pr.getProperty("db.url"));
@@ -78,7 +104,7 @@ public class DBConnection {
         List<Address> list = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection();
              final Statement st = connection.createStatement();
-             final ResultSet rs = st.executeQuery(SQLQuery.GET_ALL_COUNTRIES)
+             final ResultSet rs = st.executeQuery(sql.getProperty("GET_ALL_COUNTRIES"))
         ) {
             while (rs.next()) {
                 list.add(new Address(rs.getString("id"), rs.getString("country")));
@@ -92,20 +118,21 @@ public class DBConnection {
         try (final Connection connection = dataSource.getConnection();
              final Statement st = connection.createStatement()
         ) {
-            st.executeUpdate(SQLQuery.CREATE_TABLE_ROLE);
-            st.executeUpdate(SQLQuery.CREATE_TABLE_USERS);
-            st.executeUpdate(SQLQuery.CREATE_TABLE_COUNTRIES);
-            st.executeUpdate(SQLQuery.CREATE_TABLE_TOWNS);
-            try (final ResultSet rs = st.executeQuery(SQLQuery.SELECT_ALL_USERS)) {
+            st.executeUpdate(sql.getProperty("CREATE_TABLE_COUNTRIES"));
+            st.executeUpdate(sql.getProperty("CREATE_TABLE_TOWNS"));
+
+            st.executeUpdate(sql.getProperty("CREATE_TABLE_ROLE"));
+            st.executeUpdate(sql.getProperty("CREATE_TABLE_USERS"));
+            try (final ResultSet rs = st.executeQuery(sql.getProperty("SELECT_ALL_USERS"))) {
                 if (!rs.next()) {
-                    st.executeUpdate(SQLQuery.CREATE_ROLES);
-                    st.executeUpdate(SQLQuery.CREATE_ROOT_USER);
+                    st.executeUpdate(sql.getProperty("CREATE_ROLES"));
+                    st.executeUpdate(sql.getProperty("CREATE_ROOT_USER"));
                 }
             }
-            try (ResultSet rs = st.executeQuery(SQLQuery.GET_ALL_COUNTRIES)) {
+            try (ResultSet rs = st.executeQuery(sql.getProperty("GET_ALL_COUNTRIES"))) {
                 if (!rs.next()) {
-                    st.executeUpdate(SQLQuery.ADD_COUNTIES);
-                    st.executeUpdate(SQLQuery.ADD_TOWNS);
+                    st.executeUpdate(sql.getProperty("ADD_COUNTIES"));
+                    st.executeUpdate(sql.getProperty("ADD_TOWNS"));
                 }
             }
         } catch (SQLException e) {
@@ -115,7 +142,7 @@ public class DBConnection {
     public List<Address> getAllTowns(String id) {
         List<Address> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(SQLQuery.SELECT_TOWNS_BY_ID)
+        PreparedStatement ps = connection.prepareStatement(sql.getProperty("SELECT_TOWNS_BY_ID"))
         ) {
             ps.setInt(1, Integer.parseInt(id));
             try (ResultSet rs = ps.executeQuery()) {
@@ -123,7 +150,6 @@ public class DBConnection {
                     list.add(new Address(rs.getString("id"), rs.getString("name")));
                 }
             }
-
         } catch (SQLException e) {
           LOG.error(e.getMessage(), e);
         }
