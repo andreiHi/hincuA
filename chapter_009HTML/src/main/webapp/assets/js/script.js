@@ -22,19 +22,26 @@ $(document).ready(function () {
         });
         if (!error) {
             var dataForm = form.serialize();
+            var r = "";
             $.ajax({
                 method:"POST",
                 url:'/items/user',
                 data:dataForm,
                 success:function (result) {
+                    r=result.val();
                    if (true==result) {
-                       alert(result);
-                       $('#ajax').html('<h2>Пользователь добавлен</h2>');
-                       setTimeout(func, 2000);
+
+                       r='';
+                   } else {
+                       $('#registration').html('<h2>Произошла ошибка</h2>');
                    }
 
+
                 }
+
             });
+            $('#registration').html('<h2>Пользователь успешно зарегистрирован</h2>');
+            alert(r);
         }
     });
 });
