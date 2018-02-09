@@ -112,7 +112,7 @@ public class User {
     }
 
     public User(String login, String name, String email,
-    String password, String countryId, String townId, String role, Timestamp data) {
+    String password, String countryId, String townId, String role) {
         this.login = login;
         this.name = name;
         this.email = email;
@@ -120,6 +120,5 @@ public class User {
         this.countryId = countryId;
         this.townId = townId;
         this.role = role;
-        this.data = data;
     }
 }

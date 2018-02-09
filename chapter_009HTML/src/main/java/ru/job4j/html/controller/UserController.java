@@ -47,18 +47,25 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
         String login = req.getParameter("login");
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String country = req.getParameter("country_id");
         String town = req.getParameter("city_id");
-        User user = new User(login, name, email, password, country, town, "user", new Timestamp(System.currentTimeMillis()));
+        String result;
+        if (!country.equals("0") && !town.equals("0")) {
+        User user = new User(login, name, email, password, country, town, "user");
+        user.setData(new Timestamp(System.currentTimeMillis()));
         boolean add = dbConnection.addNewUser(user);
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-        String json = new Gson().toJson(add);
+            result = "Пользователь успешно зарегистрирован.";
+        } else {
+            result = "Укажите страну и город!";
+        }
+        String json = new Gson().toJson(result);
         pw.append(json);
-        System.out.println(add);
+        System.out.println(result);
         pw.flush();
     }
 }

@@ -18,30 +18,12 @@ $(document).ready(function () {
                 error = true;
                 alert('Заполните поле ' +$(this).attr('name') + '!');
                 $(this).css('background-color', 'red');
+                return false;
             }
         });
         if (!error) {
-            var dataForm = form.serialize();
-            var r = "";
-            $.ajax({
-                method:"POST",
-                url:'/items/user',
-                data:dataForm,
-                success:function (result) {
-                    r=result.val();
-                   if (true==result) {
+        send(form);
 
-                       r='';
-                   } else {
-                       $('#registration').html('<h2>Произошла ошибка</h2>');
-                   }
-
-
-                }
-
-            });
-            $('#registration').html('<h2>Пользователь успешно зарегистрирован</h2>');
-            alert(r);
         }
     });
 });
@@ -99,6 +81,16 @@ function checklogin() {
         });
     });
 }
-function func(data) {
-//TODO
+function send(data) {
+    var dataForm = data.serialize();
+    var r = '';
+    $.ajax({
+        method:"POST",
+        url:'/items/user',
+        data:dataForm,
+        success:function (result) {
+            alert(result);
+        }
+    });
+
 }

@@ -50,7 +50,7 @@ public class DBConnection {
         boolean add = false;
         try (final Connection connection = this.dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement(sql.getProperty("ADD_NEW_USER"))
-        ){//login, name, email, password, countryId, townId, role, date
+        ) { //login, name, email, password, countryId, townId, role, date
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
