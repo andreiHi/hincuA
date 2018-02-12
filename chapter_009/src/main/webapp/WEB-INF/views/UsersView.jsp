@@ -20,7 +20,7 @@
 <h1 align="center">Хранилище пользователей</h1>
 <c:if test="${admin != null}">
 <h2 align="center"><form action="${pageContext.servletContext.contextPath}/forward" method="post">
-    <input type="submit" name="new" value="Добавить нового пользователя">
+    <input type="submit" name="action" value="Add new User">
 </form></h2>
 </c:if>
 <h3 align="center">Список пользователей</h3>
@@ -50,13 +50,13 @@
                     <input type="hidden" name="login" value="<c:out value="${user.login}"/>">
                     <input type="hidden" name="name" value="<c:out value="${user.name}"/>">
                     <input type="hidden" name="email" value="<c:out value="${user.email}"/>">
-                    <input type="submit" name="update" value="Update">
+                    <input type="submit" name="action" value="Update">
                 </form>
             </td>
             <td>
                 <form action="${pageContext.servletContext.contextPath}/forward" method="post">
                     <input type="hidden" name="login" value="<c:out value="${user.login}"/>">
-                    <input type="submit" name="delete" value="Delete">
+                    <input type="submit" name="action" value="Delete">
                 </form>
             </td>
         </tr>

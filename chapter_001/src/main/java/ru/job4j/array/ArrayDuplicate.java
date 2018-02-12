@@ -1,6 +1,6 @@
 package ru.job4j.array;
 
-        import java.util.Arrays;
+import java.util.Arrays;
 
 /**
  * RotateArray.
@@ -26,5 +26,29 @@ public class ArrayDuplicate {
             }
         }
         return Arrays.copyOf(array, len);
+    }
+    public int[]add(int[]a, int[]b) {
+        int[]result = new int[a.length + b.length];
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        do {
+            if (i < a.length && j < b.length) {
+                if (a[i] < b[j]) {
+                    result[index++] = a[i];
+                    i++;
+                } else {
+                    result[index++] = b[j];
+                    j++;
+                }
+            } else if (i == a.length && j < b.length) {
+                result[index++] = b[j];
+                j++;
+            } else if (j == b.length && i < a.length) {
+                result[index++] = a[i];
+                i++;
+            }
+        } while (index < result.length);
+        return result;
     }
 }

@@ -12,6 +12,7 @@ $(document).ready(function () {
     checklogin();
     $("#ajax").submit(function () {
         var error = false;
+        var res ='';
         var form = $(this);
         form.find('input').each(function () {
             if ($(this).val()=='') {
@@ -22,9 +23,9 @@ $(document).ready(function () {
             }
         });
         if (!error) {
-        send(form);
-
+            send(form);
         }
+
     });
 });
 
@@ -83,14 +84,16 @@ function checklogin() {
 }
 function send(data) {
     var dataForm = data.serialize();
-    var r = '';
     $.ajax({
         method:"POST",
         url:'/items/user',
         data:dataForm,
         success:function (result) {
-            alert(result);
+         alert(result);
+         // document.querySelector('response').innerHTML = r.responseText;
+         // document.querySelector('registration').style.display = 'none';
         }
+
     });
 
 }
