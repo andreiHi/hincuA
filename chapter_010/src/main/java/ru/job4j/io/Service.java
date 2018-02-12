@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.02.2018.
@@ -30,6 +29,31 @@ public class Service {
         }
         return even;
     }
-
+    void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
+        String line;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))){
+            while (reader.ready()) {
+                line = reader.readLine();
+                String[]words = line.split("\\s");
+                boolean found = false;
+                for (String word : words) {
+                    for (String ab : abuse) {
+                        if (ab.equalsIgnoreCase(word)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                       //writer.append(word);
+                        writer.write(word);
+                    }
+                }
+                writer.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
