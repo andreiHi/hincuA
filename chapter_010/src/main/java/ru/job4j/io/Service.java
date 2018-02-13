@@ -66,5 +66,28 @@ public class Service {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Метод производит фильтрацию слов.
+     * @param in входной поток.
+     * @param out исходящий поток.
+     * @param abuse слова паразиты.
+     */
+    void dropAbuses2(InputStream in, OutputStream out, String[] abuse) {
+        String line;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
+            while (reader.ready()) {
+                line = reader.readLine();
+                for (String ab : abuse) {
+                    if (line.contains(ab)) {
+                        line = line.replace(ab, "");
+                    }
+                }
+                writer.write(line + System.lineSeparator());
+                writer.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
