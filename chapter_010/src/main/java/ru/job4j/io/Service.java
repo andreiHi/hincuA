@@ -8,7 +8,11 @@ import java.io.*;
  * @since 0.1.
  */
 public class Service {
-
+    /**
+     * Метод проверяе является ли число в потоке четным.
+     * @param is входной поток.
+     * @return результат.
+     */
     public boolean isNumber(InputStream is) {
         boolean even = false;
         try {
@@ -29,10 +33,17 @@ public class Service {
         }
         return even;
     }
+
+    /**
+     * Метод производит фильтрацию слов.
+     * @param in входной поток.
+     * @param out исходящий поток.
+     * @param abuse слова паразиты.
+     */
     void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
         String line;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))){
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
             while (reader.ready()) {
                 line = reader.readLine();
                 String[]words = line.split("\\s");
@@ -45,10 +56,10 @@ public class Service {
                         }
                     }
                     if (!found) {
-                       //writer.append(word);
-                        writer.write(word);
+                        writer.write(word + " ");
                     }
                 }
+                writer.append(System.lineSeparator());
                 writer.flush();
             }
         } catch (IOException e) {

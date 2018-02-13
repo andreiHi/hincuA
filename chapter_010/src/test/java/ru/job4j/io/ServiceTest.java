@@ -6,9 +6,9 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -19,9 +19,7 @@ import static org.junit.Assert.assertThat;
 public class ServiceTest {
     private String file = "number.txt";
     private String input = "input.txt";
-    private String output = "output.txt";
     private InputStream is;
-    private  OutputStream ou;
     private Service service;
     String[]ab;
 
@@ -33,20 +31,24 @@ public class ServiceTest {
     }
 
     @Test
-    public void isNumber() {
-       boolean result =  service.isNumber(is);
-    assertThat(result, is(true));
+    public void isEvenNumber() {
+        boolean result =  service.isNumber(is);
+        assertThat(result, is(true));
     }
 
     @Test
-    public void name() {
+    public void whenTextContainsAnyWordsThenNoWords() {
         InputStream is = getClass().getClassLoader().getResourceAsStream(input);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         service.dropAbuses(is, bos, ab);
-        byte[] array = bos.toByteArray();
-        for (byte b: array) {
-            System.out.print((char)b);
+        String s = bos.toString();
+        boolean contains = false;
+        for (String abuse : ab) {
+            if (s.contains(abuse)) {
+                contains = true;
+                break;
+            }
         }
-        System.out.println();
+        assertFalse(contains);
     }
 }
