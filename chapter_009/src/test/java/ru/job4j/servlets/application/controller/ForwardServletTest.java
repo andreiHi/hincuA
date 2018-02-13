@@ -33,18 +33,18 @@ public class ForwardServletTest {
 
     @Test
     public void doPostWhenWasSelectedUpdate() throws ServletException, IOException {
-        when(request.getParameter("update")).thenReturn(login);
+        when(request.getParameter("action")).thenReturn("update");
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
        new ForwardServlet().doPost(request, response);
 
-       verify(request, atLeast(1)).getParameter("update");
+       verify(request, atLeast(1)).getParameter(anyString());
        verify(request, atLeast(4)).setAttribute(anyString(), any());
        verify(dispatcher, atLeast(1)).forward(request, response);
     }
 
     @Test
     public void doPostWhenWasSelectedDelete() throws ServletException, IOException {
-        when(request.getParameter("delete")).thenReturn(login);
+        when(request.getParameter("action")).thenReturn("delete");
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         new ForwardServlet().doPost(request, response);
 
@@ -56,7 +56,7 @@ public class ForwardServletTest {
 
     @Test
     public void doPostWhenWasSelectedNew() throws ServletException, IOException {
-        when(request.getParameter("new")).thenReturn(login);
+        when(request.getParameter("action")).thenReturn("add new user");
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         new ForwardServlet().doPost(request, response);
 

@@ -33,7 +33,7 @@ public class SignControllerTest {
     @Mock
     private HttpSession session;
     private   String login = "root";
-    private String password = "root";
+    private String password = "r";
     @Before
     public void start() {
         MockitoAnnotations.initMocks(this);
@@ -52,6 +52,7 @@ public class SignControllerTest {
         when(request.getParameter("login")).thenReturn(login);
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         when(request.getParameter("password")).thenReturn(password);
+        when(request.getSession()).thenReturn(session);
         new SignController().doPost(request, response);
         verify(request, atLeast(1)).setAttribute(anyString(), any());
         verify(request, atLeast(1)).getRequestDispatcher(anyString());
