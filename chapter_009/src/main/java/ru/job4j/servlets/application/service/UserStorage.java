@@ -172,6 +172,7 @@ public class UserStorage {
             this.dataSource.setPassword(pr.getProperty("db.password"));
             this.dataSource.setMinIdle(100);
             this.dataSource.setMaxIdle(1000);
+            LOG.warn("Server start up");
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }

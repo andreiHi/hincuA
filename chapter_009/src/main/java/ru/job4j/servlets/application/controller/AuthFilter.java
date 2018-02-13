@@ -1,8 +1,5 @@
 package ru.job4j.servlets.application.controller;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +12,6 @@ import java.io.IOException;
  * @since 0.1.
  */
 public class AuthFilter implements Filter {
-    private static final Logger LOG = LogManager.getLogger(AuthFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

@@ -1,7 +1,5 @@
 package ru.job4j.servlets.application.controller;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import ru.job4j.servlets.application.service.UserStorage;
 
 import javax.servlet.ServletException;
@@ -18,7 +16,6 @@ import java.io.IOException;
  * @since 0.1.
  */
 public class SignController extends HttpServlet {
-    private static final Logger LOG = LogManager.getLogger(SignController.class);
     private final UserStorage userStorage = UserStorage.getInstance();
 
     @Override
