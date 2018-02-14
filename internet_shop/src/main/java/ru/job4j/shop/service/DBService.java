@@ -22,7 +22,7 @@ public class DBService {
         init();
     }
 
-    private static class DBSer{
+    private static class DBSer {
         private static final DBService INSTANCE = new DBService();
     }
     public static DBService getInstance() {
@@ -30,7 +30,7 @@ public class DBService {
     }
     private void init() {
         Properties pr = new Properties();
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream(FILE)){
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(FILE)) {
             pr.load(is);
             this.dataSource = new BasicDataSource();
             this.dataSource.setDriverClassName(pr.getProperty("db.class"));
