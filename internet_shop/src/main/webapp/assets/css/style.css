@@ -1,6 +1,6 @@
 #block-body{
     width: 1035px;
-    height: 600px;
+    height: auto;
     border:1px solid black;
     margin: 0 auto;
 
@@ -10,3 +10,91 @@
     height: 220px;
     border: 1px solid black;
 }
+#block-right{
+    width: 220px;
+    height: 400px;
+    border: 1px solid black;
+    float: right;
+}
+#block-content{
+    width: 800px;
+    height: 400px;
+    border: 1px solid black;
+}
+#header-top-block {
+    width: 1035px;
+    height: 35px;
+}
+#top-line{
+    background: url(../imj/line.png);
+    width: 1035px;
+    height: 5px;
+}
+
+#header-top-block ul li{
+    list-style-type: none; /* Убираем маркеры */
+}﻿
+#block-footer{
+     width: 1035px;
+     height: 160px;
+     margin-top: 10px;
+     border: 1px solid black;
+ }
+#header-top-menu li{
+    font: 15px sans-serif;
+    float: left;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #E3E3E3;/*разделительная черта м/у списком*/
+}
+#header-top-menu a{
+    font: 15px sans-serif;
+    color: #00678C;
+    text-decoration: none;
+}
+#header-top-menu a:hover{ /*изменяем цвет при наведении*/
+    color: #EF662B;
+    border-bottom: 1px dashed #EF662B;
+}
+#header-top-menu span{ /*изменяем цвет при наведении*/
+    color: #EF662B;
+    border-bottom: 1px dashed #EF662B;
+}
+
+#reg-auth-title{
+    text-align: right;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+#reg-auth-title{
+    text-align: right;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+a.top-auth{
+    margin-right: 10px;
+    margin-top: 5px;
+    font: 13px sans-serif;
+    font-weight: bold;
+    border: 1px solid #E9EAEA;
+    padding: 4px 8px;
+    background:url(../imj/auth-butt-bg.png);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    cursor: pointer;
+}
+.top-auth:hover{
+    background:url(../imj/auth-butt-bg-move.png);
+}
+#reg-auth-title a{
+    font: 14px sans-serif;
+    text-decoration: none;
+    color:#EF662B;
+    margin-left: 10px;
+    border-bottom: 1px dashed #EF662B;
+}
+#reg-auth-title a:hover{
+    border-bottom:none;
+}﻿
