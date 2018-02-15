@@ -27,7 +27,7 @@
 }
 #top-line{
     background: url(../imj/line.png);
-    width: 1035px;
+    width: 1030px;
     height: 5px;
 }
 
@@ -64,17 +64,12 @@
 
 #reg-auth-title{
     text-align: right;
-    margin-top: 5px;
-    margin-right: 10px;
-}
-#reg-auth-title{
-    text-align: right;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-right: 10px;
 }
 a.top-auth{
     margin-right: 10px;
-    margin-top: 5px;
+    margin-top: 10px;
     font: 13px sans-serif;
     font-weight: bold;
     border: 1px solid #E9EAEA;
@@ -97,4 +92,12 @@ a.top-auth{
 }
 #reg-auth-title a:hover{
     border-bottom:none;
+}
+#img-logo{
+    margin-top: 12px;
 }﻿
+ #personal-info{
+    width: 300px;
+    border: 1px solid black;
+    margin-left: 730px;
+ }
