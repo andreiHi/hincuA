@@ -1,3 +1,16 @@
 $(document).ready(function () {
      $('#block-header').load("assets/include/block-header.html");
+     $('#block-category').load("assets/include/block-category.html");
+     $('#block-parameter').load("assets/include/block-parameter.html");
+     $('#block-news').load("assets/include/block-news.html");
+
+     $('#newsticker').jCarouselLite({
+         vertical:true,
+         hoverPause:true,
+         btnPrev:"#news-prev",
+         btnNext:"#news-next",
+         visible:3,
+         auto:3000,
+         speed:500
+     });
 });
