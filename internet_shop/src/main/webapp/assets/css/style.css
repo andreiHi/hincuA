@@ -330,6 +330,7 @@ margin-right: 8px;
 #newsticker{
     width: 220px;
     border-top: 1px solid #DDDDDD;
+    overflow: hidden;
 }
 #newsticker p{
    font: 14px sans-serif;
@@ -364,4 +365,14 @@ margin-right: 8px;
     margin-top: 5px;
     margin-bottom: 5px;
     cursor: pointer;
+}
+#footer-phone{
+    width: 270px;
+    float: left;
+    margin-right: 10px;
+margin-top: 10px;
+}
+#footer-phone h4{
+    font: bold 15px sans-serif;
+    margin: 0px;
 }
