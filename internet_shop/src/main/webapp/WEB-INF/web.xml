@@ -17,6 +17,15 @@
         <servlet-name>Forward</servlet-name>
         <url-pattern>/for</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProductsController</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.ProductsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProductsController</servlet-name>
+        <url-pattern>/products</url-pattern>
+    </servlet-mapping>
     <!--<filter>-->
         <!--<filter-name>AuthFilter</filter-name>-->
         <!--<filter-class>ru.job4j.servlets.application.controller.AuthFilter</filter-class>-->
