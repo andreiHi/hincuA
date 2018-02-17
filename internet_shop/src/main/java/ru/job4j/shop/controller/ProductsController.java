@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * .
- *
  * @author Hincu Andrei (andreih1981@gmail.com) by 17.02.18;
  * @version $Id$
  * @since 0.1
@@ -28,8 +27,9 @@ public class ProductsController extends HttpServlet {
         resp.setContentType("text/json");
         String prod = req.getParameter("product");
         if (prod != null) {
-            List<Product>products = service.getAllProducts();
+            List<Product> products = service.getAllProducts();
             String json = new Gson().toJson(products);
+            System.out.println(json);
             PrintWriter pw = new PrintWriter(resp.getOutputStream());
             pw.append(json);
             pw.flush();
@@ -39,5 +39,6 @@ public class ProductsController extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
+        service.close();
     }
 }

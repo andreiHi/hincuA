@@ -7,9 +7,7 @@ import ru.job4j.shop.model.Product;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -54,7 +52,7 @@ public class DBService {
             this.sqlQuery.load(isSql);
             LOG.debug("Server start.");
         } catch (IOException e) {
-          LOG.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
     }
     private void createTables() {
@@ -68,8 +66,26 @@ public class DBService {
     }
 
     public List<Product> getAllProducts() {
-        List<Product>products = new ArrayList<>();
-        products.add(new Product(10, "moto","test", 1201, 120));
+        List<Product> products = new ArrayList<>();
+        try {
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement ps = connection.prepareStatement(sqlQuery.getProperty("SELECT_ALL_PRODUCTS"));
+                 ResultSet rs = ps.executeQuery()
+            ) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setId(rs.getInt("id"));
+                    product.setName(rs.getString("name"));
+                    product.setMiniDescription(rs.getString("minidescription"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getInt("price"));
+                    product.setPrice(rs.getInt("amount"));
+                    products.add(product);
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
         return products;
     }
     public void close() {

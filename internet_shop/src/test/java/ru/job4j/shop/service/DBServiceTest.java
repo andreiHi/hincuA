@@ -1,7 +1,5 @@
 package ru.job4j.shop.service;
 
-import static org.junit.Assert.*;
-
 /**
  * .
  *

@@ -17,29 +17,16 @@ public class Product {
     private String name;
     private String description;
     private int price;
-    private int amount;
 
+    public Product() {
+    }
+
+    private int amount;
+    private String miniDescription;
     public int getId() {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Product{"
-                + "id="
-                + id
-                + ", name='"
-                + name
-                + '\''
-                + ", description='"
-                + description
-                + '\''
-                + ", price="
-                + price
-                + ", amount="
-                + amount
-                + '}';
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -77,11 +64,42 @@ public class Product {
         this.amount = amount;
     }
 
-    public Product(int id, String name, String description, int price, int amount) {
+    public String getMiniDescription() {
+        return miniDescription;
+    }
+
+    public void setMiniDescription(String miniDescription) {
+        this.miniDescription = miniDescription;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{"
+                + "id="
+                + id
+                + ", name='"
+
+                + name
+                + '\''
+                + ", description='"
+                + description
+                + '\''
+                + ", price="
+                + price
+                + ", amount="
+                + amount
+                + ", miniDescription='"
+                + miniDescription
+                + '\''
+                + '}';
+    }
+
+    public Product(int id, String name, String description, String miniDescription, int price, int amount) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.amount = amount;
+        this.miniDescription = miniDescription;
     }
 }
