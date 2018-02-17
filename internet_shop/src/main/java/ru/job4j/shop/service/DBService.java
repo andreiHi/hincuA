@@ -6,6 +6,9 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -14,12 +17,15 @@ import java.util.Properties;
  * @since 0.1.
  */
 public class DBService {
+    private Properties sqlQuery;
     private BasicDataSource dataSource;
     private static final Logger LOG = LogManager.getLogger(DBService.class);
     private static final String FILE = "settings.properties";
+    private static final String SQL_FILE = "sql.properties";
 
     private DBService() {
         init();
+        createTables();
     }
 
     private static class DBSer {
@@ -29,9 +35,12 @@ public class DBService {
         return DBSer.INSTANCE;
     }
     private void init() {
+        this.sqlQuery = new Properties();
         Properties pr = new Properties();
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream(FILE)) {
-            pr.load(is);
+        try (InputStream isDb = getClass().getClassLoader().getResourceAsStream(FILE);
+             InputStream isSql = getClass().getClassLoader().getResourceAsStream(SQL_FILE)
+        ) {
+            pr.load(isDb);
             this.dataSource = new BasicDataSource();
             this.dataSource.setDriverClassName(pr.getProperty("db.class"));
             this.dataSource.setUrl(pr.getProperty("db.url"));
@@ -39,9 +48,19 @@ public class DBService {
             this.dataSource.setPassword("db.password");
             this.dataSource.setMinIdle(100);
             this.dataSource.setMaxIdle(1000);
+            this.sqlQuery.load(isSql);
             LOG.debug("Server start.");
         } catch (IOException e) {
           LOG.error(e.getMessage(), e);
+        }
+    }
+    private void createTables() {
+        try (Connection connection = this.dataSource.getConnection();
+             Statement st = connection.createStatement()
+        ) {
+            st.executeUpdate(sqlQuery.getProperty("CREATE_TABLE_PRODUCTS"));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

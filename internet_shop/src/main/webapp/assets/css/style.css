@@ -14,8 +14,7 @@
 }
 #block-content{
     width: 800px;
-    height: 400px;
-    border: 1px solid black;
+    height: auto;
 }
 #header-top-block {
     width: 1035px;
@@ -34,7 +33,6 @@
     width: 1035px;
     height: 160px;
     margin-top: 10px;
-    border: 1px solid black;
     clear: both;
 }
 #header-top-menu li{
@@ -227,7 +225,7 @@ a.top-auth{
     cursor: pointer;
 }
 #block-category > ul > li > a:hover{
-background-color: #EEEEEE;
+    background-color: #EEEEEE;
 }
 #mobile-image{
     position: absolute;
@@ -240,16 +238,16 @@ background-color: #EEEEEE;
     margin-top: -2px;
 }
 #table-image{
-     position: absolute;
-     margin-left: -28px;
-     margin-top: -2px;
- }
+    position: absolute;
+    margin-left: -28px;
+    margin-top: -2px;
+}
 .category-section{
     margin-left: 25px;
     margin-bottom: 5px;
 }
 .category-section li{
-margin-top: 3px;
+    margin-top: 3px;
 }
 .category-section a{
     font: 15px sans-serif;
@@ -275,7 +273,7 @@ margin-top: 3px;
     margin-left: 10px;
 }
 #block-input-price input{
-  width: 45px;
+    width: 45px;
     height: 20px;
     font: 14px sans-serif;
     border: solid #DCDCDC;
@@ -300,7 +298,7 @@ margin-top: 3px;
     margin-top: 3px;
 }
 .check-box-brand input{
-margin-right: 8px;
+    margin-right: 8px;
 }
 #button-param-search{
     width: 81px;
@@ -333,7 +331,7 @@ margin-right: 8px;
     overflow: hidden;
 }
 #newsticker p{
-   font: 14px sans-serif;
+    font: 14px sans-serif;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -343,7 +341,7 @@ margin-right: 8px;
     padding-bottom: 15px;
 }
 #newsticker a{
- color: #EF662B;
+    color: #EF662B;
     font: bold 14px sans-serif;
     text-decoration: none;
 }
@@ -370,9 +368,100 @@ margin-right: 8px;
     width: 270px;
     float: left;
     margin-right: 10px;
-margin-top: 10px;
+    margin-top: 10px;
 }
 #footer-phone h4{
-    font: bold 15px sans-serif;
+    font: bold 16px sans-serif;
     margin: 0px;
 }
+#footer-phone h3{
+    font: bold 23px sans-serif;
+    margin: 5px 0px;
+}
+#footer-phone p{
+    font:  15px sans-serif;
+    margin: 5px 0px;
+}
+.footer-list{
+    width: 200px;
+    float: left;
+    margin-left: 10px;
+}
+.footer-list li{
+ margin-top: 5px;
+}
+.footer-list p{
+    font: bold 14px sans-serif;
+    margin-bottom: 10px;
+    color: #641B74;
+}
+.footer-list a{
+    font: 14px sans-serif;
+  text-decoration: none;
+    color: #7B7B7B;
+}
+.footer-list a:hover{
+ text-decoration: underline;
+}
+#bottom-line{
+    background: url(../imj/line.png);
+    width: 1035px;
+    height: 5px;
+}
+#nav-breadcrumbs{
+    margin-top: 5px;
+}
+#nav-breadcrumbs a{
+    font:  14px sans-serif;
+    color: #4268B1;
+}
+#nav-breadcrumbs a:hover{
+    color: #E20000;
+}
+#nav-breadcrumbs span{
+    font:  14px sans-serif;
+    color: #7F868E;
+}
+#block-sorting{
+    height: 60px;
+    border-bottom: 1px solid #EEEEEE;
+}
+#options-list > li{
+float: left;
+    margin-left: 10px;
+    font:  14px sans-serif;
+
+}
+#options-list img{
+    margin-top: -4px;
+    cursor: pointer;
+}
+#options-list{
+    margin-left: -10px;
+}
+#select-sort{
+    color: #748996;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#sorting-list{
+    border: 1px solid #A3C0D2;
+    position: absolute;
+    width: 200px;
+    height: 108px;
+    background-color: white;
+    padding-top: 5px;
+    display: none;
+}
+#sorting-list li{
+    margin-top: 3px;
+    margin-left: 10px;
+}
+#sorting-list a{
+    font:  14px sans-serif;
+    text-decoration: none;
+    color: black;
+ }
+#sorting-list a:hover{
+  text-decoration: underline;
+ }
