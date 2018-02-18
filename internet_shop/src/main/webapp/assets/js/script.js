@@ -4,7 +4,7 @@ $(document).ready(function () {
      $('#block-parameter').load("assets/include/block-parameter.html");
      // $('#block-news').load("assets/include/block-news.html");
      $('#block-footer').load("assets/include/block-footer.html");
-
+    showproducts();
      // $('#newsticker').jCarouselLite({
      //     vertical:true,
      //     hoverPause:true,
@@ -25,7 +25,7 @@ $(document).ready(function () {
             speed:500
         });
     });
-    showproducts();
+    //showproducts();
 });
 function showproducts() {
         $.ajax({
@@ -36,25 +36,27 @@ function showproducts() {
                 var product = JSON.parse(data.responseText);
                 var li ="";
                 for (var i =0; i<product.length; i++ ) {
-                    li+="<li><p class='style-title-grid'><a href='http://shop//mobile/'" + product[i].id + "/>'"+product[i].id+"'</a></p>";
+                    li+='<li><p class="style-title-grid"><a href="http:/shop/mobile/' + product[i].id + '"/>';
+                        li+= product[i].name + '</a></p>';
 
-                    //     <p class="style-title-grid" ><a href="http://shop//mobile/'.$row["products_id"].'-'.ftranslite($row["title"]).'/" >'.$row["title"].'</a></p>
-                    // <ul class="reviews-and-counts-grid">
-                    //     <li><img src="/images/eye-icon.png" /><p>'.$row["count"].'</p></li>
-                    // <li><img src="/images/comment-icon.png" /><p>'.$count_reviews.'</p></li>
-                    // </ul>
+                    //<p class="style-title-grid" ><a href="http://shop//mobile/'.$row["products_id"].'-'.ftranslite($row["title"]).'/" >'.$row["title"].'</a></p>
+                    li+= '<ul class="reviews-and-counts-grid">';
+                    // li+='<li><img src="assets/imj/eye-icon.png" /><p>'+'show'+'</p></li>';
+                    // li+='<li><img src="assets/imj/comment-icon.png" /><p>'+show+'</p></li>';
+                    li+= '</ul>';
                     // <a class="add-cart-style-grid" tid="'.$row["products_id"].'" ></a>
                     // <p class="style-price-grid" ><strong>'.group_numerals($row["price"]).'</strong> ���.</p>
                     // <div class="mini-features" >
                     //     '.$row["mini_features"].'
                     //     </div>
-                    //     </li>
+                    li+='</li>';
                     //
+
 
 
                 }
 
-                $('#block-tovar-grid').load(li);
+                $('#block-tovar-grid').html(li);
             }
 
 

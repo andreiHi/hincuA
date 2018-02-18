@@ -79,7 +79,7 @@ public class DBService {
                     product.setMiniDescription(rs.getString("minidescription"));
                     product.setDescription(rs.getString("description"));
                     product.setPrice(rs.getInt("price"));
-                    product.setPrice(rs.getInt("amount"));
+                    product.setAmount(rs.getInt("amount"));
                     products.add(product);
                 }
             }
