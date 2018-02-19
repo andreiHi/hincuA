@@ -43,26 +43,35 @@
                 <li><img id="style-grid" src="assets/imj/icon-grid.png"></li>
                 <li><img id="style-list" src="assets/imj/icon-list.png"></li>
                 <li>Сортировать:</li>
-                <li><a id="select-sort">Без ортировки</a>
-                <ul id="sorting-list">
-                    <li><a href="">От дешовых к дорогим</a></li>
-                    <li><a href="">От дорогих к дешевым</a></li>
-                    <li><a href="">Популярные</a></li>
-                    <li><a href="">Новинки</a></li>
-                    <li><a href="">От А до Я</a></li>
-                </ul>
-                </li>
+                <li>
+                    <a id="select-sort">
+                        <!--Без ортировки-->
+                    </a></li>
+                    <!--<ul id="sorting-list">-->
+                        <li id="price-d"><a href="index.html?sort=price-ask">От дешовых к дорогим</a></li>
+                        <li><a href="index.html?sort=price-desc">От дорогих к дешевым</a></li>
+                        <li><a href="index.html?sort=popular">Популярные</a></li>
+                        <!--<li><a href="index.html?sort=news">Новинки</a></li>-->
+                        <li><a href="index.html?sort=brand">От А до Я</a></li>
+                        <!--<li><span id="price-d">От дешовых к дорогим</span></li>-->
+                        <!--<li><span>От дорогих к дешевым</span></li>-->
+                        <!--<li><span>Популярные</span></li>-->
+                        <!--<li><span>Новинки</span></li>-->
+                        <!--<li><span>От А до Я</span></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
             </ul>
         </div>
-        <ul id="block-tovar-grid">
-
-        </ul>
-
+        <div id="product-grid">
+        </div>
+        <div id="product-list">
+        </div>
     </div>
     <div id="block-footer"></div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.jcarousellite.js"></script>
+<script type="text/javascript" src="assets/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="assets/js/script.js"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ public class Product {
     private String name;
     private String description;
     private int price;
+    private int views;
 
     public Product() {
     }
@@ -78,7 +79,6 @@ public class Product {
                 + "id="
                 + id
                 + ", name='"
-
                 + name
                 + '\''
                 + ", description='"
@@ -86,6 +86,8 @@ public class Product {
                 + '\''
                 + ", price="
                 + price
+                + ", views="
+                + views
                 + ", amount="
                 + amount
                 + ", miniDescription='"
@@ -94,12 +96,21 @@ public class Product {
                 + '}';
     }
 
-    public Product(int id, String name, String description, String miniDescription, int price, int amount) {
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public Product(int id, String name, String description, String miniDescription, int price, int amount, int views) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.amount = amount;
         this.miniDescription = miniDescription;
+        this.views = views;
     }
 }
