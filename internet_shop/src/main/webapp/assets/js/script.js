@@ -1,58 +1,55 @@
 $(document).ready(function () {
     $('#block-header').load("assets/include/block-header.html");
     $('#block-category').load("assets/include/block-category.html");
-    $('#block-parameter').load("assets/include/block-parameter.html");
+     $('#block-parameter').load("assets/include/block-parameter.html");
     $('#block-footer').load("assets/include/block-footer.html");
 
+    if ($.cookie('select_style')==null) {
+        $.cookie('select_style', 'grid');
+        $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
+        $.cookie('sort','Without_Sorting');
+        showProductsGrid($.cookie('sort'));
+    } else if ($.cookie('select_style')=='grid') {
+        $('#block-tovar-grid').show();
+        $('#block-tovar-list').hide();
+        $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
+        $('#style-list').attr('src', 'assets/imj/icon-list.png');
+        showProductsGrid($.cookie('sort'));
+    } else if ($.cookie('select_style')=='list') {
+        $('#block-tovar-grid').hide();
+        $('#block-tovar-list').show();
+        $('#style-list').attr('src', 'assets/imj/icon-list-active.png');
+        $('#style-grid').attr('src', 'assets/imj/icon-grid.png');
+        showProductsList($.cookie('sort'));
+    }
+
+    $('#options-sort li').click(function () {
+            $.cookie('sort',$(this).attr('id')) ;
+            if ($.cookie('select_style')=='grid') {
+                showProductsGrid($.cookie('sort'));
+            }
+            if ($.cookie('select_style')=='list') {
+                showProductsList($.cookie('sort'));
+            }
+        }
+    );
+    $('#style-list').click(function () {
+        showProductsList($.cookie('sort'));
+        $('#block-tovar-grid').hide();
+        $('#block-tovar-list').show();
+        $('#style-list').attr('src', 'assets/imj/icon-list-active.png');
+        $('#style-grid').attr('src', 'assets/imj/icon-grid.png');
+        $.cookie('select_style', 'list');
+    });
+
     $('#style-grid').click(function () {
-       // showProductsGrid();
+         showProductsGrid($.cookie('sort'));
         $('#block-tovar-grid').show();
         $('#block-tovar-list').hide();
         $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
         $('#style-list').attr('src', 'assets/imj/icon-list.png');
         $.cookie('select_style', 'grid');
     });
-    $('#style-list').click(function () {
-        $('#block-tovar-grid').hide();
-        $('#block-tovar-list').show();
-        //showProductsList();
-        $('#style-list').attr('src', 'assets/imj/icon-list-active.png');
-        $('#style-grid').attr('src', 'assets/imj/icon-grid.png');
-        $.cookie('select_style', 'list');
-    });
-    if ($.cookie('select_style') =='list') {
-      //  showProductsList();
-        $('#block-tovar-grid').hide();
-        $('#block-tovar-list').show();
-        $('#style-list').attr('src', 'assets/imj/icon-list-active.png');
-        $('#style-grid').attr('src', 'assets/imj/icon-grid.png');
-    } else if ($.cookie('select_style') =='grid') {
-       // showProductsGrid();
-        $('#block-tovar-grid').show();
-        $('#block-tovar-list').hide();
-        $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
-        $('#style-list').attr('src', 'assets/imj/icon-list.png');
-    } else if ($.cookie('select_style') ==null) {
-        alert('null');
-        showProductsGrid();
-        $('#block-tovar-list').hide();
-       // showProductsList();
-
-    }
-
-    $('#select-sort').click(function () {
-        $('#sorting-list').slideToggle(200);
-    });
-
-    $('#options-list li').click(function () {
-            var id = $(this).attr('id');
-            if ($.cookie('select_style') == 'list') {
-                showProductsList(id);
-            } else {
-                showProductsGrid(id);
-            }
-        }
-    );
     $(function() {
         $("#newsticker").jCarouselLite({
             vertical:true,
@@ -64,12 +61,26 @@ $(document).ready(function () {
             speed:500
         });
     });
+    // $(document).ready(function() {
+        $('#blocktrackbar').trackbar({
+            onMove: function () {
+                document.getElementById("start-price").value = this.leftValue;
+                document.getElementById("end-price").value = this.rightValue;
+            },
+            width: 160,
+            leftLimit: 1000,
+            leftValue: 1000,
+            rightLimit: 50000,
+            rightValue:30000,
+            roundUp:1000
+        });
+    // });
 });
 function showProductsGrid(id) {
     $.ajax({
         method:"GET",
         url:"/shop/products",
-        data:{product:"all", sort:id},
+        data:{sort:id},
         complete:function (data) {
             var product = JSON.parse(data.responseText);
             var li ='<ul id="block-tovar-grid">';
@@ -81,7 +92,7 @@ function showProductsGrid(id) {
                 li += '<li><img src="assets/imj/comment-icon.png" /><p>0</p></li>';
                 li += '</ul>';
                 //кнопка корзины
-                li += '<a class="add-cart-style-grid" tid="'+ product[i].id +'" ></a>';
+                li += '<a class="add-cart-style-grid" id="'+ product[i].id +'" ></a>';
                 li += '<p class="style-price-grid" ><strong>' + product[i].price + '</strong> руб.</p>';
                 li+= '<div class="mini-features" >' + product[i].miniDescription + '</div>';
                 li += '</li>';
@@ -94,7 +105,7 @@ function showProductsList(id) {
     $.ajax({
         method:"GET",
         url:"/shop/products",
-        data:{product:"all", sort:id},
+        data:{sort:id},
         complete:function (data) {
             var product = JSON.parse(data.responseText);
             var li ='<ul id="block-tovar-list">';
@@ -106,7 +117,7 @@ function showProductsList(id) {
                 li += '<li><img src="assets/imj/comment-icon.png" /><p>0</p></li>';
                 li += '</ul>';
                 //кнопка корзины
-                li += '<a class="add-cart-style-list" tid="'+ product[i].id +'" ></a>';
+                li += '<a class="add-cart-style-list" id="'+ product[i].id +'" ></a>';
                 li += '<p class="style-price-list" ><strong>' + product[i].price + '</strong> руб.</p>';
                 li+= '<div class="style-text-list" >' + product[i].description + '</div>';
                 li += '</li>';

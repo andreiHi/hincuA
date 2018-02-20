@@ -25,17 +25,14 @@ public class ProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
-        String prod = req.getParameter("product");
         String sort = req.getParameter("sort");
         System.out.println(sort);
-        System.out.println(prod);
-        if (prod != null) {
-            List<Product> products = service.getAllProducts();
+            List<Product> products = service.getAllProducts(sort);
             String json = new Gson().toJson(products);
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
             pw.append(json);
             pw.flush();
-        }
+
     }
 
     @Override

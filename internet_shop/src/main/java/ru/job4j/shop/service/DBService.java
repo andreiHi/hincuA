@@ -65,11 +65,11 @@ public class DBService {
         }
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(String sort) {
         List<Product> products = new ArrayList<>();
         try {
             try (Connection connection = dataSource.getConnection();
-                 PreparedStatement ps = connection.prepareStatement(sqlQuery.getProperty("SELECT_ALL_PRODUCTS"));
+                 PreparedStatement ps = connection.prepareStatement(sqlQuery.getProperty(sort));
                  ResultSet rs = ps.executeQuery()
             ) {
                 while (rs.next()) {

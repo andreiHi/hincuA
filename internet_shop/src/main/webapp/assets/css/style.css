@@ -439,11 +439,17 @@ a.top-auth{
 #options-list{
     margin-left: -10px;
 }
+#options-sort > li{
+    float: left;
+    margin-left: 10px;
+    font:  14px sans-serif;
+}
 #select-sort{
     color: #748996;
     text-decoration: underline;
     cursor: pointer;
 }
+
 #sorting-list{
     border: 1px solid #A3C0D2;
     position: absolute;
@@ -457,12 +463,13 @@ a.top-auth{
     margin-top: 3px;
     margin-left: 10px;
 }
-#sorting-list a{
+#options-sort a{
     font:  14px sans-serif;
     text-decoration: none;
     color: black;
 }
-#sorting-list a:hover{
+#options-sort a:hover{
+    color: red;
     text-decoration: underline;
 }
 #sorting-list span{
