@@ -547,7 +547,7 @@ a.top-auth{
     margin-top: 10px;
 }
 /*#block-tovar-list {*/
-    /*display: none;*/
+/*display: none;*/
 /*}*/
 #block-tovar-list > li {
     border-bottom: 1px solid #E6E6E6;
@@ -616,4 +616,121 @@ a.top-auth{
 .style-text-list{
     font: 15px sans-serif;
     margin: 0px;
+}
+.h2-title{
+    font: 25px sans-serif;
+    border-bottom: 1px solid #EEEEEE;
+    padding-bottom: 3px;
+}
+#block-form-registration{
+    height: auto;
+}
+#form-registration{
+    margin-top: 30px;
+}
+#form-registration li{
+    margin-top: 10px;
+}
+#form-registration >li>input{
+    height: 30px;
+    width: 320px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    padding-left: 5px;
+    color: black;
+    border: 1px solid #ABABAB;
+    border-right-color: #DDDDDD;
+    border-bottom-color: #DDDDDD;
+}
+#form-registration>li>label{
+    position: absolute;
+    font: 15px sans-serif;
+    margin-top: 7px;
+}
+.star{
+    font: 16px sans-serif;
+    color: #E35903;
+    position: absolute;
+    margin-left: 188px;
+    margin-top: 10px;
+}
+#gen_pass{
+    font: bold 13px sans-serif;
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#gen_pass:hover{
+    text-decoration: none;
+}
+#form-registration>li>input#reg_login,
+#form-registration>li>input#reg_pass{
+    height: 30px;
+    width: 200px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    padding-left: 5px;
+    color: black;
+    border: 1px solid #ABABAB;
+    border-right-color: #DDDDDD;
+    border-bottom-color: #DDDDDD;
+}
+#form-registration>li>input:focus,
+#form-registration>li>input#reg_login:focus,
+#form-registration>li>input#reg_pass:focus,
+#bloc-captcha > input#reg_captcha:focus {
+    border: solid #C4E1EB;
+}
+#bloc-captcha{
+    position: absolute;
+    margin-left: 200px;
+    height: 70px;
+}
+
+#bloc-captcha > input#reg_captcha{
+    height: 30px;
+    width: 100px;
+    font: 19px sans-serif;
+    margin-left: 15px;
+    padding-left: 5px;
+    margin-top: 8px;
+    color: black;
+    border: 1px solid #ABABAB;
+    border-right-color: #DDDDDD;
+    border-bottom-color: #DDDDDD;
+}
+#bloc-captcha img{
+    float: left;
+}
+#bloc-captcha p {
+    margin-top: 0px;
+    font: bold 13px sans-serif;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#bloc-captcha p:hover {
+    text-decoration: none;
+}
+#form_submit{
+    background: url(../imj/grd_reg_button.png);
+    border: 1px solid #E4E4E4;
+    font: bold 13px sans-serif;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    height: 33px;
+    cursor: pointer;
+    margin-top: -15px;
+    margin-right: 15px;
+}
+#form_submit:active{
+    background: url(../imj/grd_reg_button_vert.png);
+}
+.error{
+    font: italic 14px sans-serif;
+    color: #CC0063;
+    margin-left: 5px;
 }

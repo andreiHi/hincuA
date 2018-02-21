@@ -62,18 +62,18 @@ $(document).ready(function () {
         });
     });
     // $(document).ready(function() {
-        $('#blocktrackbar').trackbar({
-            onMove: function () {
-                document.getElementById("start-price").value = this.leftValue;
-                document.getElementById("end-price").value = this.rightValue;
-            },
-            width: 160,
-            leftLimit: 1000,
-            leftValue: 1000,
-            rightLimit: 50000,
-            rightValue:30000,
-            roundUp:1000
-        });
+    //     $('#blocktrackbar').trackbar({
+    //         onMove: function () {
+    //             document.getElementById("start-price").value = this.leftValue;
+    //             document.getElementById("end-price").value = this.rightValue;
+    //         },
+    //         width: 160,
+    //         leftLimit: 1000,
+    //         leftValue: 1000,
+    //         rightLimit: 50000,
+    //         rightValue:30000,
+    //         roundUp:1000
+    //     });
     // });
 });
 function showProductsGrid(id) {

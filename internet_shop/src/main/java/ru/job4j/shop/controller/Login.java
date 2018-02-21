@@ -14,12 +14,18 @@ import java.io.IOException;
  * @version $Id$.
  * @since 0.1.
  */
-public class Sort extends HttpServlet {
-    private static final Logger LOG = LogManager.getLogger(Sort.class);
+public class Login extends HttpServlet {
+    private static final Logger LOG = LogManager.getLogger(Login.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String login = req.getParameter("reg_login");
+        System.out.println(login);
     }
 
     @Override

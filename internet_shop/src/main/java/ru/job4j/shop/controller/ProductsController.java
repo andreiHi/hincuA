@@ -27,12 +27,11 @@ public class ProductsController extends HttpServlet {
         resp.setContentType("text/json");
         String sort = req.getParameter("sort");
         System.out.println(sort);
-            List<Product> products = service.getAllProducts(sort);
-            String json = new Gson().toJson(products);
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-            pw.append(json);
-            pw.flush();
-
+        List<Product> products = service.getAllProducts(sort);
+        String json = new Gson().toJson(products);
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+        pw.append(json);
+        pw.flush();
     }
 
     @Override

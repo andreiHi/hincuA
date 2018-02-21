@@ -60,6 +60,14 @@ public class DBService {
              Statement st = connection.createStatement()
         ) {
             st.executeUpdate(sqlQuery.getProperty("CREATE_TABLE_PRODUCTS"));
+            st.executeUpdate(sqlQuery.getProperty("CREATE_TABLE_ROLE"));
+            st.executeUpdate(sqlQuery.getProperty("CREATE_TABLE_USERS"));
+            try (ResultSet rs = st.executeQuery(sqlQuery.getProperty("SELECT_ALL_FROM_USERS"))) {
+                if (!rs.next()) {
+                    st.executeUpdate(sqlQuery.getProperty("INSERT_ROLE"));
+                    st.executeUpdate(sqlQuery.getProperty("INSERT_ROOT_USER"));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
