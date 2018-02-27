@@ -1,5 +1,9 @@
 $(document).ready(function () {
-
+    var sesion = sessionStorage.getItem('login');
+    console.log(sesion);
+    if (sesion !=null) {
+        $('#reg-auth-title').replaceWith('<p id="auth-user-info" align="right"><img src="assets/imj/user.png"/>Здравствуйте,'+ sessionStorage.getItem('login') +'</p>');
+    }
     $('.top-auth').click(
         function () {
             if($('#block-top-auth').css('display') == 'none'){
@@ -75,8 +79,9 @@ $(document).ready(function () {
                 complete: function(data) {
                      var res = JSON.parse(data.responseText);
                      if (res === true) {
-                         $('#reg-auth-title').replaceWith('<p id="auth-user-info" align="right"><img src="assets/imj/user.png"/>Здравствуйте,'+auth_login +'</p>');
-                         //location.reload();
+                         sessionStorage.setItem('login', auth_login);
+                         sessionStorage.setItem('password', auth_pass);
+                         location.reload();
                          $('#block-top-auth').hide();
 
                      }else {

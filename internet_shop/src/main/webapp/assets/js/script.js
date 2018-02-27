@@ -3,7 +3,6 @@ $(document).ready(function () {
     $('#block-category').load("assets/include/block-category.html");
     $('#block-parameter').load("assets/include/block-parameter.html");
     $('#block-footer').load("assets/include/block-footer.html");
-
     if ($.cookie('select_style')==null) {
         $.cookie('select_style', 'grid');
         $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
