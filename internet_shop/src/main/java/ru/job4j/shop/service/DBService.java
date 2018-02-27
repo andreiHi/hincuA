@@ -4,6 +4,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.shop.model.Product;
+import ru.job4j.shop.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,55 @@ public class DBService {
     private DBService() {
         init();
         createTables();
+    }
+
+    public boolean checkLogin(String login) {
+        boolean exist = true;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlQuery.getProperty("SELECT_LOGIN"))
+        ) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    exist = false;
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return exist;
+    }
+
+    public boolean addNewUser(User user) {
+        boolean add = false;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlQuery.getProperty("ADD_NEW_USER"))) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, "user");
+            add = ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return add;
+    }
+
+    public boolean checkUser(String login, String password) {
+        boolean exist = false;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlQuery.getProperty("GET_USER_BY_PASS_AND_LOGIN"))
+        ) {
+            ps.setString(1, login);
+            ps.setString(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    exist = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exist;
     }
 
     private static class DBSer {

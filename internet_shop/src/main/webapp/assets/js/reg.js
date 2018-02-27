@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('#block-header').load("assets/include/block-header.html");
+    $('#block-category').load("assets/include/block-category.html");
+    $('#block-parameter').load("assets/include/block-parameter.html");
+    $('#block-footer').load("assets/include/block-footer.html");
+
     $('#form_reg').validate({
         // правила для проверки
         rules:{
@@ -16,13 +21,6 @@ $(document).ready(function() {
                 minlength:7,
                 maxlength:15
             },
-            "reg_captcha":{
-                required:true,
-                remote: {
-                    type: "post",
-                    url: "/reg/check_captcha.php"
-                }
-            }
         },
 
         // выводимые сообщения при нарушении соответствующих правил
@@ -38,26 +36,39 @@ $(document).ready(function() {
                 minlength:"От 7 до 15 символов!",
                 maxlength:"От 7 до 15 символов!"
             },
-            "reg_captcha":{
-                required:"Введите код с картинки!",
-                remote: "Не верный код проверки!"
-            }
         },
-        submitHandler: function(form){
-            $(form).ajaxSubmit({
-                success: function(data) {
-                    if (data == 'true') {
-                        $("#block-form-registration").fadeOut(300,function() {
-                            $("#reg_message").addClass("reg_message_good").fadeIn(400).html("Вы успешно зарегистрированы!");
-                            $("#form_submit").hide();
 
-                        });
-                    }
-                    else                    {
-                        $("#reg_message").addClass("reg_message_error").fadeIn(400).html(data);
-                    }
+    });
+    $('#form_reg').submit(function () {
+        var form = $(this).serialize();
+        $.ajax({
+            method:'POST',
+            url:'/shop/register',
+            data:form,
+            complete:function (data) {
+                var valid = JSON.parse(data.responseText);
+                if (valid =='true') {
+                    $("#block-form-registration").fadeOut(300,function() {
+                        $("#reg_message").addClass("reg_message_good").fadeIn(400).html("Вы успешно зарегистрированы!");
+                        $("#form_submit").hide();
+                    });
                 }
-            });
-        }
+                else {
+                    $("#reg_message").addClass("reg_message_error").fadeIn(400).html(valid);
+                }
+            }
+        });
+        return false;
+    });
+    $('#gen_pass').click(function () {
+        $.ajax({
+        type:'GET',
+            url:'/shop/login',
+            dataType:'html',
+            success(data){
+            $('#reg_pass').val(data);
+            }
+        });
+
     });
 });

@@ -1,7 +1,5 @@
 package ru.job4j.shop.controller;
 
-import static org.junit.Assert.*;
-
 /**
  * .
  *
@@ -10,5 +8,6 @@ import static org.junit.Assert.*;
  * @since 0.1
  */
 public class ProductsControllerTest {
+
 
 }

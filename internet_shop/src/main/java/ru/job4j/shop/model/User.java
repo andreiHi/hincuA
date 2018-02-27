@@ -16,11 +16,9 @@ public class User {
     private String password;
     private String role;
 
-    public User(int id, String name, String password, String role) {
-        this.id = id;
+    public User(String name, String password) {
         this.name = name;
         this.password = password;
-        this.role = role;
     }
 
     @Override

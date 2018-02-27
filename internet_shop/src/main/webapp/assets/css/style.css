@@ -62,6 +62,9 @@
     margin-top: 10px;
     margin-right: 10px;
 }
+#reg-auth-title a#activ-button{
+background: url(../imj/auth-butt-bg-click.png);
+}
 a.top-auth{
     margin-right: 10px;
     margin-top: 10px;
@@ -733,4 +736,134 @@ a.top-auth{
     font: italic 14px sans-serif;
     color: #CC0063;
     margin-left: 5px;
+}
+.reg_message_good{
+    font: 18px sans-serif;
+    color: black;
+    background-color: #EDEDFF;
+    border: 1px solid #E6E6FE;
+}
+.reg_message_error{
+    font: bold 14px sans-serif;
+    color: red;
+    background-color: #F7EDEF;
+    border: 1px solid #FAC8D3;
+}
+#reg_message{
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: none;
+}
+#block-top-auth{
+    border: 1px solid #DBDBDB;
+    width: 210px;
+    height: auto;
+    margin-left: 719px;
+    margin-top: -10px;
+    background-color: white;
+    position: absolute;
+    z-index: 9999;
+    -moz-box-shadow:0 0 15px #DBDBDB;
+    -webkir-box-shadow: 0 0 15px #DBDBDB;
+    -box-shadow:0 0 15px #DBDBDB ;
+    display: none;
+}
+.corner{
+    background: url(../imj/bulleticon.png);
+    width: 19px;
+    height: 10px;
+    margin-left: 175px;
+    margin-top: -9px;
+}
+#input-login-pass h3{
+    font: 15px sans-serif;
+margin: 10px;
+}
+#message-auth{
+    font: bold 13px sans-serif;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #FDE7E7;
+    color: red;
+    display: none;
+}
+#input-login-pass > li{
+    margin-top: 7px;
+    align-items: center;
+}
+#input-login-pass  input#auth_login{
+    width: 180px;
+    height: 25px;
+    font: 15px sans-serif;
+    border: 1px solid #DBDBDB;
+    padding-left: 5px;
+    margin-left: 10px;
+
+}
+#input-login-pass  input#auth_pass{
+    width: 180px;
+    height: 25px;
+    font: 15px sans-serif;
+    border: 1px solid #DBDBDB;
+    padding-left: 5px;
+    margin-left: 10px;
+}
+.pass-show{
+    background: url(../imj/open_eye.png) no-repeat;
+    width: 18px;
+    height: 11px;
+}
+.pass-hide{
+    background: url(../imj/eye_closed.png) no-repeat;
+    width: 20px;
+    height: 10px;
+}
+#input-login-pass span{
+width: 25px;
+    height: 25px;
+    cursor: pointer;
+    margin-top: 10px;
+    position: absolute;
+    margin-left: -28px;
+}
+#list-auth{
+    margin-top: 12px;
+}
+#list-auth li{
+    margin-top: 5px;
+    margin-left: 10px;
+    font: 14px sans-serif;
+}
+#list-auth a{
+    color: black;
+    margin-left: 3px;
+    border-bottom: 1px dashed black;
+    text-decoration: none;
+}
+#list-auth a:hover{
+    border-bottom: none;
+}
+#button-auth a,#button-remind a{
+     margin-right: 10px;
+     cursor: pointer;
+     background: url(../imj/button-grd.png) repeat-x;
+     font:bold 13px sans-serif;
+    padding: 5px 10px;
+    border: 1px solid #E8E8E8;
+     border-radius:5px ;
+     -webkit-border-radius:5px ;
+     -moz-border-radius:5px ;
+ }
+
+#button-auth a:hover,#button-remind a:hover{
+    background: url(../imj/button-grd-hover.png) repeat-x;
+}
+#button-auth a:active,#button-remind a:active{
+    background: url(../imj/button-grd-active.png) repeat-x;
+}
+.auth-loading{
+    margin-right: 30px;
+    margin-top: 20px;
+    display: none;
 }

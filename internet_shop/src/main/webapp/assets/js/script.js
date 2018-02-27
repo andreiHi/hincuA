@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    $('#block-header').load("assets/include/block-header.html");
+   $('#block-header').load("assets/include/block-header.html");
     $('#block-category').load("assets/include/block-category.html");
-     $('#block-parameter').load("assets/include/block-parameter.html");
+    $('#block-parameter').load("assets/include/block-parameter.html");
     $('#block-footer').load("assets/include/block-footer.html");
 
     if ($.cookie('select_style')==null) {
@@ -43,7 +43,7 @@ $(document).ready(function () {
     });
 
     $('#style-grid').click(function () {
-         showProductsGrid($.cookie('sort'));
+        showProductsGrid($.cookie('sort'));
         $('#block-tovar-grid').show();
         $('#block-tovar-list').hide();
         $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
@@ -61,20 +61,7 @@ $(document).ready(function () {
             speed:500
         });
     });
-    // $(document).ready(function() {
-    //     $('#blocktrackbar').trackbar({
-    //         onMove: function () {
-    //             document.getElementById("start-price").value = this.leftValue;
-    //             document.getElementById("end-price").value = this.rightValue;
-    //         },
-    //         width: 160,
-    //         leftLimit: 1000,
-    //         leftValue: 1000,
-    //         rightLimit: 50000,
-    //         rightValue:30000,
-    //         roundUp:1000
-    //     });
-    // });
+
 });
 function showProductsGrid(id) {
     $.ajax({
@@ -125,4 +112,92 @@ function showProductsList(id) {
             $('#product-list').html(li + '</ul>');
         }
     });
+    function header() {
+        $('.top-auth').click(
+            function () {
+                if($('#block-top-auth').css('display') == 'none'){
+                    $('.top-auth').attr('id','activ-button');
+                    $('#block-top-auth').fadeIn(200);
+                } else {
+                    $('#block-top-auth').fadeOut(200);
+                    $('.top-auth').attr('id','');
+                }
+            });
+        $('#button-pass-show-hide').click(function () {
+            var statuspass = $('#button-pass-show-hide').attr('class');
+            if (statuspass=='pass-show'){
+                $('#button-pass-show-hide').attr('class','pass-hide');
+                var $input = $('#auth_pass');
+                var change = "text";
+                var rep = $("<input placeholder='Пароль' type='" + change + "' />")
+                    .attr("id", $input.attr("id"))
+                    .attr("name", $input.attr("name"))
+                    .attr('class', $input.attr('class'))
+                    .val($input.val())
+                    .insertBefore($input);
+                $input.remove();
+                $input = rep;
+            }else {
+                $('#button-pass-show-hide').attr('class','pass-show');
+                var $input = $("#auth_pass");
+                var change = "password";
+                var rep = $("<input placeholder='Пароль' type='" + change + "' />")
+                    .attr("id", $input.attr("id"))
+                    .attr("name", $input.attr("name"))
+                    .attr('class', $input.attr('class'))
+                    .val($input.val())
+                    .insertBefore($input);
+                $input.remove();
+                $input = rep;
+            }
+        });
+        $("#button-auth").click(function() {
+            var auth_login = $("#auth_login").val();
+            var auth_pass = $("#auth_pass").val();
+            var send_login,send_pass,auth_rememberme;
+            if (auth_login == "" || auth_login.length > 30 ) {
+                $("#auth_login").css("borderColor","#FDB6B6");
+                send_login = 'no';
+            }else {
+                $("#auth_login").css("borderColor","#DBDBDB");
+                send_login = 'yes';
+            }
+            if (auth_pass == "" || auth_pass.length > 15 ) {
+                $("#auth_pass").css("borderColor","#FDB6B6");
+                send_pass = 'no';
+            }else { $("#auth_pass").css("borderColor","#DBDBDB");
+                send_pass = 'yes'; }
+
+            if ($("#rememberme").prop('checked')) {
+                auth_rememberme = 'yes';
+
+            }else {
+                auth_rememberme = 'no';
+            }
+
+            if ( send_login == 'yes' && send_pass == 'yes' ) {
+                $("#button-auth").hide();
+                $(".auth-loading").show();
+
+                $.ajax({
+                    async: true,
+                    method: "POST",
+                    url: "/shop/authorization",
+                    data:{login:auth_login, password:auth_pass, remember:auth_rememberme},
+                    cache: false,
+                    complete: function(data) {
+                        var res = JSON.parse(data.responseText);
+                        if (res === true) {
+                            location.reload();
+                        }else {
+                            $("#message-auth").slideDown(400);
+                            $(".auth-loading").hide();
+                            $("#button-auth").show();
+                        }
+                    }
+                });
+            }
+        });
+
+    }
 }
