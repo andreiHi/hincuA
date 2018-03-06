@@ -9,5 +9,4 @@ package ru.job4j.shop.controller;
  */
 public class ProductsControllerTest {
 
-
 }

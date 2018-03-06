@@ -1,19 +1,3 @@
-$(document).ready(function () {
-    var sesion = sessionStorage.getItem('login');
-    console.log(sesion);
-    if (sesion !=null) {
-        $('#reg-auth-title').replaceWith('<p id="auth-user-info" align="right"><img src="assets/imj/user.png"/>Здравствуйте,'+ sessionStorage.getItem('login') +'</p>');
-    }
-    $('.top-auth').click(
-        function () {
-            if($('#block-top-auth').css('display') == 'none'){
-                $('.top-auth').attr('id','activ-button');
-                $('#block-top-auth').fadeIn(200);
-            } else {
-                $('#block-top-auth').fadeOut(200);
-                $('.top-auth').attr('id','');
-            }
-        });
     $('#button-pass-show-hide').click(function () {
         var statuspass = $('#button-pass-show-hide').attr('class');
         if (statuspass=='pass-show'){
@@ -42,6 +26,7 @@ $(document).ready(function () {
             $input = rep;
         }
     });
+
     $("#button-auth").click(function() {
         var auth_login = $("#auth_login").val();
         var auth_pass = $("#auth_pass").val();
@@ -74,15 +59,16 @@ $(document).ready(function () {
                 async: true,
                 method: "POST",
                 url: "/shop/authorization",
-                data:{login:auth_login, password:auth_pass, remember:auth_rememberme},
+                data:{aut:'login_pass', login:auth_login, password:auth_pass, remember:auth_rememberme},
                cache: false,
                 complete: function(data) {
                      var res = JSON.parse(data.responseText);
                      if (res === true) {
-                         sessionStorage.setItem('login', auth_login);
-                         sessionStorage.setItem('password', auth_pass);
-                         location.reload();
                          $('#block-top-auth').hide();
+                         $('#reg-auth-title').replaceWith('<p id="auth-user-info" align="right"><img src="assets/imj/user.png"/>Здравствуйте, ' + auth_login + '!</p>');
+                         $("#reg_message").hide();
+                         loadCart();
+                         showUserCart();
 
                      }else {
                         $("#message-auth").slideDown(400);
@@ -93,4 +79,55 @@ $(document).ready(function () {
             });
         }
     });
+//авторизация с куками
+$('.top-auth').click(
+    function() {
+        if ($.cookie('login') != null){
+            $.ajax({
+                method: "POST",
+                url: "/shop/authorization",
+                data:{aut:'cook'},
+                cache: false,
+                complete: function(data) {
+                    var res = JSON.parse(data.responseText);
+                    console.log(res);
+                    if (res !=null) {
+                        $('#reg-auth-title').replaceWith('<p id="auth-user-info" align="right"><img src="assets/imj/user.png"/>Здравствуйте, ' + res + '!</p>');
+                        loadCart();
+                        showUserCart();
+                   } else {
+                        if($('#block-top-auth').css('display') == 'none'){
+                            $('.top-auth').attr('id','activ-button');
+                            $('#block-top-auth').fadeIn(200);
+                        } else {
+                            $('#block-top-auth').fadeOut(200);
+                            $('.top-auth').attr('id','');
+                        }
+                    }
+                }
+            });
+        } else {
+            if($('#block-top-auth').css('display') == 'none'){
+                $('.top-auth').attr('id','activ-button');
+                $('#block-top-auth').fadeIn(200);
+            } else {
+                $('#block-top-auth').fadeOut(200);
+                $('.top-auth').attr('id','');
+            }
+        }
+    });
+
+$('#logout').click(function () {
+    $.cookie('login', null);
+    $.ajax({
+        method:'GET',
+        url:"/shop/authorization",
+        data:{'session':'logOut'}
+    });
+    loadCart();
+    location.reload();
 });
+$(document).on('click','#auth-user-info', function () {
+    $("#block-user").toggle();
+    });
+

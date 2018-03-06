@@ -21,6 +21,25 @@ public class Purchase {
     private Timestamp data;
     private int price;
     private int quantity;
+    private String description;
+    private String title;
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Purchase(int id, int userId, int productId, Timestamp data, int price, int quantity) {
         this.id = id;
@@ -29,6 +48,9 @@ public class Purchase {
         this.data = data;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public Purchase() {
     }
 
     public int getId() {
@@ -94,6 +116,8 @@ public class Purchase {
                 + price
                 + ", quantity="
                 + quantity
+                + ", description="
+                + description
                 + '}';
     }
 }

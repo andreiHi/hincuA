@@ -1,5 +1,5 @@
 $(document).ready(function () {
-   $('#block-header').load("assets/include/block-header.html");
+    $('#block-header').load("assets/include/block-header.html");
     $('#block-category').load("assets/include/block-category.html");
     $('#block-parameter').load("assets/include/block-parameter.html");
     $('#block-footer').load("assets/include/block-footer.html");
@@ -60,8 +60,39 @@ $(document).ready(function () {
             speed:500
         });
     });
-
+    checkSession();
+    //добавление товара в корзину с главной страницы
+    $(document).on('click','.add-cart-style-grid, .add-cart-style-list, .add-cart', function () {
+        var id = $(this).attr('id');
+        $.ajax({
+            method:'POST',
+            url:"/shop/cart",
+            data:{'id':id},
+            complete:function (data) {
+                var result = JSON.parse(data.responseText);
+                if (result !== '0') {
+                    $("#reg_message").addClass("reg_message_error").fadeIn(400).html(result);
+                } else {
+                    loadCart();
+                }
+            }
+        })
+    });
 });
+function loadCart() {
+    $.ajax({
+        method:"POST",
+        url:"/shop/loadcart",
+        complete:function (data) {
+            var result = JSON.parse(data.responseText);
+            if(result ==='') {
+                $("#block-basket > a").html("Корзина пуста");
+            } else {
+                $("#block-basket > a").html(result);
+            }
+        }
+    });
+}
 function showProductsGrid(id) {
     $.ajax({
         method:"GET",
@@ -71,7 +102,7 @@ function showProductsGrid(id) {
             var product = JSON.parse(data.responseText);
             var li ='<ul id="block-tovar-grid">';
             for (var i =0; i<product.length; i++ ) {
-                li += '<li><p class="style-title-grid"><a href="http:/shop/mobile/' + product[i].id + '">' + product[i].name + '</a></p>';
+                li += '<li><p class="style-title-grid"><a href="http:/shop/view_content.html?id=' + product[i].id + '">' + product[i].name + '</a></p>';
                 //отзывы и просмотры
                 li += '<ul class="reviews-and-counts-grid">';
                 li += '<li><img src="assets/imj/eye-icon.png"/><p>'+product[i].views+'</p></li>';
@@ -96,107 +127,87 @@ function showProductsList(id) {
             var product = JSON.parse(data.responseText);
             var li ='<ul id="block-tovar-list">';
             for (var i =0; i<product.length; i++ ) {
-                li += '<li><p class="style-title-list"><a href="http:/shop/mobile/' + product[i].id + '">' + product[i].name + '</a></p>';
+                li += '<li><p class="style-title-list"><a href="http:/shop/view_content.html?id=' + product[i].id + '">' + product[i].name + '</a></p>';
                 //отзывы и просмотры
                 li += '<ul class="reviews-and-counts-list">';
                 li += '<li><img src="assets/imj/eye-icon.png"/><p>'+product[i].views+'</p></li>';
                 li += '<li><img src="assets/imj/comment-icon.png" /><p>0</p></li>';
                 li += '</ul>';
                 //кнопка корзины
-                li += '<a class="add-cart-style-list" id="'+ product[i].id +'" ></a>';
+                li += '<a class="add-cart-style-list" id="'+ product[i].id +'""></a>';
                 li += '<p class="style-price-list" ><strong>' + product[i].price + '</strong> руб.</p>';
                 li+= '<div class="style-text-list" >' + product[i].description + '</div>';
                 li += '</li>';
+
             }
             $('#product-list').html(li + '</ul>');
         }
     });
-    function header() {
-        $('.top-auth').click(
-            function () {
-                if($('#block-top-auth').css('display') == 'none'){
-                    $('.top-auth').attr('id','activ-button');
-                    $('#block-top-auth').fadeIn(200);
-                } else {
-                    $('#block-top-auth').fadeOut(200);
-                    $('.top-auth').attr('id','');
-                }
-            });
-        $('#button-pass-show-hide').click(function () {
-            var statuspass = $('#button-pass-show-hide').attr('class');
-            if (statuspass=='pass-show'){
-                $('#button-pass-show-hide').attr('class','pass-hide');
-                var $input = $('#auth_pass');
-                var change = "text";
-                var rep = $("<input placeholder='Пароль' type='" + change + "' />")
-                    .attr("id", $input.attr("id"))
-                    .attr("name", $input.attr("name"))
-                    .attr('class', $input.attr('class'))
-                    .val($input.val())
-                    .insertBefore($input);
-                $input.remove();
-                $input = rep;
-            }else {
-                $('#button-pass-show-hide').attr('class','pass-show');
-                var $input = $("#auth_pass");
-                var change = "password";
-                var rep = $("<input placeholder='Пароль' type='" + change + "' />")
-                    .attr("id", $input.attr("id"))
-                    .attr("name", $input.attr("name"))
-                    .attr('class', $input.attr('class'))
-                    .val($input.val())
-                    .insertBefore($input);
-                $input.remove();
-                $input = rep;
-            }
-        });
-        $("#button-auth").click(function() {
-            var auth_login = $("#auth_login").val();
-            var auth_pass = $("#auth_pass").val();
-            var send_login,send_pass,auth_rememberme;
-            if (auth_login == "" || auth_login.length > 30 ) {
-                $("#auth_login").css("borderColor","#FDB6B6");
-                send_login = 'no';
-            }else {
-                $("#auth_login").css("borderColor","#DBDBDB");
-                send_login = 'yes';
-            }
-            if (auth_pass == "" || auth_pass.length > 15 ) {
-                $("#auth_pass").css("borderColor","#FDB6B6");
-                send_pass = 'no';
-            }else { $("#auth_pass").css("borderColor","#DBDBDB");
-                send_pass = 'yes'; }
-
-            if ($("#rememberme").prop('checked')) {
-                auth_rememberme = 'yes';
-
-            }else {
-                auth_rememberme = 'no';
-            }
-
-            if ( send_login == 'yes' && send_pass == 'yes' ) {
-                $("#button-auth").hide();
-                $(".auth-loading").show();
-
-                $.ajax({
-                    async: true,
-                    method: "POST",
-                    url: "/shop/authorization",
-                    data:{login:auth_login, password:auth_pass, remember:auth_rememberme},
-                    cache: false,
-                    complete: function(data) {
-                        var res = JSON.parse(data.responseText);
-                        if (res === true) {
-                            location.reload();
-                        }else {
-                            $("#message-auth").slideDown(400);
-                            $(".auth-loading").hide();
-                            $("#button-auth").show();
-                        }
-                    }
-                });
-            }
-        });
-
-    }
 }
+function checkSession() {
+    $.ajax({
+        method: 'GET',
+        url: "/shop/authorization",
+        data: {'session': 'exist'},
+        complete: function (data) {
+            var res = JSON.parse(data.responseText);
+            if (res != null) {
+                $('#reg-auth-title').replaceWith('<p id="auth-user-info" align="right"><img src="assets/imj/user.png"/>Здравствуйте, ' + res + '!</p>');
+                loadCart();
+            }
+        }
+    });
+}
+function showUserCart() {
+    $.ajax({
+        method:'GET',
+        url:"/shop/userCart",
+        data:{"action":"showCart"},
+        complete:function (data) {
+            var list = JSON.parse(data.responseText);
+            if (list != null) {
+                var div = "";
+                var itog=0;
+                for (var i = 0; i<list.length; i++) {
+                    var p = list[i].price;
+                    var q = list[i].quantity;
+                    var summ = p*q;
+                    itog+=summ;
+                    div +='<div class="block-list-cart">';
+                    div +='<div class="title-cart">';
+                    div +='<p><a href="http:/shop/view_content.html?id='+list[i].productId+'">'+ list[i].title +'</a></p>';
+                    div +='<p class="cart-mini-features">'+ list[i].description +'</p></div>';
+
+                    div+='<div class="count-cart">';
+                    div+='<ul class="input-count-style">';
+                    div+='<li><p align="center" iid="'+list[i].id+'" count="'+list[i].quantity+'" class="count-minus">-</p></li>';
+
+                    div+='<li><p align="center"><input id="input-id'+list[i].id+'" iid="'+list[i].id+'" class="count-input" maxlength="3" type="text" value="'+list[i].quantity+'" /></p></li>';
+
+                    div+='<li><p align="center" iid="'+list[i].id+'" class="count-plus">+</p></li>';
+                    div+='</ul></div>';
+                    div+='<div id="tovar'+list[i].productId+'" class="price-product"><h5><span class="span-count" >'+list[i].quantity+'</span> x <span>'+list[i].price+'</span></h5><p>'+summ+' руб</p>';
+                    div+='</div>';
+                    div+='<div class="delete-cart">';
+                    div+='<a onclick="deleteProduct('+list[i].id+')"><img src="assets/imj/bsk_item_del.png" /></a>';
+                    div+='</div>';
+                    div+='<div id="bottom-cart-line"></div>';
+                    div+='</div>';
+                }
+                div+='<h2 class="itog-price" align="right">Итого: <strong>'+itog+'</strong> руб</h2>';
+                div+='<p align="right" class="button-next" ><a href="" >Оплатить</a></p>';
+                $('#show-cart').html(div);
+            } else {
+                $('#show-cart').html('<h3 id="clear-cart" align="center">Корзина пуста</h3>');
+            }
+        }
+    });
+}
+// private int id;
+// private int userId;
+// private int productId;
+// private Timestamp data;
+// private int price;
+// private int quantity;
+// private String description;
+// private String title;

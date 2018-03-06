@@ -1,4 +1,4 @@
-package ru.job4j.shop.controller;
+package ru.job4j.shop.controller.security;
 
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
@@ -18,8 +18,8 @@ import java.io.PrintWriter;
  * @version $Id$.
  * @since 0.1.
  */
-public class Login extends HttpServlet {
-    private static final Logger LOG = LogManager.getLogger(Login.class);
+public class CheckLogin extends HttpServlet {
+    private static final Logger LOG = LogManager.getLogger(CheckLogin.class);
     private DBService service = DBService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

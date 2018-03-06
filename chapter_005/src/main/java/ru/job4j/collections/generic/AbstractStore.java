@@ -32,6 +32,7 @@ public class AbstractStore<E extends Base> implements Store {
      * @return возврат добавленного элемента.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Base add(Base model) {
         simpleArray.add((E) model);
         return model;
@@ -43,6 +44,7 @@ public class AbstractStore<E extends Base> implements Store {
      * @return возврат обновленного элемента.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Base update(Base model) {
         simpleArray.update((E) model);
         return model;
@@ -58,7 +60,7 @@ public class AbstractStore<E extends Base> implements Store {
         Base base = null;
         for (int i = 0; i < size; i++) {
             base = simpleArray.getValue(i);
-            if (id == base.getId()) {
+            if (id.equals(base.getId())) {
                 simpleArray.delete(i);
                 break;
             }

@@ -12,11 +12,20 @@
 
     <servlet>
         <servlet-name>Forward</servlet-name>
-        <servlet-class>ru.job4j.shop.controller.Register</servlet-class>
+        <servlet-class>ru.job4j.shop.controller.security.Register</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Forward</servlet-name>
         <url-pattern>/for</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>View</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.View</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>View</servlet-name>
+        <url-pattern>/view</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -30,7 +39,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>ru.job4j.shop.controller.Login</servlet-class>
+        <servlet-class>ru.job4j.shop.controller.security.CheckLogin</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -38,7 +47,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>Register</servlet-name>
-        <servlet-class>ru.job4j.shop.controller.Register</servlet-class>
+        <servlet-class>ru.job4j.shop.controller.security.Register</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
@@ -46,11 +55,43 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>Authorization</servlet-name>
-        <servlet-class>ru.job4j.shop.controller.Authorization</servlet-class>
+        <servlet-class>ru.job4j.shop.controller.security.Authorization</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Authorization</servlet-name>
         <url-pattern>/authorization</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddToCart</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.cart.AddToCart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToCart</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoadCart</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.cart.LoadCart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoadCart</servlet-name>
+        <url-pattern>/loadcart</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserCart</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.cart.UserCart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserCart</servlet-name>
+        <url-pattern>/userCart</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminLogin</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.security.AdminLogin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLogin</servlet-name>
+        <url-pattern>/adminLogin</url-pattern>
     </servlet-mapping>
     <!--<filter>-->
         <!--<filter-name>AuthFilter</filter-name>-->

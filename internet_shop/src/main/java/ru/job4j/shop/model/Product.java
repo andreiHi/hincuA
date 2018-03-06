@@ -15,15 +15,16 @@ public class Product {
 
     private int id;
     private String name;
+    private String miniDescription;
     private String description;
     private int price;
     private int views;
+    private int amount;
 
     public Product() {
     }
 
-    private int amount;
-    private String miniDescription;
+
     public int getId() {
         return id;
     }

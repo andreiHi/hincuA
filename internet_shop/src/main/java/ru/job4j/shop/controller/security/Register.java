@@ -1,4 +1,4 @@
-package ru.job4j.shop.controller;
+package ru.job4j.shop.controller.security;
 
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
@@ -50,5 +50,6 @@ public class Register extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
+        service.close();
     }
 }

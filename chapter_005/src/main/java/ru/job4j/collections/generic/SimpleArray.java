@@ -74,7 +74,7 @@ public class SimpleArray<T> {
      * @param pozition позиция в массиве.
      * @return значение элемента.
      */
-
+    @SuppressWarnings("unchecked")
     public T getValue(int pozition) {
         return (T) objects[pozition];
     }

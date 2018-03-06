@@ -6,7 +6,7 @@
     <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="assets/include/block-header.html" rel="import"/>
 
-    <title>E-shop</title>
+    <title>Корзина Заказов</title>
 </head>
 <body>
 <div id="block-body">
@@ -38,37 +38,40 @@
             <p class="fig"><img id="news-next" src="assets/imj/img-next.png"></p>
         </div>
     </div>
+    <p id="message"></p>
     <div id="block-content">
-        <div id="block-sorting">
-            <p id="nav-breadcrumbs"><a href="index.html">Главая страница</a>\<span>Все товары</span></p>
-            <ul id="options-list">
-                <li>Вид</li>
-                <li id="grid"><img id="style-grid" src="assets/imj/icon-grid.png"></li>
-                <li id="list"><img id="style-list" src="assets/imj/icon-list.png"></li>
-            </ul>
-            <ul id="options-sort">
-                <li>Сортировать:</li>
-                <li>
-                    <a id="select-sort">
-                        <!--Без ортировки-->
-                    </a></li>
-                <!--<ul id="sorting-list">-->
-                <li id="Price-top"><a href="#">От дешовых к дорогим</a></li>
-                <li id="Price-desc"><a href="#">От дорогих к дешевым</a></li>
-                <li id="A-z"><a href="#">От А до Я</a></li>
-            </ul>
+        <div id="block-step">
+            <div id="name-step">
+                <ul>
+                    <li><a class="active" >Корзина товаров</a></li>
+                    <!--<li><span>&rarr;</span></li>-->
+                    <!--<li><a>2. Контактная информация</a></li>-->
+                    <!--<li><span>&rarr;</span></li>-->
+                    <!--<li><a>3. Завершение</a></li>-->
+                </ul>
+            </div>
+            <!--<p>шаг 1 из 3</p>-->
+            <a href="" onclick="deleteCart()" >Очистить</a>
         </div>
-        <p id="reg_message"></p>
-        <div id="product-grid">
+
+        <div id="header-list-cart">
+            <div id="head1">Наименование товара</div>
+            <div id="head2">Кол-во</div>
+            <div id="head3">Цена</div>
         </div>
-        <div id="product-list">
+        <div id="show-cart">
+
         </div>
+        <div id="block-footer"></div>
     </div>
-    <div id="block-footer"></div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.jcarousellite.js"></script>
 <script type="text/javascript" src="assets/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="assets/js/script.js"></script>
+<script type="text/javascript" src="assets/js/cart.js"></script>
 </body>
 </html>
+
+
+

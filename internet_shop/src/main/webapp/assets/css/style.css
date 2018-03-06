@@ -63,7 +63,7 @@
     margin-right: 10px;
 }
 #reg-auth-title a#activ-button{
-background: url(../imj/auth-butt-bg-click.png);
+    background: url(../imj/auth-butt-bg-click.png);
 }
 a.top-auth{
     margin-right: 10px;
@@ -164,7 +164,8 @@ a.top-auth{
     font: 15px sans-serif;
     color: #34659D;
     margin-left: 4px;
-    margin-right: 3px;text-decoration: none;
+    margin-right: 3px;
+    text-decoration: none;
     border-bottom: 1px dashed #34659D;
 }
 #top-menu a:hover{
@@ -178,7 +179,7 @@ a.top-auth{
     margin-top: 0px;
     padding-top: 7px;
     margin-right: -3px;
-    margin-left: 880px;
+    /*margin-left: 880px;*/
 }
 #block-basket a{
     font: bold 15px sans-serif;
@@ -189,6 +190,7 @@ a.top-auth{
 }
 #block-basket a:hover{
     border-bottom:none;
+    color: black;
 }
 #block-basket img{
     position: absolute;
@@ -743,17 +745,19 @@ a.top-auth{
     background-color: #EDEDFF;
     border: 1px solid #E6E6FE;
 }
+
+#reg_message{
+    width: 800px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: none;
+}
 .reg_message_error{
     font: bold 14px sans-serif;
     color: red;
     background-color: #F7EDEF;
     border: 1px solid #FAC8D3;
-}
-#reg_message{
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: none;
 }
 #block-top-auth{
     border: 1px solid #DBDBDB;
@@ -778,7 +782,7 @@ a.top-auth{
 }
 #input-login-pass h3{
     font: 15px sans-serif;
-margin: 10px;
+    margin: 10px;
 }
 #message-auth{
     font: bold 13px sans-serif;
@@ -820,7 +824,7 @@ margin: 10px;
     height: 10px;
 }
 #input-login-pass span{
-width: 25px;
+    width: 25px;
     height: 25px;
     cursor: pointer;
     margin-top: 10px;
@@ -845,16 +849,16 @@ width: 25px;
     border-bottom: none;
 }
 #button-auth a,#button-remind a{
-     margin-right: 10px;
-     cursor: pointer;
-     background: url(../imj/button-grd.png) repeat-x;
-     font:bold 13px sans-serif;
+    margin-right: 10px;
+    cursor: pointer;
+    background: url(../imj/button-grd.png) repeat-x;
+    font:bold 13px sans-serif;
     padding: 5px 10px;
     border: 1px solid #E8E8E8;
-     border-radius:5px ;
-     -webkit-border-radius:5px ;
-     -moz-border-radius:5px ;
- }
+    border-radius:5px ;
+    -webkit-border-radius:5px ;
+    -moz-border-radius:5px ;
+}
 
 #button-auth a:hover,#button-remind a:hover{
     background: url(../imj/button-grd-hover.png) repeat-x;
@@ -866,4 +870,304 @@ width: 25px;
     margin-right: 30px;
     margin-top: 20px;
     display: none;
+}
+#auth-user-info{
+    font:bold 14px sans-serif;
+    margin-top: 10px;
+    float: right;
+    margin-right: 20px;
+}
+#auth-user-info:hover{
+    color: #CF3A3A;
+    border-bottom: 1px dashed #CF3A3A;
+    cursor: pointer;
+}
+#auth-user-info > img{
+    position: absolute;
+    margin-left: -30px;
+    margin-top: -3px;
+}
+#block-remind h3{
+    font: 15px sans-serif;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+#block-remind input{
+    width: 150px;
+    height: 25px;
+    border: solid #BDBDBD;
+    font: 15px sans-serif;
+    padding-right: 5px;
+    padding-left: 30px;
+}
+#block-user{
+    border: solid 1px #BDBDBD;
+    width: 140px;
+    height: 60px;
+    position: absolute;
+    z-index: 7;
+    margin-left: 860px;
+    margin-top: -3px;
+    background-color: white;
+    display: none;
+    -moz-box-shadow: 0 0 15px #DBDBDB;
+    -webkit-box-shadow: 0 0 15px #DBDBDB;
+    box-shadow: 0 0 15px #DBDBDB;
+}
+.corner2{
+    background: url(../imj/bulleticon.png);
+    width: 19px;
+    height: 10px;
+    margin-top: -9px;
+    margin-left: 60px;
+}
+#block-user ul{
+    margin-top: 10px;
+}
+#block-user li{
+    margin-left: 8px;
+    margin-top: 6px;
+}
+#block-user a{
+    text-decoration: none;
+    font: 13px bold sans-serif;
+    color: #57678C;
+}
+#block-user a:hover{
+    border-bottom: 1px dashed #EF662B;
+    color: #EF662B;
+    cursor: pointer;
+}
+#block-user img{
+    float: left;
+    margin-right: 8px;
+}
+#block-step{
+    height: 70px;
+    border-bottom: 1px solid #E0E0E0;
+    margin-top: 10px;
+}
+#block-step>p{
+    font: 19px sans-serif;
+    color: #646464;
+    margin-top: 8px;
+    margin-left: 15px;
+    position: absolute;
+}
+#block-step >a{
+    position: absolute;
+    border: solid 1px #D98386;
+    font: bold 13px sans-serif;
+    padding: 4px 7px;
+    margin-top: 5px;
+    margin-left: 700px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #DA2027 ;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+#name-step{
+    height: 30px;
+}
+#name-step li{
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+#name-step ul> li> a{
+    color: #00658B;
+    font: bold 14px sans-serif;
+    text-decoration: none;
+}
+#name-step a:active{
+    color: #EF662B;
+    font: bold 14px sans-serif;
+    border-bottom: 1px dashed #EF662B;
+}
+#header-list-cart{
+    height: 30px;
+    border-bottom: solid 1px #DBDBDB;
+}
+#header-list-cart >div{
+    float: left;
+    margin-left: 5px;
+    text-align: center;
+    font: 13px sans-serif;
+    color: #6D6D6D;
+    margin-top: 7px;
+}
+#head1{    width:530px ;}
+#head2{    width: 55px;}
+#head3{    width: 140px;}
+.block-list-cart{
+    height: 130px;
+}
+.block-list-cart > div{
+    float: left;
+    margin-left: 5px;
+}
+.title-cart{
+    width: 530px;
+    height: 125px;
+}
+.count-cart{
+    width: 55px;
+    height: 125px;
+}
+.price-product{
+    width: 140px;
+    height: 125px;
+}
+.delete-cart{
+    height: 125px;
+}
+.title-cart > p{
+    margin-top: 15px;
+}
+.title-cart > p > a{
+    font: 15px sans-serif;
+    color: #097A9F;
+}
+.title-cart > p > a:hover{
+    text-decoration: none;
+}
+.input-count-style{
+    margin-top: 31px;
+}
+.input-count-style input{
+    text-align: center;
+    border: 1px solid #DDDDDD;
+    width: 32px;
+    height: 22px;
+    font: 15px sans-serif;
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+}
+.input-count-style p{
+    cursor: pointer;
+    font: 15px sans-serif;
+    margin: 1px;
+}
+.price-product p{
+    margin-left: 15px;
+    margin-top: 65px;
+    font: bold 18px sans-serif;
+}
+.price-product h5{
+    position: absolute;
+    font: bold 13px sans-serif;
+    margin-top: 42px;
+    margin-left: 15px;
+    color: #848484;
+}
+.delete-cart img{
+    margin-top: 50px;
+}
+.button-next{
+    margin-top: 30px;
+    margin-right: 20px;
+}
+.button-next > a{
+    border: 1px solid #B0C181;
+    font:15px sans-serif;
+    color: white;
+    padding: 6px 18px;
+    text-decoration: none;
+    background: url(../imj/grd-next.png);
+    border-radius:6px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+}
+#bottom-cart-line{
+    background: url(../imj/bottom-line.png);
+    height: 5px;
+    width: 790px;
+    margin: 0px auto;
+}
+.itog-price{
+    font: 20px sans-serif;
+
+}
+.itog-price > strong{
+    font:18px sans-serif;
+}
+#clear-cart{
+    font: 22px sans-serif;
+    margin-top: 40px;
+}
+.message_good{
+    width: 800px;
+    font: 18px sans-serif;
+    color: black;
+    background-color: #EDEDFF;
+    border: 1px solid #E6E6FE;
+}
+
+#message{
+    width: 800px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: none;
+}
+.message_error{
+    width: 800px;
+    font: bold 14px sans-serif;
+    color: red;
+    background-color: #F7EDEF;
+    border: 1px solid #FAC8D3;
+}
+#block-content-info{
+    height: 320px;
+    margin-top: 15px;
+}
+#block-content-info img{
+    float: left;
+    margin-top: 0px;
+    margin-right: 15px;
+}
+#block-mini-description{
+    width: 600px;
+    float: left;
+}
+#content-title{
+    font: 19px sans-serif;
+    margin: 0;
+}
+#content-text{
+    font: 15px sans-serif;
+    margin-top: 10px;
+}
+
+.reviews-and-counts-content{
+    height: 20px;
+    margin-top: 10px;
+}
+
+.reviews-and-counts-content img{
+    position: absolute;
+}
+#style-price{
+    font: 23px sans-serif;
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.add-cart{
+    width: 88px;
+    height: 27px;
+    display: block;
+    cursor: pointer;
+    background: url(../imj/button-buy-norm.png) no-repeat;
+}
+.add-cart:hover{
+    background: url(../imj/button-buy-active.png) no-repeat;
+}
+.add-cart:active{
+    background: url(../imj/button-buy-click.png) no-repeat;
 }
