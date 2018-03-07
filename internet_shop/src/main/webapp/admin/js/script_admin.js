@@ -61,6 +61,7 @@ function showProduct() {
                 li+='</p></li>';
             }
             $('#block-tovar').html(li);
+            $('#count-style').html('<a>Всего товаров - <strong>'+product.length+'</strong></a>');
         }
     });
 }
@@ -76,4 +77,25 @@ $(document).on('click', '.delete' ,function () {
          }
      })
     }
+});
+$('#add_product').submit(function () {
+   var form = $(this).serialize();
+    $.ajax({
+        method:"POST",
+        url:"/shop/products",
+        data:{"form":form, "action":"add"},
+        complete:function (d) {
+            var res = JSON.parse(d.responseText);
+            if (res == "ok") {
+                $("#add_product").fadeOut(300,function() {
+                    $("#message").addClass("message_good").fadeIn(400).html("Товар успешно добавлен");
+                    $("#form_submit").hide();
+                });
+            }
+            else {
+                $("#message").addClass("message_error").fadeIn(400).html(res);
+            }
+        }
+   });
+    return false;
 });

@@ -21,12 +21,7 @@ import java.io.PrintWriter;
  */
 public class Register extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(Register.class);
-    DBService service = DBService.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
+    private DBService service = DBService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

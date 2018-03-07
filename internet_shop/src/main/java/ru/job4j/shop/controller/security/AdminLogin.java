@@ -19,7 +19,7 @@ import java.io.PrintWriter;
  * @version $Id$.
  * @since 0.1.
  */
-public class AdminLogin extends HttpServlet{
+public class AdminLogin extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(AdminLogin.class);
     private DBService service = DBService.getInstance();
 
@@ -28,8 +28,8 @@ public class AdminLogin extends HttpServlet{
         if ("exit".equals(req.getParameter("id"))) {
             req.getSession().invalidate();
         }
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(),"UTF-8"));
-        String result ="";
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+        String result = "";
         if (req.getParameter("session") != null) {
             if (req.getSession().getAttribute("admin") != null) {
                 result = new Gson().toJson("exist");

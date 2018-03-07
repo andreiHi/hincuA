@@ -105,13 +105,11 @@ public class Product {
         this.views = views;
     }
 
-    public Product(int id, String name, String description, String miniDescription, int price, int amount, int views) {
-        this.id = id;
+    public Product(String name, String description, String miniDescription, int price, int amount) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.amount = amount;
         this.miniDescription = miniDescription;
-        this.views = views;
     }
 }

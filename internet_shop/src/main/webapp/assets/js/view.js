@@ -6,7 +6,6 @@ $(document).ready(function () {
        data:{"id":id},
        complete:function (data) {
            var product = JSON.parse(data.responseText);
-            console.log(product);
             var div ='<div id="block-content-info">';
             div+='<div id="block-mini-description">';
             div+='<p id="content-title">'+product.name+'</p>';

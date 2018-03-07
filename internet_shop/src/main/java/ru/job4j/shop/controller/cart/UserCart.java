@@ -27,7 +27,6 @@ public class UserCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        System.out.println(action);
         String login = (String) req.getSession().getAttribute("login");
         if ("showCart".equals(action)) {
             List<Purchase> purchases = service.getUserCart(login);
@@ -65,7 +64,7 @@ public class UserCart extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String result = service.translationInToSold((String) req.getSession().getAttribute("login"));
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(),"UTF-8"));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
         pw.append(result);
         pw.flush();
     }

@@ -41,7 +41,6 @@ public class CheckLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("reg_login");
-        System.out.println(login);
         boolean checkLogin = service.checkLogin(login);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
         String result = new Gson().toJson(checkLogin);

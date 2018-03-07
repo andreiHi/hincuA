@@ -32,7 +32,6 @@ public class Authorization extends HttpServlet {
             if (present) {
                 HttpSession session = req.getSession();
                 session.setAttribute("login", login);
-                System.out.println(req.getSession().getAttribute("login") +" "+ "seseon on");
                 if ("yes".equals(remember)) {
                     Cookie cookLogin = new Cookie("login", login);
                     cookLogin.setMaxAge(31 * 24 * 60 * 60);
@@ -43,7 +42,7 @@ public class Authorization extends HttpServlet {
             pw.append(result);
             pw.flush();
         }
-        if ("cook".equals(type)){
+        if ("cook".equals(type)) {
             Cookie[] cookies = req.getCookies();
             String login = null;
             for (int i = 0; i < cookies.length; i++) {
@@ -68,10 +67,8 @@ public class Authorization extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String out = req.getParameter("session");
-        System.out.println(out + " запрос догет параметр session");
         if ("logOut".equals(out)) {
             req.getSession().invalidate();
-            System.out.println("sesion kill");
         } else if ("exist".equals(out)) {
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
             pw.append(new Gson().toJson(req.getSession().getAttribute("login")));

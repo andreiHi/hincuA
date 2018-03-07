@@ -93,6 +93,30 @@
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/adminLogin</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Clients</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.Clients</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Clients</servlet-name>
+        <url-pattern>/clients</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Orders</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.Orders</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Orders</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Consumer</servlet-name>
+        <servlet-class>ru.job4j.shop.controller.Consumer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Consumer</servlet-name>
+        <url-pattern>/consumer</url-pattern>
+    </servlet-mapping>
     <!--<filter>-->
         <!--<filter-name>AuthFilter</filter-name>-->
         <!--<filter-class>ru.job4j.servlets.application.controller.AuthFilter</filter-class>-->

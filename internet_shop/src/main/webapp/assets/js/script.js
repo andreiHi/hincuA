@@ -7,7 +7,7 @@ $(document).ready(function () {
         $.cookie('select_style', 'grid');
         $('#style-grid').attr('src', 'assets/imj/icon-grid-active.png');
         $.cookie('sort','Without_Sorting');
-        showProductsGrid($.cookie('sort'));
+        showProductsGrid('Without_Sorting');
     } else if ($.cookie('select_style')=='grid') {
         $('#block-tovar-grid').show();
         $('#block-tovar-list').hide();
@@ -203,11 +203,3 @@ function showUserCart() {
         }
     });
 }
-// private int id;
-// private int userId;
-// private int productId;
-// private Timestamp data;
-// private int price;
-// private int quantity;
-// private String description;
-// private String title;
