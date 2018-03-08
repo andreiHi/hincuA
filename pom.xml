@@ -27,7 +27,8 @@
         <module>chapter_009HTML</module>
         <module>chapter_010</module>
 		<module>internet_shop</module>
-	</modules>
+        <module>chapter_11</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
