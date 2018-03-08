@@ -4,7 +4,7 @@
     background-color: white;
     border: 1px solid #E0E0E0;
     height:auto;
-    padding-bottom: 5px;
+    //padding-bottom: 5px;
 }
 #block-header{
     width: 950px;
@@ -56,4 +56,23 @@
 #show>input{
     margin-left: 10px;
     margin-top: 7px;
+}
+#block-items{
+    width: 950px;
+    height: auto;
+    border-bottom:  solid #E0E0E0;
+}
+#orders{
+    font: bold 14px sans-serif;
+    margin-left: 400px;
+}
+table{
+    margin-top: 20px;
+}
+th{
+    font:bold 14px sans-serif;
+}
+td{
+    border: 1px solid #E0E0E0;
+    font:15px sans-serif;
 }
