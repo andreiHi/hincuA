@@ -51,4 +51,19 @@ public class Item {
     }
 
     private boolean done;
+
+    @Override
+    public String toString() {
+        return "Item{"
+                + "id="
+                + id
+                + ", description='"
+                + description
+                + '\''
+                + ", created="
+                + created
+                + ", done="
+                + done
+                + '}';
+    }
 }

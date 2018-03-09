@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import ru.job4j.model.Item;
 
 import java.sql.Timestamp;
@@ -14,12 +15,26 @@ import java.sql.Timestamp;
  * @version $Id$.
  * @since 0.1.
  */
-public class Service {
-    private static final Logger LOG = LogManager.getLogger(Service.class);
+public class HibernateUtil {
+    private static final Logger LOG = LogManager.getLogger(HibernateUtil.class);
+    private static ServiceRegistry serviceRegistry;
+    private static SessionFactory sessionFactory = sessionFactory();
 
+    private HibernateUtil() {
+    }
+
+    private static SessionFactory sessionFactory() {
+        Configuration configuration = new Configuration().configure();
+        return configuration.buildSessionFactory();
+    }
+    public static Session getSession() {
+        return sessionFactory.openSession();
+    }
+    public static void factoryClose() {
+        sessionFactory().close();
+    }
     public static void main(String[] args) {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        Session session = factory.openSession();
+        Session session = HibernateUtil.getSession();
         session.beginTransaction();
         Item item = new Item();
         item.setDescription("ddddd");
@@ -29,6 +44,6 @@ public class Service {
         //System.out.println(session.createQuery("from User").list());
         session.getTransaction().commit();
         session.close();
-        factory.close();
+        factoryClose();
     }
 }
