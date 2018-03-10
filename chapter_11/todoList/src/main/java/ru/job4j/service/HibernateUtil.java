@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import ru.job4j.model.Item;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 08.03.2018.
@@ -33,17 +33,15 @@ public class HibernateUtil {
     public static void factoryClose() {
         sessionFactory().close();
     }
+
     public static void main(String[] args) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Item item = new Item();
-        item.setDescription("ddddd");
-        item.setCreated(new Timestamp(System.currentTimeMillis()));
-        item.setDone(true);
-        session.save(item);
-        //System.out.println(session.createQuery("from User").list());
-        session.getTransaction().commit();
+        List<Item>items =  session.createQuery("select i from Item i where i.done = false").list();
+        session.close();
+
         session.close();
         factoryClose();
+        items.forEach(System.out::println);
     }
 }
