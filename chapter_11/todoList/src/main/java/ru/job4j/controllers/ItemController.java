@@ -2,6 +2,7 @@ package ru.job4j.controllers;
 
 import com.google.gson.Gson;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import ru.job4j.model.Item;
 import ru.job4j.service.HibernateUtil;
 
@@ -23,18 +24,23 @@ import java.util.List;
  * @since 0.1
  */
 public class ItemController extends HttpServlet {
+    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Item> items = new ArrayList<>();
-        Session session = HibernateUtil.getSession();
+        Session session = sessionFactory.openSession();
         String status = req.getParameter("status");
         System.out.println(status);
         if ("not".equals(status)) {
             session.beginTransaction();
-            List<Item> o = session.createQuery("select i from Item i where i.done = false ").list();
-            System.out.println(o);
-            items.addAll( o);
-            System.out.println(items);
+            items .addAll(session.createQuery("select i from Item i where i.done = false ").list());
+            session.getTransaction().commit();
+            session.close();
+        }
+        if ("all".equals(status)) {
+            session.beginTransaction();
+            items .addAll(session.createQuery("from Item").list());
+            session.getTransaction().commit();
             session.close();
         }
         String json = new Gson().toJson(items);
@@ -48,5 +54,11 @@ public class ItemController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        sessionFactory.close();
     }
 }
