@@ -22,6 +22,12 @@ public class Item {
         return id;
     }
 
+    public Item(String description, Timestamp created, boolean done) {
+        this.description = description;
+        this.created = created;
+        this.done = done;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

@@ -30,7 +30,6 @@ public class ItemController extends HttpServlet {
         List<Item> items = new ArrayList<>();
         Session session = sessionFactory.openSession();
         String status = req.getParameter("status");
-        System.out.println(status);
         if ("not".equals(status)) {
             session.beginTransaction();
             items .addAll(session.createQuery("select i from Item i where i.done = false ").list());
@@ -44,7 +43,6 @@ public class ItemController extends HttpServlet {
             session.close();
         }
         String json = new Gson().toJson(items);
-        System.out.println(json);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
         pw.append(json);
         pw.flush();
