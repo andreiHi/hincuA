@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.model.Car;
 import ru.job4j.model.Engine;
+import ru.job4j.model.Gearbox;
 import ru.job4j.model.Transmission;
 
 import java.util.List;
@@ -20,14 +21,16 @@ public class HibernateUtilTest {
     @Before
     public void start() {
       setTransmission();
+      setEngine();
+      setGearbox();
+      setCar();
 
     }
     @Test
     public void test() {
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();
-        List<Transmission> transmissions = session.createQuery("from Transmission ").list();
-        transmissions.forEach(System.out::println);
+       session.createQuery("from Car").list().forEach(System.out::println);
         session.getTransaction().commit();
         session.close();
     }
@@ -36,18 +39,14 @@ public class HibernateUtilTest {
     public void name() {
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();
-        List<Car> cars = session.createQuery("from Car ").list();
-        cars.forEach(System.out::println);
+        session.createQuery("from Engine ").list().forEach(System.out::println);
         session.getTransaction().commit();
         session.close();
     }
     public void setTransmission() {
-        Transmission transmission = new Transmission();
-        Transmission transmission2 = new Transmission();
-        Transmission transmission3 = new Transmission();
-        transmission.setType("FF");
-        transmission2.setType("FR");
-        transmission3.setType("4x4");
+        Transmission transmission = new Transmission("FF");
+        Transmission transmission2 = new Transmission("FR");
+        Transmission transmission3 = new Transmission("4x4");
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();
         session.save(transmission);
@@ -57,16 +56,34 @@ public class HibernateUtilTest {
         session.close();
     }
     public void setEngine() {
-        Engine gaz = new Engine();
-        gaz.setVolume(1800);
-        gaz.setFuel("gaz");
-        Engine disel = new Engine();
-        disel.setFuel("disel");
-        disel.setVolume(1400);
+        Engine gaz = new Engine("gaz", 1800);
+        Engine disel = new Engine("disel", 1400);
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();
         session.save(gaz);
         session.save(disel);
+        session.getTransaction().commit();
+        session.close();
+    }
+    public void setGearbox() {
+        Gearbox gearbox = new Gearbox("auto");
+        Gearbox gearbox1 = new Gearbox("manual");
+        Session session = this.sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(gearbox);
+        session.save(gearbox1);
+        session.getTransaction().commit();
+        session.close();
+    }
+    public void setCar() {
+        Car car = new Car();
+        car.setEngine(new Engine(1));
+        car.setTransmission(new Transmission(1));
+        car.setGearbox(new Gearbox(1));
+        car.setName("lada");
+        Session session = this.sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(car);
         session.getTransaction().commit();
         session.close();
     }

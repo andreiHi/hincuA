@@ -13,6 +13,10 @@ public class Transmission {
     private int id;
     private String type;
 
+    public Transmission(String type) {
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

@@ -16,6 +16,10 @@ public class Gearbox {
     public Gearbox() {
     }
 
+    public Gearbox(String type) {
+        this.type = type;
+    }
+
     public int getId() {
 
         return id;

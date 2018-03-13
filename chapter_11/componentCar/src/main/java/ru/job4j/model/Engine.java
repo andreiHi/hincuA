@@ -14,6 +14,11 @@ public class Engine {
     private String fuel;
     private int volume;
 
+    public Engine(String fuel, int volume) {
+        this.fuel = fuel;
+        this.volume = volume;
+    }
+
     public int getId() {
         return id;
     }
