@@ -2,10 +2,7 @@ package ru.job4j.controllers;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import ru.job4j.model.Item;
-import ru.job4j.service.HibernateUtil;
+import ru.job4j.service.DbService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,29 +17,18 @@ import java.io.IOException;
  */
 public class UpdateItem extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UpdateItem.class);
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private DbService dbService = DbService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String done = req.getParameter("setDone");
+        Boolean done = Boolean.valueOf(req.getParameter("setDone"));
         int id = Integer.valueOf(req.getParameter("id"));
-        System.out.println(id);
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Item item = session.load(Item.class, new Integer(id));
-        if ("true".equals(done)) {
-            item.setDone(true);
-        } else {
-            item.setDone(false);
-        }
-        session.flush();
-        session.getTransaction().commit();
-        session.close();
+        dbService.update(id, done);
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        sessionFactory.close();
+        dbService.close();
     }
 }
