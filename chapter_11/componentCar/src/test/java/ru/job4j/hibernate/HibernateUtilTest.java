@@ -9,8 +9,6 @@ import ru.job4j.model.Engine;
 import ru.job4j.model.Gearbox;
 import ru.job4j.model.Transmission;
 
-import java.util.List;
-
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.03.2018.
  * @version $Id$.
@@ -24,25 +22,23 @@ public class HibernateUtilTest {
       setEngine();
       setGearbox();
       setCar();
-
     }
     @Test
     public void test() {
+        Car car = new Car();
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();
-       session.createQuery("from Car").list().forEach(System.out::println);
+//        session.load(car, 12);
+//        System.out.println(car);
+       session.createQuery("select tr from Transmission as tr left join Car as c where c.transmission.id = tr.id")
+               .list().forEach(System.out::println);
+//        List<Transmission> list =  session.createQuery("from Transmission  join Car where Car.id =? ").setParameter(0, 1).list();
+
+//        list.forEach(System.out::println);
         session.getTransaction().commit();
         session.close();
     }
 
-    @Test
-    public void name() {
-        Session session = this.sessionFactory.openSession();
-        session.beginTransaction();
-        session.createQuery("from Engine ").list().forEach(System.out::println);
-        session.getTransaction().commit();
-        session.close();
-    }
     public void setTransmission() {
         Transmission transmission = new Transmission("FF");
         Transmission transmission2 = new Transmission("FR");
