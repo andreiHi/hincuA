@@ -17,7 +17,12 @@ $(document).ready(function () {
             form+='<h3 class="h3click" >Описание товара</h3>';
             form+='<div class="div-editor2" >';
             form+='<textarea id="editor2" name="txt2" cols="90" rows="15">'+product.description+'</textarea></div>';
+            form+='<p><input type="hidden" name="id" value="'+ id +'"></p>';
+            form+='<p><input type="hidden" name="action" value="update"></p>';
             form+='<p align="right" ><input type="submit" id="submit_form" name="submit_add" value="Изменить товар"/></p></form>';
+
+            //
+            // form+='<p><input type="hidden" name="account_number" value="15"></p>';
            $('#edit').html(form);
         }
     });
@@ -26,7 +31,7 @@ $(document).ready(function () {
          $.ajax({
              method:"POST",
              url:"/shop/products",
-             data:{"form":form, "action":"update", "id":id},
+             data:form,
              complete:function (d) {
                  var res = JSON.parse(d.responseText);
                  if (res == "ok") {

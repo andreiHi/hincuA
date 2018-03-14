@@ -3,6 +3,7 @@ package ru.job4j.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.model.Car;
 import ru.job4j.model.Engine;
@@ -23,6 +24,7 @@ public class HibernateUtilTest {
       setGearbox();
       setCar();
     }
+    @Ignore
     @Test
     public void test() {
         Car car = new Car();

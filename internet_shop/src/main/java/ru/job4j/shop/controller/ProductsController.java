@@ -5,7 +5,9 @@ import ru.job4j.shop.model.Product;
 import ru.job4j.shop.service.DBService;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -39,13 +41,11 @@ public class ProductsController extends HttpServlet {
             if ("delete".equals(action)) {
                 service.deleteProduct(id);
             } else {
-                String form = req.getParameter("form");
-                String[]f = form.split("&");
-                String name = f[0].split("=")[1];
-                String price = f[1].split("=")[1];
-                String amount = f[2].split("=")[1];
-                String minidescription = f[3].split("=")[1].replaceAll("\\+", " ");
-                String description = f[4].split("=")[1].replaceAll("\\+", " ");
+                String name = req.getParameter("form_title");
+                String price = req.getParameter("form_price");
+                String amount = req.getParameter("form_amount");
+                String minidescription = req.getParameter("txt1");
+                String description = req.getParameter("txt2");
                 String result = "";
                 if (name.isEmpty() || price.isEmpty() || amount.isEmpty() || minidescription.isEmpty() || description.isEmpty()) {
                     result = "Заполните все поля";

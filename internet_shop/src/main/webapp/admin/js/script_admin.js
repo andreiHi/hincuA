@@ -83,7 +83,7 @@ $('#add_product').submit(function () {
     $.ajax({
         method:"POST",
         url:"/shop/products",
-        data:{"form":form, "action":"add"},
+        data:form,
         complete:function (d) {
             var res = JSON.parse(d.responseText);
             if (res == "ok") {

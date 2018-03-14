@@ -13,3 +13,7 @@
 <li>25.12.2017 SQL.</li>
 <li>12.02.2018 Servlet.</li>
 </ul></p>
+
+<div align="middle">
+![Иллюстрация к проекту](https://github.com/andreiHi/hincuA/raw/master/internet_shop/src/main/webapp/admin/img/Screenshot_37.png)
+</div>
