@@ -12,6 +12,15 @@ public class Gearbox {
     private static final Logger LOG = LogManager.getLogger(Gearbox.class);
     private int id;
     private String type;
+    private Car car;
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
     public Gearbox() {
     }
@@ -41,6 +50,7 @@ public class Gearbox {
 
         this.id = id;
     }
+
     @Override
     public String toString() {
         return "Gearbox{"
@@ -49,6 +59,8 @@ public class Gearbox {
                 + ", type='"
                 + type
                 + '\''
+                + ", car="
+                + car
                 + '}';
     }
 }

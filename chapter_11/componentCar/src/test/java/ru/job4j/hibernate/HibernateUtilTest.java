@@ -26,17 +26,15 @@ public class HibernateUtilTest {
     }
     @Ignore
     @Test
-    public void test() {
-        Car car = new Car();
+    public void selectItemsWithOutCar() {
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();
-//        session.load(car, 12);
-//        System.out.println(car);
-       session.createQuery("select tr from Transmission as tr left join Car as c where c.transmission.id = tr.id")
+       session.createQuery("select g from Engine g left join fetch  g.car c where c.id is null")
                .list().forEach(System.out::println);
-//        List<Transmission> list =  session.createQuery("from Transmission  join Car where Car.id =? ").setParameter(0, 1).list();
-
-//        list.forEach(System.out::println);
+       session.createQuery("select g from Transmission g left join fetch  g.car c where c.id is null")
+               .list().forEach(System.out::println);
+       session.createQuery("select g from Gearbox g left join fetch  g.car c where c.id is null")
+               .list().forEach(System.out::println);
         session.getTransaction().commit();
         session.close();
     }

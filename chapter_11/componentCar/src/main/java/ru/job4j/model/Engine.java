@@ -13,6 +13,15 @@ public class Engine {
     private int id;
     private String fuel;
     private int volume;
+    private Car car;
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
     public Engine(String fuel, int volume) {
         this.fuel = fuel;
@@ -62,6 +71,8 @@ public class Engine {
                 + '\''
                 + ", volume="
                 + volume
+                + ", car="
+                + car
                 + '}';
     }
 }

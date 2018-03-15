@@ -12,6 +12,15 @@ public class Transmission {
     private static final Logger LOG = LogManager.getLogger(Transmission.class);
     private int id;
     private String type;
+    private Car car;
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
     public Transmission(String type) {
         this.type = type;
@@ -50,6 +59,8 @@ public class Transmission {
                 + ", type='"
                 + type
                 + '\''
+                + ", car="
+                + car
                 + '}';
     }
 }

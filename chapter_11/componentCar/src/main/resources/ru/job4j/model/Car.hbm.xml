@@ -4,8 +4,8 @@
         <generator class="identity"/>
     </id>
     <property name="name" column="name"/>
-    <many-to-one name="engine" class="ru.job4j.model.Engine" column="id_engine" unique="true"/>
-    <many-to-one name="transmission" class="ru.job4j.model.Transmission" column="id_transmission" unique="true"/>
-    <many-to-one name="gearbox" class="ru.job4j.model.Gearbox" column="id_gearbox" unique="true"/>
+    <one-to-one name="engine" class="ru.job4j.model.Engine"/>
+    <one-to-one name="transmission" class="ru.job4j.model.Transmission"/>
+    <one-to-one name="gearbox" class="ru.job4j.model.Gearbox"/>
 </class>
 </hibernate-mapping>

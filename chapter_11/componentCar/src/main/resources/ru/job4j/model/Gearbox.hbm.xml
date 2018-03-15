@@ -4,5 +4,6 @@
         <generator class="identity"/>
     </id>
     <property name="type" column="type"/>
+    <one-to-one name="car" class="ru.job4j.model.Car"/>
 </class>
 </hibernate-mapping>
