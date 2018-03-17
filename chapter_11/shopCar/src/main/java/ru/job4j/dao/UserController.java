@@ -20,37 +20,51 @@ public class UserController extends AbstractController<User, Integer> {
     private static final Logger LOG = LogManager.getLogger(UserController.class);
     private SessionFactory sessionFactory = HibernateService.getSessionFactoty();
 
-    public interface Command<T> {
-        T process(Session session);
-    }
-    private<T> T transaction(final Command<T> command) {
+    private <T> T transaction(final Function<Session, T> function) {
         final Session session = this.sessionFactory.openSession();
         final Transaction trs = session.beginTransaction();
         try {
-            return command.process(session);
-        }finally {
+            return function.apply(session);
+        } finally {
             trs.commit();
             session.close();
         }
     }
     @Override
     public List<User> getAll() {
-        return null;
+        return transaction(session -> {
+            List<User> users = session.createQuery("from User ").list();
+            return users;
+        });
     }
 
     @Override
     public User getEntityById(Integer id) {
-        return null;
+        return transaction(session -> {
+          User user =  session.get(User.class, id);
+          return user;
+        });
     }
 
     @Override
-    public User update(User entity) {
-        return null;
+    public User update(User user) {
+        return transaction(session -> {
+            session.update(user);
+            return user;
+        });
     }
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        return transaction(session -> {
+            boolean found = false;
+           User user = getEntityById(id);
+           if (user != null) {
+               session.delete(user);
+               found = true;
+           }
+            return found;
+        });
     }
 
     @Override
