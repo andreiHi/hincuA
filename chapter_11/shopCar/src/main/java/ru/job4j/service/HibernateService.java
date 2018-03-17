@@ -23,8 +23,8 @@ public class HibernateService {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    public static Session getSession() throws HibernateException {
-        return SESSION_FACTORY.openSession();
+    public static SessionFactory getSessionFactoty() throws HibernateException {
+        return SESSION_FACTORY;
     }
     public static void closeFactory() {
         SESSION_FACTORY.close();
