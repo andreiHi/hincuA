@@ -5,10 +5,10 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">net.sf.log4jdbc.DriverSpy</property>
-        <property name="connection.url">jdbc:log4jdbc:postgresql://localhost:5432/hibernate</property>
-        <property name="connection.username">postgres</property>
-        <property name="hibernate.connection.password">5432</property>
-        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+        <property name="connection.url">jdbc:log4jdbc:hsqldb:mem:hibernate; sql.enforce_size=false</property>
+        <property name="connection.username">sa</property>
+        <property name="hibernate.connection.password">sa</property>
+        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
@@ -23,7 +23,7 @@
         <property name="hibernate.c3p0.idle_test_period">3000</property>
         <property name="current_session_context_class">thread</property>
         <!-- DB schema will be updated if needed -->
-         <property name="hbm2ddl.auto">update</property>
+         <property name="hbm2ddl.auto">create-drop</property>
 
         <mapping class="ru.job4j.model.User"/>
         <mapping class="ru.job4j.model.Advert"/>

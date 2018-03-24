@@ -1,14 +1,8 @@
 package ru.job4j.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 16.03.2018.
@@ -17,36 +11,40 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Users")
-@Getter @Setter
-public class User  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", updatable = false, nullable = false)
-    private Integer id;
-    @Column(name = "login")
+public class User extends Persistent {
+
+    private static final long serialVersionUID = -5971624644618934547L;
+
     private String login;
+    @Column(name = "email", unique = true)
     private String email;
     private String password;
+    @Column(name = "phone", unique = true)
+    private int phone;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Advert> adverts = new ArrayList<>();
 
     public User() {
+        super();
     }
-
-    public User(String login, String email, String password) {
+    public User(Long id) {
+       super(id);
+    }
+    public User(String login, String email, String password, int phone) {
+        super();
         this.login = login;
         this.email = email;
         this.password = password;
+        this.phone = phone;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
         return "User{"
-                + "id='"
-                + id
-                + '\''
+                + "id="
+                + getId()
                 + ", login='"
                 + login
                 + '\''
@@ -56,7 +54,48 @@ public class User  {
                 + ", password='"
                 + password
                 + '\''
+                + ", phone="
+                + phone
                 + '}';
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    public List<Advert> getAdverts() {
+        return adverts;
+    }
+
+    public void setAdverts(List<Advert> adverts) {
+        this.adverts = adverts;
+    }
 }
