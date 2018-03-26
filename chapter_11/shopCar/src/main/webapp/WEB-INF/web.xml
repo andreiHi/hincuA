@@ -2,13 +2,22 @@
 <web-app>
 
     <servlet>
-        <servlet-name>ItemController</servlet-name>
-        <servlet-class>ru.job4j.controllers.ItemController</servlet-class>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>ru.job4j.controller.Controller</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ItemController</servlet-name>
-        <url-pattern>/items</url-pattern>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ResourceController</servlet-name>
+        <servlet-class>ru.job4j.controller.ResourceController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResourceController</servlet-name>
+        <url-pattern>/src/*</url-pattern>
     </servlet-mapping>
     <!---->
     <!--<filter>-->

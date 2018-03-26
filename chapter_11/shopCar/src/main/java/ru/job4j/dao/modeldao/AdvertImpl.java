@@ -33,35 +33,41 @@ public class AdvertImpl extends AbstractController<Advert, Long> {
 //            return true;
 //        });
 //    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public List<Advert> getAll() {
-        return null;
+        return getCurrentSession().createQuery("from Advert ").list();
     }
 
     @Override
     public Advert getEntityById(Long id) {
-        return null;
+        return getCurrentSession().get(Advert.class, id);
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        boolean flag = false;
+        Advert advert = getEntityById(id);
+        if (advert != null) {
+            flag = true;
+            getCurrentSession().delete(advert);
+        }
+        return flag;
     }
 
     @Override
     public void delete(Advert entity) {
-
+        getCurrentSession().delete(entity);
     }
 
     @Override
     public Long save(Advert entity) {
-        return null;
+        return (Long) getCurrentSession().save(entity);
     }
 
     @Override
     public void update(Advert entity) {
-
+        getCurrentSession().update(entity);
     }
 //    @Override
 //    public boolean delete(Advert entity) {

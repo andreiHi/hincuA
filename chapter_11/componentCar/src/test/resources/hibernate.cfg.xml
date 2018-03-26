@@ -6,7 +6,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">net.sf.log4jdbc.DriverSpy</property>
-        <property name="connection.url">jdbc:log4jdbc:hsqldb:mem:hibernate;sql.enforce_size=false</property>
+        <property name="connection.url">jdbc:log4jdbc:hsqldb:mem:hibernate; sql.enforce_size=false</property>
         <property name="connection.username">sa</property>
         <property name="hibernate.connection.password"></property>
         <property name="dialect">org.hibernate.dialect.HSQLDialect</property>

@@ -8,7 +8,7 @@
         <property name="connection.url">jdbc:log4jdbc:hsqldb:mem:hibernate; sql.enforce_size=false</property>
         <property name="connection.username">sa</property>
         <property name="hibernate.connection.password">sa</property>
-        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="dialect">ru.job4j.dao.Dialect</property>
 
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>

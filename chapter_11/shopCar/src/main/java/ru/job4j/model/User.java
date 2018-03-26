@@ -3,6 +3,7 @@ package ru.job4j.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 16.03.2018.
@@ -97,5 +98,27 @@ public class User extends Persistent {
 
     public void setAdverts(List<Advert> adverts) {
         this.adverts = adverts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return phone == user.phone
+                && Objects.equals(login, user.login)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(adverts, user.adverts);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(login, email, password, phone, adverts);
     }
 }

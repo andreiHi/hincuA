@@ -20,27 +20,34 @@ public class UserServiceTest {
     private UserService userService;
     @Before
     public void init() {
-       userService = new UserService();
+        userService = new UserService();
     }
 
     @Test
     public void whenUserWasAdd() {
-         User user = new User("Andrei", "email@ttt.com", "123458", 1234586);
+        User user = new User("Andrei", "email@ttt.com", "123458", 1234586);
         Advert advert = new Advert();
         List<Advert> adverts = Arrays.asList(advert);
         user.setAdverts(adverts);
-         userService.saveUser(user);
+        userService.saveUser(user);
         assertThat("Andrei", is(userService.getAllUsers().get(0).getLogin()));
     }
 
-//    @Test
-//    public void createNewAdvert() {
-//        UserService userService = new UserService();
-//       // Advert advert = new Advert("new Advert2", new User(34L), "Moscou");
-//      //  advertController.save(advert);
-//        User user = userService.getUserById(43L);
-//        System.out.println(user);
-//      //  userService.getAllUsers().forEach(System.out::println);
-//    }
+    @Test
+    public void whenUserWasUpdate() {
+        User user = new User("Andrei", "email@ttt.com", "123458", 1234586);
+        Long id = userService.saveUser(user);
+        user.setId(id);
+        user.setLogin("Petr");
+        userService.updateUser(user);
+        assertThat("Petr", is(userService.getAllUsers().get(0).getLogin()));
+    }
 
+    @Test
+    public void whenUserWasFind() {
+        User user = new User("Andrei", "email@ttt.com", "123458", 1234586);
+        Long id = userService.saveUser(user);
+        User user1 = userService.getUserById(id);
+        assertThat(user1.getId(), is(user.getId()));
+    }
 }

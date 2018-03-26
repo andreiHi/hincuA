@@ -14,12 +14,12 @@ import java.io.IOException;
  * @version $Id$.
  * @since 0.1.
  */
-public class UserController extends HttpServlet {
-    private static final Logger LOG = LogManager.getLogger(UserController.class);
+public class Controller extends HttpServlet {
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.sendRedirect(String.format("%s/src/html/add.html", req.getContextPath()));
     }
 
     @Override
