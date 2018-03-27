@@ -21,7 +21,7 @@ public class User extends Persistent {
     private String email;
     private String password;
     @Column(name = "phone", unique = true)
-    private int phone;
+    private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Advert> adverts = new ArrayList<>();
@@ -32,7 +32,7 @@ public class User extends Persistent {
     public User(Long id) {
        super(id);
     }
-    public User(String login, String email, String password, int phone) {
+    public User(String login, String email, String password, String phone) {
         super();
         this.login = login;
         this.email = email;
@@ -84,11 +84,11 @@ public class User extends Persistent {
         this.password = password;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -109,7 +109,7 @@ public class User extends Persistent {
             return false;
         }
         User user = (User) o;
-        return phone == user.phone
+        return   Objects.equals(phone, user.phone)
                 && Objects.equals(login, user.login)
                 && Objects.equals(email, user.email)
                 && Objects.equals(password, user.password)

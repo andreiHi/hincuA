@@ -19,6 +19,7 @@ public class Advert extends Persistent {
     @Column(name = "description", length = 1000)
     private String description;
     private String town;
+    private int price;
 
     @Enumerated(EnumType.STRING)
     private State state;
@@ -31,13 +32,14 @@ public class Advert extends Persistent {
     @JoinColumn(name = "id_car")
     private Car car;
 
-    public Advert(String description, String town, User user, Car car) {
+    public Advert(String description, String town, User user, Car car, int price) {
         this.data = new Timestamp(System.currentTimeMillis());
         this.description = description;
         this.user = user;
         this.car = car;
         this.state = State.NEW;
         this.town = town;
+        this.price = price;
     }
 
     public Advert(String description, String town, User user) {
@@ -85,6 +87,8 @@ public class Advert extends Persistent {
                 + state
                 + ", car="
                 + car
+                + ", price="
+                + price
                 + '}';
     }
 
@@ -118,5 +122,13 @@ public class Advert extends Persistent {
 
     public void setCar(Car car) {
         this.car = car;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
