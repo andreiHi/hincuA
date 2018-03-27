@@ -9,10 +9,21 @@
 <body>
 <div class="block-body">
     <div class="block-header">
-        <div>Header</div>
+       <p id="title">Площадка для продажи машин</p>
+        <p align="right"><a id="intro" href="#">Вход / Регистрация</a></p>
+        <p align="right" ><a href="#"  id="submit_form" name="submit_add">Подать объявление</a></p>
     </div>
-    <div id="block-content"></div>
+    <div id="block-filters">
+        <select class="block-select" name="brand_id" id="brand_id">
+            <option value="0">-Марка-</option>
+            <option value="0">-Марка-</option>
+            <option value="0">-Марка-</option>
+            <option value="0">-Марка-</option>
+        </select>
+    </div>
+    <div id="block-content">
     <a href="./add">Add</a>
+    </div>
 </div>
 <script src="include/js/jquery-3.3.1.min.js"></script>
 <script src="include/js/script.js"></script>
