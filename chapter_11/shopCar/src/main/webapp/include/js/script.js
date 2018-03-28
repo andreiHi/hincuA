@@ -12,7 +12,7 @@ window.onclick = function(event) {
         modal2.style.display="none";
     }
 };
-
+var user ={};
 
 $('#intro').click(function () {
  $('#form').load('include/html/login.html');
