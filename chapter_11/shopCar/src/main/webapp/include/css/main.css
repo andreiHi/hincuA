@@ -89,6 +89,18 @@ span{
     display: inline-block;
     -webkit-appearance: none;
 }
+.sell_box .foto_wrapper{
+    float: left;
+    width: 140px;
+    margin: 6px 20px 20px 0;
+}
+.sell_box .foto_wrapper a img.upload{
+    display: block;
+    margin: 25px auto 9px;
+}
+.sell_box.sell_box_4 {
+    padding-bottom: 13px;
+}
 label{
     float: left;
     padding-right: 30px;
