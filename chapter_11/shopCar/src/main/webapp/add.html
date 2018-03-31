@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="include/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="include/css/main.css" rel="stylesheet" type="text/css">
+    <title>Подать объявление</title>
+</head>
+<body>
+<div class="block-body">
+    <div class="block-header">
+        <p id="title">Площадка для продажи машин</p>
+        <button id="intro"  style="width:auto;">Login</button>
+        <button id="sign" style="width:auto;">Sign Up</button>
+        <button id="submit" style="width:auto" name="submit">Подать объявление</button>
+        <div id="form"></div>
+    </div>
+    <div id="add-advert">
+        <h2>Подать объявление</h2>
+    </div>
+    <div class="sell_box sell_box_1">
+        <p id="title-2" align="center"><strong>Данные</strong> автомобиля</p>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Марка: </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">Audi</option>
+
+            </select>
+        </div>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Модель: </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">R8</option>
+
+            </select>
+        </div>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Тип кузова: </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">2013</option>
+                <option value="2">2012</option>
+                <option value="3">2011</option>
+
+            </select>
+        </div>
+        <div class="select_wrapper last">
+            <label><span>* </span><strong>Год выпуска: </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">Sedan</option>
+                <option value="2">Coupe</option>
+                <option value="3">SUV</option>
+                <option value="4">Hatchback</option>
+                <option value="5">Tagra</option>
+            </select>
+        </div>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Привод: </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">92</option>
+                <option value="2">95</option>
+                <option value="3">Diesel</option>
+            </select>
+        </div>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Коробка передачь: </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">-автомат-</option>
+                <option value="2">робот</option>
+                <option value="3">механика</option>
+                <option value="4">вариатор</option>
+            </select>
+        </div>
+
+        <div class="select_wrapper last">
+            <label><span>* </span><strong>Тип двигателя:  </strong></label>
+            <select class="block-select">
+                <option value="0">Select</option>
+                <option value="1">1500</option>
+                <option value="5">2000</option>
+            </select>
+        </div>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Объем двигателя: </strong></label>
+            <input type="text" maxlength="15" placeholder="Объем двигателя, л." class="km">
+
+        </div>
+        <div class="select_wrapper last">
+            <label><span>* </span><strong>Пробег: </strong></label>
+            <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="km">
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+
+<script src="include/js/jquery-3.3.1.min.js"></script>
+<script src="include/js/script.js"></script>
+</body>
+</html>

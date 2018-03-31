@@ -12,11 +12,19 @@ window.onclick = function(event) {
         modal2.style.display="none";
     }
 };
-var user ={};
+var user ={name: 'aaa'};
 
 $('#intro').click(function () {
  $('#form').load('include/html/login.html');
 });
 $('#sign').click(function () {
  $('#form').load('include/html/sing.html');
+});
+
+$('#submit').click(function () {
+    if (user === undefined) {
+        $('#form').load('include/html/login.html');
+    } else {
+        location.href='add.html';
+    }
 });
