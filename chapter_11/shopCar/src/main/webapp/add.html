@@ -19,6 +19,7 @@
     <div id="add-advert">
         <h2>Подать объявление</h2>
     </div>
+    <form enctype="multipart/form-data" method="post">
     <div class="sell_box">
         <p id="title-2" align="center"><strong>Данные</strong> автомобиля</p>
         <div class="select_wrapper">
@@ -77,7 +78,7 @@
                 <option value="4">вариатор</option>
             </select>
         </div>
-        <div class="select_wrapper last">
+        <div class="select_wrapper ">
             <label><span>* </span><strong>Тип двигателя:  </strong></label>
             <select class="block-select_add">
                 <option value="0">Select</option>
@@ -90,36 +91,21 @@
             <input type="text" maxlength="15" placeholder="Объем двигателя, л." class="add">
 
         </div>
-        <div class="select_wrapper last">
+        <div class="select_wrapper">
             <label><span>* </span><strong>Пробег: </strong></label>
             <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="add">
         </div>
-        <div class="select_wrapper last">
+        <div class="select_wrapper">
             <label><span>* </span><strong>Цена: </strong></label>
             <input type="text" maxlength="15" placeholder="Цена руб." class="add">
         </div>
-        <div class="sell_box sell_box_4">
-            <h2><strong>Vehicle</strong> photos</h2>
-            <div class="foto_wrapper">
-                <a href="#">
-                    <img src="include/image/upload.png" alt="" class="upload"/>
-                    upload photo
-                </a>
-            </div>
-            <div class="foto_wrapper">
-                <a href="#">
-                    <img src="include/image/upload.png" alt="" class="upload"/>
-                    upload photo
-                </a>
-            </div>
-            <div class="foto_wrapper">
-                <a href="#">
-                    <img src="include/image/upload.png" alt="" class="upload"/>
-                    upload photo
-                </a>
-            </div>
+        <div class="select_wrapper">
+            <label><span>* </span><strong>Фото :</strong></label>
+        <input type="file" name="photo" multiple accept="image/*,image/jpeg" >
+        </div>
         <div class="clear"></div>
     </div>
+    </form>
 
 </div>
 
