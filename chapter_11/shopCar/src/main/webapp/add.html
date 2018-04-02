@@ -10,103 +10,103 @@
 <div class="block-body">
     <div class="block-header">
         <p id="title">Площадка для продажи машин</p>
+        <button id="index"  style="width:auto;">Home</button>
         <button id="intro"  style="width:auto;">Login</button>
         <button id="sign" style="width:auto;">Sign Up</button>
-        <button id="submit" style="width:auto" name="submit">Подать объявление</button>
+        <button id="submit" style="width:auto" name="submit">Add or Update Advert</button>
         <div id="form"></div>
     </div>
 
     <div id="add-advert">
-        <h2>Подать объявление</h2>
+        <h2 align="center">Подать объявление</h2>
     </div>
-    <form enctype="multipart/form-data" method="post">
-    <div class="sell_box">
-        <p id="title-2" align="center"><strong>Данные</strong> автомобиля</p>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Марка: </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">Audi</option>
+    <p id="message"></p>
+    <form id="form_add" enctype="multipart/form-data" method="post">
+        <div class="sell_box">
+            <p id="title-2" align="center"><strong>Данные</strong> автомобиля</p>
+            <div class="select_wrapper">
+                <label for="brand"><span>* </span><strong>Марка: </strong></label>
+                <select class="block-select_add" id="brand" name="brand">
+                    <option value="0">-Brand-</option>
+                    <option value="1">Audi</option>
+                </select>
+            </div>
 
-            </select>
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Модель: </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">R8</option>
+            <div class="select_wrapper">
+                <label for="model"><span>* </span><strong>Модель: </strong></label>
+                    <select class="block-select_add" id="model" name="model">
+                    <option value="0">-Модель-</option>
+                    <option value="1">-фффф-</option>
+                </select>
+            </div>
 
-            </select>
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Тип кузова: </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">2013</option>
-                <option value="2">2012</option>
-                <option value="3">2011</option>
+            <div class="select_wrapper">
+                <label for="carcass"><span>* </span><strong>Тип кузова: </strong></label>
+                <select class="block-select_add" id="carcass" name="carcass">
+                    <option value="0">Select</option>
+                    <option value="1">ыувфт</option>
+                </select>
+            </div>
 
-            </select>
-        </div>
-        <div class="select_wrapper last">
-            <label><span>* </span><strong>Год выпуска: </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">Sedan</option>
-                <option value="2">Coupe</option>
-                <option value="3">SUV</option>
-                <option value="4">Hatchback</option>
-                <option value="5">Tagra</option>
-            </select>
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Привод: </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">92</option>
-                <option value="2">95</option>
-                <option value="3">Diesel</option>
-            </select>
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Коробка передачь: </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">-автомат-</option>
-                <option value="2">робот</option>
-                <option value="3">механика</option>
-                <option value="4">вариатор</option>
-            </select>
-        </div>
-        <div class="select_wrapper ">
-            <label><span>* </span><strong>Тип двигателя:  </strong></label>
-            <select class="block-select_add">
-                <option value="0">Select</option>
-                <option value="1">1500</option>
-                <option value="5">2000</option>
-            </select>
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Объем двигателя: </strong></label>
-            <input type="text" maxlength="15" placeholder="Объем двигателя, л." class="add">
+            <div class="select_wrapper last">
+                <label for="year"><span>* </span><strong>Год выпуска: </strong></label>
+                <select class="block-select_add" id="year" name="year">
+                    <option value="0">-Год-</option>
+                    <option value="1">-1985-</option>
+                </select>
+            </div>
 
+            <div class="select_wrapper">
+                <label for="transmission"><span>* </span><strong>Привод: </strong></label>
+                <select class="block-select_add" id="transmission" name="transmission">
+                    <option value="0">-Привод-</option>
+                    <option value="1">-ФФ-</option>
+                </select>
+            </div>
+
+            <div class="select_wrapper">
+                <label for="gearbox"><span>* </span><strong>Коробка передачь: </strong></label>
+                <select class="block-select_add" id="gearbox" name="gearbox">
+                    <option value="0">-Коробка передачь-</option>
+                    <option value="1">-auto-</option>
+                </select>
+            </div>
+
+            <div class="select_wrapper">
+                <label for="engine"><span>* </span><strong>Тип двигателя:  </strong></label>
+                <select class="block-select_add" id="engine" name="engine">
+                    <option value="0">-Тип двигателя-</option>
+                    <option value="1">-benzin-</option>
+                </select>
+            </div>
+            <div class="select_wrapper">
+                <label for="description"><span>* </span><strong>Описание: </strong></label>
+                <textarea id="description" name="description" rows="8" cols="75"></textarea>
+
+            </div>
+            <div class="select_wrapper">
+                <label for="volume"><span>* </span><strong>Объем двигателя: </strong></label>
+                <input type="text" maxlength="15" placeholder="Объем двигателя, см3" id="volume" name="volume" class="add"pattern="[0-9]{1,6}" title="Введите корректные данные">
+            </div>
+
+            <div class="select_wrapper">
+                <label for="milage"><span>* </span><strong>Пробег: </strong></label>
+                <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="add" id="milage" name="milage"pattern="[0-9]{1,15}" title="Введите корректные данные">
+            </div>
+
+            <div class="select_wrapper">
+                <label for="price"><span>* </span><strong>Цена: </strong></label>
+                <input type="text" maxlength="15"  placeholder="Цена руб." class="add" id="price" name="price" pattern="[0-9]{3,15}" title="Введите корректные данные">
+            </div>
+
+            <div class="select_wrapper">
+                <label for="photo"><span>* </span><strong>Фото :</strong></label>
+                <input type="file" name="photo" multiple accept="image/*,image/jpeg" id="photo" class="photo">
+                <input type="file" name="photo1" multiple accept="image/*,image/jpeg" id="photo1" class="photo">
+            </div>
+            <button  id="save" type="submit" class="save" value="Сохранить">Сохранить</button>
         </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Пробег: </strong></label>
-            <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="add">
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Цена: </strong></label>
-            <input type="text" maxlength="15" placeholder="Цена руб." class="add">
-        </div>
-        <div class="select_wrapper">
-            <label><span>* </span><strong>Фото :</strong></label>
-        <input type="file" name="photo" multiple accept="image/*,image/jpeg" >
-        </div>
-        <div class="clear"></div>
-    </div>
     </form>
-
 </div>
 
 <script src="include/js/jquery-3.3.1.min.js"></script>

@@ -12,13 +12,13 @@ window.onclick = function(event) {
         modal2.style.display="none";
     }
 };
-var user ={name: 'aaa'};
+var user ={};
 
 $('#intro').click(function () {
- $('#form').load('include/html/login.html');
+    $('#form').load('include/html/login.html');
 });
 $('#sign').click(function () {
- $('#form').load('include/html/sing.html');
+    $('#form').load('include/html/sing.html');
 });
 
 $('#submit').click(function () {
@@ -27,4 +27,39 @@ $('#submit').click(function () {
     } else {
         location.href='add.html';
     }
+});
+$('#index').click(function () {
+    location.href='index.html';
+});
+//проверка на заполненность всех данных объявления кроме описания.
+$('#form_add').submit(function () {
+    var valid = true;
+    var select = document.getElementsByTagName('select');
+    for (var i = 0; i<select.length; i++) {
+        if(select[i].options[select[i].selectedIndex].value === '0') {
+            valid = false;
+            $(select[i]).css('background-color', 'red');
+            return false;
+        } else {
+            $(select[i]).css('background-color', 'white');
+        }
+    }
+    var form = $(this);
+    form.find('input').each(function () {
+        if ($(this).val()==='') {
+            valid = false;
+            $(this).css('background-color', 'red');
+            return false;
+        } else {
+            $(this).css('background-color', 'white');
+        }
+    });
+    if (valid) {
+        $('#form_add').fadeOut(300,function () {
+            $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
+        });
+    } else {
+        $("#message").addClass("message_error").fadeIn(400).html("Введите все данные!");
+    }
+    return false;
 });
