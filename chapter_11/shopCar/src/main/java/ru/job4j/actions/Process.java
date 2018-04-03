@@ -18,7 +18,7 @@ public class Process {
     JSONObject jsonObject;
     private static final Logger LOG = LogManager.getLogger(Process.class);
     private static final Map<String, Action> ACTIONS = new ConcurrentHashMap<String, Action>() { {
-        put("create", new CreateUser());
+        put("sing", new CreateUser());
         put("login", new UserInOut());
     }
     };

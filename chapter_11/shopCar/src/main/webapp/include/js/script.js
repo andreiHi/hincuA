@@ -63,19 +63,33 @@ $('#form_add').submit(function () {
     }
     return false;
 });
-$('#sign').submit(function () {
-    // if (document.getElementById('#psw').value!==document.getElementById('#).value) {
-    //     console.log("eror")
-    // }
-
-    alert('sss');
-});
+//регистрация
 $(document).on('submit', '#sign', function () {
     var psw = $('#psw').val();
     var psw_repeat = $('#psw-repeat').val();
     if (psw !== psw_repeat) {
-        $('#info').replaceWith('<p class="message_error" style="height: 15px">Passwords do not match</p>');
+        $('#info').replaceWith('<p class="message_error" >Passwords do not match</p>');
+        return false;
+    } else {
+        var newUser = {};
+        newUser.login = $('#login').val();
+        newUser.password = psw;
+        newUser.email = $('#email').val();
+        newUser.phone = $('#phone').val();
+        ajax('sing', newUser, function (data) {
+
+        });
         return false;
     }
-
 });
+function ajax(action, data, toDo) {
+    $.ajax({
+        method:'POST',
+        url: "/CarShop/data",
+        data: JSON.stringify({
+            action: action,
+            data: data
+        }),
+        success: toDo
+    });
+}
