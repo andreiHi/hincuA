@@ -300,6 +300,9 @@ hr {
     color: red;
     background-color: #F7EDEF;
     border: 1px solid #FAC8D3;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 /*.dropdown {*/
     /*position: absolute;*/

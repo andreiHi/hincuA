@@ -63,3 +63,19 @@ $('#form_add').submit(function () {
     }
     return false;
 });
+$('#sign').submit(function () {
+    // if (document.getElementById('#psw').value!==document.getElementById('#).value) {
+    //     console.log("eror")
+    // }
+
+    alert('sss');
+});
+$(document).on('submit', '#sign', function () {
+    var psw = $('#psw').val();
+    var psw_repeat = $('#psw-repeat').val();
+    if (psw !== psw_repeat) {
+        $('#info').replaceWith('<p class="message_error" style="height: 15px">Passwords do not match</p>');
+        return false;
+    }
+
+});
