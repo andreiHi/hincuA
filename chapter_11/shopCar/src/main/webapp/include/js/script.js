@@ -77,7 +77,13 @@ $(document).on('submit', '#sign', function () {
         newUser.email = $('#email').val();
         newUser.phone = $('#phone').val();
         ajax('sing', newUser, function (data) {
-
+            var result = JSON.parse(data.responseText);
+            console.log(result);
+                if (result ==='ok') {
+                    $('#info').replaceWith('<p class="message_ok" >The account was created successfully</p>');
+                } else {
+                    $('#info').replaceWith('<p class="message_ok" >' + result + '</p>');
+                }
         });
         return false;
     }

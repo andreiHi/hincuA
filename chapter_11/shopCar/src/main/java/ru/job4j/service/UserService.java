@@ -57,8 +57,10 @@ public class UserService {
         userDao.closeSessionWithTransaction();
     }
 
-    public String saveIfValid(String login, String password, String email, String phone) {
-        //TODO
-        return null;
+    public String saveIfValid(User user) {
+        userDao.openCurrentSessionWithTransaction();
+        String result = userDao.saveIfValid(user);
+        userDao.closeSessionWithTransaction();
+        return result;
     }
 }

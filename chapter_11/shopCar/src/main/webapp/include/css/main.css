@@ -304,6 +304,16 @@ hr {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.message_ok{
+    width: auto;
+    font: bold 14px sans-serif;
+    color: red;
+    background-color: #5dff61;
+    border: 1px solid #FAC8D3;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 /*.dropdown {*/
     /*position: absolute;*/
     /*top:50%;*/

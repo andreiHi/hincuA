@@ -49,6 +49,9 @@ public abstract class AbstractController<E extends Persistent, K> implements Dao
         this.currentTransaction.commit();
         this.currentSession.close();
     }
+    public void addTransactionToCurrentSession() {
+        this.currentTransaction = currentSession.beginTransaction();
+    }
 //    @Override
 //    public boolean delete(E entity) {
 //        return transaction(session -> {

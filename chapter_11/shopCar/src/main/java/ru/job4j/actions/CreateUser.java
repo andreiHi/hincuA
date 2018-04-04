@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import ru.job4j.model.User;
 import ru.job4j.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,8 @@ public class CreateUser implements Action {
         String email = (String) json.get("email");
         String phone = (String) json.get("phone");
         UserService service = new UserService();
-        String result = service.saveIfValid(login, password, email, phone);
+        User user = new User(login, email, password, phone);
+        String result = service.saveIfValid(user);
         return new Gson().toJson(result);
     }
 }

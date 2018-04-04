@@ -1,5 +1,6 @@
 package ru.job4j.dao.modeldao;
 
+import org.hibernate.query.Query;
 import ru.job4j.dao.AbstractController;
 import ru.job4j.model.User;
 
@@ -47,6 +48,32 @@ public class UserImpl extends AbstractController<User, Long> {
     @Override
     public void update(User user) {
         getCurrentSession().update(user);
+    }
+
+    public String saveIfValid(User user) {
+        Query<User> query =  getCurrentSession().createQuery("from User where login = :login", User.class);
+        query.setParameter("login", user.getLogin());
+        String answer;
+        if (query.list().isEmpty()) {
+            query = getCurrentSession().createQuery("from User where email = :email", User.class);
+            query.setParameter("email", user.getEmail());
+            if (query.list().isEmpty()) {
+                query = getCurrentSession().createQuery("from User where phone = :phone", User.class);
+                query.setParameter("phone", user.getPhone());
+                if (query.list().isEmpty()) {
+                    getCurrentSession().save(user);
+                    answer = "ok";
+                } else {
+                    answer = "Phone is already to use";
+                }
+            } else {
+                answer = "Email is already to use";
+            }
+        } else {
+            answer = "Login already to use";
+        }
+        System.out.println(answer);
+        return answer;
     }
 
 //    @SuppressWarnings("unchecked")
