@@ -1,5 +1,6 @@
 package ru.job4j;
 
+import com.google.gson.Gson;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -20,7 +21,8 @@ public class TicTacTest {
                 {0, 0, 1}
         });
         boolean result = ticTac.hasWinner();
-        assertThat(result, is(true));
+        assertThat(result, is(false));
+        System.out.println(new Gson().toJson("ddd", String.class));
     }
 
 }

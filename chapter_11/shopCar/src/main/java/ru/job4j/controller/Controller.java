@@ -2,12 +2,15 @@ package ru.job4j.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ru.job4j.actions.Process;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 21.03.2018.
@@ -24,8 +27,16 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String result = req.getReader().readLine();
-        System.out.println(result);
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8");
+
+        String request = req.getReader().readLine();
+        Process process = new Process();
+        process.findAction(request);
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+        pw.append(process.getResponse(req.getSession()));
+        pw.flush();
     }
 
     @Override

@@ -56,4 +56,9 @@ public class UserService {
         userDao.delete(user);
         userDao.closeSessionWithTransaction();
     }
+
+    public String saveIfValid(String login, String password, String email, String phone) {
+        //TODO
+        return null;
+    }
 }
