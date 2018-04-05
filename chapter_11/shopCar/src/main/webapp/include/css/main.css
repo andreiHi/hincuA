@@ -230,6 +230,7 @@ span.psw {
     color: #000;
     font-size: 35px;
     font-weight: bold;
+
 }
 
 .close:hover,
@@ -306,8 +307,8 @@ hr {
 }
 .message_ok{
     width: auto;
-    font: bold 14px sans-serif;
-    color: red;
+    font: bold 16px sans-serif;
+    color: black;
     background-color: #5dff61;
     border: 1px solid #FAC8D3;
     padding-left: 10px;

@@ -68,7 +68,7 @@ $(document).on('submit', '#sign', function () {
     var psw = $('#psw').val();
     var psw_repeat = $('#psw-repeat').val();
     if (psw !== psw_repeat) {
-        $('#info').replaceWith('<p class="message_error" >Passwords do not match</p>');
+        $('#info').replaceWith('<p id="info" class="message_error" >Passwords do not match</p>');
         return false;
     } else {
         var newUser = {};
@@ -77,12 +77,11 @@ $(document).on('submit', '#sign', function () {
         newUser.email = $('#email').val();
         newUser.phone = $('#phone').val();
         ajax('sing', newUser, function (data) {
-            var result = JSON.parse(data.responseText);
-            console.log(result);
-                if (result ==='ok') {
-                    $('#info').replaceWith('<p class="message_ok" >The account was created successfully</p>');
+                if (data ==='ok') {
+                    $('#forma').hide();
+                    $('#info').replaceWith('<p id="info" class="message_ok" >The account was created successfully</p>');
                 } else {
-                    $('#info').replaceWith('<p class="message_ok" >' + result + '</p>');
+                    $('#info').replaceWith('<p id="info" class="message_error" >' + data + '</p>');
                 }
         });
         return false;

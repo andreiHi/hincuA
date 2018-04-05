@@ -4,8 +4,8 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">net.sf.log4jdbc.DriverSpy</property>
-        <property name="connection.url">jdbc:log4jdbc:postgresql://localhost:5432/hibernate</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/hibernate</property>
         <property name="connection.username">postgres</property>
         <property name="hibernate.connection.password">5432</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
