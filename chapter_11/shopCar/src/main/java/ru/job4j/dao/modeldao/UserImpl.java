@@ -51,31 +51,27 @@ public class UserImpl extends AbstractController<User, Long> {
     }
 
     public String saveIfValid(User user) {
-        Query<User> query =  getCurrentSession().createQuery("from User where login = :login", User.class);
+        Query<User> query =  getCurrentSession()
+                .createQuery("from User where login = :login or email = :email or phone = :phone", User.class);
         query.setParameter("login", user.getLogin());
+        query.setParameter("email", user.getEmail());
+        query.setParameter("phone", user.getPhone());
         String answer;
-        if (query.list().isEmpty()) {
-            query = getCurrentSession().createQuery("from User where email = :email", User.class);
-            query.setParameter("email", user.getEmail());
-            if (query.list().isEmpty()) {
-                query = getCurrentSession().createQuery("from User where phone = :phone", User.class);
-                query.setParameter("phone", user.getPhone());
-                if (query.list().isEmpty()) {
-                    getCurrentSession().save(user);
-                    answer = "ok";
-                } else {
-                    answer = "Phone is already to use";
-                }
-            } else {
-                answer = "Email is already to use";
-            }
+        List<User> users = query.list();
+        if (users.isEmpty()) {
+            getCurrentSession().save(user);
+            answer = "ok";
         } else {
-            answer = "Login already to use";
+            answer = users.get(0).findEquals(user);
         }
-        System.out.println(answer);
         return answer;
     }
 
+    public User getUserByLogin(String login) {
+        Query<User> query = getCurrentSession().createQuery("from User where login = :login", User.class);
+        query.setParameter("login", login);
+        return query.list().get(0);
+    }
 //    @SuppressWarnings("unchecked")
 //    @Override
 //    public List<User> getAll() {

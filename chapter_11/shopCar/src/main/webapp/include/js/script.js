@@ -22,7 +22,7 @@ $('#sign').click(function () {
 });
 
 $('#submit').click(function () {
-    if (user === undefined) {
+    if (user.login === undefined) {
         $('#form').load('include/html/login.html');
     } else {
         location.href='add.html';
@@ -77,12 +77,12 @@ $(document).on('submit', '#sign', function () {
         newUser.email = $('#email').val();
         newUser.phone = $('#phone').val();
         ajax('sing', newUser, function (data) {
-                if (data ==='ok') {
-                    $('#forma').hide();
-                    $('#info').replaceWith('<p id="info" class="message_ok" >The account was created successfully</p>');
-                } else {
-                    $('#info').replaceWith('<p id="info" class="message_error" >' + data + '</p>');
-                }
+            if (data ==='ok') {
+                $('#forma').hide();
+                $('#info').replaceWith('<p id="info" class="message_ok">The account was created successfully</p>');
+            } else {
+                $('#info').replaceWith('<p id="info" class="message_error" >' + data + '</p>');
+            }
         });
         return false;
     }
@@ -98,3 +98,21 @@ function ajax(action, data, toDo) {
         success: toDo
     });
 }
+//авторизация
+$(document).on('submit', '#login', function () {
+    var login = {};
+    login.login = $('#uname').val();
+    login.password = $('#psw').val();
+    ajax("login", login, function (data) {
+        if (data === true) {
+            user.login = login.login;
+            $('#id01').hide();
+        } else {
+
+
+        }
+
+    });
+    return false;
+
+});

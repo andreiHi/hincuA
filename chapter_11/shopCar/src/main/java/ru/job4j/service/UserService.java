@@ -63,4 +63,11 @@ public class UserService {
         userDao.closeSessionWithTransaction();
         return result;
     }
+
+    public boolean verification(String login, String password) {
+        userDao.openCurrentSession();
+        User user = userDao.getUserByLogin(login);
+        userDao.closeCurrentSession();
+        return user.checkPassword(password);
+    }
 }

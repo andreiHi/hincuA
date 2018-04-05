@@ -2,7 +2,6 @@ package ru.job4j.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,7 +63,23 @@ public class User extends Persistent {
     public String getLogin() {
         return login;
     }
-
+    public  String findEquals(User user) {
+        StringBuilder sb = new StringBuilder();
+        if (login.equals(user.login)) {
+            sb.append("login ");
+        }
+        if (email.equals(user.email)) {
+            sb.append("Email ");
+        }
+        if (phone.equals(user.phone)) {
+            sb.append("Phone ");
+        }
+        sb.append("is used");
+    return sb.toString();
+    }
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
     public void setLogin(String login) {
         this.login = login;
     }
