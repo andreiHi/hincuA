@@ -20,7 +20,7 @@ public class UserInOut implements Action {
     public String action(HttpSession session, JSONObject json) {
         boolean exist = false;
         String userLogin = (String) session.getAttribute("user");
-        if (userLogin == null) {
+       // if (userLogin == null) {
             String login = (String) json.get("login");
             String password = (String) json.get("password");
             UserService service = new UserService();
@@ -28,9 +28,9 @@ public class UserInOut implements Action {
                 session.setAttribute("user", login);
                 exist = true;
             }
-        } else {
-            session.removeAttribute("user");
-        }
+       // } else {
+        //    session.removeAttribute("user");
+     //   }
         System.out.println(exist);
         return new Gson().toJson(exist);
     }

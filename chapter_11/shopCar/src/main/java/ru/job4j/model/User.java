@@ -67,7 +67,7 @@ public class User extends Persistent {
     public  String findEquals(User user) {
         StringBuilder sb = new StringBuilder();
         if (login.equals(user.login)) {
-            sb.append("login ");
+            sb.append("Login ");
         }
         if (email.equals(user.email)) {
             sb.append("Email ");
@@ -75,7 +75,7 @@ public class User extends Persistent {
         if (phone.equals(user.phone)) {
             sb.append("Phone ");
         }
-        sb.append("is used");
+        sb.append("is used.");
     return sb.toString();
     }
     public boolean checkPassword(String password) {

@@ -1,6 +1,5 @@
 package ru.job4j.actions;
 
-import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -22,6 +21,7 @@ public class Process {
     private static final Map<String, Action> ACTIONS = new ConcurrentHashMap<String, Action>() { {
         put("sing", new CreateUser());
         put("login", new UserInOut());
+        put("getItems", new GetItems());
     }
     };
 

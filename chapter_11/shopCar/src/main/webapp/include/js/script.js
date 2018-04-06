@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#header').load('include/html/header.html');
+    getComponents();
 });
 
 var user ={};
@@ -98,12 +99,16 @@ $(document).on('submit', '#login', function () {
         if (data === true) {
             user.login = login.login;
             $('#id01').hide();
+            $('#intro').hide();
+            $('#signup').replaceWith('<p id="name-user">Hello, ' + login.login + '!</p>')
         } else {
-
-
+            $('#info-login').replaceWith('<p class="message_error" >Login or Password are incorrect</p>');
         }
-
     });
     return false;
+});
+function getComponents() {
+ajax('getItems', {}, function (data) {
 
 });
+}

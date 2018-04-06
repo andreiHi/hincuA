@@ -51,6 +51,16 @@ public class Car extends Persistent {
     @JoinColumn(name = "id_gearbox")
     private Gearbox gearbox;
 
+    @Enumerated(EnumType.STRING)
+    private Box box;
+
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
+    }
 
     public int getYear() {
         return year;

@@ -8,6 +8,6 @@ package ru.job4j.model.car;
 public enum Box {
     Avtomat,
     Manual,
-    Variator
-
+    Variator,
+    Robot
 }
