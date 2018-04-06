@@ -39,7 +39,8 @@ public class User extends Persistent {
         this.password = password;
         this.phone = phone;
     }
-
+    @Transient
+    public static final User UNKNOWN_USER = new User();
 
     @Override
     public String toString() {
@@ -78,7 +79,7 @@ public class User extends Persistent {
     return sb.toString();
     }
     public boolean checkPassword(String password) {
-        return this.password.equals(password);
+      return this.password != null && this.password.equals(password);
     }
     public void setLogin(String login) {
         this.login = login;

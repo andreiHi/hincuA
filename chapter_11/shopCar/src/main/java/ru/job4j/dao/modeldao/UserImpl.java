@@ -68,9 +68,16 @@ public class UserImpl extends AbstractController<User, Long> {
     }
 
     public User getUserByLogin(String login) {
+        User user;
         Query<User> query = getCurrentSession().createQuery("from User where login = :login", User.class);
         query.setParameter("login", login);
-        return query.list().get(0);
+        List<User> users = query.list();
+        if (users.isEmpty()) {
+            user = User.UNKNOWN_USER;
+        } else {
+            user = users.get(0);
+        }
+        return user;
     }
 //    @SuppressWarnings("unchecked")
 //    @Override
