@@ -1,11 +1,9 @@
-package ru.job4j.model.car;
+package ru.job4j.model.car.parts;
 
 import ru.job4j.model.Persistent;
+import ru.job4j.model.car.Car;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +19,8 @@ public class Engine extends Persistent {
     private static final long serialVersionUID = 3182545441241279870L;
 
     private int volume;
-    private String fuelType;
+    @Enumerated(EnumType.STRING)
+    private EngineType fuelType;
     private int power;
 
     public Engine() {
@@ -30,7 +29,12 @@ public class Engine extends Persistent {
     public Engine(Long id) {
         super(id);
     }
-
+    public Engine(int volume, int power, EngineType fuelType) {
+        super();
+        this.volume = volume;
+        this.fuelType = fuelType;
+        this.power = power;
+    }
     @OneToMany(mappedBy = "engine", fetch = FetchType.LAZY)
     private List<Car> car = new ArrayList<>();
 
@@ -42,11 +46,11 @@ public class Engine extends Persistent {
         this.volume = volume;
     }
 
-    public String getFuelType() {
+    public EngineType getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(String fuelType) {
+    public void setFuelType(EngineType fuelType) {
         this.fuelType = fuelType;
     }
 

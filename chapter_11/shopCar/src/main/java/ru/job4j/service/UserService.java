@@ -32,16 +32,16 @@ public class UserService {
     }
 
     public Long saveUser(User user) {
-       userDao.openCurrentSessionWithTransaction();
-       Long id = userDao.save(user);
-       userDao.closeSessionWithTransaction();
-       return id;
+        userDao.openCurrentSessionWithTransaction();
+        Long id = userDao.save(user);
+        userDao.closeSessionWithTransaction();
+        return id;
     }
 
     public void updateUser(User user) {
-         userDao.openCurrentSessionWithTransaction();
-         userDao.update(user);
-         userDao.closeSessionWithTransaction();
+        userDao.openCurrentSessionWithTransaction();
+        userDao.update(user);
+        userDao.closeSessionWithTransaction();
     }
 
     public boolean deleteUser(Long id) {
@@ -64,10 +64,10 @@ public class UserService {
         return result;
     }
 
-    public boolean verification(String login, String password) {
+    public User getUserByLogin(String login) {
         userDao.openCurrentSession();
         User user = userDao.getUserByLogin(login);
         userDao.closeCurrentSession();
-        return user.checkPassword(password);
+        return user;
     }
 }

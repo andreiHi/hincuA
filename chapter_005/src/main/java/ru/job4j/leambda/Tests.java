@@ -57,9 +57,7 @@ public class Tests {
         try {
             String s = (String) future.get();
             System.out.println(s + "Trrrr");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         service.submit(futureTask2);
@@ -79,9 +77,7 @@ public class Tests {
                 if (s != null) {
                     System.out.println("результат второго " + s);
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }

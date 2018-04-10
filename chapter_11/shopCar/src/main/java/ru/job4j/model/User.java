@@ -1,7 +1,8 @@
 package ru.job4j.model;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ import java.util.Objects;
 public class User extends Persistent {
 
     private static final long serialVersionUID = -5971624644618934547L;
-
+    @Column(name = "login", unique = true)
     private String login;
     @Column(name = "email", unique = true)
     private String email;
@@ -24,13 +25,13 @@ public class User extends Persistent {
     private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Advert> adverts = new ArrayList<>();
+    private List<Advert> adverts;
 
     public User() {
         super();
     }
     public User(Long id) {
-       super(id);
+        super(id);
     }
     public User(String login, String email, String password, String phone) {
         super();
@@ -76,10 +77,10 @@ public class User extends Persistent {
             sb.append("Phone ");
         }
         sb.append("is used.");
-    return sb.toString();
+        return sb.toString();
     }
     public boolean checkPassword(String password) {
-      return this.password != null && this.password.equals(password);
+        return this.password != null && this.password.equals(password);
     }
     public void setLogin(String login) {
         this.login = login;
@@ -88,7 +89,13 @@ public class User extends Persistent {
     public String getEmail() {
         return email;
     }
-
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("login", login);
+        jsonObject.put("email", email);
+        jsonObject.put("phone", phone);
+        return jsonObject;
+    }
     public void setEmail(String email) {
         this.email = email;
     }

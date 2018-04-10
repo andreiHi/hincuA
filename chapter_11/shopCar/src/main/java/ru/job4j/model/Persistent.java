@@ -11,7 +11,9 @@ import java.io.Serializable;
 @MappedSuperclass
 public abstract class Persistent implements Serializable {
 
-     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+     @Id
+     @SequenceGenerator(name = "id", sequenceName = "id", allocationSize = 1)
+     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
      @Column(name = "id", updatable = false, nullable = false)
      private Long id;
      private static final long serialVersionUID = 5569468962915075760L;

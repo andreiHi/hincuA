@@ -3,7 +3,7 @@ $(document).ready(function () {
     getComponents();
 });
 
-var user ={};
+const user = {};
 $(document).on('click', '#intro', function () {
     $('#form').load('include/html/login.html');
 });
@@ -95,12 +95,10 @@ $(document).on('submit', '#login', function () {
     var login = {};
     login.login = $('#uname').val();
     login.password = $('#psw').val();
-    ajax("login", login, function (data) {
+    ajax("logInOut", login, function (data) {
         if (data === true) {
             user.login = login.login;
-            $('#id01').hide();
-            $('#intro').hide();
-            $('#signup').replaceWith('<p id="name-user">Hello, ' + login.login + '!</p>')
+            location.reload();
         } else {
             $('#info-login').replaceWith('<p class="message_error" >Login or Password are incorrect</p>');
         }
@@ -108,7 +106,31 @@ $(document).on('submit', '#login', function () {
     return false;
 });
 function getComponents() {
-ajax('getItems', {}, function (data) {
-
-});
+    ajax('getItems', {}, function (data) {
+        console.log(data);
+        var u = data['user'];
+        var tr = data['transmission'][0];
+        // noinspection JSAnnotator
+        if (u.login != null) {
+            user.login = u.login;
+            setLogin()
+        }
+        console.log(user);
+        console.log(tr);
+        //console.log(tr[0]);
+        console.log(u.login == null);
+        console.log(u['login']);
+    });
 }
+function setLogin() {
+    if (user.login !== undefined) {
+        $('#id01').hide();
+        $('#intro').replaceWith('<p id="name-user" class="user_log">Hello, ' + user.login + '!</p>');
+        $('#signup').replaceWith('<p id="user_log_out" class="user_log">Log out</p>')
+    }
+}
+$(document).on('click', '#user_log_out', function () {
+    ajax('logInOut',{}, function () {
+        location.href='index.html';
+    })
+});

@@ -11,35 +11,33 @@
     <div id="header" class="block-header">
     </div>
     <div id="block-filters">
-        <select class="block-select" name="brand_id" id="1">
+        <select class="block-select" name="brand" id="brand">
             <option value="0">-Марка-</option>
-            <option value="1">-Vaz-</option>
         </select>
-        <select class="block-select" name="brand_id" id="2">
+        <select class="block-select" name="model" id="model">
             <option value="0">-Модель-</option>
         </select>
-        <select class="block-select" name="brand_id" id="3">
+        <select class="block-select" name="carcass" id="carcass">
             <option value="0">-Тип кузова-</option>
         </select>
-        <select class="block-select" name="brand_id" id="4">
-            <option value="0">-Год выпуска-</option>
-        </select>
-        <select class="block-select" name="brand_id" id="9">
+
+        <select class="block-select" name="transmission" id="transmission">
             <option value="0">-Привод-</option>
         </select>
 
-        <select class="block-select" name="brand_id" id="6">
+        <select class="block-select" name="gearbox" id="gearbox">
             <option value="0">-Коробка передач-</option>
         </select>
-        <select class="block-select" name="brand_id" id="7">
+        <select class="block-select" name="engine_type" id="engine_type">
             <option value="0">-Тип двигателя-</option>
         </select>
 
-        <input type="text" maxlength="15" placeholder="Объем двигателя, л." class="km">
-        <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="km">
+        <input type="text" maxlength="5" id="volume" placeholder="Объем двигателя, л." class="km">
+        <input type="text" maxlength="15" id="mileage" placeholder="Пробег, тыс км." class="km">
+        <input type="text" maxlength="4" id="year" placeholder="Год выпуска" class="km">
 
-        <input type="text" maxlength="15" placeholder="Цена от" class="sort">
-        <input type="text" maxlength="15" placeholder="Цена до" class="sort">
+        <input type="text" maxlength="15" id="price_from" placeholder="Цена от" class="sort">
+        <input type="text" maxlength="15" id="price_to" placeholder="Цена до" class="sort">
     </div>
 </div>
 

@@ -28,11 +28,9 @@
         <mapping class="ru.job4j.model.User"/>
         <mapping class="ru.job4j.model.Advert"/>
         <mapping class="ru.job4j.model.car.Car"/>
-        <mapping class="ru.job4j.model.car.Engine"/>
+        <mapping class="ru.job4j.model.car.parts.Engine"/>
         <mapping class="ru.job4j.model.car.Brand"/>
-        <mapping class="ru.job4j.model.car.Carcass"/>
-        <mapping class="ru.job4j.model.car.Gearbox"/>
         <mapping class="ru.job4j.model.car.Model"/>
-        <mapping class="ru.job4j.model.car.Transmission"/>
+        <mapping class="ru.job4j.model.car.Image"/>
     </session-factory>
 </hibernate-configuration>

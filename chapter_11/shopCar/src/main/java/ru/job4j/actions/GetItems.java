@@ -1,9 +1,11 @@
 package ru.job4j.actions;
 
-import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import ru.job4j.model.User;
+import ru.job4j.model.car.parts.Transmission;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +19,23 @@ public class GetItems implements Action {
 
     @Override
     public String action(HttpSession session, JSONObject json) {
-        Gson gson = new Gson();
-        return null;
+        JSONObject jsonObject = new JSONObject();
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            jsonObject.put("user", user.toJson());
+        } else {
+            jsonObject.put("user", User.UNKNOWN_USER.toJson());
+        }
+        jsonObject.put("transmission", getJson(Transmission.class));
+        System.out.println(jsonObject.toJSONString());
+        return jsonObject.toJSONString();
+    }
+
+    public static <T extends Enum<T>> JSONArray getJson(Class<T> tClass) {
+        JSONArray array = new JSONArray();
+        for (Enum<T> tenum : tClass.getEnumConstants()) {
+            array.add(tenum.name());
+        }
+        return array;
     }
 }

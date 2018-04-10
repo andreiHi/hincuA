@@ -20,7 +20,7 @@ public class Process {
     private static final Logger LOG = LogManager.getLogger(Process.class);
     private static final Map<String, Action> ACTIONS = new ConcurrentHashMap<String, Action>() { {
         put("sing", new CreateUser());
-        put("login", new UserInOut());
+        put("logInOut", new UserInOut());
         put("getItems", new GetItems());
     }
     };

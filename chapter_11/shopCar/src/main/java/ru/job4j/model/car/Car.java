@@ -1,6 +1,11 @@
 package ru.job4j.model.car;
 
+import ru.job4j.model.Advert;
 import ru.job4j.model.Persistent;
+import ru.job4j.model.car.parts.Carcass;
+import ru.job4j.model.car.parts.Engine;
+import ru.job4j.model.car.parts.Gearbox;
+import ru.job4j.model.car.parts.Transmission;
 
 import javax.persistence.*;
 
@@ -18,7 +23,7 @@ public class Car extends Persistent {
     /**
      * Пройденный путь
      */
-    private int milage;
+    private int mileage;
     /**
      * Год выпуска
      */
@@ -43,23 +48,32 @@ public class Car extends Persistent {
     @JoinColumn(name = "id_mobel")
     private Model model;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_carcass")
+    @Enumerated(EnumType.STRING)
     private Carcass carcass;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_gearbox")
-    private Gearbox gearbox;
+    @Enumerated(EnumType.STRING)
+    private Gearbox gearBox;
 
     @Enumerated(EnumType.STRING)
-    private Box box;
+    private Transmission transmission;
 
-    public Box getBox() {
-        return box;
+    @OneToOne
+    @JoinColumn(name = "id_advert")
+    private Advert advert;
+    public Transmission getTransmission() {
+        return transmission;
     }
 
-    public void setBox(Box box) {
-        this.box = box;
+    public void setTransmission(Transmission transmission) {
+        this.transmission = transmission;
+    }
+
+    public Gearbox getGearBox() {
+        return gearBox;
+    }
+
+    public void setGearBox(Gearbox box) {
+        this.gearBox = box;
     }
 
     public int getYear() {
@@ -86,12 +100,12 @@ public class Car extends Persistent {
         this.brand = brand;
     }
 
-    public int getMilage() {
-        return milage;
+    public int getMileage() {
+        return mileage;
     }
 
-    public void setMilage(int milage) {
-        this.milage = milage;
+    public void setMileage(int milage) {
+        this.mileage = milage;
     }
 
     public Model getModel() {
@@ -110,12 +124,5 @@ public class Car extends Persistent {
         this.carcass = carcass;
     }
 
-    public Gearbox getGearbox() {
-        return gearbox;
-    }
-
-    public void setGearbox(Gearbox gearbox) {
-        this.gearbox = gearbox;
-    }
 }
 

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import ru.job4j.model.User;
 import ru.job4j.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -19,18 +20,19 @@ public class UserInOut implements Action {
     @Override
     public String action(HttpSession session, JSONObject json) {
         boolean exist = false;
-        String userLogin = (String) session.getAttribute("user");
-       // if (userLogin == null) {
+        User userLogin = (User) session.getAttribute("user");
+        if (userLogin == null) {
             String login = (String) json.get("login");
             String password = (String) json.get("password");
             UserService service = new UserService();
-            if (service.verification(login, password)) {
-                session.setAttribute("user", login);
+            User user = service.getUserByLogin(login);
+            if (user.checkPassword(password)) {
+                session.setAttribute("user", user);
                 exist = true;
             }
-       // } else {
-        //    session.removeAttribute("user");
-     //   }
+        } else {
+            session.removeAttribute("user");
+        }
         System.out.println(exist);
         return new Gson().toJson(exist);
     }

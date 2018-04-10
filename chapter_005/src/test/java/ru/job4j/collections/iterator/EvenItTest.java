@@ -36,4 +36,12 @@ public class EvenItTest {
         boolean result = it.hasNext();
         assertThat(result, is(false));
     }
+    @Test
+    public void test() {
+        EvenIt it = new EvenIt(new int[]{4, 2, 1, 1});
+        it.hasNext();
+        it.hasNext();
+        int i = (int) it.next();
+        System.out.println(i);
+    }
 }

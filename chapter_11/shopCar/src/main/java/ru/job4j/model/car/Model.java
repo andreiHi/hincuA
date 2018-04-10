@@ -22,6 +22,11 @@ public class Model extends Persistent {
     public Model() {
         super();
     }
+    public Model(String name, Brand brand) {
+        super();
+        this.name = name;
+        this.brand = brand;
+    }
 
     public Model(Long id) {
         super(id);

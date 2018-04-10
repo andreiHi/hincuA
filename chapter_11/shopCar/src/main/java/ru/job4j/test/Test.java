@@ -1,9 +1,14 @@
 package ru.job4j.test;
 
+import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import ru.job4j.model.User;
-import ru.job4j.service.UserService;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 27.03.2018.
@@ -14,8 +19,45 @@ public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
     public static void main(String[] args) {
-        UserService userService = new UserService();
-        User user = new User("andrei", "test", "123456", "78547");
-        userService.saveUser(user);
+        //C %= A, эквивалентно C = C % A
+        //System.out.println(sec);
+        //   System.out.println(Arrays.toString(Transmission.values()));
+        Gson gson = new Gson();
+        User user = new User();
+        user.setLogin("aaa");
+        JSONObject ss = user.toJson();
+        System.out.println(ss);
+        String s = gson.toJson(user);
+        System.out.println(s);
+        JSONObject object = new JSONObject();
+
+        JSONArray array = new JSONArray();
+        array.add(user);
+
+        object.put("user", new Gson().toJson(User.UNKNOWN_USER));
+        object.put("user1", ss);
+        object.put("u", array);
+      //  object.put("transport", getJson1(Transmission.class));
+       // System.out.println(object.toJSONString());
+        System.out.println(object.toString());
+
+        //{"message": "Hi","place": {"name": "World" }}
+        }
+
+    public static <T extends Enum<T>> String getJson(Class<T> tClass) {
+        return JSONArray.toJSONString(Arrays.stream(tClass.getEnumConstants()).map(Enum::name)
+                .collect(Collectors.toList()));
+//        for (Enum<T> tenum : tClass.getEnumConstants()) {
+//            list.add(tenum.name());
+//        }
+
+    }
+    public static <T extends Enum<T>> JSONArray getJson1(Class<T> tClass) {
+        JSONArray array = new JSONArray();
+        for (Enum<T> tenum : tClass.getEnumConstants()) {
+            array.add(tenum.name());
+        }
+//        array.addAll(Arrays.stream(tClass.getEnumConstants()).map(Enum::name).collect(Collectors.toList()));
+        return array;
     }
 }
