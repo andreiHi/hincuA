@@ -6,7 +6,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,22 +24,27 @@ public class Process {
         put("sing", new CreateUser());
         put("logInOut", new UserInOut());
         put("getItems", new GetItems());
+        put("getModels", new GetModels());
+        put("unknown", new Unknown());
+        put("create", new CreateAdvert());
     }
     };
 
     private Action action;
     private JSONObject jsonObject;
 
-    public void findAction(String request) {
-        JSONObject object;
-        try {
-            object = (JSONObject) new JSONParser().parse(request);
-            String action = (String) object.get("action");
-            this.action = action == null ? null : ACTIONS.get(action);
-            this.jsonObject = (JSONObject) object.get("data");
-        } catch (ParseException e) {
-            LOG.error(e.getMessage(), e);
-        }
+    public void findAction(HttpServletRequest req) {
+            String request;
+            JSONObject object;
+            try {
+                request = req.getReader().readLine();
+                object = (JSONObject) new JSONParser().parse(request);
+                String action = (String) object.get("action");
+                this.action = action == null ? ACTIONS.get("unknown") : ACTIONS.get(action);
+                this.jsonObject = (JSONObject) object.get("data");
+            } catch (ParseException | IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
     }
 
     public String getResponse(HttpSession session) {

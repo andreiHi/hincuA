@@ -31,17 +31,7 @@ public class Test {
         System.out.println(s);
         JSONObject object = new JSONObject();
 
-        JSONArray array = new JSONArray();
-        array.add(user);
 
-        object.put("user", new Gson().toJson(User.UNKNOWN_USER));
-        object.put("user1", ss);
-        object.put("u", array);
-      //  object.put("transport", getJson1(Transmission.class));
-       // System.out.println(object.toJSONString());
-        System.out.println(object.toString());
-
-        //{"message": "Hi","place": {"name": "World" }}
         }
 
     public static <T extends Enum<T>> String getJson(Class<T> tClass) {

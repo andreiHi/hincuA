@@ -38,7 +38,7 @@ $('#form_add').submit(function () {
     }
     var form = $(this);
     form.find('input').each(function () {
-        if ($(this).val()==='') {
+        if ($(this).val()==='' && $(this).css('display') !== 'none') {
             valid = false;
             $(this).css('background-color', 'red');
             return false;
@@ -47,6 +47,9 @@ $('#form_add').submit(function () {
         }
     });
     if (valid) {
+        var data = {};
+        data.form = form.serialize();
+        ajax('create',data, {});
         $('#form_add').fadeOut(300,function () {
             $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
         });
@@ -82,7 +85,7 @@ $(document).on('submit', '#sign', function () {
 function ajax(action, data, toDo) {
     $.ajax({
         method:'POST',
-        url: "/CarShop/data",
+        url: "/data",
         data: JSON.stringify({
             action: action,
             data: data
@@ -107,30 +110,68 @@ $(document).on('submit', '#login', function () {
 });
 function getComponents() {
     ajax('getItems', {}, function (data) {
-        console.log(data);
-        var u = data['user'];
-        var tr = data['transmission'][0];
-        // noinspection JSAnnotator
-        if (u.login != null) {
-            user.login = u.login;
-            setLogin()
-        }
-        console.log(user);
-        console.log(tr);
-        //console.log(tr[0]);
-        console.log(u.login == null);
-        console.log(u['login']);
+        setLogin(data['user']);
+        addOptions('transmission', data['transmission']);
+        addOptions('gearbox',      data['gearbox']);
+        addOptions('carcass',      data['carcass']);
+        addOptions('engineType',   data['engineType']);
+        addItems('brand',          data['brands']);
     });
 }
-function setLogin() {
-    if (user.login !== undefined) {
+function addOptions(id, data) {
+    $.each(data, function (key, value) {
+        $('#' + id).append($('<option></option>')
+            .attr('value', value)
+            .text(value.replace(/_/g,' ')));//регулярка заменяет подчеркивание на пробел
+    });
+}
+
+function addItems(id, data) {
+    var json = JSON.parse(data);
+    $.each(json, function (key, value) {
+        $('#' + id).append($('<option></option>')
+            .attr('value', json[key].id)
+            .text(value.name));
+    });
+}
+
+function setLogin(data) {
+    if (data.login != null) {
+        user.login = data.login;
         $('#id01').hide();
-        $('#intro').replaceWith('<p id="name-user" class="user_log">Hello, ' + user.login + '!</p>');
-        $('#signup').replaceWith('<p id="user_log_out" class="user_log">Log out</p>')
+        $('#intro').replaceWith(`<p id="name-user" class="user_log">Hello, ${user.login}!</p>`);
+        $('#signup').replaceWith(`<p id="user_log_out" class="user_log">Log out</p>`)
     }
 }
 $(document).on('click', '#user_log_out', function () {
     ajax('logInOut',{}, function () {
         location.href='index.html';
     })
+});
+
+$('#brand').change(function () {
+    var id = $(this).val();
+    var idBrand = {};
+    idBrand.id = id;
+    if (id === '0') {
+        $('#model').html('<option value="0">-Модель-</option>');
+        $('#model').attr('disabled', true);
+    } else {
+        $('#model').html('<option value="0">-Модель-</option>');
+        $('#model').attr('disabled', false);
+        ajax('getModels', idBrand, function (data) {
+            var models = data['models'];
+            addItems('model', models);
+        })
+    }
+});
+$('#engineType').change(function () {
+    var id = $(this).val();
+    if (id ==='Electro') {
+    $('#volumeDiv').hide();
+    $('#volume').hide();
+    } else {
+        $('#volume').show();
+        $('#volumeDiv').show();
+    }
 });

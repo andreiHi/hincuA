@@ -31,9 +31,8 @@ public class Controller extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
 
-        String request = req.getReader().readLine();
         Process process = new Process();
-        process.findAction(request);
+        process.findAction(req);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
         pw.append(process.getResponse(req.getSession()));
         pw.flush();

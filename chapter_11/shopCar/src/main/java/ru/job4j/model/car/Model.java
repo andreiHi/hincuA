@@ -15,7 +15,7 @@ public class Model extends Persistent {
     private static final long serialVersionUID = -8282692270423672443L;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "id_brand", referencedColumnName = "id")
     private Brand brand;
 
@@ -47,5 +47,12 @@ public class Model extends Persistent {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public String toString() {
+        return getId()
+                + " : "
+                + name;
     }
 }

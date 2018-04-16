@@ -2,9 +2,8 @@ package ru.job4j.model.car;
 
 import ru.job4j.model.Persistent;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 19.03.2018.
@@ -19,8 +18,8 @@ public class Brand extends Persistent {
 
     private String name;
 
-    @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Model> models = new ArrayList<>();
+//    @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<Model> models = new ArrayList<>();
 
     public Brand() {
         super();
@@ -42,11 +41,18 @@ public class Brand extends Persistent {
         this.name = name;
     }
 
-    public List<Model> getModels() {
-        return models;
-    }
+//    public List<Model> getModels() {
+//        return models;
+//    }
+//
+//    public void setModels(List<Model> models) {
+//        this.models = models;
+//    }
 
-    public void setModels(List<Model> models) {
-        this.models = models;
+    @Override
+    public String toString() {
+        return getId()
+                + " : "
+                + name;
     }
 }

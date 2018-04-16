@@ -25,3 +25,5 @@ hs_err_pid*
 *.iml
 target
 orders.xml
+/chapter_11/shopCar/src/main/webapp/WEB-INF/lib/
+/chapter_11/shopCar/src/main/webapp/WEB-INF/classes/

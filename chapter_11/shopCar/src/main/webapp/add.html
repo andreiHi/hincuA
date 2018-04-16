@@ -55,8 +55,8 @@
             </div>
 
             <div class="select_wrapper">
-                <label for="engine_type"><span>* </span><strong>Тип двигателя:  </strong></label>
-                <select class="block-select_add" id="engine_type" name="engine_type">
+                <label for="engineType"><span>* </span><strong>Тип двигателя:  </strong></label>
+                <select class="block-select_add" id="engineType" name="engineType">
                     <option value="0">-Тип двигателя-</option>
                 </select>
             </div>
@@ -64,7 +64,7 @@
                 <label for="description"><span>* </span><strong>Описание: </strong></label>
                 <textarea id="description" name="description" rows="8" cols="75"></textarea>
             </div>
-            <div class="select_wrapper">
+            <div id="volumeDiv" class="select_wrapper">
                 <label for="volume"><span>* </span><strong>Объем двигателя: </strong></label>
                 <input type="text" maxlength="15" placeholder="Объем двигателя, см3" id="volume" name="volume" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
             </div>

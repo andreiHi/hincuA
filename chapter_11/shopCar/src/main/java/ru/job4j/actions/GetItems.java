@@ -5,7 +5,11 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import ru.job4j.model.User;
+import ru.job4j.model.car.parts.Carcass;
+import ru.job4j.model.car.parts.EngineType;
+import ru.job4j.model.car.parts.Gearbox;
 import ru.job4j.model.car.parts.Transmission;
+import ru.job4j.service.BrandService;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +21,7 @@ import javax.servlet.http.HttpSession;
 public class GetItems implements Action {
     private static final Logger LOG = LogManager.getLogger(GetItems.class);
 
-    @Override
+    @Override  @SuppressWarnings("unchecked")
     public String action(HttpSession session, JSONObject json) {
         JSONObject jsonObject = new JSONObject();
         User user = (User) session.getAttribute("user");
@@ -27,11 +31,18 @@ public class GetItems implements Action {
             jsonObject.put("user", User.UNKNOWN_USER.toJson());
         }
         jsonObject.put("transmission", getJson(Transmission.class));
+        jsonObject.put("carcass",      getJson(Carcass.class));
+        jsonObject.put("gearbox",      getJson(Gearbox.class));
+        jsonObject.put("engineType",   getJson(EngineType.class));
+
+        String brands = new BrandService().getAllBrandsToJson();
+
+        jsonObject.put("brands", brands);
         System.out.println(jsonObject.toJSONString());
         return jsonObject.toJSONString();
     }
 
-    public static <T extends Enum<T>> JSONArray getJson(Class<T> tClass) {
+    private <T extends Enum<T>> JSONArray getJson(Class<T> tClass) {
         JSONArray array = new JSONArray();
         for (Enum<T> tenum : tClass.getEnumConstants()) {
             array.add(tenum.name());

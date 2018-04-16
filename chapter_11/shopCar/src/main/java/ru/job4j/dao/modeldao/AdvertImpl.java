@@ -1,6 +1,5 @@
 package ru.job4j.dao.modeldao;
 
-import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.dao.AbstractController;
@@ -69,7 +68,6 @@ public class AdvertImpl extends AbstractController<Advert, Long> {
     @Override
     public void update(Advert entity) {
         getCurrentSession().update(entity);
-        new Gson().toJson("asasasa");
     }
 //    @Override
 //    public boolean delete(Advert entity) {
