@@ -22,6 +22,7 @@ public class UserInOut implements Action {
         boolean exist = false;
         User userLogin = (User) session.getAttribute("user");
         if (userLogin == null) {
+            System.out.println(json.toJSONString());
             String login = (String) json.get("login");
             String password = (String) json.get("password");
             UserService service = new UserService();

@@ -1,9 +1,13 @@
 package ru.job4j.actions;
 
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -16,7 +20,12 @@ public class CreateAdvert implements Action {
 
     @Override
     public String action(HttpSession session, JSONObject json) {
-        System.out.println("dfdfdfdfdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+//        System.out.println("dfdfdfdfdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+//        System.out.println(json.toJSONString());
+//        String l = (String) json.get("form");
+//        String s="";
+//todo
+//        System.out.println(s);
         return null;
     }
 }

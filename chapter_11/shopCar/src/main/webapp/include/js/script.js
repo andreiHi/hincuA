@@ -26,6 +26,7 @@ $(document).on('click', '#submit', function () {
 //проверка на заполненность всех данных объявления кроме описания.
 $('#form_add').submit(function () {
     var valid = true;
+
     var select = document.getElementsByTagName('select');
     for (var i = 0; i<select.length; i++) {
         if(select[i].options[select[i].selectedIndex].value === '0') {
@@ -47,9 +48,14 @@ $('#form_add').submit(function () {
         }
     });
     if (valid) {
+        var f = document.forms.form_add;
+        console.log(f);
+        var formData = new FormData(f);
         var data = {};
         data.form = form.serialize();
-        ajax('create',data, {});
+        formData.append('aaa','bbb');
+        console.log(formData.entries());
+        ajax('create',formData, {});
         $('#form_add').fadeOut(300,function () {
             $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
         });
@@ -139,8 +145,8 @@ function setLogin(data) {
     if (data.login != null) {
         user.login = data.login;
         $('#id01').hide();
-        $('#intro').replaceWith(`<p id="name-user" class="user_log">Hello, ${user.login}!</p>`);
-        $('#signup').replaceWith(`<p id="user_log_out" class="user_log">Log out</p>`)
+        $('#intro').replaceWith('<p id="name-user" class="user_log">Hello, '+user.login+'!</p>');
+        $('#signup').replaceWith('<p id="user_log_out" class="user_log">Log out</p>')
     }
 }
 $(document).on('click', '#user_log_out', function () {

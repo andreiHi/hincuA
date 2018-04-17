@@ -1,5 +1,6 @@
 package ru.job4j.actions;
 
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -34,6 +35,7 @@ public class Process {
     private JSONObject jsonObject;
 
     public void findAction(HttpServletRequest req) {
+        if (!ServletFileUpload.isMultipartContent(req)) {
             String request;
             JSONObject object;
             try {
@@ -45,6 +47,11 @@ public class Process {
             } catch (ParseException | IOException e) {
                 LOG.error(e.getMessage(), e);
             }
+        } else {
+           this.action = ACTIONS.get("create");
+           this.jsonObject = new JSONObject();
+           this.jsonObject.put("reg", req);
+        }
     }
 
     public String getResponse(HttpSession session) {
