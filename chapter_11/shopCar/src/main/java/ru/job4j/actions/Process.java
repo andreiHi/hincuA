@@ -8,7 +8,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,6 +35,7 @@ public class Process {
 
     public void findAction(HttpServletRequest req) {
         if (!ServletFileUpload.isMultipartContent(req)) {
+            System.out.println("not multipart");
             String request;
             JSONObject object;
             try {
@@ -50,11 +50,10 @@ public class Process {
         } else {
            this.action = ACTIONS.get("create");
            this.jsonObject = new JSONObject();
-           this.jsonObject.put("reg", req);
         }
     }
 
-    public String getResponse(HttpSession session) {
-        return this.action.action(session, jsonObject);
+    public String getResponse(HttpServletRequest req) {
+        return this.action.action(req, jsonObject);
     }
 }

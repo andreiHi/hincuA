@@ -34,7 +34,7 @@ public class Controller extends HttpServlet {
         Process process = new Process();
         process.findAction(req);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-        pw.append(process.getResponse(req.getSession()));
+        pw.append(process.getResponse(req));
         pw.flush();
     }
 

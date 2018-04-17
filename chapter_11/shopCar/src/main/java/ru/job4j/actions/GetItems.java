@@ -11,6 +11,7 @@ import ru.job4j.model.car.parts.Gearbox;
 import ru.job4j.model.car.parts.Transmission;
 import ru.job4j.service.BrandService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -22,7 +23,8 @@ public class GetItems implements Action {
     private static final Logger LOG = LogManager.getLogger(GetItems.class);
 
     @Override  @SuppressWarnings("unchecked")
-    public String action(HttpSession session, JSONObject json) {
+    public String action(HttpServletRequest req, JSONObject json) {
+        HttpSession session = req.getSession();
         JSONObject jsonObject = new JSONObject();
         User user = (User) session.getAttribute("user");
         if (user != null) {

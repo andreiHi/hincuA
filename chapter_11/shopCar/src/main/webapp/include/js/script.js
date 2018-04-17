@@ -48,14 +48,17 @@ $('#form_add').submit(function () {
         }
     });
     if (valid) {
-        var f = document.forms.form_add;
-        console.log(f);
-        var formData = new FormData(f);
-        var data = {};
-        data.form = form.serialize();
-        formData.append('aaa','bbb');
-        console.log(formData.entries());
-        ajax('create',formData, {});
+        $.ajax({
+            url: "/data",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: new FormData(document.forms.form_add),
+            dataType: 'json',
+            success: function(json){
+                if (json.success) console.log("files uploaded!");
+            }
+        });
         $('#form_add').fadeOut(300,function () {
             $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
         });

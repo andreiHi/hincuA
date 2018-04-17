@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import ru.job4j.model.User;
 import ru.job4j.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -18,7 +19,8 @@ public class UserInOut implements Action {
     private static final Logger LOG = LogManager.getLogger(UserInOut.class);
 
     @Override
-    public String action(HttpSession session, JSONObject json) {
+    public String action(HttpServletRequest req, JSONObject json) {
+        HttpSession session = req.getSession();
         boolean exist = false;
         User userLogin = (User) session.getAttribute("user");
         if (userLogin == null) {

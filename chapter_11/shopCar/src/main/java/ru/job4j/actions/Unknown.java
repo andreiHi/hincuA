@@ -2,7 +2,7 @@ package ru.job4j.actions;
 
 import org.json.simple.JSONObject;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 16.04.2018.
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 public class Unknown implements Action {
 
     @Override
-    public String action(HttpSession session, JSONObject json) {
+    public String action(HttpServletRequest req, JSONObject json) {
         return "";
     }
 }

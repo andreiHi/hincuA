@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import ru.job4j.model.User;
 import ru.job4j.service.UserService;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 02.04.2018.
@@ -18,7 +18,7 @@ public class CreateUser implements Action {
     private static final Logger LOG = LogManager.getLogger(CreateUser.class);
 
     @Override
-    public String action(HttpSession session, JSONObject json) {
+    public String action(HttpServletRequest req, JSONObject json) {
         String login = (String) json.get("login");
         String password = (String) json.get("password");
         String email = (String) json.get("email");
