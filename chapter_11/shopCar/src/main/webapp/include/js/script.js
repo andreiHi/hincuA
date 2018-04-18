@@ -48,6 +48,7 @@ $('#form_add').submit(function () {
         }
     });
     if (valid) {
+
         $.ajax({
             url: "/data",
             type: "POST",

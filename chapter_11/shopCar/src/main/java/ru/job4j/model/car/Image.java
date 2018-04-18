@@ -20,10 +20,24 @@ public class Image extends Persistent {
     private static final Logger LOG = LogManager.getLogger(Image.class);
     @ManyToOne @JoinColumn(name = "id_car", referencedColumnName = "id")
     private Car car;
-    private byte[]image;
+    private byte[] img;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Image(Car car) {
         super();
+        this.car = car;
+    }
+    public Image(String name, byte[] img, Car car) {
+        this.name = name;
+        this.img = img;
         this.car = car;
     }
     public Image() {
@@ -38,11 +52,11 @@ public class Image extends Persistent {
         this.car = car;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getImg() {
+        return img;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImg(byte[] image) {
+        this.img = image;
     }
 }

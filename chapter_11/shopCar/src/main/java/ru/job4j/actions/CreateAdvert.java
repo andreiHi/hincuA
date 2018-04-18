@@ -9,11 +9,16 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import ru.job4j.model.Advert;
+import ru.job4j.model.User;
+import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Car;
+import ru.job4j.model.car.Image;
+import ru.job4j.model.car.Model;
+import ru.job4j.model.car.parts.*;
+import ru.job4j.service.AdvertService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -32,36 +37,59 @@ public class CreateAdvert implements Action {
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
-        Advert advert = new Advert();
-        Car car = new Car();
+        Advert advert = new Advert((User) req.getSession().getAttribute("user"));
+        Brand brand = new Brand();
+        Model model = new Model();
+        Engine engine = new Engine();
+        Car car = new Car(engine, brand, model, advert);
+        advert.setCar(car);
         ServletFileUpload upload = new ServletFileUpload(factory);
-        List<byte[]> images = new ArrayList<>();
+        List<Image> images = new ArrayList<>();
+        car.setImages(images);
         try {
             List fileItems = upload.parseRequest(req);
-            Iterator iterator = fileItems.iterator();
-            while (iterator.hasNext()) {
-                FileItem fileItem = (FileItem) iterator.next();
+            for (Object fileItem1 : fileItems) {
+                FileItem fileItem = (FileItem) fileItem1;
                 if (!fileItem.isFormField()) {
                     String fileName = fileItem.getName();
                     byte[] image = fileItem.get();
-                    images.add(image);
-                    iterator.remove();
-                    System.out.println(fileName + " " + image.length);
+                    images.add(new Image(fileName, image, car));
                 } else {
-                    String paramName = fileItem.getFieldName();
-                    String paramValue = fileItem.getString();
-                    System.out.println(paramName + " " + paramValue);
-
+                    switch (fileItem.getFieldName()) {
+                        case "brand" : brand.setId(Long.valueOf(fileItem.getString()));
+                            break;
+                        case "model": model.setId(Long.valueOf(fileItem.getString()));
+                            break;
+                        case "carcass" : car.setCarcass(Carcass.valueOf(fileItem.getString()));
+                            break;
+                        case "transmission" : car.setTransmission(Transmission.valueOf(fileItem.getString()));
+                            break;
+                        case "gearbox" : car.setGearBox(Gearbox.valueOf(fileItem.getString()));
+                            break;
+                        case "engineType" : engine.setFuelType(EngineType.valueOf(fileItem.getString()));
+                            break;
+                        case "description" : advert.setDescription(fileItem.getString());
+                            break;
+                        case "volume" : engine.setVolume(Integer.valueOf(fileItem.getString()));
+                            break;
+                        case "power" : engine.setPower(Integer.parseInt(fileItem.getString()));
+                            break;
+                        case "mileage" : car.setMileage(Integer.parseInt(fileItem.getString()));
+                            break;
+                        case "price" : advert.setPrice(Integer.parseInt(fileItem.getString()));
+                            break;
+                        case "year" : car.setYear(Integer.parseInt(fileItem.getString()));
+                            break;
+                        default: break;
+                    }
                 }
             }
-            System.out.println(images.size() + " count of images");
-            System.out.println(fileItems.size() + " size of file items");
+            AdvertService service = new AdvertService();
+            service.save(advert);
         } catch (FileUploadException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
-    public void createModels(String paramName, String paramValue) {
 
-    }
 }

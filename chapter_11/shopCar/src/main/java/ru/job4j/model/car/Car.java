@@ -8,6 +8,7 @@ import ru.job4j.model.car.parts.Gearbox;
 import ru.job4j.model.car.parts.Transmission;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 18.03.2018.
@@ -35,8 +36,13 @@ public class Car extends Persistent {
     public Car(Long id) {
         super(id);
     }
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    public Car(Engine engine, Brand brand, Model model, Advert advert) {
+        this.engine = engine;
+        this.brand = brand;
+        this.model = model;
+        this.advert = advert;
+    }
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_engine")
     private Engine engine;
 
@@ -57,9 +63,28 @@ public class Car extends Persistent {
     @Enumerated(EnumType.STRING)
     private Transmission transmission;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "id_advert")
     private Advert advert;
+
+    public Advert getAdvert() {
+        return advert;
+    }
+
+    public void setAdvert(Advert advert) {
+        this.advert = advert;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    private List<Image> images;
     public Transmission getTransmission() {
         return transmission;
     }
@@ -124,5 +149,26 @@ public class Car extends Persistent {
         this.carcass = carcass;
     }
 
+    @Override
+    public String toString() {
+        return "Car{"
+                + "mileage="
+                + mileage
+                + ", year="
+                + year
+                + ", engine="
+                + engine
+                + ", brand="
+                + brand
+                + ", model="
+                + model
+                + ", carcass="
+                + carcass
+                + ", gearBox="
+                + gearBox
+                + ", transmission="
+                + transmission
+                + '}';
+    }
 }
 

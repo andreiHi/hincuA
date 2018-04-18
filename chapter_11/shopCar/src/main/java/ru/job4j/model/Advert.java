@@ -4,7 +4,6 @@ import ru.job4j.model.car.Car;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 18.03.2018.
@@ -29,7 +28,7 @@ public class Advert extends Persistent {
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_car")
     private Car car;
 
@@ -42,8 +41,7 @@ public class Advert extends Persistent {
         this.price = price;
     }
 
-    public Advert(String description, User user) {
-        this.description = description;
+    public Advert(User user) {
         this.user = user;
         this.data = new Timestamp(System.currentTimeMillis());
         this.state = State.NEW;
