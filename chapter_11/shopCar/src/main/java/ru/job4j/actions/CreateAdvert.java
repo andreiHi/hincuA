@@ -8,6 +8,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import ru.job4j.model.Advert;
+import ru.job4j.model.car.Car;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class CreateAdvert implements Action {
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
+        Advert advert = new Advert();
+        Car car = new Car();
         ServletFileUpload upload = new ServletFileUpload(factory);
         List<byte[]> images = new ArrayList<>();
         try {
@@ -39,19 +43,25 @@ public class CreateAdvert implements Action {
                 FileItem fileItem = (FileItem) iterator.next();
                 if (!fileItem.isFormField()) {
                     String fileName = fileItem.getName();
-                    byte[]image = fileItem.get();
+                    byte[] image = fileItem.get();
                     images.add(image);
+                    iterator.remove();
                     System.out.println(fileName + " " + image.length);
                 } else {
-                    String f = fileItem.getFieldName();
-                     String value = fileItem.getString();
-                    System.out.println(f + " " + value);
+                    String paramName = fileItem.getFieldName();
+                    String paramValue = fileItem.getString();
+                    System.out.println(paramName + " " + paramValue);
+
                 }
             }
-            System.out.println(images.size() + " image size");
+            System.out.println(images.size() + " count of images");
+            System.out.println(fileItems.size() + " size of file items");
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
         return null;
+    }
+    public void createModels(String paramName, String paramValue) {
+
     }
 }
