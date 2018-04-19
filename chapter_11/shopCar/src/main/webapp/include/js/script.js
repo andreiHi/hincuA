@@ -57,12 +57,16 @@ $('#form_add').submit(function () {
             data: new FormData(document.forms.form_add),
             dataType: 'json',
             success: function(json){
-                if (json.success) console.log("files uploaded!");
+                if (json !=='0') {
+                    $('#form_add').fadeOut(300,function () {
+                        $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
+                    });
+                } else {
+                    $("#message").addClass("message_error").fadeIn(400).html("Server error try again !");
+                }
             }
         });
-        $('#form_add').fadeOut(300,function () {
-            $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
-        });
+
     } else {
         $("#message").addClass("message_error").fadeIn(400).html("Введите все данные!");
     }

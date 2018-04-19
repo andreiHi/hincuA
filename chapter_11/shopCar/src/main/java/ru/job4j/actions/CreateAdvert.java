@@ -1,6 +1,7 @@
 package ru.job4j.actions;
 
 
+import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -37,6 +38,7 @@ public class CreateAdvert implements Action {
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
+        long id = 0;
         Advert advert = new Advert((User) req.getSession().getAttribute("user"));
         Brand brand = new Brand();
         Model model = new Model();
@@ -85,11 +87,11 @@ public class CreateAdvert implements Action {
                 }
             }
             AdvertService service = new AdvertService();
-            service.save(advert);
+            id = service.save(advert);
         } catch (FileUploadException e) {
             LOG.error(e.getMessage(), e);
         }
-        return null;
+        return new Gson().toJson(id);
     }
 
 }
