@@ -83,7 +83,7 @@ public class Car extends Persistent {
         this.images = images;
     }
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Image> images;
     public Transmission getTransmission() {
         return transmission;
@@ -152,7 +152,9 @@ public class Car extends Persistent {
     @Override
     public String toString() {
         return "Car{"
-                + "mileage="
+                + "id="
+                + getId()
+                + ", mileage="
                 + mileage
                 + ", year="
                 + year
@@ -168,6 +170,8 @@ public class Car extends Persistent {
                 + gearBox
                 + ", transmission="
                 + transmission
+                + ", image= "
+                + images
                 + '}';
     }
 }

@@ -40,10 +40,10 @@ public class GetItems implements Action {
         String brands = new BrandService().getAllBrandsToJson();
 
         jsonObject.put("brands", brands);
-        System.out.println(jsonObject.toJSONString());
+        //System.out.println(jsonObject.toJSONString());
         return jsonObject.toJSONString();
     }
-
+    @SuppressWarnings("unchecked")
     private <T extends Enum<T>> JSONArray getJson(Class<T> tClass) {
         JSONArray array = new JSONArray();
         for (Enum<T> tenum : tClass.getEnumConstants()) {

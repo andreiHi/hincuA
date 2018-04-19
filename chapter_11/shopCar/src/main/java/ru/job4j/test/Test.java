@@ -1,13 +1,13 @@
 package ru.job4j.test;
 
-import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import ru.job4j.model.User;
+import ru.job4j.model.Advert;
+import ru.job4j.service.AdvertService;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -19,20 +19,15 @@ public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
     public static void main(String[] args) {
-        //C %= A, эквивалентно C = C % A
-        //System.out.println(sec);
-        //   System.out.println(Arrays.toString(Transmission.values()));
-        Gson gson = new Gson();
-        User user = new User();
-        user.setLogin("aaa");
-        JSONObject ss = user.toJson();
-        System.out.println(ss);
-        String s = gson.toJson(user);
-        System.out.println(s);
-        JSONObject object = new JSONObject();
+        AdvertService service = new AdvertService();
+        List<Advert> adverts = service.getAll();
+        // adverts.forEach(a -> a.getCar().getImages().forEach(i -> System.out.println(i.getImg().length )) );
+        adverts.forEach(System.out::println);
 
 
-        }
+
+
+    }
 
     public static <T extends Enum<T>> String getJson(Class<T> tClass) {
         return JSONArray.toJSONString(Arrays.stream(tClass.getEnumConstants()).map(Enum::name)

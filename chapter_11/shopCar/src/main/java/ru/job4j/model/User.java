@@ -3,6 +3,7 @@ package ru.job4j.model;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class User extends Persistent {
     private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Advert> adverts;
+    private List<Advert> adverts = new ArrayList<>();
 
     public User() {
         super();

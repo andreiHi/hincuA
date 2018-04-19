@@ -3,6 +3,8 @@ package ru.job4j.service;
 import ru.job4j.dao.modeldao.AdvertImpl;
 import ru.job4j.model.Advert;
 
+import java.util.List;
+
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 21.03.2018.
  * @version $Id$.
@@ -20,5 +22,12 @@ public class AdvertService {
         Long id = advertDao.save(advert);
         advertDao.closeSessionWithTransaction();
         return id;
+    }
+
+    public List<Advert> getAll() {
+        advertDao.openCurrentSession();
+        List<Advert> adverts = advertDao.getAll();
+        advertDao.closeCurrentSession();
+        return adverts;
     }
 }

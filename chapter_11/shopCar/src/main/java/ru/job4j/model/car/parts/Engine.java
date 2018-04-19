@@ -38,6 +38,20 @@ public class Engine extends Persistent {
     @OneToMany(mappedBy = "engine", fetch = FetchType.LAZY)
     private List<Car> car = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Engine{"
+                + "id="
+                + getId()
+                + ", volume="
+                + volume
+                + ", fuelType="
+                + fuelType
+                + ", power="
+                + power
+                + '}';
+    }
+
     public int getVolume() {
         return volume;
     }

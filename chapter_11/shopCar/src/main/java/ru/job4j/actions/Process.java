@@ -27,6 +27,7 @@ public class Process {
         put("getModels", new GetModels());
         put("unknown", new Unknown());
         put("create", new CreateAdvert());
+        put("allAds", new GetAdverts());
     }
     };
 

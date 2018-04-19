@@ -59,4 +59,15 @@ public class Image extends Persistent {
     public void setImg(byte[] image) {
         this.img = image;
     }
+
+    @Override
+    public String toString() {
+        return "Image "
+                + "id=" + getId()
+                + ", name ='"
+                + name
+                + " car_id ="
+                + car.getId()
+                + '\'';
+    }
 }
