@@ -1,5 +1,6 @@
 package ru.job4j.model.car;
 
+import org.json.simple.JSONObject;
 import ru.job4j.model.Persistent;
 
 import javax.persistence.Entity;
@@ -41,6 +42,12 @@ public class Brand extends Persistent {
         this.name = name;
     }
 
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", getId());
+        jsonObject.put("name", name);
+        return jsonObject;
+    }
 //    public List<Model> getModels() {
 //        return models;
 //    }

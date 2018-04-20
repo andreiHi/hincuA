@@ -29,7 +29,7 @@ public class UserServiceTest {
         User user = new User("Andrei", "email@ttt.com", "123458", "1234586");
         Advert advert = new Advert();
         List<Advert> adverts = Arrays.asList(advert);
-        user.setAdverts(adverts);
+//        user.setAdverts(adverts);
         userService.saveUser(user);
         assertThat("Andrei", is(userService.getAllUsers().get(0).getLogin()));
     }

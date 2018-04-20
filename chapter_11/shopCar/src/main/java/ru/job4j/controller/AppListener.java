@@ -1,7 +1,7 @@
 package ru.job4j.controller;
 
 import ru.job4j.dao.HibernateService;
-import ru.job4j.dao.InitializingTables;
+import ru.job4j.dao.StartingData;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -18,7 +18,10 @@ public class AppListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        new InitializingTables().initTables();
+        StartingData start = new StartingData();
+        start.initTables();
+        String fullSavePath = start.createUploadPath(servletContextEvent.getServletContext().getRealPath(""));
+        servletContextEvent.getServletContext().setAttribute("fullSavePath", fullSavePath);
     }
 
     /**

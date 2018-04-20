@@ -30,4 +30,5 @@ public class AdvertService {
         advertDao.closeCurrentSession();
         return adverts;
     }
+
 }

@@ -27,3 +27,6 @@ target
 orders.xml
 /chapter_11/shopCar/src/main/webapp/WEB-INF/lib/
 /chapter_11/shopCar/src/main/webapp/WEB-INF/classes/
+/chapter_11/shopCar/src/main/webapp/uploadDir/
+chapter_009HTML/src/test/
+tracker/src/main/resources/

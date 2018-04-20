@@ -19,8 +19,10 @@ import ru.job4j.model.car.parts.*;
 import ru.job4j.service.AdvertService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -31,13 +33,14 @@ import java.util.List;
 public class CreateAdvert implements Action {
     private static final Logger LOG = LogManager.getLogger(CreateAdvert.class);
     private DiskFileItemFactory factory;
-
+    private Random random = new Random();
     public CreateAdvert() {
         this.factory = new DiskFileItemFactory();
     }
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
+        String fullSavePath = (String) req.getServletContext().getAttribute("fullSavePath");
         long id = 0;
         Advert advert = new Advert((User) req.getSession().getAttribute("user"));
         Brand brand = new Brand();
@@ -45,19 +48,17 @@ public class CreateAdvert implements Action {
         Engine engine = new Engine();
         Car car = new Car(engine, brand, model, advert);
         advert.setCar(car);
-        ServletFileUpload upload = new ServletFileUpload(factory);
         List<Image> images = new ArrayList<>();
         car.setImages(images);
-        String path = req.getServletContext().getInitParameter("upload");
-        System.out.println(path);
+        ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             List fileItems = upload.parseRequest(req);
-            for (Object fileItem1 : fileItems) {
-                FileItem fileItem = (FileItem) fileItem1;
+            for (Object fileIt : fileItems) {
+                FileItem fileItem = (FileItem) fileIt;
                 if (!fileItem.isFormField()) {
                     String fileName = fileItem.getName();
-                    byte[] image = fileItem.get();
-                    images.add(new Image(fileName, image, car));
+                    String path = prepareImage(fileItem, fullSavePath);
+                    images.add(new Image(fileName, path, car));
                 } else {
                     switch (fileItem.getFieldName()) {
                         case "brand" : brand.setId(Long.valueOf(fileItem.getString()));
@@ -94,6 +95,22 @@ public class CreateAdvert implements Action {
             LOG.error(e.getMessage(), e);
         }
         return new Gson().toJson(id);
+    }
+
+    private String prepareImage(FileItem fileItem, String fullSavePath) {
+        File file;
+        do {
+            StringBuilder sb = new StringBuilder(fullSavePath);
+            sb.append('/').append(random.nextInt(Integer.MAX_VALUE)  + 1).append(fileItem.getName());
+            file = new File(sb.toString());
+        } while (file.exists());
+        try {
+            file.createNewFile();
+            fileItem.write(file);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return file.getName();
     }
 
 }

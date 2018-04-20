@@ -2,9 +2,10 @@ package ru.job4j.model;
 
 import org.json.simple.JSONObject;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Objects;
 
 /**
@@ -25,8 +26,8 @@ public class User extends Persistent {
     @Column(name = "phone", unique = true)
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Advert> adverts = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Advert> adverts = new ArrayList<>();
 
     public User() {
         super();
@@ -90,6 +91,7 @@ public class User extends Persistent {
     public String getEmail() {
         return email;
     }
+
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("login", login);
@@ -117,13 +119,13 @@ public class User extends Persistent {
         this.phone = phone;
     }
 
-    public List<Advert> getAdverts() {
-        return adverts;
-    }
-
-    public void setAdverts(List<Advert> adverts) {
-        this.adverts = adverts;
-    }
+//    public List<Advert> getAdverts() {
+//        return adverts;
+//    }
+//
+//    public void setAdverts(List<Advert> adverts) {
+//        this.adverts = adverts;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -137,13 +139,13 @@ public class User extends Persistent {
         return   Objects.equals(phone, user.phone)
                 && Objects.equals(login, user.login)
                 && Objects.equals(email, user.email)
-                && Objects.equals(password, user.password)
-                && Objects.equals(adverts, user.adverts);
+                && Objects.equals(password, user.password);
+//                && Objects.equals(adverts, user.adverts);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(login, email, password, phone, adverts);
+        return Objects.hash(login, email, password, phone/*, adverts*/);
     }
 }

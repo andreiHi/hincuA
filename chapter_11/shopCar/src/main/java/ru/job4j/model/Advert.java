@@ -1,9 +1,11 @@
 package ru.job4j.model;
 
+import org.json.simple.JSONObject;
 import ru.job4j.model.car.Car;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 18.03.2018.
@@ -13,7 +15,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "advert")
 public class Advert extends Persistent {
-
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd MM YYYY");
     private static final long serialVersionUID = 8280964074040472053L;
     private Timestamp data;
     @Column(name = "description", length = 1000)
@@ -24,7 +26,7 @@ public class Advert extends Persistent {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 
@@ -47,7 +49,17 @@ public class Advert extends Persistent {
         this.state = State.NEW;
 
     }
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
 
+        json.put("user", user.toJson());
+        json.put("car", car.toJson());
+        json.put("description", description);
+        json.put("data", FORMAT.format(data));
+        json.put("state", state.name());
+        json.put("price", price);
+        return json;
+    }
     public String getDescription() {
         return description;
     }
@@ -81,6 +93,8 @@ public class Advert extends Persistent {
                 + ", description='"
                 + description
                 + '\''
+                + " user = "
+                + user
                 + ", state="
                 + state
                 + ", car="

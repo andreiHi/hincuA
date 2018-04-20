@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -25,11 +26,12 @@ import java.util.stream.Stream;
  * @version $Id$.
  * @since 0.1.
  */
-public class InitializingTables {
-    private static final Logger LOG = LogManager.getLogger(InitializingTables.class);
+public class StartingData {
+    private static final Logger LOG = LogManager.getLogger(StartingData.class);
     private SessionFactory sessionFactory = HibernateService.getSessionFactoty();
     private static final String BRANDS = "brand.txt";
     private static final String FOLDER = "models/";
+    private static final String SAVE_DIRECTORY = "uploadDir";
 
     /**
      * Create a session and transaction.
@@ -86,5 +88,19 @@ public class InitializingTables {
             }
         }
         return list;
+    }
+    public String createUploadPath(String appPath) {
+        appPath = appPath.replace('\\', '/');
+        String fullSavePath;
+        if (appPath.endsWith("/")) {
+            fullSavePath = appPath + SAVE_DIRECTORY;
+        } else {
+            fullSavePath = appPath + "/" + SAVE_DIRECTORY;
+        }
+        File fileSaveDir = new File(fullSavePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
+        }
+        return fullSavePath;
     }
 }

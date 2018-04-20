@@ -2,6 +2,7 @@ package ru.job4j.model.car;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import ru.job4j.model.Persistent;
 
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class Image extends Persistent {
     private static final Logger LOG = LogManager.getLogger(Image.class);
     @ManyToOne @JoinColumn(name = "id_car", referencedColumnName = "id")
     private Car car;
-    private byte[] img;
+//    private byte[] img;
     private String name;
 
     public String getName() {
@@ -35,11 +36,21 @@ public class Image extends Persistent {
         super();
         this.car = car;
     }
-    public Image(String name, byte[] img, Car car) {
+    public Image(String name, String path, Car car) {
         this.name = name;
-        this.img = img;
+        this.path = path;
         this.car = car;
     }
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public Image() {
         super();
     }
@@ -52,14 +63,20 @@ public class Image extends Persistent {
         this.car = car;
     }
 
-    public byte[] getImg() {
-        return img;
-    }
+//    public byte[] getImg() {
+//        return img;
+//    }
 
-    public void setImg(byte[] image) {
-        this.img = image;
-    }
-
+//    public void setImg(byte[] image) {
+//        this.img = image;
+//    }
+public JSONObject toJson() {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("id", getId());
+    jsonObject.put("name", name);
+    jsonObject.put("path", path);
+    return jsonObject;
+}
     @Override
     public String toString() {
         return "Image "
@@ -68,6 +85,8 @@ public class Image extends Persistent {
                 + name
                 + " car_id ="
                 + car.getId()
+                + " path ="
+                + path
                 + '\'';
     }
 }

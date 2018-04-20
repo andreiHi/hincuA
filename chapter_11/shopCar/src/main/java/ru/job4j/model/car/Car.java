@@ -1,5 +1,6 @@
 package ru.job4j.model.car;
 
+import org.json.simple.JSONObject;
 import ru.job4j.model.Advert;
 import ru.job4j.model.Persistent;
 import ru.job4j.model.car.parts.Carcass;
@@ -66,7 +67,19 @@ public class Car extends Persistent {
     @OneToOne()
     @JoinColumn(name = "id_advert")
     private Advert advert;
-
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("mileage", mileage);
+        json.put("year", year);
+        json.put("engine", engine.toJson());
+        json.put("brand", brand.toJson());
+        json.put("model", model.toJson());
+        json.put("carcass", carcass.name());
+        json.put("gearBox", gearBox.name());
+        json.put("transmission", transmission.name());
+        json.put("images", imagesToJson());
+        return json;
+    }
     public Advert getAdvert() {
         return advert;
     }
@@ -85,6 +98,11 @@ public class Car extends Persistent {
 
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Image> images;
+    private JSONObject imagesToJson() {
+        JSONObject json = new JSONObject();
+        images.forEach(image -> json.put("image", image.toJson()));
+        return json;
+    }
     public Transmission getTransmission() {
         return transmission;
     }

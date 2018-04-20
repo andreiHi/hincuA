@@ -19,10 +19,12 @@ public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
     public static void main(String[] args) {
+
         AdvertService service = new AdvertService();
         List<Advert> adverts = service.getAll();
         // adverts.forEach(a -> a.getCar().getImages().forEach(i -> System.out.println(i.getImg().length )) );
-        adverts.forEach(System.out::println);
+        adverts.forEach(advert -> System.out.println(advert.toJson().toJSONString()));
+
 
 
 
