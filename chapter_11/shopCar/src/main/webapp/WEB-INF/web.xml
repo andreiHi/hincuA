@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <web-app>
+    <context-param>
+        <param-name>upload</param-name>
+        <param-value>/srv/uploads</param-value>
+    </context-param>
     <listener>
         <listener-class>ru.job4j.controller.AppListener</listener-class>
     </listener>

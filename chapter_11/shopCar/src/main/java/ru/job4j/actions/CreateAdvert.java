@@ -48,6 +48,8 @@ public class CreateAdvert implements Action {
         ServletFileUpload upload = new ServletFileUpload(factory);
         List<Image> images = new ArrayList<>();
         car.setImages(images);
+        String path = req.getServletContext().getInitParameter("upload");
+        System.out.println(path);
         try {
             List fileItems = upload.parseRequest(req);
             for (Object fileItem1 : fileItems) {
