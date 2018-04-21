@@ -43,8 +43,7 @@ public class Advert extends Persistent {
         this.price = price;
     }
 
-    public Advert(User user) {
-        this.user = user;
+    public Advert() {
         this.data = new Timestamp(System.currentTimeMillis());
         this.state = State.NEW;
 
@@ -68,9 +67,9 @@ public class Advert extends Persistent {
         this.description = description;
     }
 
-    public Advert() {
-        super();
-    }
+//    public Advert() {
+//        super();
+//    }
     private Advert(Long id) {
         super(id);
     }

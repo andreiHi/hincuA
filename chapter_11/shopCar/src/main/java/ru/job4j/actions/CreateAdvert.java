@@ -21,8 +21,10 @@ import ru.job4j.service.AdvertService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 
 /**
@@ -42,75 +44,72 @@ public class CreateAdvert implements Action {
     public String action(HttpServletRequest req, JSONObject json) {
         String fullSavePath = (String) req.getServletContext().getAttribute("fullSavePath");
         long id = 0;
-        Advert advert = new Advert((User) req.getSession().getAttribute("user"));
-        Brand brand = new Brand();
-        Model model = new Model();
-        Engine engine = new Engine();
-        Car car = new Car(engine, brand, model, advert);
-        advert.setCar(car);
-        List<Image> images = new ArrayList<>();
-        car.setImages(images);
+        CreateAd createAd = new CreateAd();
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
-            List fileItems = upload.parseRequest(req);
-            for (Object fileIt : fileItems) {
-                FileItem fileItem = (FileItem) fileIt;
-                if (!fileItem.isFormField()) {
-                    String fileName = fileItem.getName();
-                    String path = prepareImage(fileItem, fullSavePath);
-                    images.add(new Image(fileName, path, car));
-                } else {
-                    switch (fileItem.getFieldName()) {
-                        case "brand" : brand.setId(Long.valueOf(fileItem.getString()));
-                            break;
-                        case "model": model.setId(Long.valueOf(fileItem.getString()));
-                            break;
-                        case "carcass" : car.setCarcass(Carcass.valueOf(fileItem.getString()));
-                            break;
-                        case "transmission" : car.setTransmission(Transmission.valueOf(fileItem.getString()));
-                            break;
-                        case "gearbox" : car.setGearBox(Gearbox.valueOf(fileItem.getString()));
-                            break;
-                        case "engineType" : engine.setFuelType(EngineType.valueOf(fileItem.getString()));
-                            break;
-                        case "description" : advert.setDescription(fileItem.getString());
-                            break;
-                        case "volume" : engine.setVolume(Integer.valueOf(fileItem.getString()));
-                            break;
-                        case "power" : engine.setPower(Integer.parseInt(fileItem.getString()));
-                            break;
-                        case "mileage" : car.setMileage(Integer.parseInt(fileItem.getString()));
-                            break;
-                        case "price" : advert.setPrice(Integer.parseInt(fileItem.getString()));
-                            break;
-                        case "year" : car.setYear(Integer.parseInt(fileItem.getString()));
-                            break;
-                        default: break;
-                    }
-                }
-            }
-            AdvertService service = new AdvertService();
-            id = service.save(advert);
+            List<FileItem> fileItems = upload.parseRequest(req);
+            createAd.prepareFileItems(fileItems, fullSavePath);
+            id = createAd.saveAdvert((User) req.getSession().getAttribute("user"));
         } catch (FileUploadException e) {
             LOG.error(e.getMessage(), e);
         }
         return new Gson().toJson(id);
     }
 
-    private String prepareImage(FileItem fileItem, String fullSavePath) {
-        File file;
-        do {
-            StringBuilder sb = new StringBuilder(fullSavePath);
-            sb.append('/').append(random.nextInt(Integer.MAX_VALUE)  + 1).append(fileItem.getName());
-            file = new File(sb.toString());
-        } while (file.exists());
-        try {
-            file.createNewFile();
-            fileItem.write(file);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
+    class CreateAd {
+        private Brand brand = new Brand();
+        private Model model = new Model();
+        private Engine engine = new Engine();
+        private List<Image> images = new ArrayList<>();
+        private Advert advert = new Advert();
+        private Car car = new Car(engine, brand, model, advert, images);
+        private final HashMap<String, Consumer<FileItem>> map = new HashMap<String, Consumer<FileItem>>();
+        {
+            map.put("brand",        fileItem -> brand.setId(Long.valueOf(fileItem.getString())));
+            map.put("model",        fileItem -> model.setId(Long.valueOf(fileItem.getString())));
+            map.put("carcass",      fileItem -> car.setCarcass(Carcass.valueOf(fileItem.getString())));
+            map.put("transmission", fileItem -> car.setTransmission(Transmission.valueOf(fileItem.getString())));
+            map.put("gearbox",      fileItem -> car.setGearBox(Gearbox.valueOf(fileItem.getString())));
+            map.put("engineType",   fileItem -> engine.setFuelType(EngineType.valueOf(fileItem.getString())));
+            map.put("description",  fileItem -> advert.setDescription(fileItem.getString()));
+            map.put("volume",       fileItem -> engine.setVolume(Integer.valueOf(fileItem.getString())));
+            map.put("power",        fileItem -> engine.setPower(Integer.valueOf(fileItem.getString())));
+            map.put("mileage",      fileItem -> car.setMileage(Integer.valueOf(fileItem.getString())));
+            map.put("price",        fileItem -> advert.setPrice(Integer.valueOf(fileItem.getString())));
+            map.put("year",         fileItem -> car.setYear(Integer.valueOf(fileItem.getString())));
+            advert.setCar(car);
         }
-        return file.getName();
-    }
 
+        private void prepareFileItems(List<FileItem> fileItems, String savePath) {
+            for (FileItem fileItem : fileItems) {
+                if (!fileItem.isFormField()) {
+                    String fileName = fileItem.getName();
+                    String path = prepareImage(fileItem, savePath);
+                    images.add(new Image(fileName, path, car));
+                } else {
+                    map.get(fileItem.getFieldName()).accept(fileItem);
+                }
+            }
+        }
+        private String prepareImage(FileItem fileItem, String fullSavePath) {
+            File file;
+            do {
+                StringBuilder sb = new StringBuilder(fullSavePath);
+                sb.append('/').append(random.nextInt(Integer.MAX_VALUE)  + 1).append(fileItem.getName());
+                file = new File(sb.toString());
+            } while (file.exists());
+            try {
+                file.createNewFile();
+                fileItem.write(file);
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+            }
+            return file.getName();
+        }
+
+        long saveAdvert(User user) {
+            this.advert.setUser(user);
+            return new AdvertService().save(this.advert);
+        }
+    }
 }
