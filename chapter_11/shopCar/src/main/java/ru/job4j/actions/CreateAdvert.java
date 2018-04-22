@@ -20,6 +20,7 @@ import ru.job4j.service.AdvertService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,20 +64,20 @@ public class CreateAdvert implements Action {
         private List<Image> images = new ArrayList<>();
         private Advert advert = new Advert();
         private Car car = new Car(engine, brand, model, advert, images);
-        private final HashMap<String, Consumer<FileItem>> map = new HashMap<String, Consumer<FileItem>>();
+        private final HashMap<String, Consumer<String>> map = new HashMap<String, Consumer<String>>();
         {
-            map.put("brand",        fileItem -> brand.setId(Long.valueOf(fileItem.getString())));
-            map.put("model",        fileItem -> model.setId(Long.valueOf(fileItem.getString())));
-            map.put("carcass",      fileItem -> car.setCarcass(Carcass.valueOf(fileItem.getString())));
-            map.put("transmission", fileItem -> car.setTransmission(Transmission.valueOf(fileItem.getString())));
-            map.put("gearbox",      fileItem -> car.setGearBox(Gearbox.valueOf(fileItem.getString())));
-            map.put("engineType",   fileItem -> engine.setFuelType(EngineType.valueOf(fileItem.getString())));
-            map.put("description",  fileItem -> advert.setDescription(fileItem.getString()));
-            map.put("volume",       fileItem -> engine.setVolume(Integer.valueOf(fileItem.getString())));
-            map.put("power",        fileItem -> engine.setPower(Integer.valueOf(fileItem.getString())));
-            map.put("mileage",      fileItem -> car.setMileage(Integer.valueOf(fileItem.getString())));
-            map.put("price",        fileItem -> advert.setPrice(Integer.valueOf(fileItem.getString())));
-            map.put("year",         fileItem -> car.setYear(Integer.valueOf(fileItem.getString())));
+            map.put("brand",        fileItem -> brand.setId(Long.valueOf(fileItem)));
+            map.put("model",        fileItem -> model.setId(Long.valueOf(fileItem)));
+            map.put("carcass",      fileItem -> car.setCarcass(Carcass.valueOf(fileItem)));
+            map.put("transmission", fileItem -> car.setTransmission(Transmission.valueOf(fileItem)));
+            map.put("gearbox",      fileItem -> car.setGearBox(Gearbox.valueOf(fileItem)));
+            map.put("engineType",   fileItem -> engine.setFuelType(EngineType.valueOf(fileItem)));
+            map.put("description",  fileItem -> advert.setDescription(fileItem));
+            map.put("volume",       fileItem -> engine.setVolume(Integer.valueOf(fileItem)));
+            map.put("power",        fileItem -> engine.setPower(Integer.valueOf(fileItem)));
+            map.put("mileage",      fileItem -> car.setMileage(Integer.valueOf(fileItem)));
+            map.put("price",        fileItem -> advert.setPrice(Integer.valueOf(fileItem)));
+            map.put("year",         fileItem -> car.setYear(Integer.valueOf(fileItem)));
             advert.setCar(car);
         }
 
@@ -87,7 +88,11 @@ public class CreateAdvert implements Action {
                     String path = prepareImage(fileItem, savePath);
                     images.add(new Image(fileName, path, car));
                 } else {
-                    map.get(fileItem.getFieldName()).accept(fileItem);
+                    try {
+                        map.get(fileItem.getFieldName()).accept(fileItem.getString("UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        LOG.error(e.getMessage(), e);
+                    }
                 }
             }
         }

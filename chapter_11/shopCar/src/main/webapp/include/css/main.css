@@ -33,8 +33,18 @@
     margin-bottom: 15px;
     margin-top: 10px;
 }
-#index{
-    margin-left:570px;
+/*#index{*/
+    /*margin-left:570px;*/
+/*}*/
+.header-buttons{
+    margin-right: 0px;
+    margin-left: auto;
+
+}
+.header-buttons>li{
+    display: inline;
+
+
 }
 .block-select{
     margin-left: 1px;
@@ -360,8 +370,9 @@ hr {
     color: #E26666;
 }
 .style-price-list{
-    font: 15px sans-serif;
-    margin-top: 10px;
+    font: 20px sans-serif;
+    color: #6B6D73;
+    margin-top: 5px;
 }
 .style-price-list > strong{
     font: 20px sans-serif;
@@ -369,7 +380,11 @@ hr {
 }
 .style-text-list{
     font: 15px sans-serif;
-    margin: 0;
+    margin-top: -10px;
+}
+.style-text{
+    font: 15px sans-serif;
+    margin-top: 5px;
 }
 /*.dropdown {*/
 /*position: absolute;*/
