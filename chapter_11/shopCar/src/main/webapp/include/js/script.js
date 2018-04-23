@@ -153,8 +153,8 @@ function setLogin(data) {
     if (data.login != null) {
         user.login = data.login;
         $('#id01').hide();
-        $('#intro').replaceWith('<p id="name-user" class="user_log">Hello, '+user.login+'!</p>');
-        $('#signup').replaceWith('<p id="user_log_out" class="user_log">Log out</p>')
+        $('#intro').replaceWith('<button id="name_user"  style="width:auto;">Hello, '+user.login+'!</button>');
+        $('#signup').replaceWith('<button id="user_log_out"  style="width:auto;">Log out</button>');
     }
 }
 $(document).on('click', '#user_log_out', function () {
@@ -189,3 +189,4 @@ $('#engineType').change(function () {
         $('#volumeDiv').show();
     }
 });
+

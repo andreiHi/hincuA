@@ -1,13 +1,13 @@
 .block-body{
-    border: 1px solid black;
+    border: 1px solid #4CAF50;
     width: 996px;
-    height: 1500px;
+    height: auto;
     margin: 0 auto;
 }
 .block-header{
-    border: 1px solid black;
+    border: 1px solid #4CAF50;
     width: 996px;
-    height: auto;
+    height: 55px;
 }
 
 #submit_form{
@@ -27,38 +27,60 @@
 }
 #title{
     font: bold 30px sans-serif;
-    position: absolute;
     float: left;
-    margin-left: 15px;
-    margin-bottom: 15px;
-    margin-top: 10px;
+    margin: 10px 10px 15px 15px;
 }
-/*#index{*/
-    /*margin-left:570px;*/
-/*}*/
 .header-buttons{
-    margin-right: 0px;
-    margin-left: auto;
 
+    margin-left: auto;
 }
 .header-buttons>li{
     display: inline;
-
-
+    float: right;
+    margin-right: 5px;
+}
+.sold_out{
+    font: 20px bold sans-serif;
+    color: red;
+    border: 1px solid black;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: #4CAF50;
+    width: 100px;
+    margin-top: -5px;
+    margin-left: 213px;
+    margin-bottom: -5px;
+    text-align: center;
+    border-radius: 2px;
+}
+.state{
+    background-color: #4CAF50;
+    border-radius:2px;
+    color: red;
+    font: 20px sans-serif bold;
+    padding: 12px;
+}
+.buttons_new_sold>li{
+    display: inline;
+}
+.buttons_new_sold>li>button{
+    width: 100px;
+    margin: 2px;
+}
+#advert-list{
+    clear: both;
 }
 .block-select{
-    margin-left: 1px;
-    margin-bottom: 2px;
-    margin-top: 2px;
-    width: 192px;
+    margin: 2px;
+    width: 194px;
     height: 30px;
     padding: 0 30px 0 0;
-    border-radius: 3px;
+    border-radius: 2px;
     cursor: pointer;
     font: inherit;
+    float: left;
 }
 .block-select_add{
-    /*margin-left:100px;*/
     margin-bottom: 2px;
     margin-top: 2px;
     width: 547px;
@@ -70,6 +92,8 @@
 }
 #title-2 {
     font:  40px sans-serif;
+    margin-bottom: -1px;
+    margin-top: -8px;
 }
 .select_wrapper{
     clear: both;
@@ -85,12 +109,13 @@ span{
     float: left;
 }
 .sort{
-    height: 24px;
+    height: 30px;
     width: 82px;
     /*float: left;*/
     margin: 2px;
     cursor: pointer;
-    padding-left: 5px;
+    /*padding-left: 5px;*/
+    padding: 0 5px 0 5px;
     border-radius: 3px;
     position: relative;
     font: inherit;
@@ -106,13 +131,10 @@ label{
     margin-right: 50px;
 }
 .km{
-    height: 24px;
-    width: 175px;
+    height: 30px;
+    width: 182px;
     padding: 0 5px 0 5px;
-    /*float: left;*/
-    margin: 2px;
     cursor: pointer;
-    /*padding-left: 2px;*/
     border-radius: 3px;
     position: relative;
     font: inherit;
@@ -161,14 +183,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
      background-color: #4CAF50 ;
      margin: 8px 0 8px 100px;
  }
-/*input[type=text], input[type=password], input[type=email] {*/
-/*width: 100%;*/
-/*padding: 12px 20px;*/
-/*margin: 8px 0;*/
-/*display: inline-block;*/
-/*border: 1px solid #ccc;*/
-/*box-sizing: border-box;*/
-/*}*/
+
 
 /* Set a style for all buttons */
 button {
@@ -180,6 +195,7 @@ button {
     cursor: pointer;
     width: 100%;
     border-radius: 3px;
+    font: 13px sans-serif;
 }
 
 button:hover {
@@ -286,9 +302,16 @@ hr {
     display: table;
 }
 #block-filters{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #4CAF50;
+
+}
+#block-filters>input{
     border: 1px solid black;
-    margin-top: 2px;
-    margin-bottom: 2px;
+}
+#add-advert{
+    margin-top: 55px;
 }
 #message{
     width: auto;
@@ -324,19 +347,23 @@ hr {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.user_log{
-    display: inline;
-    background-color: #4CAF50;
+/*.user_log{*/
+/*display: inline;*/
+/*background-color: #4CAF50;*/
+/*color: black;*/
+/*font: bold 14px sans-serif;*/
+/*padding: 14px 13px;*/
+/*margin: 8px 0;*/
+/*border: none;*/
+/*cursor: pointer;*/
+/*width: 100%;*/
+/*border-radius: 3px;*/
+/*}*/
+#name_user{
+    /*font: bold 13px sans-serif;*/
     color: black;
-    font: bold 14px sans-serif;
-    padding: 14px 13px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 3px;
+    font: bold 13px sans-serif;
 }
-
 .block-images-list{
     float: left;
     margin-right: 15px;

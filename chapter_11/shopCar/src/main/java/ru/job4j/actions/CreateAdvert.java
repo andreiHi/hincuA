@@ -17,9 +17,9 @@ import ru.job4j.model.car.Image;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.car.parts.*;
 import ru.job4j.service.AdvertService;
+import ru.job4j.service.ImageService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +58,7 @@ public class CreateAdvert implements Action {
     }
 
     class CreateAd {
+        private ImageService service = new ImageService();
         private Brand brand = new Brand();
         private Model model = new Model();
         private Engine engine = new Engine();
@@ -85,7 +86,7 @@ public class CreateAdvert implements Action {
             for (FileItem fileItem : fileItems) {
                 if (!fileItem.isFormField()) {
                     String fileName = fileItem.getName();
-                    String path = prepareImage(fileItem, savePath);
+                    String path = service.prepareImage(fileItem, savePath);
                     images.add(new Image(fileName, path, car));
                 } else {
                     try {
@@ -96,21 +97,7 @@ public class CreateAdvert implements Action {
                 }
             }
         }
-        private String prepareImage(FileItem fileItem, String fullSavePath) {
-            File file;
-            do {
-                StringBuilder sb = new StringBuilder(fullSavePath);
-                sb.append('/').append(random.nextInt(Integer.MAX_VALUE)  + 1).append(fileItem.getName());
-                file = new File(sb.toString());
-            } while (file.exists());
-            try {
-                file.createNewFile();
-                fileItem.write(file);
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-            }
-            return file.getName();
-        }
+
 
         long saveAdvert(User user) {
             this.advert.setUser(user);

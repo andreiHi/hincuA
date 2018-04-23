@@ -10,90 +10,93 @@
 <div class="block-body">
     <div id = "header" class="block-header">
     </div>
-
     <div id="add-advert">
-        <h2 align="center">Подать объявление</h2>
-    </div>
-    <p id="message"></p>
-    <form id="form_add" enctype="multipart/form-data" method="post" name="form_add" accept-charset="UTF-8">
-        <div class="sell_box">
-            <p id="title-2" align="center"><strong>Данные</strong> автомобиля</p>
+        <p id="message"></p>
+        <form id="form_add" enctype="multipart/form-data" method="post" name="form_add" accept-charset="UTF-8">
+            <div class="sell_box">
+                <h2 align="center">Подать объявление.</h2>
+                <p id="title-2" align="center"><strong>Данные</strong> автомобиля</p>
 
-            <div class="select_wrapper">
-                <label for="brand"><span>* </span><strong>Марка: </strong></label>
-                <select class="block-select_add" id="brand" name="brand">
-                    <option value="0">-Марка-</option>
-                </select>
-            </div>
+                <div class="select_wrapper">
+                    <label for="brand"><span>* </span><strong>Марка: </strong></label>
+                    <select class="block-select_add" id="brand" name="brand">
+                        <option value="0">-Марка-</option>
+                    </select>
+                </div>
 
-            <div class="select_wrapper">
-                <label for="model"><span>* </span><strong>Модель: </strong></label>
+                <div class="select_wrapper">
+                    <label for="model"><span>* </span><strong>Модель: </strong></label>
                     <select class="block-select_add" id="model" name="model">
-                    <option value="0">-Модель-</option>
-                </select>
-            </div>
+                        <option value="0">-Модель-</option>
+                    </select>
+                </div>
 
-            <div class="select_wrapper">
-                <label for="carcass"><span>* </span><strong>Тип кузова: </strong></label>
-                <select class="block-select_add" id="carcass" name="carcass">
-                    <option value="0">-Тип кузова-</option>
-                </select>
-            </div>
+                <div class="select_wrapper">
+                    <label for="carcass"><span>* </span><strong>Тип кузова: </strong></label>
+                    <select class="block-select_add" id="carcass" name="carcass">
+                        <option value="0">-Тип кузова-</option>
+                    </select>
+                </div>
 
-            <div class="select_wrapper">
-                <label for="transmission"><span>* </span><strong>Привод: </strong></label>
-                <select class="block-select_add" id="transmission" name="transmission">
-                    <option value="0">-Привод-</option>
-                </select>
-            </div>
+                <div class="select_wrapper">
+                    <label for="transmission"><span>* </span><strong>Привод: </strong></label>
+                    <select class="block-select_add" id="transmission" name="transmission">
+                        <option value="0">-Привод-</option>
+                    </select>
+                </div>
 
-            <div class="select_wrapper">
-                <label for="gearbox"><span>* </span><strong>Коробка передачь: </strong></label>
-                <select class="block-select_add" id="gearbox" name="gearbox">
-                    <option value="0">-Коробка передачь-</option>
-                </select>
-            </div>
+                <div class="select_wrapper">
+                    <label for="gearbox"><span>* </span><strong>Коробка передачь: </strong></label>
+                    <select class="block-select_add" id="gearbox" name="gearbox">
+                        <option value="0">-Коробка передачь-</option>
+                    </select>
+                </div>
 
-            <div class="select_wrapper">
-                <label for="engineType"><span>* </span><strong>Тип двигателя:  </strong></label>
-                <select class="block-select_add" id="engineType" name="engineType">
-                    <option value="0">-Тип двигателя-</option>
-                </select>
-            </div>
-            <div class="select_wrapper">
-                <label for="description"><span>* </span><strong>Описание: </strong></label>
-                <textarea id="description" name="description" rows="8" cols="75"></textarea>
-            </div>
-            <div id="volumeDiv" class="select_wrapper">
-                <label for="volume"><span>* </span><strong>Объем двигателя: </strong></label>
-                <input type="text" maxlength="15" placeholder="Объем двигателя, см3" id="volume" name="volume" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
-            </div>
-            <div class="select_wrapper">
-                <label for="power"><span>* </span><strong>Мощьность двигателя: </strong></label>
-                <input type="text" maxlength="15" placeholder="Мощьность двигателя, Вт." id="power" name="power" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
-            </div>
+                <div class="select_wrapper">
+                    <label for="engineType"><span>* </span><strong>Тип двигателя:  </strong></label>
+                    <select class="block-select_add" id="engineType" name="engineType">
+                        <option value="0">-Тип двигателя-</option>
+                    </select>
+                </div>
+                <div class="select_wrapper">
+                    <label for="description"><span>* </span><strong>Описание: </strong></label>
+                    <textarea id="description" name="description" rows="5" cols="66"></textarea>
+                </div>
+                <div id="volumeDiv" class="select_wrapper">
+                    <label for="volume"><span>* </span><strong>Объем двигателя: </strong></label>
+                    <input type="text" maxlength="15" placeholder="Объем двигателя, см3" id="volume" name="volume" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
+                </div>
+                <div class="select_wrapper">
+                    <label for="power"><span>* </span><strong>Мощьность двигателя: </strong></label>
+                    <input type="text" maxlength="15" placeholder="Мощьность двигателя, Вт." id="power" name="power" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
+                </div>
 
-            <div class="select_wrapper">
-                <label for="mileage"><span>* </span><strong>Пробег: </strong></label>
-                <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="add" id="mileage" name="mileage" pattern="[0-9]{1,15}" title="Введите корректные данные">
-            </div>
+                <div class="select_wrapper">
+                    <label for="mileage"><span>* </span><strong>Пробег: </strong></label>
+                    <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="add" id="mileage" name="mileage" pattern="[0-9]{1,15}" title="Введите корректные данные">
+                </div>
 
-            <div class="select_wrapper">
-                <label for="price"><span>* </span><strong>Цена: </strong></label>
-                <input type="text" maxlength="15"  placeholder="Цена руб." class="add" id="price" name="price" pattern="[0-9]{3,15}" title="Введите корректные данные">
-            </div>
-            <div class="select_wrapper">
-                <label for="year"><span>* </span><strong>Год выпуска: </strong></label>
-                <input type="text" maxlength="15"  placeholder="Год выпуска" class="add" id="year" name="year" pattern="[0-9]{4}" title="Введите корректные данные">
-            </div>
+                <div class="select_wrapper">
+                    <label for="price"><span>* </span><strong>Цена: </strong></label>
+                    <input type="text" maxlength="15"  placeholder="Цена руб." class="add" id="price" name="price" pattern="[0-9]{3,15}" title="Введите корректные данные">
+                </div>
+                <div class="select_wrapper">
+                    <label for="year"><span>* </span><strong>Год выпуска: </strong></label>
+                    <input type="text" maxlength="15"  placeholder="Год выпуска" class="add" id="year" name="year" pattern="[0-9]{4}" title="Введите корректные данные">
+                </div>
 
-            <div class="select_wrapper">
-                <label for="photo"><span>* </span><strong>Фото :</strong></label>
-                <input type="file" name="photo" multiple accept="image/*,image/jpeg" id="photo" class="photo">
+                <div class="select_wrapper">
+                    <label for="photo"><span>* </span><strong>Фото :</strong></label>
+                    <input type="file" name="photo" multiple accept="image/*,image/jpeg" id="photo" class="photo">
+                </div>
+                <button  id="save" type="submit" class="save" value="Сохранить">Сохранить</button>
             </div>
-            <button  id="save" type="submit" class="save" value="Сохранить">Сохранить</button>
-        </div>
-    </form>
+        </form>
+    </div>
+    <div id="advert-list">
+        <h3 align="center">You're adverts:</h3>
+    </div>
+
 </div>
 
 <script src="include/js/jquery-3.3.1.min.js"></script>

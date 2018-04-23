@@ -2,7 +2,11 @@ package ru.job4j.service;
 
 import ru.job4j.dao.modeldao.AdvertImpl;
 import ru.job4j.model.Advert;
+import ru.job4j.model.State;
+import ru.job4j.model.User;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,4 +35,32 @@ public class AdvertService {
         return adverts;
     }
 
+    public List<Advert> getAdverts(String params, HttpServletRequest req) {
+        List<Advert> adverts = new ArrayList<>();
+        advertDao.openCurrentSession();
+        StringBuilder query = new StringBuilder();
+        switch (params) {
+            case "all" : adverts = advertDao.getAll();
+            advertDao.closeCurrentSession();
+            break;
+            case "byUser" :
+                User user = (User) req.getSession().getAttribute("user");
+                adverts = advertDao.getAdverts(user.getId());
+                advertDao.closeCurrentSession();
+                break;
+             default : break;
+        }
+        return adverts;
+    }
+
+    public void changeState(String id, String state) {
+        System.out.println(state);
+        advertDao.openCurrentSessionWithTransaction();
+        Advert advert = advertDao.getEntityById(Long.valueOf(id));
+        if (!state.equals(advert.getState().name())) {
+            advert.setState(State.valueOf(state));
+            //todo
+        }
+        advertDao.closeSessionWithTransaction();
+    }
 }
