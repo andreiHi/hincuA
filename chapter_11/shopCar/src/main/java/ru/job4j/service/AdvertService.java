@@ -53,14 +53,15 @@ public class AdvertService {
         return adverts;
     }
 
-    public void changeState(String id, String state) {
-        System.out.println(state);
+    public boolean changeState(String id, String state) {
+        boolean change = false;
         advertDao.openCurrentSessionWithTransaction();
         Advert advert = advertDao.getEntityById(Long.valueOf(id));
         if (!state.equals(advert.getState().name())) {
-            advert.setState(State.valueOf(state));
-            //todo
+           advert.setState(State.valueOf(state));
+           change = true;
         }
         advertDao.closeSessionWithTransaction();
+        return change;
     }
 }

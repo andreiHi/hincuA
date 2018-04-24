@@ -1,8 +1,8 @@
 $(document).ready(function () {
     var byUser = 'byUser';
-    getAdverts(byUser)
+    getAdvertsByUser(byUser)
 });
-function getAdverts(data) {
+function getAdvertsByUser(data) {
     var conditions ={};
     if (data === undefined) {
         conditions.get = 'all';
@@ -61,7 +61,6 @@ function getAdverts(data) {
             p.setAttribute('id','setNew');
             p.setAttribute('Car_id', k);
             p.append('Set New');
-
         });
         $('#advert-list').append(ul);
     })
@@ -70,8 +69,11 @@ $(document).on('click','#setSold', function () {
     var car = {};
     car.id = $(this).attr('Car_id');
     car.state = 'SOLD';
-    ajax('setSold', car, function () {
-        getAdverts('byUser');
+    ajax('setSold', car, function (data) {
+        if(data === true) {
+            $('#advert-list').empty();
+            getAdvertsByUser('byUser');
+        }
     })
 });
 
@@ -79,7 +81,10 @@ $(document).on('click','#setNew', function () {
     var car = {};
     car.id = $(this).attr('Car_id');
     car.state = 'NEW';
-    ajax('setSold', car, function () {
-        getAdverts('byUser');
+    ajax('setSold', car, function (data) {
+        if(data === true) {
+            $('#advert-list').empty();
+            getAdvertsByUser('byUser');
+        }
     })
 });

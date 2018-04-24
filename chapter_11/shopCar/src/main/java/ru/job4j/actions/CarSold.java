@@ -1,5 +1,6 @@
 package ru.job4j.actions;
 
+import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -19,7 +20,7 @@ public class CarSold implements Action {
     public String action(HttpServletRequest req, JSONObject json) {
         String id = (String) json.get("id");
         String state = (String) json.get("state");
-        new AdvertService().changeState(id, state);
-        return "";
+        boolean result = new AdvertService().changeState(id, state);
+        return new Gson().toJson(result);
     }
 }

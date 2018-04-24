@@ -59,7 +59,8 @@ $('#form_add').submit(function () {
             success: function(json){
                 if (json !=='0') {
                     $('#form_add').fadeOut(300,function () {
-                        $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.")
+                        $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.");
+                        getAdvertsByUser('byUser');
                     });
                 } else {
                     $("#message").addClass("message_error").fadeIn(400).html("Server error try again !");

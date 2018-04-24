@@ -41,6 +41,12 @@ public class CreateAdvert implements Action {
         this.factory = new DiskFileItemFactory();
     }
 
+    /**
+     *Create new Advert and save images in directory
+     * @param req HttpServletRequest
+     * @param json data from web
+     * @return response for web
+     */
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
         String fullSavePath = (String) req.getServletContext().getAttribute("fullSavePath");
