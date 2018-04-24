@@ -18,7 +18,7 @@ function getAdvertsByUser(data) {
             let div = li.appendChild(document.createElement('div'));
             div.classList.add('block-images-list');
             let img = div.appendChild(document.createElement('img'));
-            img.setAttribute('src','/img?name=' + v["car"]["images"]["image"].path +'');
+            img.setAttribute('src','/img?name=' + v["car"]["images"]["image"].largeImage +'');
             img.setAttribute('height','200px');
             img.setAttribute('width','200px');
             let p = li.appendChild(document.createElement('p'));

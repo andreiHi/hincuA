@@ -1,13 +1,14 @@
 package ru.job4j.test;
 
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
-import ru.job4j.model.Advert;
-import ru.job4j.service.AdvertService;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -19,13 +20,14 @@ public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
     public static void main(String[] args) {
-AdvertService service = new AdvertService();
-
-
-
-
-
-
+        File file = new File("C:\\projects\\hincuA\\chapter_11\\shopCar\\src\\main\\webapp\\uploadDir\\1657886478.jpg");
+        try {
+            Thumbnails.of(file)
+                    .size(200, 200)
+                    .toFile(Paths.get(file.getAbsolutePath().replace(".jpg", "-sml.jpg")).toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static <T extends Enum<T>> String getJson(Class<T> tClass) {

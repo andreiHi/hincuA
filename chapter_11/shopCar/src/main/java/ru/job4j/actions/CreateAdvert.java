@@ -49,6 +49,10 @@ public class CreateAdvert implements Action {
      */
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
+        User user =(User) req.getSession().getAttribute("user");
+        if (user == null) {
+            return new Gson().toJson("reLogin");
+        }
         String fullSavePath = (String) req.getServletContext().getAttribute("fullSavePath");
         long id = 0;
         CreateAd createAd = new CreateAd();
@@ -56,7 +60,7 @@ public class CreateAdvert implements Action {
         try {
             List<FileItem> fileItems = upload.parseRequest(req);
             createAd.prepareFileItems(fileItems, fullSavePath);
-            id = createAd.saveAdvert((User) req.getSession().getAttribute("user"));
+            id = createAd.saveAdvert(user);
         } catch (FileUploadException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -91,9 +95,9 @@ public class CreateAdvert implements Action {
         private void prepareFileItems(List<FileItem> fileItems, String savePath) {
             for (FileItem fileItem : fileItems) {
                 if (!fileItem.isFormField()) {
-                    String fileName = fileItem.getName();
-                    String path = service.prepareImage(fileItem, savePath);
-                    images.add(new Image(fileName, path, car));
+                    Image image = service.prepareImage(fileItem, savePath);
+                    image.setCar(car);
+                    images.add(image);
                 } else {
                     try {
                         map.get(fileItem.getFieldName()).accept(fileItem.getString("UTF-8"));

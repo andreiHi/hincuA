@@ -13,14 +13,19 @@ function getAdverts(data) {
         var ul = document.createElement("ul");
         ul.setAttribute('id', 'block-ad-list');
         $.each(respons, function (k, v) {
-            let tr = v['car'].transmission.replace(/_/g, ' ');
-            let li = ul.appendChild(document.createElement('li'));
-            let div = li.appendChild(document.createElement('div'));
+            var image = v["car"]["images"]["image"].largeImage;
+            console.log(image);
+            console.log(v["car"]["images"]["image"]);
+            var tr = v['car'].transmission.replace(/_/g, ' ');
+            var li = ul.appendChild(document.createElement('li'));
+            var div = li.appendChild(document.createElement('div'));
             div.classList.add('block-images-list');
-            let img = div.appendChild(document.createElement('img'));
-            img.setAttribute('src','/img?name=' + v["car"]["images"]["image"].path +'');
+            var img = div.appendChild(document.createElement('img'));
+            img.setAttribute('src','/img?name=' + v["car"]["images"]["image"].smallImage +'');
             img.setAttribute('height','200px');
             img.setAttribute('width','200px');
+            img.setAttribute('id', image);
+            img.setAttribute('onclick', 'getLargePhoto('+ 'ssss' +')');
             let p = li.appendChild(document.createElement('p'));
             p.classList.add('style-title-list');
             let a = document.createElement("a");
@@ -53,4 +58,7 @@ function getAdverts(data) {
         });
         $('#advert-list').append(ul);
     })
+}
+function getLargePhoto(d) {
+    console.log(d)
 }

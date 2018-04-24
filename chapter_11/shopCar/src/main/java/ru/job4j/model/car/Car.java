@@ -74,6 +74,10 @@ public class Car extends Persistent {
     @OneToOne()
     @JoinColumn(name = "id_advert")
     private Advert advert;
+
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Image> images;
+
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("mileage", mileage);
@@ -103,8 +107,7 @@ public class Car extends Persistent {
         this.images = images;
     }
 
-    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Image> images;
+
     private JSONObject imagesToJson() {
         JSONObject json = new JSONObject();
         images.forEach(image -> json.put("image", image.toJson()));

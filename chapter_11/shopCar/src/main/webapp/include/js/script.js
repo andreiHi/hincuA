@@ -57,13 +57,14 @@ $('#form_add').submit(function () {
             data: new FormData(document.forms.form_add),
             dataType: 'json',
             success: function(json){
-                if (json !=='0') {
+                if (json !=='reLogin') {
                     $('#form_add').fadeOut(300,function () {
                         $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.");
+                        $('#advert-list').empty();
                         getAdvertsByUser('byUser');
                     });
                 } else {
-                    $("#message").addClass("message_error").fadeIn(400).html("Server error try again !");
+                    $("#message").addClass("message_error").fadeIn(400).html("Re login again, please.");
                 }
             }
         });

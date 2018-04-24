@@ -36,19 +36,26 @@ public class Image extends Persistent {
         super();
         this.car = car;
     }
-    public Image(String name, String path, Car car) {
+    public Image(String name, String largeImage, String smallImage, Car car) {
         this.name = name;
-        this.path = path;
+        this.largeImage = largeImage;
         this.car = car;
+        this.smallImage = smallImage;
     }
-    private String path;
+    public Image(String name, String largeImage, String smallImage) {
+        this.name = name;
+        this.largeImage = largeImage;
+        this.smallImage = smallImage;
+    }
+    private String largeImage;
+    private String smallImage;
 
-    public String getPath() {
-        return path;
+    public String getLargeImage() {
+        return largeImage;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setLargeImage(String path) {
+        this.largeImage = path;
     }
 
     public Image() {
@@ -74,9 +81,19 @@ public JSONObject toJson() {
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("id", getId());
     jsonObject.put("name", name);
-    jsonObject.put("path", path);
+    jsonObject.put("largeImage", largeImage);
+    jsonObject.put("smallImage", smallImage);
     return jsonObject;
 }
+
+    public String getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(String smallImage) {
+        this.smallImage = smallImage;
+    }
+
     @Override
     public String toString() {
         return "Image "
@@ -85,8 +102,10 @@ public JSONObject toJson() {
                 + name
                 + " car_id ="
                 + car.getId()
-                + " path ="
-                + path
+                + " large ="
+                + largeImage
+                + " small ="
+                + smallImage
                 + '\'';
     }
 }
