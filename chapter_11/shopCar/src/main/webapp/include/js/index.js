@@ -28,7 +28,6 @@ function getAdverts(data) {
             img.setAttribute('height','200px');
             img.setAttribute('width','200px');
             img.setAttribute('iid', v.car.images.image.largeImage);
-            // img.setAttribute('onclick', 'getLargePhoto()');
             img.classList.add('onClick');
             let p = li.appendChild(document.createElement('p'));
             p.classList.add('style-title-list');
@@ -66,9 +65,12 @@ function getAdverts(data) {
 
 $(document).on('click', '.onClick', function () {
    var id = $(this).attr('iid');
-   $('#form').html("<div class=\"modal\">\n" +
-       "<div class=\" modal-content animate\">" +
-       "<span onclick=\"$('#form').empty()\" class=\"close\" title=\"Close Modal\">&times;</span>\n" +
-       "<img src=\"img?name="+id+"\" alt=\"Avatar\" class=\"avatar\">" +
+   $('#form').html(
+       "<div class='modal'>" +
+       "<div class='modal-content animate'>" +
+       "<div class='imgcontaine'>" +
+       "<span onclick= $('#form').empty() class='close_img' >x</span>" +
+       "<img src='img?name="+id+"' alt='Avatar' class='avatar'>" +
+       "</div>"+
        "</div></div>")
 });

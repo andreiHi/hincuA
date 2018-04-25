@@ -9,11 +9,6 @@
     width: 996px;
     height: 55px;
 }
-.imgcontainer {
-    text-align: center;
-    margin: 24px 0 12px 0;
-    /*position: relative;*/
-}
 
 .container {
     padding: 16px;
@@ -22,6 +17,9 @@
 img.avatar {
     width: 95%;
     height: 95%;
+    margin-top: 25px;
+    margin-left: 20px;
+    margin-bottom: 20px;
     /*border-radius: 10%;*/
 }
 #submit_form{
@@ -270,11 +268,23 @@ span.psw {
     color: #000;
     font-size: 35px;
     font-weight: bold;
+}
+.close_img {
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+    margin-left: 10px;
 
 }
 
 .close:hover,
 .close:focus {
+    color: red;
+    cursor: pointer;
+}
+.close_img:hover,
+.close_img:focus {
     color: red;
     cursor: pointer;
 }
