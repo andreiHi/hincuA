@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link href="include/css/reset.css" rel="stylesheet" type="text/css">
@@ -11,6 +11,14 @@
     <div id="header" class="block-header">
     </div>
     <div id="block-filters">
+        <div class="box">
+            <label>Today</label>
+            <input type="checkbox" id="today" name="today">
+
+            <label>With Photo</label>
+            <input type="checkbox" id="withPhoto" name="withPhoto">
+        </div>
+        <form>
         <select class="block-select" name="brand" id="brand">
             <option value="0">-Марка-</option>
         </select>
@@ -20,11 +28,9 @@
         <select class="block-select" name="carcass" id="carcass">
             <option value="0">-Тип кузова-</option>
         </select>
-
         <select class="block-select" name="transmission" id="transmission">
             <option value="0">-Привод-</option>
         </select>
-
         <select class="block-select" name="gearbox" id="gearbox">
             <option value="0">-Коробка передач-</option>
         </select>
@@ -36,6 +42,8 @@
         <input type="text" maxlength="4" id="year" placeholder="Год выпуска" class="km">
         <input type="text" maxlength="15" id="price_from" placeholder="Цена от" class="sort">
         <input type="text" maxlength="15" id="price_to" placeholder="Цена до" class="sort">
+            <button  id="submit" class="submit" type="submit">Search</button>
+        </form>
     </div>
     <div id="advert-list">
         <h3><p align="center">Объявления</p></h3>
