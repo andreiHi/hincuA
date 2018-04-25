@@ -49,7 +49,7 @@ public class CreateAdvert implements Action {
      */
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
-        User user =(User) req.getSession().getAttribute("user");
+        User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
             return new Gson().toJson("reLogin");
         }
