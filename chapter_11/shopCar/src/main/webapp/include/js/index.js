@@ -1,7 +1,5 @@
 $(document).ready(function () {
-    var adverts = "all";
-    getAdverts(adverts);
-
+    getAdverts();
 });
 function getAdverts(data) {
     var conditions ={};
@@ -14,11 +12,6 @@ function getAdverts(data) {
         var ul = document.createElement("ul");
         ul.setAttribute('id', 'block-ad-list');
         $.each(respons, function (k, v) {
-            var image = v["car"]["images"]["image"].largeImage;
-            var image2= v.car.images.image.largeImage;
-            var image3= v.car.images.image.smallImage;
-            console.log(image2);
-            console.log(image3);
             var tr = v['car'].transmission.replace(/_/g, ' ');
             var li = ul.appendChild(document.createElement('li'));
             var div = li.appendChild(document.createElement('div'));
@@ -73,4 +66,12 @@ $(document).on('click', '.onClick', function () {
        "<img src='img?name="+id+"' alt='Avatar' class='avatar'>" +
        "</div>"+
        "</div></div>")
+});
+$(document).on('change', ':checkbox', function () {
+    var checkToday = $('#today').prop('checked');
+    var checkWithPhoto = $('#withPhoto').prop('checked');
+    var check = {};
+    check.today = checkToday;
+    check.photo = checkWithPhoto;
+    console.log(check);
 });

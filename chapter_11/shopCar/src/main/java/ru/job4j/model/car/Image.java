@@ -4,11 +4,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import ru.job4j.model.Persistent;
+import ru.job4j.model.User;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 09.04.2018.
