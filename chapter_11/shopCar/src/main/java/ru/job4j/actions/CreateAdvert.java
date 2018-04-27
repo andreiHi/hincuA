@@ -95,9 +95,11 @@ public class CreateAdvert implements Action {
         private void prepareFileItems(List<FileItem> fileItems, String savePath) {
             for (FileItem fileItem : fileItems) {
                 if (!fileItem.isFormField()) {
-                    Image image = service.prepareImage(fileItem, savePath);
-                    image.setCar(car);
-                    images.add(image);
+                    if (fileItem.get().length != 0) {
+                        Image image = service.prepareImage(fileItem, savePath);
+                        image.setCar(car);
+                        images.add(image);
+                    }
                 } else {
                     try {
                         map.get(fileItem.getFieldName()).accept(fileItem.getString("UTF-8"));

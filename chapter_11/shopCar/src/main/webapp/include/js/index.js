@@ -16,12 +16,14 @@ function getAdverts(data) {
             var li = ul.appendChild(document.createElement('li'));
             var div = li.appendChild(document.createElement('div'));
             div.classList.add('block-images-list');
-            var img = div.appendChild(document.createElement('img'));
-            img.setAttribute('src','/img?name=' + v.car.images.image.smallImage);
-            img.setAttribute('height','200px');
-            img.setAttribute('width','200px');
-            img.setAttribute('iid', v.car.images.image.largeImage);
-            img.classList.add('onClick');
+            if (v.car.images.image !== undefined) {
+                var img = div.appendChild(document.createElement('img'));
+                img.setAttribute('src', '/img?name=' + v.car.images.image.smallImage);
+                img.setAttribute('height', '200px');
+                img.setAttribute('width', '200px');
+                img.setAttribute('iid', v.car.images.image.largeImage);
+                img.classList.add('onClick');
+            }
             let p = li.appendChild(document.createElement('p'));
             p.classList.add('style-title-list');
             let a = document.createElement("a");

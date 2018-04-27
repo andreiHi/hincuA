@@ -17,10 +17,12 @@ function getAdvertsByUser(data) {
             let li = ul.appendChild(document.createElement('li'));
             let div = li.appendChild(document.createElement('div'));
             div.classList.add('block-images-list');
-            let img = div.appendChild(document.createElement('img'));
-            img.setAttribute('src','/img?name=' + v["car"]["images"]["image"].largeImage +'');
-            img.setAttribute('height','200px');
-            img.setAttribute('width','200px');
+            if (v.car.images.image !== undefined) {
+                let img = div.appendChild(document.createElement('img'));
+                img.setAttribute('src', '/img?name=' + v["car"]["images"]["image"].smallImage + '');
+                img.setAttribute('height', '200px');
+                img.setAttribute('width', '200px');
+            }
             let p = li.appendChild(document.createElement('p'));
             p.classList.add('style-title-list');
             let a = document.createElement("a");
