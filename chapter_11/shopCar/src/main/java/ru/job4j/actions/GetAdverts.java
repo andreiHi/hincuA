@@ -1,11 +1,13 @@
 package ru.job4j.actions;
 
+import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import ru.job4j.service.AdvertService;
+import ru.job4j.model.Advert;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 19.04.2018.
@@ -17,10 +19,10 @@ public class GetAdverts implements Action {
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
-        String param = (String) json.get("get");
+        AdvertSelector advertSelector = new Gson().fromJson(json.toJSONString(), AdvertSelector.class);
+        List<Advert> adverts = advertSelector.getAdverts(req);
         JSONObject jsonObject = new JSONObject();
-        AdvertService service = new AdvertService();
-        service.getAdverts(param, req).forEach(advert -> jsonObject.put(advert.getId(), advert.toJson()));
+        adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
         return jsonObject.toJSONString();
     }
 }

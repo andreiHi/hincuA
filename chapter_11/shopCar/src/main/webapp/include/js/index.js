@@ -2,11 +2,12 @@ $(document).ready(function () {
     getAdverts();
 });
 function getAdverts(data) {
-    var conditions ={};
+    var conditions = {};
     if (data === undefined) {
-        conditions.get = 'all';
+        var v  = {};
+         conditions = v;
     } else {
-        conditions.get = data;
+        conditions = data;
     }
     ajax('allAds', conditions, function (respons) {
         var ul = document.createElement("ul");
@@ -54,20 +55,21 @@ function getAdverts(data) {
                 p.append('Sold Out!');
             }
         });
+        $('#advert-list').empty();
         $('#advert-list').append(ul);
     })
 }
 
 $(document).on('click', '.onClick', function () {
-   var id = $(this).attr('iid');
-   $('#form').html(
-       "<div class='modal'>" +
-       "<div class='modal-content animate'>" +
-       "<div class='imgcontaine'>" +
-       "<span onclick= $('#form').empty() class='close_img' >x</span>" +
-       "<img src='img?name="+id+"' alt='Avatar' class='avatar'>" +
-       "</div>"+
-       "</div></div>")
+    var id = $(this).attr('iid');
+    $('#form').html(
+        "<div class='modal'>" +
+        "<div class='modal-content animate'>" +
+        "<div class='imgcontaine'>" +
+        "<span onclick= $('#form').empty() class='close_img' >x</span>" +
+        "<img src='img?name="+id+"' alt='Avatar' class='avatar'>" +
+        "</div>"+
+        "</div></div>")
 });
 $(document).on('change', ':checkbox', function () {
     var checkToday = $('#today').prop('checked');
@@ -75,5 +77,25 @@ $(document).on('change', ':checkbox', function () {
     var check = {};
     check.today = checkToday;
     check.photo = checkWithPhoto;
+    getAdverts(check);
+});
+$('#search_block').submit(function () {
+    var checkToday = $('#today').prop('checked');
+    var checkWithPhoto = $('#withPhoto').prop('checked');
+    var check = {};
+    check.select = 'searchForm';
+    check.today = checkToday;
+    check.photo = checkWithPhoto;
+    var select = document.getElementsByTagName('select');
+    for (var i = 0; i < select.length; i++) {
+        check[select[i].name] = select[i].options[select[i].selectedIndex].value;
+    }
+    var fromPrice = $('#price_from').val();
+    var toPrice = $('#price_to').val();
+    check.fromPrice = fromPrice;
+    check.toPrice = toPrice;
     console.log(check);
+   // var b = 'B' + ['a', 'a'].join('a' - 1);
+    getAdverts(check);
+    return false;
 });

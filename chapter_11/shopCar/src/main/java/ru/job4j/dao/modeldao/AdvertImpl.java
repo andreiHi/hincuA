@@ -7,6 +7,7 @@ import ru.job4j.dao.AbstractController;
 import ru.job4j.model.Advert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 19.03.2018.
@@ -57,5 +58,19 @@ public class AdvertImpl extends AbstractController<Advert, Long> {
         Query<Advert> query = getCurrentSession().createQuery("from Advert where user.id = :id");
         query.setParameter("id", id);
         return query.list();
+    }
+    @SuppressWarnings("unchecked")
+    public List<Advert> getByQuery(String s) {
+        List<Advert> adverts;
+        adverts = (List<Advert>) getCurrentSession().createQuery(s).list();
+        return adverts;
+    }
+
+    public List<Advert> getByQueryWithJoin(String s) {
+        List<Advert> adverts;
+        Query query = getCurrentSession().createQuery(s);
+        List<Object> result = (List<Object>) query.list();
+        adverts = result.stream().map(o -> (Object[]) o).map(ob -> (Advert) ob[0]).collect(Collectors.toList());
+        return adverts;
     }
 }

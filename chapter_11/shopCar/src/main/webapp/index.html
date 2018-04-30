@@ -18,30 +18,50 @@
             <label>With Photo</label>
             <input type="checkbox" id="withPhoto" name="withPhoto">
         </div>
-        <form>
-        <select class="block-select" name="brand" id="brand">
-            <option value="0">-Марка-</option>
-        </select>
-        <select class="block-select" name="model" id="model">
-            <option value="0">-Модель-</option>
-        </select>
-        <select class="block-select" name="carcass" id="carcass">
-            <option value="0">-Тип кузова-</option>
-        </select>
-        <select class="block-select" name="transmission" id="transmission">
-            <option value="0">-Привод-</option>
-        </select>
-        <select class="block-select" name="gearbox" id="gearbox">
-            <option value="0">-Коробка передач-</option>
-        </select>
-        <select class="block-select" name="engineType" id="engineType">
-            <option value="0">-Тип топлива-</option>
-        </select>
-        <input type="text" maxlength="5" id="volume" placeholder="Объем двигателя, л." class="km">
-        <input type="text" maxlength="15" id="mileage" placeholder="Пробег, тыс км." class="km">
-        <input type="text" maxlength="4" id="year" placeholder="Год выпуска" class="km">
-        <input type="text" maxlength="15" id="price_from" placeholder="Цена от" class="sort">
-        <input type="text" maxlength="15" id="price_to" placeholder="Цена до" class="sort">
+        <form id="search_block">
+            <select class="block-select" name="brand" id="brand">
+                <option value="0">-Марка-</option>
+            </select>
+            <select class="block-select" name="model" id="model">
+                <option value="0">-Модель-</option>
+            </select>
+            <select class="block-select" name="carcass" id="carcass">
+                <option value="0">-Тип кузова-</option>
+            </select>
+            <select class="block-select" name="transmission" id="transmission">
+                <option value="0">-Привод-</option>
+            </select>
+            <select class="block-select" name="gearbox" id="gearbox">
+                <option value="0">-Коробка передач-</option>
+            </select>
+            <select class="block-select" name="engineType" id="engineType">
+                <option value="0">-Тип топлива-</option>
+            </select>
+            <select class="block-select" name="volume" id="volume">
+                <option value="0">- Объем двигателя, л.-</option>
+                <option value="1">- от ... до - 1.0 -</option>
+                <option value="2">- от 1.0 до - 2.0 -</option>
+                <option value="3">- от 2.0 до - 3.0 -</option>
+                <option value="4">- от 3.0 до - ... -</option>
+            </select>
+            <select class="block-select" name="mileage" id="mileage">
+                <option value="0">-Пробег, тыс км.-</option>
+                <option value="1">- от ... до - 100 тыс. км -</option>
+                <option value="2">- от 100 тыс.км до - 200тыс.км -</option>
+                <option value="3">- от 200 тыс.км до - 300тыс.км -</option>
+                <option value="4">- от 300 тыс.км до - 400тыс.км -</option>
+                <option value="5">- от 400 тыс.км до - ... -</option>
+            </select>
+            <select class="block-select" name="year" id="year">
+                <option value="0">- Год выпуска -</option>
+                <option value="1">- от 0  до - 5 лет -</option>
+                <option value="2">- от 5  до - 10 лет -</option>
+                <option value="3">- от 10 до - 15 лет -</option>
+                <option value="4">- от 15 до - 20 лет -</option>
+                <option value="5">- старше 20 лет -</option>
+            </select>
+            <input type="text" maxlength="15" id="price_from" placeholder="Цена от" class="sort">
+            <input type="text" maxlength="15" id="price_to" placeholder="Цена до" class="sort">
             <button  id="search"  class="submit" type="submit">Search</button>
         </form>
     </div>
