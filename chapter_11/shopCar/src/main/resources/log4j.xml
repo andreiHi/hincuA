@@ -67,10 +67,10 @@
     </logger>
 
     <!-- log SQL with timing information, post execution -->
-    <logger name="jdbc.sqltiming" additivity="false">
-        <level value="fatal"/>
-        <appender-ref ref="sql-timing-appender"/>
-    </logger>
+    <!--<logger name="jdbc.sqltiming" additivity="false">-->
+        <!--<level value="fatal"/>-->
+        <!--<appender-ref ref="sql-timing-appender"/>-->
+    <!--</logger>-->
 
     <!-- only use the two logs below to trace ALL JDBC information,
          NOTE:  This can be very voluminous!  -->
@@ -89,14 +89,14 @@
 
     <!-- this log is for internal debugging of log4jdbc, itself -->
     <!-- debug logging for log4jdbc itself -->
-    <logger name="log4jdbc.debug" additivity="false">
-        <level value="debug"/>
-        <appender-ref ref="stdout-appender"/>
-    </logger>
-    <logger name="jdbc.resultsettable" additivity="false">
-        <level value="info" />
-        <appender-ref ref="console-log4jdbc" />
-    </logger>
+    <!--<logger name="log4jdbc.debug" additivity="false">-->
+        <!--<level value="debug"/>-->
+        <!--<appender-ref ref="stdout-appender"/>-->
+    <!--</logger>-->
+    <!--<logger name="jdbc.resultsettable" additivity="false">-->
+        <!--<level value="info" />-->
+        <!--<appender-ref ref="console-log4jdbc" />-->
+    <!--</logger>-->
 
     <!-- by default, log everything to the console with a level of WARN or higher -->
     <root>

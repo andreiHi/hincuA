@@ -5,6 +5,8 @@ function getAdverts(data) {
     var conditions = {};
     if (data === undefined) {
         var v  = {};
+        v.image = false;
+        v.today = false;
          conditions = v;
     } else {
         conditions = data;
@@ -76,26 +78,34 @@ $(document).on('change', ':checkbox', function () {
     var checkWithPhoto = $('#withPhoto').prop('checked');
     var check = {};
     check.today = checkToday;
-    check.photo = checkWithPhoto;
+    check.image = checkWithPhoto;
     getAdverts(check);
 });
 $('#search_block').submit(function () {
     var checkToday = $('#today').prop('checked');
     var checkWithPhoto = $('#withPhoto').prop('checked');
     var check = {};
-    check.select = 'searchForm';
     check.today = checkToday;
-    check.photo = checkWithPhoto;
+    check.image = checkWithPhoto;
+    var selected = false;
     var select = document.getElementsByTagName('select');
     for (var i = 0; i < select.length; i++) {
-        check[select[i].name] = select[i].options[select[i].selectedIndex].value;
+        if(select[i].options[select[i].selectedIndex].value !== '0') {
+            check[select[i].name] = select[i].options[select[i].selectedIndex].value;
+            selected = true;
+        }
     }
     var fromPrice = $('#price_from').val();
     var toPrice = $('#price_to').val();
-    check.fromPrice = fromPrice;
-    check.toPrice = toPrice;
-    console.log(check);
+    if (fromPrice !== '') {
+        check.fromPrice = fromPrice;
+    }
+    if (toPrice !== '') {
+        check.toPrice = toPrice;
+    }
    // var b = 'B' + ['a', 'a'].join('a' - 1);
-    getAdverts(check);
+    if (selected === true) {
+        getAdverts(check);
+    }
     return false;
 });

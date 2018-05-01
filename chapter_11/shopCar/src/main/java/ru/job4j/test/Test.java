@@ -3,11 +3,10 @@ package ru.job4j.test;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
-import ru.job4j.model.Advert;
-import ru.job4j.service.AdvertService;
+import ru.job4j.actions.AdvertSelector;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +18,9 @@ public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
     public static void main(String[] args) {
+//        SessionFactory service = HibernateService.getSessionFactoty();
+//        Session session = service.openSession();
+
 //        AdvertService service = new AdvertService();
 //        List<Advert> adverts = service.getByQuery("from Advert as a");
 //        adverts.forEach(advert -> System.out.println(advert.toJson()));
@@ -27,11 +29,14 @@ public class Test {
 //                .forEach(System.out::println);
 
 
-        AdvertService service = new AdvertService();
-        List<Advert> adverts = service.getByQueryWithJoin( "from Advert as a join fetch Image as i on i.car = a.car where a.data >= '29/04/2018' and a.car.brand.id = 9039 order by a.data");
-        adverts.forEach(System.out::println);
 
+        Field[] fields = AdvertSelector.class.getFields();
+        System.out.println(fields.length);
+        for (Field f : fields) {
+            System.out.println(f.getType());
+        }
     }
+
 
     public static <T extends Enum<T>> String getJson(Class<T> tClass) {
         return JSONArray.toJSONString(Arrays.stream(tClass.getEnumConstants()).map(Enum::name)

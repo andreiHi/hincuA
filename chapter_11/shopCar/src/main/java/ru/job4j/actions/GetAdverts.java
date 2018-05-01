@@ -1,6 +1,5 @@
 package ru.job4j.actions;
 
-import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -19,8 +18,8 @@ public class GetAdverts implements Action {
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
-        AdvertSelector advertSelector = new Gson().fromJson(json.toJSONString(), AdvertSelector.class);
-        List<Advert> adverts = advertSelector.getAdverts(req);
+        AdvertSelector advertSelector = new AdvertSelector();
+        List<Advert> adverts = advertSelector.getAdverts(req, json);
         JSONObject jsonObject = new JSONObject();
         adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
         return jsonObject.toJSONString();
