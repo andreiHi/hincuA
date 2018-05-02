@@ -79,6 +79,18 @@ $(document).on('change', ':checkbox', function () {
     var check = {};
     check.today = checkToday;
     check.image = checkWithPhoto;
+    var select = document.getElementsByTagName('select');
+    for (var i = 0; i < select.length; i++) {
+        if(select[i].options[select[i].selectedIndex].value !== '0') {
+            check[select[i].name] = select[i].options[select[i].selectedIndex].value;
+        }
+    }
+    var form = $(this);
+    form.find('input').each(function () {
+        if ($(this).val()!=='') {
+            check[$(this).attr('name')] = $(this).val();
+        }
+    });
     getAdverts(check);
 });
 $('#search_block').submit(function () {
@@ -95,15 +107,14 @@ $('#search_block').submit(function () {
             selected = true;
         }
     }
-    var fromPrice = $('#price_from').val();
-    var toPrice = $('#price_to').val();
-    if (fromPrice !== '') {
-        check.fromPrice = fromPrice;
-    }
-    if (toPrice !== '') {
-        check.toPrice = toPrice;
-    }
-   // var b = 'B' + ['a', 'a'].join('a' - 1);
+    var form = $(this);
+    form.find('input').each(function () {
+        if ($(this).val()!=='') {
+            check[$(this).attr('name')] = $(this).val();
+            selected = true;
+        }
+    });
+
     if (selected === true) {
         getAdverts(check);
     }

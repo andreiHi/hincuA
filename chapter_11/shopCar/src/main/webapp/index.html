@@ -39,10 +39,10 @@
             </select>
             <select class="block-select" name="volume" id="volume">
                 <option value="0">- Объем двигателя, л.-</option>
-                <option value="1">- от ... до - 1.0 -</option>
-                <option value="2">- от 1.0 до - 2.0 -</option>
-                <option value="3">- от 2.0 до - 3.0 -</option>
-                <option value="4">- от 3.0 до - ... -</option>
+                <option value="1">- от ... до - 1.0 л. -</option>
+                <option value="2">- от 1.0 л. до - 2.0 л. -</option>
+                <option value="3">- от 2.0 л. до - 3.0 л. -</option>
+                <option value="4">- от 3.0 л. до - ... -</option>
             </select>
             <select class="block-select" name="mileage" id="mileage">
                 <option value="0">-Пробег, тыс км.-</option>
@@ -52,16 +52,11 @@
                 <option value="4">- от 300 тыс.км до - 400тыс.км -</option>
                 <option value="5">- от 400 тыс.км до - ... -</option>
             </select>
-            <select class="block-select" name="year" id="year">
-                <option value="0">- Год выпуска -</option>
-                <option value="1">- от 0  до - 5 лет -</option>
-                <option value="2">- от 5  до - 10 лет -</option>
-                <option value="3">- от 10 до - 15 лет -</option>
-                <option value="4">- от 15 до - 20 лет -</option>
-                <option value="5">- старше 20 лет -</option>
-            </select>
-            <input type="text" maxlength="15" id="price_from" placeholder="Цена от" class="sort">
-            <input type="text" maxlength="15" id="price_to" placeholder="Цена до" class="sort">
+            <input type="text" maxlength="4" pattern="[0-9]{4}" name="year_from" id="year_from" placeholder="Год от" class="sort">
+            <input type="text" maxlength="4" pattern="[0-9]{4}" id="year_to" name="year_to" placeholder="Год до" class="sort">
+
+            <input type="text" maxlength="8" id="price_from" pattern="[0-9]{0,8}"  name="price_from" placeholder="Цена от" class="sort">
+            <input type="text" maxlength="8" id="price_to" pattern="[0-9]{0,8}"  name="price_to" placeholder="Цена до" class="sort">
             <button  id="search"  class="submit" type="submit">Search</button>
         </form>
     </div>

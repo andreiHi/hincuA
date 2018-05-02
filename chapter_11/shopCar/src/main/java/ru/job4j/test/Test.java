@@ -29,13 +29,9 @@ public class Test {
 //                .forEach(System.out::println);
 
 
-
-        Field[] fields = AdvertSelector.class.getFields();
-        System.out.println(fields.length);
-        for (Field f : fields) {
-            System.out.println(f.getType());
+AdvertSelector selector = new AdvertSelector();
         }
-    }
+
 
 
     public static <T extends Enum<T>> String getJson(Class<T> tClass) {
