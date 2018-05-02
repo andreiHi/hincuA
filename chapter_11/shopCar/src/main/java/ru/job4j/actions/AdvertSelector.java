@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 28.04.2018.
  * @version $Id$.
@@ -43,6 +42,7 @@ public class AdvertSelector {
         put("transmission", (builder, param) -> builder.append(" and a.car.transmission='").append(param).append("'"));
         put("gearBox",      (builder, param) -> builder.append(" and a.car.gearBox='").append(param).append("'"));
     } };
+
     public AdvertSelector() {
 
     }
@@ -82,13 +82,11 @@ public class AdvertSelector {
     }
 
     private void addFilters(StringBuilder builder, JSONObject json) {
-        Iterator iterator = json.keySet().iterator();
-        while (iterator.hasNext()) {
-            String k = (String) iterator.next();
+        for (Object key : json.keySet()) {
+            String k = (String) key;
             String v = (String) json.get(k);
             if (FILTERS.get(k) != null) {
                 FILTERS.get(k).accept(builder, v);
-                iterator.remove();
             }
         }
     }
@@ -100,17 +98,13 @@ public class AdvertSelector {
             if (Integer.valueOf(priceFrom) < Integer.valueOf(priceTo)) {
                 builder.append(" and a.price between ").append(priceFrom).append(" and ").append(priceTo);
             }
-            json.remove("price_to");
-            json.remove("price_from");
-
         } else if (priceFrom != null) {
             builder.append(" and a.price >").append(priceFrom);
-            json.remove("price_from");
         } else if (priceTo != null) {
             builder.append(" and a.price <").append(priceTo);
-            json.remove("price_to");
         }
     }
+
     private void addFilterByYears(StringBuilder builder, JSONObject json) {
         String yearTo = (String) json.get("year_to");
         String yearFrom = (String) json.get("year_from");
@@ -118,14 +112,10 @@ public class AdvertSelector {
             if (Integer.valueOf(yearFrom) < Integer.valueOf(yearTo)) {
                 builder.append(" and a.car.year between ").append(yearFrom).append(" and ").append(yearTo);
             }
-            json.remove("year_to");
-            json.remove("year_from");
         } else if (yearFrom != null) {
             builder.append(" and a.car.year >").append(yearFrom);
-            json.remove("year_from");
         } else if (yearTo != null) {
             builder.append(" and a.car.year <").append(yearTo);
-            json.remove(yearTo);
         }
     }
     private static String getMileage(String m) {
@@ -135,5 +125,4 @@ public class AdvertSelector {
     private static String getVolume(String v) {
         return VALUES.get(v);
     }
-
 }
