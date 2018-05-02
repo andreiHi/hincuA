@@ -10,6 +10,7 @@ import ru.job4j.service.AdvertService;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.BiConsumer;
 
 
 /**
@@ -32,12 +33,19 @@ public class AdvertSelector {
         put("mileage4", " and a.car.mileage between 300000 and 400000 ");
         put("mileage5", " and a.car.mileage > 500000 ");
     } };
-
+    private static final Map<String, BiConsumer<StringBuilder, String>> FILTERS = new HashMap<String, BiConsumer<StringBuilder, String>>() { {
+        put("brand",        (builder, param) -> builder.append(" and a.car.brand.id =").append(param));
+        put("model",        (builder, param) -> builder.append(" and a.car.model.id =").append(param));
+        put("volume",       (builder, param) -> builder.append(getVolume("volume" + param)));
+        put("mileage",      (builder, param) -> builder.append(getMileage("mileage" + param)));
+        put("engineType",   (builder, param) -> builder.append(" and a.car.engine.fuelType='").append(param).append("'"));
+        put("carcass",      (builder, param) -> builder.append(" and a.car.carcass='").append(param).append("'"));
+        put("transmission", (builder, param) -> builder.append(" and a.car.transmission='").append(param).append("'"));
+        put("gearBox",      (builder, param) -> builder.append(" and a.car.gearBox='").append(param).append("'"));
+    } };
     public AdvertSelector() {
 
     }
-
-
 
     public List<Advert> getAdverts(HttpServletRequest req, JSONObject json) {
         List<Advert> adverts;
@@ -57,88 +65,74 @@ public class AdvertSelector {
             }
             json.remove("today");
             if (!"all".equals(json.get("select"))) {
-                String brandId = (String) json.get("brand");
-                if (brandId != null) {
-                    builder.append(" and a.car.brand.id =").append(brandId);
-                    json.remove("brand");
-                }
-                String modelId = (String) json.get("model");
-                if (modelId != null) {
-                    builder.append(" and a.car.model.id =").append(modelId);
-                    json.remove("model");
-                }
-                String volume = (String) json.get("volume");
-                if (volume != null) {
-                    builder.append(getVolume("volume" + volume));
-                    json.remove("volume");
-                }
-                String mileage = (String) json.get("mileage");
-                if (mileage != null) {
-                    builder.append(getMileage("mileage" + mileage));
-                    json.remove("mileage");
-                }
-                String yearTo = (String) json.get("year_to");
-                String yearFrom = (String) json.get("year_from");
-                if (yearTo != null && yearFrom != null) {
-                    if (Integer.valueOf(yearFrom) < Integer.valueOf(yearTo)) {
-                        builder.append(" and a.car.year between ").append(yearFrom).append(" and ").append(yearTo);
-                    }
-                    json.remove("year_to");
-                    json.remove("year_from");
-
-                } else if (yearFrom != null) {
-                    builder.append(" and a.car.year >").append(yearFrom);
-                    json.remove("year_from");
-                } else if (yearTo != null) {
-                    builder.append(" and a.car.year <").append(yearTo);
-                    json.remove(yearTo);
-                }
-                String priceTo = (String) json.get("price_to");
-                String priceFrom = (String) json.get("price_from");
-                if (priceFrom != null && priceTo != null) {
-                    if (Integer.valueOf(priceFrom) < Integer.valueOf(priceTo)) {
-                        builder.append(" and a.price between ").append(priceFrom).append(" and ").append(priceTo);
-                    }
-                    json.remove("price_to");
-                    json.remove("price_from");
-
-                } else if (priceFrom != null) {
-                    builder.append(" and a.price >").append(priceFrom);
-                    json.remove("price_from");
-                } else if (priceTo != null) {
-                    builder.append(" and a.price <").append(priceTo);
-                    json.remove("price_to");
-                }
-                String engineType = (String) json.get("engineType");
-                if (engineType != null) {
-                    builder.append(" and a.car.engine.fuelType='").append(engineType).append("'");
-                    json.remove("engineType");
-                }
-                if (!json.isEmpty()) {
-                    for (Object key : json.keySet()) {
-                        String k = (String) key;
-                        String v = (String) json.get(k);
-                        builder.append(" and ").append("a.car.").append(k).append("='").append(v).append("'");
-                    }
-                }
+                addFilters(builder, json);
+                addFilterByPrice(builder, json);
+                addFilterByYears(builder, json);
             }
             builder.append(" order by a.data DESC");
             String query = builder.toString();
-            System.out.println(query);
+           // System.out.println(query);
             if (query.contains("join")) {
-                   adverts = new AdvertService().getByQueryWithJoin(query);
+                adverts = new AdvertService().getByQueryWithJoin(query);
             } else {
-                  adverts = new AdvertService().getByQuery(query);
+                adverts = new AdvertService().getByQuery(query);
             }
         }
         return adverts;
     }
 
-    private String getMileage(String m) {
+    private void addFilters(StringBuilder builder, JSONObject json) {
+        Iterator iterator = json.keySet().iterator();
+        while (iterator.hasNext()) {
+            String k = (String) iterator.next();
+            String v = (String) json.get(k);
+            if (FILTERS.get(k) != null) {
+                FILTERS.get(k).accept(builder, v);
+                iterator.remove();
+            }
+        }
+    }
+
+    private void addFilterByPrice(StringBuilder builder, JSONObject json) {
+        String priceTo = (String) json.get("price_to");
+        String priceFrom = (String) json.get("price_from");
+        if (priceFrom != null && priceTo != null) {
+            if (Integer.valueOf(priceFrom) < Integer.valueOf(priceTo)) {
+                builder.append(" and a.price between ").append(priceFrom).append(" and ").append(priceTo);
+            }
+            json.remove("price_to");
+            json.remove("price_from");
+
+        } else if (priceFrom != null) {
+            builder.append(" and a.price >").append(priceFrom);
+            json.remove("price_from");
+        } else if (priceTo != null) {
+            builder.append(" and a.price <").append(priceTo);
+            json.remove("price_to");
+        }
+    }
+    private void addFilterByYears(StringBuilder builder, JSONObject json) {
+        String yearTo = (String) json.get("year_to");
+        String yearFrom = (String) json.get("year_from");
+        if (yearTo != null && yearFrom != null) {
+            if (Integer.valueOf(yearFrom) < Integer.valueOf(yearTo)) {
+                builder.append(" and a.car.year between ").append(yearFrom).append(" and ").append(yearTo);
+            }
+            json.remove("year_to");
+            json.remove("year_from");
+        } else if (yearFrom != null) {
+            builder.append(" and a.car.year >").append(yearFrom);
+            json.remove("year_from");
+        } else if (yearTo != null) {
+            builder.append(" and a.car.year <").append(yearTo);
+            json.remove(yearTo);
+        }
+    }
+    private static String getMileage(String m) {
         return VALUES.get(m);
     }
 
-    private String getVolume(String v) {
+    private static String getVolume(String v) {
         return VALUES.get(v);
     }
 

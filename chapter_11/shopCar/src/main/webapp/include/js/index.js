@@ -1,5 +1,6 @@
 $(document).ready(function () {
     getAdverts();
+    $("#search_block").trigger('reset');//id_form - ID вашей формы
 });
 function getAdverts(data) {
     var conditions = {};
