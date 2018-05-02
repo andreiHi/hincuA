@@ -41,7 +41,7 @@ function getAdverts(data) {
             p.classList.add('style-text-list');
             p.append(v.car.mileage +' км, ' + v.car.engine.volume + ' cm3, ('
                 + v.car.engine.power+' л.с.), ' + v.car.carcass+', ' + tr + ', '
-                + v.car.engine.fuelType);
+                + v.car.engine.fuelType + ', '+ v.car.gearBox);
             div = li.appendChild(document.createElement('div'));
             div.classList.add('style-text-list');
             div.append(v.description);
@@ -115,8 +115,9 @@ $('#search_block').submit(function () {
         }
     });
 
-    if (selected === true) {
-        getAdverts(check);
+    if (selected === false) {
+        check.select = "all";
     }
+    getAdverts(check);
     return false;
 });

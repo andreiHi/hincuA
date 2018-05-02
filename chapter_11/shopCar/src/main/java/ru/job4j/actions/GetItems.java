@@ -34,7 +34,7 @@ public class GetItems implements Action {
         }
         jsonObject.put("transmission", getJson(Transmission.class));
         jsonObject.put("carcass",      getJson(Carcass.class));
-        jsonObject.put("gearbox",      getJson(Gearbox.class));
+        jsonObject.put("gearBox",      getJson(Gearbox.class));
         jsonObject.put("engineType",   getJson(EngineType.class));
 
         String brands = new BrandService().getAllBrandsToJson();

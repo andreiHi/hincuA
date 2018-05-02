@@ -76,9 +76,10 @@ $(document).on('submit', '#login', function () {
 });
 function getComponents() {
     ajax('getItems', {}, function (data) {
+        console.log(data);
         setLogin(data['user']);
         addOptions('transmission', data['transmission']);
-        addOptions('gearbox',      data['gearbox']);
+        addOptions('gearBox',      data['gearBox']);
         addOptions('carcass',      data['carcass']);
         addOptions('engineType',   data['engineType']);
         addItems('brand',          data['brands']);
