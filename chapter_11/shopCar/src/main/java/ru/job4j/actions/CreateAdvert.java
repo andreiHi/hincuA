@@ -81,7 +81,7 @@ public class CreateAdvert implements Action {
             map.put("model",        fileItem -> model.setId(Long.valueOf(fileItem)));
             map.put("carcass",      fileItem -> car.setCarcass(Carcass.valueOf(fileItem)));
             map.put("transmission", fileItem -> car.setTransmission(Transmission.valueOf(fileItem)));
-            map.put("gearbox",      fileItem -> car.setGearBox(Gearbox.valueOf(fileItem)));
+            map.put("gearBox",      fileItem -> car.setGearBox(Gearbox.valueOf(fileItem)));
             map.put("engineType",   fileItem -> engine.setFuelType(EngineType.valueOf(fileItem)));
             map.put("description",  fileItem -> advert.setDescription(fileItem));
             map.put("volume",       fileItem -> engine.setVolume(Integer.valueOf(fileItem)));

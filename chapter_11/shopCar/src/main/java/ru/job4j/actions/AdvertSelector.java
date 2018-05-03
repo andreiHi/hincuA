@@ -22,10 +22,10 @@ public class AdvertSelector {
     private static final Date TODAY = new Date();
     private static final Logger LOG = LogManager.getLogger(AdvertSelector.class);
     private static final Map<String, String> VALUES = new HashMap<String, String>() { {
-        put("volume1", " and a.car.engine.volume < 1000 ");
-        put("volume2", " and a.car.engine.volume between 1000 and 2000 ");
-        put("volume3", " and a.car.engine.volume between 2000 and 3000 ");
-        put("volume4", " and a.car.engine.volume > 3000 ");
+        put("volume1",  " and a.car.engine.volume < 1000 ");
+        put("volume2",  " and a.car.engine.volume between 1000 and 2000 ");
+        put("volume3",  " and a.car.engine.volume between 2000 and 3000 ");
+        put("volume4",  " and a.car.engine.volume > 3000 ");
         put("mileage1", " and a.car.mileage <100000");
         put("mileage2", " and a.car.mileage between 100000 and 200000 ");
         put("mileage3", " and a.car.mileage between 200000 and 300000 ");
@@ -35,94 +35,81 @@ public class AdvertSelector {
     private static final Map<String, BiConsumer<StringBuilder, String>> FILTERS = new HashMap<String, BiConsumer<StringBuilder, String>>() { {
         put("brand",        (builder, param) -> builder.append(" and a.car.brand.id =").append(param));
         put("model",        (builder, param) -> builder.append(" and a.car.model.id =").append(param));
-        put("volume",       (builder, param) -> builder.append(getVolume("volume" + param)));
-        put("mileage",      (builder, param) -> builder.append(getMileage("mileage" + param)));
+        put("volume",       (builder, param) -> builder.append(getCondition("volume" + param)));
+        put("mileage",      (builder, param) -> builder.append(getCondition("mileage" + param)));
         put("engineType",   (builder, param) -> builder.append(" and a.car.engine.fuelType='").append(param).append("'"));
         put("carcass",      (builder, param) -> builder.append(" and a.car.carcass='").append(param).append("'"));
         put("transmission", (builder, param) -> builder.append(" and a.car.transmission='").append(param).append("'"));
         put("gearBox",      (builder, param) -> builder.append(" and a.car.gearBox='").append(param).append("'"));
     } };
 
-    public AdvertSelector() {
-
-    }
 
     public List<Advert> getAdverts(HttpServletRequest req, JSONObject json) {
         List<Advert> adverts;
+        AdvertService service = new AdvertService();
         if ("byUser".equals(json.get("select"))) {
             User user = (User) req.getSession().getAttribute("user");
-            adverts = new AdvertService().getAdvertsByUser(user);
+            adverts = service.getAdvertsByUser(user);
         } else {
-            StringBuilder builder = new StringBuilder("from Advert as a");
-            if ((boolean) json.get("image")) {
-                builder.append(" join fetch Image as i on i.car.id = a.car.id");
-            }
-            json.remove("image");
-            if ((boolean) json.get("today")) {
-                builder.append(" where a.data  >= '").append(FORMAT.format(TODAY)).append("'");
-            } else {
-                builder.append(" where a.data  <> '").append(FORMAT.format(TODAY)).append("'");
-            }
-            json.remove("today");
-            if (!"all".equals(json.get("select"))) {
-                addFilters(builder, json);
-                addFilterByPrice(builder, json);
-                addFilterByYears(builder, json);
-            }
-            builder.append(" order by a.data DESC");
-            String query = builder.toString();
-           // System.out.println(query);
-            if (query.contains("join")) {
-                adverts = new AdvertService().getByQueryWithJoin(query);
-            } else {
-                adverts = new AdvertService().getByQuery(query);
-            }
+            String query = getQueryFilter(json);
+            adverts = query.contains("join") ? service.getByQueryWithJoin(query) : service.getByQuery(query);
         }
         return adverts;
     }
 
-    private void addFilters(StringBuilder builder, JSONObject json) {
-        for (Object key : json.keySet()) {
-            String k = (String) key;
-            String v = (String) json.get(k);
-            if (FILTERS.get(k) != null) {
-                FILTERS.get(k).accept(builder, v);
-            }
+    private String getQueryFilter(JSONObject json) {
+        StringBuilder builder = new StringBuilder("from Advert as a");
+        if ((boolean) json.remove("image")) {
+            builder.append(" join fetch Image as i on i.car.id = a.car.id");
         }
+        builder.append(" where a.data ").append((boolean) json.remove("today") ? " >= '" : " <> '")
+                .append(FORMAT.format(TODAY)).append("'");
+        if (!"all".equals(json.get("select"))) {
+            new Filter(builder, json)
+                    .addFilterByField("price_from", "price_to", " a.price ")
+                    .addFilterByField("year_from", "year_to", " a.car.year ")
+                    .addFilters();
+        }
+        builder.append(" order by a.data DESC");
+        return builder.toString();
     }
 
-    private void addFilterByPrice(StringBuilder builder, JSONObject json) {
-        String priceTo = (String) json.get("price_to");
-        String priceFrom = (String) json.get("price_from");
-        if (priceFrom != null && priceTo != null) {
-            if (Integer.valueOf(priceFrom) < Integer.valueOf(priceTo)) {
-                builder.append(" and a.price between ").append(priceFrom).append(" and ").append(priceTo);
-            }
-        } else if (priceFrom != null) {
-            builder.append(" and a.price >").append(priceFrom);
-        } else if (priceTo != null) {
-            builder.append(" and a.price <").append(priceTo);
-        }
-    }
-
-    private void addFilterByYears(StringBuilder builder, JSONObject json) {
-        String yearTo = (String) json.get("year_to");
-        String yearFrom = (String) json.get("year_from");
-        if (yearTo != null && yearFrom != null) {
-            if (Integer.valueOf(yearFrom) < Integer.valueOf(yearTo)) {
-                builder.append(" and a.car.year between ").append(yearFrom).append(" and ").append(yearTo);
-            }
-        } else if (yearFrom != null) {
-            builder.append(" and a.car.year >").append(yearFrom);
-        } else if (yearTo != null) {
-            builder.append(" and a.car.year <").append(yearTo);
-        }
-    }
-    private static String getMileage(String m) {
+    private static String getCondition(String m) {
         return VALUES.get(m);
     }
 
-    private static String getVolume(String v) {
-        return VALUES.get(v);
+    class Filter {
+        private StringBuilder builder;
+        private JSONObject json;
+
+        Filter(StringBuilder builder, JSONObject json) {
+            this.builder = builder;
+            this.json = json;
+        }
+
+       Filter addFilterByField(String from, String to, String field) {
+           String jTo = (String) json.remove(to);
+           String jFrom = (String) json.remove(from);
+           if (jTo != null && jFrom != null) {
+               if (Integer.valueOf(jFrom) < Integer.valueOf(jTo)) {
+                   builder.append(" and ").append(field).append(" between ").append(jFrom).append(" and ").append(jTo);
+               }
+           } else if (jFrom != null) {
+               builder.append(" and ").append(field).append(">").append(jFrom);
+           } else if (jTo != null) {
+               builder.append(" and ").append(field).append("<").append(jTo);
+           }
+            return this;
+       }
+
+       void addFilters() {
+           for (Object key : json.keySet()) {
+               String k = (String) key;
+               String v = (String) json.get(k);
+               if (FILTERS.get(k) != null) {
+                   FILTERS.get(k).accept(builder, v);
+               }
+           }
+       }
     }
 }
