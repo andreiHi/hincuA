@@ -26,81 +26,111 @@
 
     </dependencies>
     <build>
-        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-            <plugins>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
-                    <configuration>
-                        <outputDirectory>
-                            ${basedir}/src/main/webapp/WEB-INF/classes
-                        </outputDirectory>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <showWarnings>true</showWarnings>
-                        <showDeprecation>true</showDeprecation>
-                        <debug>true</debug>
-                        <outputDirectory>
-                            ${basedir}/src/main/webapp/WEB-INF/classes
-                        </outputDirectory>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
-                    <executions>
-                        <execution>
-                            <id>default-testCompile</id>
-                            <phase>test-compile</phase>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                            <configuration>
-                                <testExcludes>
-                                    <exclude>**/package-info.java</exclude>
-                                </testExcludes>
-                                <compilerVersion>1.8</compilerVersion>
-                            </configuration>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <compilerVersion>1.8</compilerVersion>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.20.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.0</version>
-                    <configuration>
-                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <!--<pluginManagement>&lt;!&ndash; lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) &ndash;&gt;-->
+            <!--<plugins>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-clean-plugin</artifactId>-->
+                    <!--<version>3.0.0</version>-->
+                <!--</plugin>-->
+                <!--&lt;!&ndash; see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging &ndash;&gt;-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-resources-plugin</artifactId>-->
+                    <!--<version>3.0.2</version>-->
+                    <!--<configuration>-->
+                        <!--<outputDirectory>-->
+                            <!--${basedir}/src/main/webapp/WEB-INF/classes-->
+                        <!--</outputDirectory>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                    <!--<configuration>-->
+                        <!--<source>1.8</source>-->
+                        <!--<target>1.8</target>-->
+                        <!--<showWarnings>true</showWarnings>-->
+                        <!--<showDeprecation>true</showDeprecation>-->
+                        <!--<debug>true</debug>-->
+                        <!--<outputDirectory>-->
+                            <!--${basedir}/src/main/webapp/WEB-INF/classes-->
+                        <!--</outputDirectory>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-resources-plugin</artifactId>-->
+                    <!--<version>3.0.2</version>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<id>default-testResources</id>-->
+                            <!--<phase>process-test-resources</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>testResources</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<outputDirectory> ${basedir}/src/test/resources</outputDirectory>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                        <!--<execution>-->
+                            <!--<id>default-resources</id>-->
+                            <!--<phase>process-resources</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>resources</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<outputDirectory> ${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                    <!--<configuration>-->
+                        <!--<outputDirectory> ${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                    <!--<version>3.3</version>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<id>default-testCompile</id>-->
+                            <!--<phase>test-compile</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>testCompile</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<testExcludes>-->
+                                    <!--<exclude>*/package-info.java</exclude>-->
+                                <!--</testExcludes>-->
+                                <!--<outputDirectory> ${basedir}/target/test-classes</outputDirectory>-->
+                                <!--<compilerVersion>1.8</compilerVersion>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                    <!--<configuration>-->
+                        <!--<compilerVersion>1.8</compilerVersion>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                    <!--<version>2.20.1</version>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-war-plugin</artifactId>-->
+                    <!--<version>3.2.0</version>-->
+                    <!--<configuration>-->
+                        <!--<warSourceDirectory>src/main/webapp</warSourceDirectory>-->
+                        <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-install-plugin</artifactId>-->
+                    <!--<version>2.5.2</version>-->
+                <!--</plugin>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-deploy-plugin</artifactId>-->
+                    <!--<version>2.8.2</version>-->
+                <!--</plugin>-->
+            <!--</plugins>-->
+        <!--</pluginManagement>-->
         <plugins>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -113,6 +143,7 @@
                         <configuration>
                             <tasks>
                                 <delete dir="${basedir}/src/main/webapp/WEB-INF/lib" />
+                                <delete dir="${basedir}/src/main/webapp/WEB-INF/classes" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -129,6 +160,22 @@
                                 <copy todir="${basedir}/src/main/webapp/WEB-INF/lib">
                                     <fileset
                                             dir="${basedir}/target/${project.build.finalName}/WEB-INF/lib" />
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>copy-classes</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <delete dir="${basedir}/src/main/webapp/WEB-INF/classes" />
+                                <copy todir="${basedir}/src/main/webapp/WEB-INF/classes">
+                                <fileset
+                                 dir="${basedir}/target/${project.build.finalName}/WEB-INF/classes" />
                                 </copy>
                             </tasks>
                         </configuration>

@@ -27,11 +27,8 @@ public class UserServiceTest {
     @Test
     public void whenUserWasAdd() {
         User user = new User("Andrei", "email@ttt.com", "123458", "1234586");
-        Advert advert = new Advert();
-        List<Advert> adverts = Arrays.asList(advert);
-//        user.setAdverts(adverts);
-        userService.saveUser(user);
-        assertThat("Andrei", is(userService.getAllUsers().get(0).getLogin()));
+        long id = userService.saveUser(user);
+        assertThat("Andrei", is(userService.getUserById(id).getLogin()));
     }
 @Ignore
     @Test

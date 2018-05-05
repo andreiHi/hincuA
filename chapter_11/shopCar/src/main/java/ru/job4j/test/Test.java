@@ -3,10 +3,13 @@ package ru.job4j.test;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
-import ru.job4j.actions.AdvertSelector;
 
-import java.lang.reflect.Field;
+import ru.job4j.model.Advert;
+import ru.job4j.service.AdvertService;
+
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -21,15 +24,13 @@ public class Test {
 //        SessionFactory service = HibernateService.getSessionFactoty();
 //        Session session = service.openSession();
 
-//        AdvertService service = new AdvertService();
-//        List<Advert> adverts = service.getByQuery("from Advert as a");
-//        adverts.forEach(advert -> System.out.println(advert.toJson()));
+        AdvertService service = new AdvertService();
+        List<Advert> adverts = service.getByQuery("from Advert as a");
+        adverts.forEach(advert -> System.out.println(advert.toJson()));
 //        AdvertService service = new AdvertService();
 //        service.getByQueryWithData("from Advert as a join fetch Image as i on i.car = a.car where a.data between :start and :end")
 //                .forEach(System.out::println);
 
-
-AdvertSelector selector = new AdvertSelector();
         }
 
 
