@@ -21,6 +21,46 @@ public class Advert extends Persistent {
     @Column(name = "description", length = 1000)
     private String description;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Advert advert = (Advert) o;
+
+        if (price != advert.price) {
+            return false;
+        }
+        if (data != null ? !data.equals(advert.data) : advert.data != null) {
+            return false;
+        }
+        if (description != null ? !description.equals(advert.description) : advert.description != null) {
+            return false;
+        }
+        if (state != advert.state) {
+            return false;
+        }
+        if (user != null ? !user.equals(advert.user) : advert.user != null) {
+            return false;
+        }
+        return car != null ? car.equals(advert.car) : advert.car == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = data != null ? data.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + price;
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (car != null ? car.hashCode() : 0);
+        return result;
+    }
+
     private int price;
 
     @Enumerated(EnumType.STRING)

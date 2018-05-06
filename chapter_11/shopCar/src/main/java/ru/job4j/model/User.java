@@ -18,12 +18,12 @@ import java.util.Objects;
 public class User extends Persistent {
 
     private static final long serialVersionUID = -5971624644618934547L;
-    @Column(name = "login", unique = true)
+    @Column(name = "login")
     private String login;
-    @Column(name = "email", unique = true)
+    @Column(name = "email")
     private String email;
     private String password;
-    @Column(name = "phone", unique = true)
+    @Column(name = "phone")
     private String phone;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
