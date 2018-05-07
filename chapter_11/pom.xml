@@ -15,6 +15,7 @@
         <module>todoList</module>
         <module>componentCar</module>
         <module>shopCar</module>
+        <module>spring</module>
     </modules>
 
 
