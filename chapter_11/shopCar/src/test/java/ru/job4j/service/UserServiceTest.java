@@ -1,18 +1,13 @@
 package ru.job4j.service;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import ru.job4j.model.Advert;
 import ru.job4j.model.User;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 16.03.2018.
@@ -94,4 +89,5 @@ public class UserServiceTest {
         String ok2 = userService.saveIfValid(user1);
         assertFalse(ok.equalsIgnoreCase(ok2));
     }
+
 }

@@ -38,7 +38,7 @@ public class ModelImpl extends AbstractController<Model, Long> {
 
     @Override
     public Long save(Model entity) {
-        return null;
+        return (Long) getCurrentSession().save(entity);
     }
 
     @Override

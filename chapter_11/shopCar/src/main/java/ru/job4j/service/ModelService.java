@@ -30,4 +30,11 @@ public class ModelService {
     public String getModelsToJson(long id) {
         return new Gson().toJson(getModelsByBrandId(id));
     }
+
+    public long save(Model model) {
+        service.openCurrentSessionWithTransaction();
+        long id = service.save(model);
+        service.closeSessionWithTransaction();
+        return  id;
+    }
 }

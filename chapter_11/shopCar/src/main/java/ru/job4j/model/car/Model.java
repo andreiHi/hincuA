@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import ru.job4j.model.Persistent;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 20.03.2018.
@@ -60,5 +61,23 @@ public class Model extends Persistent {
         return getId()
                 + " : "
                 + name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Model model = (Model) o;
+        return Objects.equals(name, model.name)
+                && Objects.equals(brand, model.brand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, brand);
     }
 }

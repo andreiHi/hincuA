@@ -27,6 +27,12 @@ public class BrandService {
         brandDao.closeCurrentSession();
         return brands;
     }
+    public long save(Brand brand) {
+        brandDao.openCurrentSessionWithTransaction();
+        long id = brandDao.save(brand);
+        brandDao.closeSessionWithTransaction();
+        return id;
+    }
     public String getAllBrandsToJson() {
        return new Gson().toJson(getAllBrands());
     }
