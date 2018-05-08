@@ -3,7 +3,6 @@ package ru.job4j.storage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import ru.job4j.models.User;
 
 import javax.sql.DataSource;
@@ -52,5 +51,11 @@ public class JdbcStorage implements Storage<User> {
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        createTable();
+    }
+
+    private void createTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(50))";
+        this.jdbcTemplate.execute(sql);
     }
 }
