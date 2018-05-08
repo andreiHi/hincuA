@@ -2,6 +2,7 @@ package ru.job4j.storage;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import ru.job4j.models.User;
 
 import java.util.HashMap;
@@ -13,14 +14,15 @@ import java.util.Map;
  * @version $Id$.
  * @since 0.1.
  */
+@Component
 public class MemoryStorage implements Storage<User> {
     private static final Logger LOG = LogManager.getLogger(MemoryStorage.class);
     private Map<Long, User> users = new HashMap<>();
 
     @Override
     public long create(User user) {
-        this.users.put(user.getId(), user);
-        return user.getId();
+        User u = this.users.putIfAbsent(user.getId(), user);
+        return u != null ? u.getId() : -1;
     }
 
     @Override
@@ -40,12 +42,14 @@ public class MemoryStorage implements Storage<User> {
     }
 
     @Override
-    public boolean delete(User entity) {
-        return false;
+    public boolean delete(User user) {
+       User u = users.remove(user.getId());
+        return u != null;
     }
 
     @Override
     public boolean delete(long id) {
-        return false;
+        User u = users.remove(id);
+        return u != null;
     }
 }

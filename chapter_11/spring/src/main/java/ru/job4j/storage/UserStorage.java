@@ -1,6 +1,8 @@
 package ru.job4j.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import ru.job4j.models.User;
 
 import java.util.List;
@@ -10,16 +12,18 @@ import java.util.List;
  * @version $Id$.
  * @since 0.1.
  */
+@Component
 public class UserStorage  {
 
     private final Storage storage;
 
     @Autowired
-    public UserStorage(final Storage storage) {
+    public UserStorage(@Qualifier("memoryStorage") final Storage storage) {
         this.storage = storage;
     }
 
     public long create(User user) {
+        System.out.println("User saved");
        return this.storage.create(user);
     }
 

@@ -2,8 +2,11 @@ package ru.job4j.storage;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ru.job4j.models.User;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -12,6 +15,8 @@ import java.util.List;
  * @since 0.1.
  */
 public class JdbcStorage implements Storage<User> {
+    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
     private static final Logger LOG = LogManager.getLogger(JdbcStorage.class);
 
     @Override
@@ -42,5 +47,10 @@ public class JdbcStorage implements Storage<User> {
     @Override
     public boolean delete(long id) {
         return false;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 }

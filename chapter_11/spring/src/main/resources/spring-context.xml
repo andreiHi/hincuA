@@ -10,9 +10,16 @@
 
 <!-- bean definitions here -->
     <context:component-scan base-package="ru.job4j.storage"/>
-    <!--<bean id="user" class="ru.job4j.models.User"/>-->
-    <!--<bean id="jdbc" class="ru.job4j.storage.JdbcStorage"/>-->
-    <!--<bean id="memory" class="ru.job4j.storage.MemoryStorage"/>-->
-    <!--<bean id="userStorage" class="ru.job4j.storage.UserStorage"/>-->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="5432"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432//todo"/>
+    </bean>
+
+    <bean id="jdbc" class="ru.job4j.storage.JdbcStorage">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
 </beans>
