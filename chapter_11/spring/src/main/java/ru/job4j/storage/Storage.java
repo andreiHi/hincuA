@@ -1,6 +1,5 @@
 package ru.job4j.storage;
 
-import ru.job4j.models.User;
 
 import java.util.List;
 
@@ -16,4 +15,6 @@ public interface Storage<E> {
     boolean update(E entity);
     boolean delete(E entity);
     boolean delete(long id);
+
+    void clear();
 }

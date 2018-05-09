@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * @version $Id$.
  * @since 0.1.
  */
-public class UserMapper implements RowMapper<User>{
+public class UserMapper implements RowMapper<User> {
     private static final Logger LOG = LogManager.getLogger(UserMapper.class);
 
     @Override
@@ -20,6 +20,7 @@ public class UserMapper implements RowMapper<User>{
         User user = new User();
         user.setId(rs.getInt("id"));
         user.setName(rs.getString("name"));
+        user.setAge(rs.getInt("age"));
         return user;
     }
 }

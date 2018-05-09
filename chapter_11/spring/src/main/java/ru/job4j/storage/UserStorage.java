@@ -46,4 +46,8 @@ public class UserStorage  {
     public boolean delete(long id) {
         return this.storage.delete(id);
     }
+
+    public void cear() {
+        this.storage.clear();
+    }
 }

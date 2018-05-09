@@ -4,6 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.job4j.models.User;
 import ru.job4j.storage.JdbcStorage;
 
 /**
@@ -17,6 +18,18 @@ public class ImportUser {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
         JdbcStorage storage = context.getBean(JdbcStorage.class);
-
+        //storage.create(new User(35, "Andrei"));
+        User user = storage.read(1L);
+        System.out.println(user);
+        System.out.println("================Next Query==============");
+        storage.getAll().forEach(System.out :: println);
+        System.out.println("================Next Query==============");
+        boolean update = storage.update(new User(1L, 33,  "Petr"));
+        if (update) {
+            System.out.println("user was update successful");
+        } else {
+            System.out.println("user dose not exist");
+        }
+        storage.getAll().forEach(System.out::println);
     }
 }

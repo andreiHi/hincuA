@@ -9,9 +9,15 @@ public class User {
 
     private long id;
     private String name;
+    private int age;
 
-    public User(long id, String name) {
+    public User(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
+   public User(long id, int age, String name) {
         this.id = id;
+        this.age = age;
         this.name = name;
     }
 
@@ -33,5 +39,18 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User{id= %d, name = %s, age= %d }", id, name, age);
     }
 }
