@@ -49,10 +49,10 @@ $(document).on('submit', '#sign', function () {
     }
 });
 function ajax(action, data, toDo) {
-    console.log(JSON.stringify({action:action, data:data}));
     $.ajax({
         method:'POST',
         url: "/data",
+        contentType:"application/json",
         data: JSON.stringify({
             action: action,
             data: data
@@ -60,12 +60,22 @@ function ajax(action, data, toDo) {
         success: toDo
     });
 }
+function ajaxS(url, data, todo) {
+    $.ajax({
+        method:'POST',
+        url: '/' +  url,
+        contentType:"application/json",
+        data: JSON.stringify(data),
+        success: todo
+    });
+}
 //авторизация
 $(document).on('submit', '#login', function () {
     var login = {};
     login.login = $('#uname').val();
     login.password = $('#psw').val();
-    ajax("logInOut", login, function (data) {
+    ajaxS("login", login, function (data) {
+        console.log(data);
         if (data === true) {
             user.login = login.login;
             location.reload();

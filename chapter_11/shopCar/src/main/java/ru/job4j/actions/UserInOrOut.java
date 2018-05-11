@@ -15,8 +15,17 @@ import javax.servlet.http.HttpSession;
  * @version $Id$.
  * @since 0.1.
  */
-public class UserInOut implements Action {
-    private static final Logger LOG = LogManager.getLogger(UserInOut.class);
+public class UserInOrOut implements Action {
+    private static final Logger LOG = LogManager.getLogger(UserInOrOut.class);
+    private String login;
+    private String password;
+    private HttpSession session;
+
+    public UserInOrOut(String login, String password, HttpSession session) {
+        this.login = login;
+        this.password = password;
+        this.session = session;
+    }
 
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
@@ -27,6 +36,23 @@ public class UserInOut implements Action {
             System.out.println(json.toJSONString());
             String login = (String) json.get("login");
             String password = (String) json.get("password");
+            UserService service = new UserService();
+            User user = service.getUserByLogin(login);
+            if (user.checkPassword(password)) {
+                session.setAttribute("user", user);
+                exist = true;
+            }
+        } else {
+            session.removeAttribute("user");
+        }
+        System.out.println(exist);
+        return new Gson().toJson(exist);
+    }
+    public String action() {
+        System.out.println(login + " " + password);
+        boolean exist = false;
+        User userLogin = (User) this.session.getAttribute("user");
+        if (userLogin == null) {
             UserService service = new UserService();
             User user = service.getUserByLogin(login);
             if (user.checkPassword(password)) {
