@@ -49,6 +49,7 @@ $(document).on('submit', '#sign', function () {
     }
 });
 function ajax(action, data, toDo) {
+    console.log(JSON.stringify({action:action, data:data}));
     $.ajax({
         method:'POST',
         url: "/data",
