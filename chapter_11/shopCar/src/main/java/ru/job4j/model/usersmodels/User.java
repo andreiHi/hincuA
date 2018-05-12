@@ -1,6 +1,7 @@
-package ru.job4j.model;
+package ru.job4j.model.usersmodels;
 
 import org.json.simple.JSONObject;
+import ru.job4j.model.Persistent;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -67,6 +68,7 @@ public class User extends Persistent {
     public String getLogin() {
         return login;
     }
+
     public  String findEquals(User user) {
         StringBuilder sb = new StringBuilder();
         if (login.equals(user.login)) {

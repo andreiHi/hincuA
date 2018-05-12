@@ -3,7 +3,7 @@ package ru.job4j.service;
 import ru.job4j.dao.modeldao.AdvertImpl;
 import ru.job4j.model.Advert;
 import ru.job4j.model.State;
-import ru.job4j.model.User;
+import ru.job4j.model.usersmodels.User;
 
 import java.util.List;
 

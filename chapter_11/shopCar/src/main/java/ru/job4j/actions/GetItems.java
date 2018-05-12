@@ -4,7 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import ru.job4j.model.User;
+import ru.job4j.model.usersmodels.User;
 import ru.job4j.model.car.parts.Carcass;
 import ru.job4j.model.car.parts.EngineType;
 import ru.job4j.model.car.parts.Gearbox;

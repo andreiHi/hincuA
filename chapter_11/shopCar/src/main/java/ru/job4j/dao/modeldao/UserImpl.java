@@ -2,7 +2,7 @@ package ru.job4j.dao.modeldao;
 
 import org.hibernate.query.Query;
 import ru.job4j.dao.AbstractController;
-import ru.job4j.model.User;
+import ru.job4j.model.usersmodels.User;
 
 import java.util.List;
 

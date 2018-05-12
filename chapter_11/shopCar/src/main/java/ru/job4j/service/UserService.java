@@ -1,7 +1,7 @@
 package ru.job4j.service;
 
 import ru.job4j.dao.modeldao.UserImpl;
-import ru.job4j.model.User;
+import ru.job4j.model.usersmodels.User;
 
 import java.util.List;
 

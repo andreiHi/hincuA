@@ -6,7 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.job4j.actions.UserInOrOut;
+import ru.job4j.model.usersmodels.LoginForm;
+import ru.job4j.model.usersmodels.RegistrationForm;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -29,8 +30,21 @@ public class SpringController {
 //        System.out.println(request);
         return ResponseEntity.ok("");
     }
+
     @PostMapping(value = "/login", produces = "application/json")
-    public ResponseEntity<String> login(@RequestBody Map request, HttpSession session) {
-        return ResponseEntity.ok(new UserInOrOut((String) request.get("login"), (String) request.get("password"), session).action());
+    public ResponseEntity<Boolean> login(@RequestBody LoginForm loginForm, HttpSession session) {
+        boolean check = loginForm.checkLoginForm();
+        if (check) {
+            session.setAttribute("user", loginForm.getUser());
+        }
+        return ResponseEntity.ok(check);
+    }
+    @PostMapping(value = "/registration", produces = "application/json")
+    public ResponseEntity<String> registration(@RequestBody RegistrationForm form) {
+        System.out.println(form.toString());
+        String s = form.createIfValid();
+        System.out.println(s);
+        return ResponseEntity.ok(s);
+
     }
 }

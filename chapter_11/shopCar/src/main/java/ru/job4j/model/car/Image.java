@@ -4,7 +4,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import ru.job4j.model.Persistent;
-import ru.job4j.model.User;
 
 import javax.persistence.*;
 

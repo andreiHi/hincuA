@@ -37,7 +37,8 @@ $(document).on('submit', '#sign', function () {
         newUser.password = psw;
         newUser.email = $('#email').val();
         newUser.phone = $('#phone').val();
-        ajax('sing', newUser, function (data) {
+        ajaxS('registration', newUser, function (data) {
+            console.log(data);
             if (data ==='ok') {
                 $('#forma').empty();
                 $('#info').replaceWith('<p id="info" class="message_ok">The account was created successfully</p>');
@@ -85,6 +86,7 @@ $(document).on('submit', '#login', function () {
     });
     return false;
 });
+//получение всех фильтров и поддержание ссесии
 function getComponents() {
     ajax('getItems', {}, function (data) {
         console.log(data);

@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import ru.job4j.model.Advert;
-import ru.job4j.model.User;
+import ru.job4j.model.usersmodels.User;
 import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Image;

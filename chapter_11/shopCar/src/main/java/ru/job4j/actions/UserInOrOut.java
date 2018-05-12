@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import ru.job4j.model.User;
+import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,8 +54,8 @@ public class UserInOrOut implements Action {
         User userLogin = (User) this.session.getAttribute("user");
         if (userLogin == null) {
             UserService service = new UserService();
-            User user = service.getUserByLogin(login);
-            if (user.checkPassword(password)) {
+            User user = service.getUserByLogin(this.login);
+            if (user.checkPassword(this.password)) {
                 session.setAttribute("user", user);
                 exist = true;
             }

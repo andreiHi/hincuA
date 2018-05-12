@@ -2,6 +2,7 @@ package ru.job4j.model;
 
 import org.json.simple.JSONObject;
 import ru.job4j.model.car.Car;
+import ru.job4j.model.usersmodels.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
