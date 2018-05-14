@@ -21,7 +21,6 @@ public class RegistrationForm extends LoginForm {
 
     public String createIfValid() {
         User user = new User(getLogin(), email, getPassword(), phone);
-        System.out.println(user);
         UserService service = new UserService();
         return service.saveIfValid(user);
     }

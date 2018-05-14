@@ -1,6 +1,3 @@
-$(document).ready(function () {
-    getAdvertsByUser()
-});
 //проверка на заполненность всех данных объявления кроме описания.
 $('#form_add').submit(function () {
     var valid = true;
@@ -17,7 +14,7 @@ $('#form_add').submit(function () {
     }
     var form = $(this);
     form.find('input').each(function () {
-        console.log($(this).attr('name'));
+
         if ($(this).val()==='' && $(this).css('display') !== 'none' && $(this).attr('name') !== 'photo') {
             valid = false;
             $(this).css('background-color', 'red');
@@ -27,15 +24,27 @@ $('#form_add').submit(function () {
         }
     });
     if (valid) {
+        // ajaxS("create", document.forms.form_add, function (json) {
+        //     console.log(json);
+        //     if (json !=='login') {
+        //         $('#form_add').fadeOut(300,function () {
+        //             $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.");
+        //             $('#advert-list').empty();
+        //         });
+        //     } else {
+        //         $("#message").addClass("message_error").fadeIn(400).html("Re login again, please.");
+        //         $('#form').load('include/html/login.html');
+        //     }
+        // });
         $.ajax({
-            url: "/data",
+            url: "/create",
             type: "POST",
             contentType: false,
             processData: false,
             data: new FormData(document.forms.form_add),
-            dataType: 'json',
+            dataType: 'application/json',
             success: function(json){
-                if (json !=='reLogin') {
+                if (json !=='login') {
                     $('#form_add').fadeOut(300,function () {
                         $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.");
                         $('#advert-list').empty();
@@ -44,6 +53,9 @@ $('#form_add').submit(function () {
                 } else {
                     $("#message").addClass("message_error").fadeIn(400).html("Re login again, please.");
                 }
+            },
+            error:function (err) {
+                alert(err);
             }
         });
     } else {
@@ -52,88 +64,3 @@ $('#form_add').submit(function () {
     return false;
 });
 
-function getAdvertsByUser() {
-    var conditions = {};
-    conditions.select = 'byUser';
-    ajax('allAds', conditions, function (respons) {
-        var ul = document.createElement("ul");
-        ul.setAttribute('id', 'block-ad-list');
-        $.each(respons, function (k,v) {
-            console.log(v);
-            let tr = v['car'].transmission.replace(/_/g, ' ');
-            let li = ul.appendChild(document.createElement('li'));
-            let div = li.appendChild(document.createElement('div'));
-            div.classList.add('block-images-list');
-            if (v.car.images.image !== undefined) {
-                let img = div.appendChild(document.createElement('img'));
-                img.setAttribute('src', '/img?name=' + v.car.images.image.smallImage + '');
-                img.setAttribute('height', '200px');
-                img.setAttribute('width', '200px');
-            }
-            let p = li.appendChild(document.createElement('p'));
-            p.classList.add('style-title-list');
-            let a = document.createElement("a");
-            a.setAttribute('id', k);
-            a.setAttribute('href', 'index.html');
-            a.append(v.car.brand.name + ' ' + v.car.model.name + ', ' + v.car.year);
-            p.append(a);
-            p = li.appendChild(document.createElement('p'));
-            p.classList.add('style-price-list');
-            p.append('Price '+ v.price +' руб.');
-            p = li.appendChild(document.createElement('p'));
-            p.classList.add('style-text-list');
-            p.append(v.car.mileage +' км, '+v.car.engine.volume+' cm3, ('
-                + v.car.engine.power+' л.с.), ' + v.car.carcass+', ' + tr + ', '
-                + v.car.engine.fuelType);
-            div = li.appendChild(document.createElement('div'));
-            div.classList.add('style-text-list');
-            div.append(v.description);
-            p = li.appendChild(document.createElement('p'));
-            p.classList.add('style-text');
-            p.append('Phone: '+ v.user.phone);
-            p = li.appendChild(document.createElement('p'));
-            p.classList.add('style-text');
-            p.append('Data: ' + v.data);
-            let ul2 = li.appendChild(document.createElement('ul'));
-            ul2.classList.add('buttons_new_sold');
-            let li2 = ul2.appendChild(document.createElement('li'));
-            p = li2.appendChild(document.createElement('a'));
-            p.classList.add('state');
-            p.append(v.state);
-            li2 = ul2.appendChild(document.createElement('li'));
-            p = li2.appendChild(document.createElement('button'));
-            p.setAttribute('id','setSold');
-            p.setAttribute('Car_id', k);
-            p.append('Set sold');
-            li2 = ul2.appendChild(document.createElement('li'));
-            p = li2.appendChild(document.createElement('button'));
-            p.setAttribute('id','setNew');
-            p.setAttribute('Car_id', k);
-            p.append('Set New');
-        });
-        $('#advert-list').append(ul);
-    })
-}
-$(document).on('click','#setSold', function () {
-    var car = {};
-    car.id = $(this).attr('Car_id');
-    car.state = 'SOLD';
-    ajax('setSold', car, function (data) {
-        if(data === true) {
-            $('#advert-list').empty();
-            getAdvertsByUser();
-        }
-    })
-});
-
-$(document).on('click','#setNew', function () {
-    var car = {};
-    car.id = $(this).attr('Car_id');
-    car.state = 'NEW';
-    ajax('setSold', car, function (data) {
-        if(data === true) {
-            $('#advert-list').empty();
-            getAdvertsByUser();
-        }
-    })
-});

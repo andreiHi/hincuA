@@ -3,7 +3,6 @@ $(document).ready(function () {
     getComponents();
 });
 
-const user = {};
 $(document).on('click', '#intro', function () {
     $('#form').load('include/html/login.html');
 });
@@ -15,12 +14,11 @@ $(document).on('click', '#index', function () {
     location.href='index.html';
 });
 
-$(document).on('click', '#submit', function () {
-    if (user.login === undefined) {
-        $('#form').load('include/html/login.html');
-    } else {
+$(document).on('click', '#addNew', function () {
         location.href='add.html';
-    }
+});
+$(document).on('click', '#update', function () {
+        location.href='update.html';
 });
 
 
@@ -38,7 +36,6 @@ $(document).on('submit', '#sign', function () {
         newUser.email = $('#email').val();
         newUser.phone = $('#phone').val();
         ajaxS('registration', newUser, function (data) {
-            console.log(data);
             if (data ==='ok') {
                 $('#forma').empty();
                 $('#info').replaceWith('<p id="info" class="message_ok">The account was created successfully</p>');
@@ -76,10 +73,8 @@ $(document).on('submit', '#login', function () {
     login.login = $('#uname').val();
     login.password = $('#psw').val();
     ajaxS("login", login, function (data) {
-        console.log(data);
         if (data === true) {
-            user.login = login.login;
-            location.reload();
+            setLogin(login);
         } else {
             $('#info-login').replaceWith('<p class="message_error" >Login or Password are incorrect</p>');
         }
@@ -88,8 +83,8 @@ $(document).on('submit', '#login', function () {
 });
 //получение всех фильтров и поддержание ссесии
 function getComponents() {
-    ajax('getItems', {}, function (data) {
-        console.log(data);
+    ajaxS('getItems', {}, function (data) {
+        // console.log(data);
         setLogin(data['user']);
         addOptions('transmission', data['transmission']);
         addOptions('gearBox',      data['gearBox']);
@@ -117,34 +112,43 @@ function addItems(id, data) {
 
 function setLogin(data) {
     if (data.login != null) {
-        user.login = data.login;
         $('#id01').hide();
-        $('#intro').replaceWith('<button id="name_user"  style="width:auto;">Hello, '+user.login+'!</button>');
+        $('#intro').replaceWith('<button id="name_user"  style="width:auto;">Hello, '+ data.login +'!</button>');
         $('#signup').replaceWith('<button id="user_log_out"  style="width:auto;">Log out</button>');
+        document.getElementById('update').style.display = 'block';
+    } else {
+        $('#header').load('include/html/header.html');
     }
 }
+//выход из сессии
 $(document).on('click', '#user_log_out', function () {
-    ajax('logInOut',{}, function () {
-        location.href='index.html';
-    })
+        ajaxS('logOut', {}, function () {
+            console.log(window.location.href);
+            if (window.location.href.includes('index.html')) {
+                //todo with update page
+                setLogin({});
+            } else {
+                location.href = 'index.html';
+            }
+        })
 });
-
-$('#brand').change(function () {
+$(document).on('change', '#brand', function () {
     var id = $(this).val();
     var idBrand = {};
-    idBrand.id = id;
+    idBrand.id =  parseInt(id);
     if (id === '0') {
         $('#model').html('<option value="0">-Модель-</option>');
         $('#model').attr('disabled', true);
     } else {
         $('#model').html('<option value="0">-Модель-</option>');
         $('#model').attr('disabled', false);
-        ajax('getModels', idBrand, function (data) {
+        ajaxS('getModels', idBrand, function (data) {
             var models = data['models'];
             addItems('model', models);
         })
     }
 });
+
 $('#engineType').change(function () {
     var id = $(this).val();
     if (id ==='Electro') {

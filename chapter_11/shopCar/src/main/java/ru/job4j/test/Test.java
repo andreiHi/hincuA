@@ -11,8 +11,10 @@ import org.apache.log4j.Logger;
 public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
+
     public static void main(String[] args) {
-//        SessionFactory service = HibernateService.getSessionFactoty();
+
+//        SessionFactory service = HibernateService.getSessionFactory();
 //        Session session = service.openSession();
 //
 //        AdvertService service = new AdvertService();

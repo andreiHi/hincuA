@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  */
 public class StartingData {
     private static final Logger LOG = LogManager.getLogger(StartingData.class);
-    private SessionFactory sessionFactory = HibernateService.getSessionFactoty();
+    private SessionFactory sessionFactory = HibernateService.getSessionFactory();
     private static final String BRANDS = "brand.txt";
     private static final String FOLDER = "models/";
     private static final String SAVE_DIRECTORY = "uploadDir";

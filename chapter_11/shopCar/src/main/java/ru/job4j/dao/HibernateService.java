@@ -22,7 +22,7 @@ public class HibernateService {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    public static SessionFactory getSessionFactoty() throws HibernateException {
+    public static SessionFactory getSessionFactory() throws HibernateException {
         return SESSION_FACTORY;
     }
     public static void closeFactory() {

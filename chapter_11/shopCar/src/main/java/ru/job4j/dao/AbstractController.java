@@ -15,7 +15,7 @@ import ru.job4j.model.Persistent;
  */
 public abstract class AbstractController<E extends Persistent, K> implements Dao<E, K> {
     private static final Logger LOG = LogManager.getLogger(AbstractController.class);
-    private SessionFactory sessionFactory = HibernateService.getSessionFactoty();
+    private SessionFactory sessionFactory = HibernateService.getSessionFactory();
     private Session currentSession;
     private Transaction currentTransaction;
 

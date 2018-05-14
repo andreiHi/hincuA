@@ -79,27 +79,5 @@ public class UserImpl extends AbstractController<User, Long> {
         }
         return user;
     }
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public List<User> getAll() {
-//        return transaction(session -> session.createQuery("from User").list());
-//    }
-//
-//    @Override
-//    public User getEntityById(Long id) {
-//        return transaction(session -> session.get(User.class, id));
-//    }
-//
-//    @Override
-//    public boolean delete(Long id) {
-//        return transaction(session -> {
-//            boolean found = false;
-//            User user = UserImpl.this.getEntityById(id);
-//            if (user != null) {
-//                session.delete(user);
-//                found = true;
-//            }
-//            return found;
-//        });
-//    }
+
 }

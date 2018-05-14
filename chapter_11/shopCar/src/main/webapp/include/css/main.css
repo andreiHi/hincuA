@@ -121,7 +121,7 @@ span{
     float: left;
 }
 .sort{
-    height: 29px;
+    height: 25px;
     width: 81px;
     float: left;
     margin: 2px;
@@ -355,7 +355,8 @@ hr {
     border: 1px solid black;
 }
 #add-advert{
-    margin-top: 55px;
+
+    height: 700px;
 }
 #message{
     width: auto;
@@ -456,6 +457,9 @@ hr {
 .style-text{
     font: 15px sans-serif;
     margin-top: 5px;
+}
+#update{
+    display: none;
 }
 /*.dropdown {*/
 /*position: absolute;*/

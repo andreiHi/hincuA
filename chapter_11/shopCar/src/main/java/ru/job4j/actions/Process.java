@@ -23,8 +23,8 @@ public class Process {
     private static final Map<String, Action> ACTIONS = new ConcurrentHashMap<String, Action>() { {
         put("sing",      new CreateUser());
      //   put("logInOut",  new UserInOrOut());
-        put("getItems",  new GetItems());
-        put("getModels", new GetModels());
+      //  put("getItems",  new ItemsIndexForm());
+      //  put("getModels", new GetModels());
         put("unknown",   new Unknown());
         put("create",    new CreateAdvert());
         put("allAds",    new GetAdverts());
