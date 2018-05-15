@@ -7,11 +7,13 @@ import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
+import ru.job4j.model.AdvertForm;
 import ru.job4j.model.car.Car;
 import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
@@ -74,12 +76,9 @@ public class SpringController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createAdvert(@RequestBody Car car, HttpSession session) {
-        String result = "login";
-        System.out.println(car);
-        if (session.getAttribute("user") != null) {
-            result = "ok";
-        }
-        return ResponseEntity.ok(result);
+    public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        String create = advertForm.createNewAdvert(user);
+        return ResponseEntity.ok(create);
     }
 }

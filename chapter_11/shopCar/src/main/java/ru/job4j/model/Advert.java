@@ -83,12 +83,20 @@ public class Advert extends Persistent {
         this.state = State.NEW;
         this.price = price;
     }
-
+    public Advert(String description, User user, int price) {
+        this.data = new Timestamp(System.currentTimeMillis());
+        this.description = description;
+        this.user = user;
+        this.state = State.NEW;
+        this.price = price;
+    }
     public Advert() {
         this.data = new Timestamp(System.currentTimeMillis());
         this.state = State.NEW;
 
     }
+
+
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
 

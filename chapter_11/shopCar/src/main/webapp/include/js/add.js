@@ -41,8 +41,10 @@ $('#form_add').submit(function () {
             type: "POST",
             contentType: false,
             processData: false,
+            cache:false,
+            enctype: 'multipart/form-data',
             data: new FormData(document.forms.form_add),
-            dataType: 'application/json',
+          //  dataType: 'application/json',
             success: function(json){
                 if (json !=='login') {
                     $('#form_add').fadeOut(300,function () {
