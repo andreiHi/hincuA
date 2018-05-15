@@ -68,34 +68,33 @@
                 </div>
                 <div class="select_wrapper">
                     <label class="label_add" for="power"><span>* </span><strong>Мощьность двигателя: </strong></label>
-                    <input type="text" maxlength="15" placeholder="Мощьность двигателя, Вт." id="power" name="power" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
+                    <input type="number" maxlength="15" placeholder="Мощьность двигателя, Вт." id="power" name="power" class="add" pattern="[0-9]{1,6}" title="Введите корректные данные">
                 </div>
 
                 <div class="select_wrapper">
                     <label class="label_add" for="mileage"><span>* </span><strong>Пробег: </strong></label>
-                    <input type="text" maxlength="15" placeholder="Пробег, тыс км." class="add" id="mileage" name="mileage" pattern="[0-9]{1,15}" title="Введите корректные данные">
+                    <input type="number" maxlength="15" placeholder="Пробег, тыс км." class="add" id="mileage" name="mileage" pattern="[0-9]{1,15}" title="Введите корректные данные">
                 </div>
 
                 <div class="select_wrapper">
                     <label class="label_add" for="price"><span>* </span><strong>Цена: </strong></label>
-                    <input type="text" maxlength="15"  placeholder="Цена руб." class="add" id="price" name="price" pattern="[0-9]{3,15}" title="Введите корректные данные">
+                    <input type="number" maxlength="15"  placeholder="Цена руб." class="add" id="price" name="price" pattern="[0-9]{3,15}" title="Введите корректные данные">
                 </div>
                 <div class="select_wrapper">
                     <label class="label_add" for="year"><span>* </span><strong>Год выпуска: </strong></label>
-                    <input type="text" maxlength="15"  placeholder="Год выпуска" class="add" id="year" name="year" pattern="[0-9]{4}" title="Введите корректные данные">
+                    <input type="number" maxlength="15"  placeholder="Год выпуска" class="add" id="year" name="year" pattern="[0-9]{4}" title="Введите корректные данные">
                 </div>
 
                 <div class="select_wrapper">
                     <label class="label_add" for="photo"><span style="color: #888888">* </span><strong>Фото :</strong></label>
                     <input type="file" name="photo" multiple accept="image/*,image/jpeg" id="photo" class="photo">
                 </div>
-                <button  id="save" type="submit" class="save" value="Сохранить">Сохранить</button>
+                <button  id="save" type="submit" class="save" value="Сохранить">Сохранить !</button>
             </div>
         </form>
     </div>
 
 </div>
-
 <script src="include/js/jquery-3.3.1.min.js"></script>
 <script src="include/js/script.js"></script>
 <script src="include/js/add.js"></script>

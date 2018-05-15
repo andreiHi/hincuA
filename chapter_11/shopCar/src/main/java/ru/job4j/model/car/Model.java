@@ -58,9 +58,7 @@ public class Model extends Persistent {
 
     @Override
     public String toString() {
-        return getId()
-                + " : "
-                + name;
+        return String.format("Model={id = %d, name = %s}", getId(), name);
     }
 
     @Override

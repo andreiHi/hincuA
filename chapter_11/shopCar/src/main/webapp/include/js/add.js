@@ -24,18 +24,6 @@ $('#form_add').submit(function () {
         }
     });
     if (valid) {
-        // ajaxS("create", document.forms.form_add, function (json) {
-        //     console.log(json);
-        //     if (json !=='login') {
-        //         $('#form_add').fadeOut(300,function () {
-        //             $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.");
-        //             $('#advert-list').empty();
-        //         });
-        //     } else {
-        //         $("#message").addClass("message_error").fadeIn(400).html("Re login again, please.");
-        //         $('#form').load('include/html/login.html');
-        //     }
-        // });
         $.ajax({
             url: "/create",
             type: "POST",
@@ -44,7 +32,6 @@ $('#form_add').submit(function () {
             cache:false,
             enctype: 'multipart/form-data',
             data: new FormData(document.forms.form_add),
-          //  dataType: 'application/json',
             success: function(json){
                 if (json !=='login') {
                     $('#form_add').fadeOut(300,function () {

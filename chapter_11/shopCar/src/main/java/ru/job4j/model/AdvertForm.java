@@ -5,10 +5,8 @@ import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Image;
 import ru.job4j.model.car.Model;
-import ru.job4j.model.car.parts.Engine;
-import ru.job4j.model.car.parts.EngineType;
+import ru.job4j.model.car.parts.*;
 import ru.job4j.model.usersmodels.User;
-import ru.job4j.service.AdvertService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,26 +22,18 @@ public class AdvertForm {
 
     private String brand;
     private String model;
-    private String mileage;
-    private String price;
-    private String year;
-    private String carcass;
-    private String transmission;
-    private String gearBox;
-    private String engineType;
+    private int mileage;
+    private int price;
+    private int year;
+    private Carcass carcass;
+    private Transmission transmission;
+    private Gearbox gearBox;
+    private EngineType engineType;
     private String volume;
-    private String power;
+    private int power;
     private String description;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     private MultipartFile[] photo;
+
 
     public String getBrand() {
         return brand;
@@ -51,18 +41,26 @@ public class AdvertForm {
     public String createNewAdvert(User user) {
         String create = "login";
         if (user != null) {
-            Brand brand = new Brand(Long.parseLong(this.brand));
-            Model model = new Model(Long.parseLong(this.model));
-            Engine engine = new Engine(Integer.valueOf(this.volume), Integer.valueOf(this.power), EngineType.valueOf(this.engineType));
+            Engine engine = completeEngine();
             List<Image> images = new ArrayList<>();
-            Advert advert = new Advert(this.description, user, Integer.valueOf(this.price));
-            Car car = new Car(engine, brand, model, advert, images);
+            Advert advert = new Advert(this.description, user, this.price);
+            Car car = new Car(advert, images, this.mileage, this.carcass, this.gearBox, this.transmission, this.year);
+            car.setEngine(engine);
+            car.setBrand(new Brand(Long.valueOf(this.brand)));
+            car.setModel(new Model(Long.valueOf(this.model)));
             advert.setCar(car);
-            new AdvertService().save(advert);
+            System.out.println(advert);
+        //    new AdvertService().save(advert);
             create = "ok";
         }
         return create;
     }
+    private Engine completeEngine() {
+        int v = this.engineType.name().equals("Electro") ? 0 : Integer.parseInt(this.volume);
+        return new Engine(v, this.power, this.engineType);
+    }
+
+
     @Override
     public String toString() {
         return "AdvertForm{"
@@ -116,60 +114,60 @@ public class AdvertForm {
         this.model = model;
     }
 
-    public String getMileage() {
+    public int getMileage() {
         return mileage;
     }
 
-    public void setMileage(String mileage) {
+    public void setMileage(int mileage) {
         this.mileage = mileage;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
-    public String getCarcass() {
+    public Carcass getCarcass() {
         return carcass;
     }
 
     public void setCarcass(String carcass) {
-        this.carcass = carcass;
+        this.carcass = Carcass.valueOf(carcass);
     }
 
-    public String getTransmission() {
+    public Transmission getTransmission() {
         return transmission;
     }
 
     public void setTransmission(String transmission) {
-        this.transmission = transmission;
+        this.transmission = Transmission.valueOf(transmission);
     }
 
-    public String getGearBox() {
+    public Gearbox getGearBox() {
         return gearBox;
     }
 
     public void setGearBox(String gearBox) {
-        this.gearBox = gearBox;
+        this.gearBox = Gearbox.valueOf(gearBox);
     }
 
-    public String getEngineType() {
+    public EngineType getEngineType() {
         return engineType;
     }
 
     public void setEngineType(String engineType) {
-        this.engineType = engineType;
+        this.engineType = EngineType.valueOf(engineType);
     }
 
     public String getVolume() {
@@ -180,11 +178,11 @@ public class AdvertForm {
         this.volume = volume;
     }
 
-    public String getPower() {
+    public int getPower() {
         return power;
     }
 
-    public void setPower(String power) {
+    public void setPower(int power) {
         this.power = power;
     }
 
@@ -195,7 +193,12 @@ public class AdvertForm {
     public void setPhoto(MultipartFile[] photo) {
         this.photo = photo;
     }
+    public String getDescription() {
+        return description;
+    }
 
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

@@ -59,9 +59,7 @@ public class Brand extends Persistent {
 
     @Override
     public String toString() {
-        return getId()
-                + " : "
-                + name;
+        return String.format("Brand={id = %d, name = %s}", getId(), name);
     }
 
     @Override

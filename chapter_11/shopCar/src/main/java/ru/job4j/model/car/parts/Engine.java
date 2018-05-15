@@ -30,9 +30,16 @@ public class Engine extends Persistent {
     public Engine(Long id) {
         super(id);
     }
+
     public Engine(int volume, int power, EngineType fuelType) {
         super();
         this.volume = volume;
+        this.fuelType = fuelType;
+        this.power = power;
+    }
+
+    public Engine(int power, EngineType fuelType) {
+        super();
         this.fuelType = fuelType;
         this.power = power;
     }

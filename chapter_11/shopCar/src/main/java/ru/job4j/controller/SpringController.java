@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
 import ru.job4j.model.AdvertForm;
-import ru.job4j.model.car.Car;
 import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;

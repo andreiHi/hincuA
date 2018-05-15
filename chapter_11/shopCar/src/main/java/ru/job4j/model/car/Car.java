@@ -43,12 +43,18 @@ public class Car extends Persistent {
         this.model = model;
         this.advert = advert;
     }
-        public Car(Engine engine, Brand brand, Model model, Advert advert, List<Image> images) {
-        this.engine = engine;
-        this.brand = brand;
-        this.model = model;
+        public Car(Advert advert, List<Image> images, int mileage,
+                   Carcass carcass, Gearbox gearbox, Transmission tr, Integer year) {
         this.advert = advert;
         this.images = images;
+        this.mileage = mileage;
+        this.carcass = carcass;
+        this.gearBox = gearbox;
+        this.transmission = tr;
+        this.year = year;
+    }
+    public Car(Engine engine, Brand brand, Model model, Advert advert, List<Image> images) {
+
     }
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_engine")
