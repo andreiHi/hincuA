@@ -77,6 +77,7 @@ public class SpringController {
     @PostMapping(value = "/create")
     public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpSession session) {
         User user = (User) session.getAttribute("user");
+
         String create = advertForm.createNewAdvert(user);
         return ResponseEntity.ok(create);
     }
