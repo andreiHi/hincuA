@@ -25,8 +25,8 @@ public class Process {
      //   put("logInOut",  new UserInOrOut());
       //  put("getItems",  new ItemsIndexForm());
       //  put("getModels", new GetModels());
-        put("unknown",   new Unknown());
-        put("create",    new CreateAdvert());
+       // put("unknown",   new Unknown());
+       // put("create",    new CreateAdvert());
         put("allAds",    new GetAdverts());
         put("setSold",   new CarSold());
     }

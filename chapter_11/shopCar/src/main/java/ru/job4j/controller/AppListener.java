@@ -1,7 +1,7 @@
 package ru.job4j.controller;
 
 import ru.job4j.dao.HibernateService;
-import ru.job4j.dao.StartingData;
+import ru.job4j.configuration.StartingData;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

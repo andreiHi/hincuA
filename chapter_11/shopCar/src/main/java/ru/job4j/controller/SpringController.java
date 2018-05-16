@@ -18,6 +18,7 @@ import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
@@ -75,10 +76,10 @@ public class SpringController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpSession session) {
+    public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpSession session, HttpServletRequest req) {
         User user = (User) session.getAttribute("user");
-
-        String create = advertForm.createNewAdvert(user);
+        String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
+        String create = advertForm.createNewAdvert(user, savePath);
         return ResponseEntity.ok(create);
     }
 }

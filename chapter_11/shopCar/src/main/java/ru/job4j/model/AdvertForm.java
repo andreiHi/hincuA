@@ -7,8 +7,8 @@ import ru.job4j.model.car.Image;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.car.parts.*;
 import ru.job4j.model.usersmodels.User;
+import ru.job4j.service.ImageService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,14 +24,15 @@ public class AdvertForm {
     private Advert advert = new Advert();
     private MultipartFile[] photo;
 
-    public String createNewAdvert(User user) {
+    public String createNewAdvert(User user, String savePath) {
         String create = "login";
         if (user != null) {
-            List<Image> images = new ArrayList<>();
             car.setEngine(engine);
             advert.setCar(car);
             car.setAdvert(advert);
             System.out.println(advert);
+            ImageService service = new ImageService();
+            List<Image> images = service.saveImages(photo, savePath);
             create = "ok";
         }
         return create;

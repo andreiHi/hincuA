@@ -1,4 +1,4 @@
-package ru.job4j.dao;
+package ru.job4j.configuration;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -6,6 +6,7 @@ import org.hibernate.HibernateError;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import ru.job4j.dao.HibernateService;
 import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
 

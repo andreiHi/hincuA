@@ -96,7 +96,8 @@ public class CreateAdvert implements Action {
             for (FileItem fileItem : fileItems) {
                 if (!fileItem.isFormField()) {
                     if (fileItem.get().length != 0) {
-                        Image image = service.prepareImage(fileItem, savePath);
+                        Image image = new Image();
+                      //  image = service.prepareImage(fileItem, savePath); method was update for spring mvc
                         image.setCar(car);
                         images.add(image);
                     }
