@@ -25,25 +25,27 @@ public class ImageService {
     public List<Image> saveImages(MultipartFile[] files, String fullSavePath, Car car) {
         List<Image> images = new ArrayList<>();
         for (MultipartFile photo : files) {
-            File largeFile;
-            String largeName;
-            do {
-                largeName = fullSavePath + '/' + "img" + (random.nextInt(Integer.MAX_VALUE) + 1) + ".jpg";
-                largeFile = new File(largeName);
-            } while (largeFile.exists());
-            String smallName = largeName.replace(".jpg", "-sml.jpg");
-            try {
-                largeFile.createNewFile();
-                photo.transferTo(largeFile);
-                Thumbnails.of(largeFile)
-                        .size(200, 200)
-                        .toFile(Paths.get(largeFile.getAbsolutePath().replace(".jpg", "-sml.jpg")).toFile());
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
+            if (!photo.isEmpty()) {
+                File largeFile;
+                String largeName;
+                do {
+                    largeName = fullSavePath + '/' + "img" + (random.nextInt(Integer.MAX_VALUE) + 1) + ".jpg";
+                    largeFile = new File(largeName);
+                } while (largeFile.exists());
+                String smallName = largeName.replace(".jpg", "-sml.jpg");
+                try {
+                    largeFile.createNewFile();
+                    photo.transferTo(largeFile);
+                    Thumbnails.of(largeFile)
+                            .size(200, 200)
+                            .toFile(Paths.get(largeFile.getAbsolutePath().replace(".jpg", "-sml.jpg")).toFile());
+                } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                }
+                Image image = new Image(photo.getName(), largeFile.getName(), new File(smallName).getName());
+                image.setCar(car);
+                images.add(image);
             }
-           Image image = new Image(photo.getName(), largeFile.getName(), new File(smallName).getName());
-           image.setCar(car);
-           images.add(image);
         }
         return images;
     }

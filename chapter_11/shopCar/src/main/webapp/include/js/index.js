@@ -76,11 +76,9 @@ $(document).on('click', '.onClick', function () {
         "</div></div>")
 });
 $(document).on('change', ':checkbox', function () {
-    var checkToday = $('#today').prop('checked');
-    var checkWithPhoto = $('#withPhoto').prop('checked');
     var check = {};
-    check.today = checkToday;
-    check.image = checkWithPhoto;
+    check.today = $('#today').prop('checked');
+    check.image =  $('#withPhoto').prop('checked');
     var select = document.getElementsByTagName('select');
     for (var i = 0; i < select.length; i++) {
         if(select[i].options[select[i].selectedIndex].value !== '0') {
@@ -96,11 +94,9 @@ $(document).on('change', ':checkbox', function () {
     getAdverts(check);
 });
 $('#search_block').submit(function () {
-    var checkToday = $('#today').prop('checked');
-    var checkWithPhoto = $('#withPhoto').prop('checked');
     var check = {};
-    check.today = checkToday;
-    check.image = checkWithPhoto;
+    check.today = $('#today').prop('checked');
+    check.image = $('#withPhoto').prop('checked');
     var selected = false;
     var select = document.getElementsByTagName('select');
     for (var i = 0; i < select.length; i++) {
@@ -116,7 +112,6 @@ $('#search_block').submit(function () {
             selected = true;
         }
     });
-
     if (selected === false) {
         check.select = "all";
     }

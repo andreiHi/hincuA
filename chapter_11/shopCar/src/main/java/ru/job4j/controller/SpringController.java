@@ -4,13 +4,11 @@ import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.actions.AdvertSelector;
 import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
@@ -19,9 +17,13 @@ import ru.job4j.model.AdvertForm;
 import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;
+import ru.job4j.service.ImageService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -86,5 +88,21 @@ public class SpringController {
         String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
         String create = advertForm.createNewAdvert(user, savePath);
         return ResponseEntity.ok(create);
+    }
+    @GetMapping(value = "/img", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<InputStreamResource> deliveryImage(@RequestParam(value = "name") String name, HttpServletRequest req) throws FileNotFoundException {
+        String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
+        File file = new ImageService().foundImage(name, savePath);
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        String contentType = req.getServletContext().getMimeType(file.getName());
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(new InputStreamResource(new FileInputStream(file)));
     }
 }

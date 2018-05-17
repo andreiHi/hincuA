@@ -3,14 +3,11 @@ package ru.job4j.model;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Car;
-import ru.job4j.model.car.Image;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.car.parts.*;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.AdvertService;
 import ru.job4j.service.ImageService;
-
-import java.util.List;
 
 /**
  * .
@@ -49,7 +46,6 @@ public class AdvertForm {
         car.setBrand(new Brand(brand));
     }
 
-
     public void setModel(Long model) {
         car.setModel(new Model(model));
     }
@@ -66,21 +62,17 @@ public class AdvertForm {
         this.car.setYear(year);
     }
 
-
     public void setCarcass(String carcass) {
         this.car.setCarcass(Carcass.valueOf(carcass));
     }
-
 
     public void setTransmission(String transmission) {
         this.car.setTransmission(Transmission.valueOf(transmission));
     }
 
-
     public void setGearBox(String gearBox) {
         this.car.setGearBox(Gearbox.valueOf(gearBox));
     }
-
 
     public void setEngineType(String engineType) {
         this.engine.setFuelType(EngineType.valueOf(engineType));
@@ -89,7 +81,6 @@ public class AdvertForm {
     public void setVolume(int volume) {
         this.engine.setVolume(volume);
     }
-
 
     public void setPower(int power) {
         this.engine.setPower(power);

@@ -2,12 +2,10 @@ package ru.job4j.actions;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import ru.job4j.model.Advert;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.AdvertService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -25,8 +23,6 @@ public class AdvertSelector {
     private static final Map<String, BiConsumer<StringBuilder, String>> FILTERS = new HashMap<String, BiConsumer<StringBuilder, String>>() { {
         put("brand",        (builder, param) -> builder.append(" and a.car.brand.id =").append(param));
         put("model",        (builder, param) -> builder.append(" and a.car.model.id =").append(param));
-        put("volume",       (builder, param) -> builder.append(getCondition("volume" + param)));
-        put("mileage",      (builder, param) -> builder.append(getCondition("mileage" + param)));
         put("engineType",   (builder, param) -> builder.append(" and a.car.engine.fuelType='").append(param).append("'"));
         put("carcass",      (builder, param) -> builder.append(" and a.car.carcass='").append(param).append("'"));
         put("transmission", (builder, param) -> builder.append(" and a.car.transmission='").append(param).append("'"));
@@ -38,10 +34,10 @@ public class AdvertSelector {
         List<Advert> adverts = new ArrayList<>();
         AdvertService service = new AdvertService();
         if ("byUser".equals(map.get("select"))) {
-
             adverts = service.getAdvertsByUser(user);
         } else {
             String query = getQueryFilter(map);
+            LOG.info(query);
             adverts = query.contains("join") ? service.getByQueryWithJoin(query) : service.getByQuery(query);
         }
         return adverts;
@@ -59,16 +55,13 @@ public class AdvertSelector {
                     .addFilterByField("price_from",   "price_to",   " a.price ")
                     .addFilterByField("year_from",    "year_to",    " a.car.year ")
                     .addFilterByField("mileage_from", "mileage_to", "a.car.mileage")
-                    .addFilterByField("volume_from",  "volume_to" , "a.car.engine.volume")
+                    .addFilterByField("volume_from",  "volume_to",  "a.car.engine.volume")
                     .addFilters();
         }
         builder.append(" order by a.data DESC");
         return builder.toString();
     }
 
-    private static String getCondition(String m) {
-        return VALUES.get(m);
-    }
 
     class Filter {
         private StringBuilder builder;
