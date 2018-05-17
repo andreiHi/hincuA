@@ -4,6 +4,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
+import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Image;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class ImageService {
     private static final Logger LOG = LogManager.getLogger(ImageService.class);
     private Random random = new Random();
 
-    public List<Image> saveImages(MultipartFile[] files, String fullSavePath) {
+    public List<Image> saveImages(MultipartFile[] files, String fullSavePath, Car car) {
         List<Image> images = new ArrayList<>();
         for (MultipartFile photo : files) {
             File largeFile;
@@ -40,7 +41,9 @@ public class ImageService {
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
             }
-            images.add(new Image(photo.getName(), largeFile.getName(), new File(smallName).getName()));
+           Image image = new Image(photo.getName(), largeFile.getName(), new File(smallName).getName());
+           image.setCar(car);
+           images.add(image);
         }
         return images;
     }

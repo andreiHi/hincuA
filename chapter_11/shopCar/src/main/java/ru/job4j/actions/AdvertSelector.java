@@ -21,17 +21,7 @@ public class AdvertSelector {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/YYYY");
     private static final Date TODAY = new Date();
     private static final Logger LOG = LogManager.getLogger(AdvertSelector.class);
-    private static final Map<String, String> VALUES = new HashMap<String, String>() { {
-        put("volume1",  " and a.car.engine.volume < 1000 ");
-        put("volume2",  " and a.car.engine.volume between 1000 and 2000 ");
-        put("volume3",  " and a.car.engine.volume between 2000 and 3000 ");
-        put("volume4",  " and a.car.engine.volume > 3000 ");
-        put("mileage1", " and a.car.mileage <100000");
-        put("mileage2", " and a.car.mileage between 100000 and 200000 ");
-        put("mileage3", " and a.car.mileage between 200000 and 300000 ");
-        put("mileage4", " and a.car.mileage between 300000 and 400000 ");
-        put("mileage5", " and a.car.mileage > 500000 ");
-    } };
+
     private static final Map<String, BiConsumer<StringBuilder, String>> FILTERS = new HashMap<String, BiConsumer<StringBuilder, String>>() { {
         put("brand",        (builder, param) -> builder.append(" and a.car.brand.id =").append(param));
         put("model",        (builder, param) -> builder.append(" and a.car.model.id =").append(param));
@@ -44,30 +34,32 @@ public class AdvertSelector {
     } };
 
 
-    public List<Advert> getAdverts(HttpServletRequest req, JSONObject json) {
-        List<Advert> adverts;
+    public List<Advert> getAdverts(User user, Map map) {
+        List<Advert> adverts = new ArrayList<>();
         AdvertService service = new AdvertService();
-        if ("byUser".equals(json.get("select"))) {
-            User user = (User) req.getSession().getAttribute("user");
+        if ("byUser".equals(map.get("select"))) {
+
             adverts = service.getAdvertsByUser(user);
         } else {
-            String query = getQueryFilter(json);
+            String query = getQueryFilter(map);
             adverts = query.contains("join") ? service.getByQueryWithJoin(query) : service.getByQuery(query);
         }
         return adverts;
     }
 
-    private String getQueryFilter(JSONObject json) {
+    private String getQueryFilter(Map map) {
         StringBuilder builder = new StringBuilder("from Advert as a");
-        if ((boolean) json.remove("image")) {
+        if ((boolean) map.remove("image")) {
             builder.append(" join fetch Image as i on i.car.id = a.car.id");
         }
-        builder.append(" where a.data ").append((boolean) json.remove("today") ? " >= '" : " <> '")
+        builder.append(" where a.data ").append((boolean) map.remove("today") ? " >= '" : " <> '")
                 .append(FORMAT.format(TODAY)).append("'");
-        if (!"all".equals(json.get("select"))) {
-            new Filter(builder, json)
-                    .addFilterByField("price_from", "price_to", " a.price ")
-                    .addFilterByField("year_from", "year_to", " a.car.year ")
+        if (!"all".equals(map.get("select"))) {
+            new Filter(builder, map)
+                    .addFilterByField("price_from",   "price_to",   " a.price ")
+                    .addFilterByField("year_from",    "year_to",    " a.car.year ")
+                    .addFilterByField("mileage_from", "mileage_to", "a.car.mileage")
+                    .addFilterByField("volume_from",  "volume_to" , "a.car.engine.volume")
                     .addFilters();
         }
         builder.append(" order by a.data DESC");
@@ -80,16 +72,16 @@ public class AdvertSelector {
 
     class Filter {
         private StringBuilder builder;
-        private JSONObject json;
+        private Map map;
 
-        Filter(StringBuilder builder, JSONObject json) {
+        Filter(StringBuilder builder, Map map) {
             this.builder = builder;
-            this.json = json;
+            this.map = map;
         }
 
        Filter addFilterByField(String from, String to, String field) {
-           String jTo = (String) json.remove(to);
-           String jFrom = (String) json.remove(from);
+           String jTo = (String) map.remove(to);
+           String jFrom = (String) map.remove(from);
            if (jTo != null && jFrom != null) {
                if (Integer.valueOf(jFrom) < Integer.valueOf(jTo)) {
                    builder.append(" and ").append(field).append(" between ").append(jFrom).append(" and ").append(jTo);
@@ -103,9 +95,9 @@ public class AdvertSelector {
        }
 
        void addFilters() {
-           for (Object key : json.keySet()) {
+           for (Object key : map.keySet()) {
                String k = (String) key;
-               String v = (String) json.get(k);
+               String v = (String) map.get(k);
                if (FILTERS.get(k) != null) {
                    FILTERS.get(k).accept(builder, v);
                }

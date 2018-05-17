@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#header').load('include/html/header.html');
-    getComponents();
+   // getComponents();
 });
 
 $(document).on('click', '#intro', function () {

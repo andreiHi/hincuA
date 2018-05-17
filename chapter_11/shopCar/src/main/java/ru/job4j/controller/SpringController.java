@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.job4j.actions.AdvertSelector;
 import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
+import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
 import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
@@ -21,6 +23,7 @@ import ru.job4j.model.usersmodels.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,13 +35,15 @@ import java.util.Map;
 public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
     private static final Gson GSON = new Gson();
-    @PostMapping(value = "/data", produces = "application/json")
+
+    @PostMapping(value = "/adverts", produces = "application/json")
     public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
-        String action = (String) request.get("action");
-//    String data = (String) request.get("data");
-//      System.out.println(action + "  "  );
-//        System.out.println(request);
-        return ResponseEntity.ok("");
+        User user = (User) session.getAttribute("user");
+        List<Advert> adverts = new AdvertSelector().getAdverts(user, request);
+        JSONObject jsonObject = new JSONObject();
+        adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
+        System.out.println(jsonObject.toJSONString());
+        return ResponseEntity.ok(jsonObject.toJSONString());
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,8 +81,8 @@ public class SpringController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpSession session, HttpServletRequest req) {
-        User user = (User) session.getAttribute("user");
+    public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpServletRequest req) {
+        User user = (User) req.getSession().getAttribute("user");
         String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
         String create = advertForm.createNewAdvert(user, savePath);
         return ResponseEntity.ok(create);

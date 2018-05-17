@@ -37,26 +37,18 @@
             <select class="block-select" name="engineType" id="engineType">
                 <option value="0">-Тип топлива-</option>
             </select>
-            <select class="block-select" name="volume" id="volume">
-                <option value="0">- Объем двигателя, л.-</option>
-                <option value="1">- от ... до - 1.0 л. -</option>
-                <option value="2">- от 1.0 л. до - 2.0 л. -</option>
-                <option value="3">- от 2.0 л. до - 3.0 л. -</option>
-                <option value="4">- от 3.0 л. до - ... -</option>
-            </select>
-            <select class="block-select" name="mileage" id="mileage">
-                <option value="0">-Пробег, тыс км.-</option>
-                <option value="1">- от ... до - 100 тыс. км -</option>
-                <option value="2">- от 100 тыс.км до - 200тыс.км -</option>
-                <option value="3">- от 200 тыс.км до - 300тыс.км -</option>
-                <option value="4">- от 300 тыс.км до - 400тыс.км -</option>
-                <option value="5">- от 400 тыс.км до - ... -</option>
-            </select>
-            <input type="text" maxlength="4" pattern="[0-9]{4}" name="year_from" id="year_from" placeholder="Год от" class="sort">
-            <input type="text" maxlength="4" pattern="[0-9]{4}" id="year_to" name="year_to" placeholder="Год до" class="sort">
 
-            <input type="text" maxlength="8" id="price_from" pattern="[0-9]{0,8}"  name="price_from" placeholder="Цена от" class="sort">
-            <input type="text" maxlength="8" id="price_to" pattern="[0-9]{0,8}"  name="price_to" placeholder="Цена до" class="sort">
+            <input type="number" maxlength="4" pattern="[0-9]{4}" name="volume_from" id="volume_from" placeholder="Обьём от" class="sort">
+            <input type="number" maxlength="4" pattern="[0-9]{4}" id="volume_to" name="volume_to" placeholder="Обьём до" class="sort">
+
+            <input type="number" maxlength="4" pattern="[0-9]{4}" name="mileage_from" id="mileage_from" placeholder="Пробег от" class="sort">
+            <input type="number" maxlength="4" pattern="[0-9]{4}" id="mileage_to" name="mileage_to" placeholder="Пробег до" class="sort">
+
+            <input type="number" maxlength="4" pattern="[0-9]{4}" name="year_from" id="year_from" placeholder="Год от" class="sort">
+            <input type="number" maxlength="4" pattern="[0-9]{4}" id="year_to" name="year_to" placeholder="Год до" class="sort">
+
+            <input type="number" maxlength="8" id="price_from" pattern="[0-9]{0,8}"  name="price_from" placeholder="Цена от" class="sort">
+            <input type="number" maxlength="8" id="price_to" pattern="[0-9]{0,8}"  name="price_to" placeholder="Цена до" class="sort">
             <button  id="search"  class="submit" type="submit">Search</button>
         </form>
     </div>

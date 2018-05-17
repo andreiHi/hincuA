@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    getComponents();
     getAdverts();
     $("#search_block").trigger('reset');//id_form - ID вашей формы
 });
@@ -12,7 +13,7 @@ function getAdverts(data) {
     } else {
         conditions = data;
     }
-    ajax('allAds', conditions, function (respons) {
+    ajaxS('adverts', conditions, function (respons) {
         var ul = document.createElement("ul");
         ul.setAttribute('id', 'block-ad-list');
         $.each(respons, function (k, v) {

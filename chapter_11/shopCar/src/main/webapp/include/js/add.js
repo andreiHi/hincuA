@@ -1,3 +1,6 @@
+$(document).ready(function () {
+    getComponents();
+});
 //проверка на заполненность всех данных объявления кроме описания.
 $('#form_add').submit(function () {
     var valid = true;

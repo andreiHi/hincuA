@@ -19,9 +19,9 @@ public class GetAdverts implements Action {
     @Override
     public String action(HttpServletRequest req, JSONObject json) {
         AdvertSelector advertSelector = new AdvertSelector();
-        List<Advert> adverts = advertSelector.getAdverts(req, json);
+      //  List<Advert> adverts = advertSelector.getAdverts(req, json);
         JSONObject jsonObject = new JSONObject();
-        adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
+      //  adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
         return jsonObject.toJSONString();
     }
 }
