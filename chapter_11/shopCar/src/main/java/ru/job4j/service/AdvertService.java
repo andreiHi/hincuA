@@ -40,10 +40,10 @@ public class AdvertService {
         return adverts;
     }
 
-    public boolean changeState(String id, String state) {
+    public boolean changeState(long id, String state) {
         boolean change = false;
         advertDao.openCurrentSessionWithTransaction();
-        Advert advert = advertDao.getEntityById(Long.valueOf(id));
+        Advert advert = advertDao.getEntityById(id);
         if (!state.equals(advert.getState().name())) {
             advert.setState(State.valueOf(state));
             change = true;

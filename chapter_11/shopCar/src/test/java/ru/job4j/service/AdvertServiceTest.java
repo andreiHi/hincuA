@@ -28,14 +28,14 @@ public class AdvertServiceTest {
     public void whenWasStateChange() throws Exception {
         Advert advert = new Advert();
         long id = service.save(advert);
-        boolean state = service.changeState(String.valueOf(id), "SOLD");
+        boolean state = service.changeState(id, "SOLD");
         assertTrue(state);
     }
     @Test
     public void whenWasStateChange2() throws Exception {
         Advert advert = new Advert();
         long id = service.save(advert);
-        boolean state = service.changeState(String.valueOf(id), "NEW");
+        boolean state = service.changeState(id, "NEW");
         assertFalse(state);
     }
 

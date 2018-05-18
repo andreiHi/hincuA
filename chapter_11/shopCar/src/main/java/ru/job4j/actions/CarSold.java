@@ -13,14 +13,25 @@ import javax.servlet.http.HttpServletRequest;
  * @version $Id$.
  * @since 0.1.
  */
-public class CarSold implements Action {
+public class CarSold {
     private static final Logger LOG = LogManager.getLogger(CarSold.class);
+    private long id;
+    private String state;
 
-    @Override
-    public String action(HttpServletRequest req, JSONObject json) {
-        String id = (String) json.get("id");
-        String state = (String) json.get("state");
+    public boolean changeState() {
         boolean result = new AdvertService().changeState(id, state);
-        return new Gson().toJson(result);
+        return result;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public CarSold() {
+
     }
 }

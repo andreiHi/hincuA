@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.actions.AdvertSelector;
+import ru.job4j.actions.CarSold;
 import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
 import ru.job4j.model.Advert;
@@ -38,17 +39,16 @@ public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
     private static final Gson GSON = new Gson();
 
-    @PostMapping(value = "/adverts", produces = "application/json")
+    @PostMapping(value = "/adverts", produces = "application/json; charset=UTF-8")
     public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
         List<Advert> adverts = new AdvertSelector().getAdverts(user, request);
         JSONObject jsonObject = new JSONObject();
         adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
-        System.out.println(jsonObject.toJSONString());
         return ResponseEntity.ok(jsonObject.toJSONString());
     }
 
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> login(@RequestBody LoginForm loginForm, HttpSession session) {
         boolean check = loginForm.checkLoginForm();
         if (check) {
@@ -57,18 +57,18 @@ public class SpringController {
         return ResponseEntity.ok(check);
     }
 
-    @PostMapping(value = "/logOut", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/logOut", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> logOut(HttpSession session) {
         session.removeAttribute("user");
         return  ResponseEntity.ok(true);
     }
 
-    @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public@ResponseBody ResponseEntity<String> registration(@RequestBody RegistrationForm form) {
         return ResponseEntity.ok(GSON.toJson(form.createIfValid()));
     }
 
-    @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getItems(HttpSession session) {
         User user = (User) session.getAttribute("user");
         JSONObject jsonObject = new ItemsIndexForm().setupItems();
@@ -77,7 +77,7 @@ public class SpringController {
         return ResponseEntity.ok(jsonObject.toJSONString());
     }
 
-    @PostMapping(value = "/getModels", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getModels", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getModels(@RequestBody GetModels models) {
         return ResponseEntity.ok(models.modelsById());
     }
@@ -104,5 +104,10 @@ public class SpringController {
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(new InputStreamResource(new FileInputStream(file)));
+    }
+    @PostMapping(value = "/setSold", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Boolean> soldCar(@RequestBody CarSold carSold) {
+        boolean result = carSold.changeState();
+        return ResponseEntity.ok(result);
     }
 }

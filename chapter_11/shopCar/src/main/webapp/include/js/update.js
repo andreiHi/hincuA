@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    $('#header').load('include/html/header.html');
+  //  $('#header').load('include/html/header.html');
     getAdvertsByUser()
 });
 function getAdvertsByUser() {
     var conditions = {};
     conditions.select = 'byUser';
-    ajax('allAds', conditions, function (respons) {
+    ajaxS('adverts', conditions, function (respons) {
         var ul = document.createElement("ul");
         ul.setAttribute('id', 'block-ad-list');
         $.each(respons, function (k,v) {
@@ -68,7 +68,7 @@ $(document).on('click','#setSold', function () {
     var car = {};
     car.id = $(this).attr('Car_id');
     car.state = 'SOLD';
-    ajax('setSold', car, function (data) {
+    ajaxS('setSold', car, function (data) {
         if(data === true) {
             $('#advert-list').empty();
             getAdvertsByUser();
@@ -80,7 +80,7 @@ $(document).on('click','#setNew', function () {
     var car = {};
     car.id = $(this).attr('Car_id');
     car.state = 'NEW';
-    ajax('setSold', car, function (data) {
+    ajaxS('setSold', car, function (data) {
         if(data === true) {
             $('#advert-list').empty();
             getAdvertsByUser();

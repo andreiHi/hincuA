@@ -2,7 +2,7 @@ package ru.job4j.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import ru.job4j.actions.Process;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,10 +31,10 @@ public class Controller extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
 
-        Process process = new Process();
-        process.findAction(req);
+      //  Process process = new Process();
+    //    process.findAction(req);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-        pw.append(process.getResponse(req));
+     //   pw.append(process.getResponse(req));
         pw.flush();
     }
 
