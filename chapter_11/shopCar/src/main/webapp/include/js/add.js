@@ -17,7 +17,6 @@ $('#form_add').submit(function () {
     }
     var form = $(this);
     form.find('input').each(function () {
-
         if ($(this).val()==='' && $(this).css('display') !== 'none' && $(this).attr('name') !== 'photo') {
             valid = false;
             $(this).css('background-color', 'red');
@@ -40,7 +39,6 @@ $('#form_add').submit(function () {
                     $('#form_add').fadeOut(300,function () {
                         $('#message').addClass('message_good').fadeIn(400).html("Объявление успешно добавлено.");
                         $('#advert-list').empty();
-                        getAdvertsByUser();
                     });
                 } else {
                     $("#message").addClass("message_error").fadeIn(400).html("Re login again, please.");
@@ -55,4 +53,14 @@ $('#form_add').submit(function () {
     }
     return false;
 });
-
+$('#engineType').change(function () {
+    var id = $(this).val();
+    if (id ==='Electro') {
+        document.getElementById('volume').value = 0;
+        $('#volumeDiv').hide();
+        $('#volume').hide();
+    } else {
+        $('#volume').show();
+        $('#volumeDiv').show();
+    }
+});

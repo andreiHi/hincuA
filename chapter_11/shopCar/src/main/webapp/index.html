@@ -37,10 +37,10 @@
             <select class="block-select" name="engineType" id="engineType">
                 <option value="0">-Тип топлива-</option>
             </select>
-
-            <input type="number" maxlength="4" pattern="[0-9]{4}" name="volume_from" id="volume_from" placeholder="Обьём от" class="sort">
-            <input type="number" maxlength="4" pattern="[0-9]{4}" id="volume_to" name="volume_to" placeholder="Обьём до" class="sort">
-
+            <div id="volumeDiv">
+                <input type="number" maxlength="4" pattern="[0-9]{4}" name="volume_from" id="volume_from" placeholder="Обьём от" class="sort">
+                <input type="number" maxlength="4" pattern="[0-9]{4}" id="volume_to" name="volume_to" placeholder="Обьём до" class="sort">
+            </div>
             <input type="number" maxlength="4" pattern="[0-9]{4}" name="mileage_from" id="mileage_from" placeholder="Пробег от" class="sort">
             <input type="number" maxlength="4" pattern="[0-9]{4}" id="mileage_to" name="mileage_to" placeholder="Пробег до" class="sort">
 

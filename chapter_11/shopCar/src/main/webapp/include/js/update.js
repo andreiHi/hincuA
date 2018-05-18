@@ -1,7 +1,8 @@
 $(document).ready(function () {
-  //  $('#header').load('include/html/header.html');
-    getAdvertsByUser()
+    checkLogin();
+    getAdvertsByUser();
 });
+
 function getAdvertsByUser() {
     var conditions = {};
     conditions.select = 'byUser';
@@ -9,7 +10,6 @@ function getAdvertsByUser() {
         var ul = document.createElement("ul");
         ul.setAttribute('id', 'block-ad-list');
         $.each(respons, function (k,v) {
-            console.log(v);
             let tr = v['car'].transmission.replace(/_/g, ' ');
             let li = ul.appendChild(document.createElement('li'));
             let div = li.appendChild(document.createElement('div'));
@@ -87,3 +87,9 @@ $(document).on('click','#setNew', function () {
         }
     })
 });
+
+function checkLogin() {
+    ajaxS('user/checkLogin',{}, function (data) {
+        setLogin(data);
+    })
+}

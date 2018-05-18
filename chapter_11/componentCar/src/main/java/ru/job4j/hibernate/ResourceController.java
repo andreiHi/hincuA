@@ -1,4 +1,4 @@
-package ru.job4j.controller;
+package ru.job4j.hibernate;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

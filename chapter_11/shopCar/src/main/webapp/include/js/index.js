@@ -107,7 +107,7 @@ $('#search_block').submit(function () {
     }
     var form = $(this);
     form.find('input').each(function () {
-        if ($(this).val()!=='') {
+        if ($(this).val()!=='' &&  $(this).css('display') !== 'none') {
             check[$(this).attr('name')] = $(this).val();
             selected = true;
         }
@@ -117,4 +117,14 @@ $('#search_block').submit(function () {
     }
     getAdverts(check);
     return false;
+});
+$('#engineType').change(function () {
+    var id = $(this).val();
+    if (id ==='Electro') {
+        $('#volumeDiv').hide();
+        document.getElementById('volume_from').value='';
+        document.getElementById("volume_to").value='';
+    } else {
+        $('#volumeDiv').show();
+    }
 });

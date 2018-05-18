@@ -1,6 +1,5 @@
 package ru.job4j.controller;
 
-import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -15,8 +14,6 @@ import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
 import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
-import ru.job4j.model.usersmodels.LoginForm;
-import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.ImageService;
 
@@ -37,36 +34,7 @@ import java.util.Map;
 @Controller
 public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
-    private static final Gson GSON = new Gson();
 
-    @PostMapping(value = "/adverts", produces = "application/json; charset=UTF-8")
-    public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
-        User user = (User) session.getAttribute("user");
-        List<Advert> adverts = new AdvertSelector().getAdverts(user, request);
-        JSONObject jsonObject = new JSONObject();
-        adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
-        return ResponseEntity.ok(jsonObject.toJSONString());
-    }
-
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> login(@RequestBody LoginForm loginForm, HttpSession session) {
-        boolean check = loginForm.checkLoginForm();
-        if (check) {
-            session.setAttribute("user", loginForm.getUser());
-        }
-        return ResponseEntity.ok(check);
-    }
-
-    @PostMapping(value = "/logOut", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> logOut(HttpSession session) {
-        session.removeAttribute("user");
-        return  ResponseEntity.ok(true);
-    }
-
-    @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public@ResponseBody ResponseEntity<String> registration(@RequestBody RegistrationForm form) {
-        return ResponseEntity.ok(GSON.toJson(form.createIfValid()));
-    }
 
     @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getItems(HttpSession session) {
@@ -89,6 +57,7 @@ public class SpringController {
         String create = advertForm.createNewAdvert(user, savePath);
         return ResponseEntity.ok(create);
     }
+
     @GetMapping(value = "/img", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<InputStreamResource> deliveryImage(@RequestParam(value = "name") String name, HttpServletRequest req) throws FileNotFoundException {
         String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
@@ -105,9 +74,20 @@ public class SpringController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(new InputStreamResource(new FileInputStream(file)));
     }
+
     @PostMapping(value = "/setSold", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> soldCar(@RequestBody CarSold carSold) {
         boolean result = carSold.changeState();
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping(value = "/adverts", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("user");
+        List<Advert> adverts = new AdvertSelector().getAdverts(user, request);
+        JSONObject jsonObject = new JSONObject();
+        adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
+        return ResponseEntity.ok(jsonObject.toJSONString());
+    }
+
 }

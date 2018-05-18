@@ -35,7 +35,7 @@ $(document).on('submit', '#sign', function () {
         newUser.password = psw;
         newUser.email = $('#email').val();
         newUser.phone = $('#phone').val();
-        ajaxS('registration', newUser, function (data) {
+        ajaxS('user/registration', newUser, function (data) {
             if (data ==='ok') {
                 $('#forma').empty();
                 $('#info').replaceWith('<p id="info" class="message_ok">The account was created successfully</p>');
@@ -46,18 +46,7 @@ $(document).on('submit', '#sign', function () {
         return false;
     }
 });
-function ajax(action, data, toDo) {
-    $.ajax({
-        method:'POST',
-        url: "/data",
-        contentType:"application/json",
-        data: JSON.stringify({
-            action: action,
-            data: data
-        }),
-        success: toDo
-    });
-}
+
 function ajaxS(url, data, todo) {
     $.ajax({
         method:'POST',
@@ -72,7 +61,7 @@ $(document).on('submit', '#login', function () {
     var login = {};
     login.login = $('#uname').val();
     login.password = $('#psw').val();
-    ajaxS("login", login, function (data) {
+    ajaxS("user/login", login, function (data) {
         if (data === true) {
             setLogin(login);
         } else {
@@ -93,6 +82,7 @@ function getComponents() {
         addItems('brand',          data['brands']);
     });
 }
+
 function addOptions(id, data) {
     $.each(data, function (key, value) {
         $('#' + id).append($('<option></option>')
@@ -122,7 +112,7 @@ function setLogin(data) {
 }
 //выход из сессии
 $(document).on('click', '#user_log_out', function () {
-        ajaxS('logOut', {}, function () {
+        ajaxS('user/logOut', {}, function () {
             console.log(window.location.href);
             if (window.location.href.includes('index.html')) {
                 //todo with update page
@@ -149,14 +139,5 @@ $(document).on('change', '#brand', function () {
     }
 });
 
-$('#engineType').change(function () {
-    var id = $(this).val();
-    if (id ==='Electro') {
-    $('#volumeDiv').hide();
-    $('#volume').hide();
-    } else {
-        $('#volume').show();
-        $('#volumeDiv').show();
-    }
-});
+
 
