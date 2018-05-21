@@ -2,6 +2,9 @@ package ru.job4j.test;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.job4j.dao.modeldao.UserServiceImpl;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 27.03.2018.
@@ -13,7 +16,9 @@ public class Test {
 
 
     public static void main(String[] args) {
-
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        UserServiceImpl service = context.getBean(UserServiceImpl.class);
+        service.getAll().forEach(System.out::println);
 //        SessionFactory service = HibernateService.getSessionFactory();
 //        Session session = service.openSession();
 //
