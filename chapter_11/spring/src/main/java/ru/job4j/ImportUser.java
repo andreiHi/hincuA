@@ -18,18 +18,24 @@ public class ImportUser {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
         JdbcStorage storage = context.getBean(JdbcStorage.class);
-        //storage.create(new User(35, "Andrei"));
-        User user = storage.read(1L);
+        storage.createTable();
+        System.out.println("================Select All==============");
+        storage.getAll().forEach(System.out::println);
+        System.out.println("================Create User==============");
+        long id = storage.create(new User(35, "Andrei"));
+        User user = storage.read(id);
         System.out.println(user);
         System.out.println("================Next Query==============");
         storage.getAll().forEach(System.out :: println);
         System.out.println("================Next Query==============");
-        boolean update = storage.update(new User(1L, 33,  "Petr"));
+        boolean update = storage.update(new User(id, 33,  "Petr"));
         if (update) {
             System.out.println("user was update successful");
         } else {
             System.out.println("user dose not exist");
         }
         storage.getAll().forEach(System.out::println);
+        System.out.println("================Clear Table==============");
+        storage.clear();
     }
 }

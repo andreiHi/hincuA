@@ -4,10 +4,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.job4j.models.User;
 import ru.job4j.models.UserMapper;
 
-import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 /**
@@ -15,17 +18,29 @@ import java.util.List;
  * @version $Id$.
  * @since 0.1.
  */
+@Repository
 public class JdbcStorage implements Storage<User> {
-    private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
     private static final Logger LOG = LogManager.getLogger(JdbcStorage.class);
 
+    @Autowired
+    public JdbcStorage(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public long create(User user) {
-        String sql = "INSERT INTO USERS (name, age) VALUES(?, ?)";
-        this.jdbcTemplate.update(sql, user.getName(), user.getAge());
-        System.out.println(user + "was saved successful");
-        return 0;
+        final String sql = "INSERT INTO USERS (name, age) VALUES(?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        this.jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, user.getName());
+            ps.setInt(2, user.getAge());
+            return ps;
+        }, keyHolder);
+        user.setId(keyHolder.getKey().intValue());
+        LOG.info(user + "was saved successful with id " + user.getId());
+        return user.getId();
     }
 
     @Override
@@ -62,18 +77,12 @@ public class JdbcStorage implements Storage<User> {
 
     @Override
     public void clear() {
-        String sql = "DELETE FROM uasers";
+        String sql = "DELETE FROM users";
         this.jdbcTemplate.update(sql);
     }
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        createTable();
-    }
 
-    private void createTable() {
+    public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(50), age INT)";
         this.jdbcTemplate.execute(sql);
     }
