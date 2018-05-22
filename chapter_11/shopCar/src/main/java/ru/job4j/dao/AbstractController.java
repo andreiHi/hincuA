@@ -23,16 +23,6 @@ public abstract class AbstractController<E extends Persistent, K> implements Dao
         return currentSession;
     }
 
-//    protected <T> T transaction(final Function<Session, T> function) throws HibernateError {
-//        final Session session = this.sessionFactory.openSession();
-//        final Transaction trs = session.beginTransaction();
-//        try {
-//            return function.apply(session);
-//        } finally {
-//            trs.commit();
-//            session.close();
-//        }
-//    }
     public Session openCurrentSession() {
         this.currentSession = sessionFactory.openSession();
         return currentSession;
@@ -52,27 +42,5 @@ public abstract class AbstractController<E extends Persistent, K> implements Dao
     public void addTransactionToCurrentSession() {
         this.currentTransaction = currentSession.beginTransaction();
     }
-//    @Override
-//    public boolean delete(E entity) {
-//        return transaction(session -> {
-//            session.delete(entity);
-//            return true;
-//        });
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public K save(E entity) {
-//        return transaction(session -> (K) session.save(entity));
-//    }
-//
-//    @Override
-//    public boolean update(E entity) {
-//        return transaction(session -> { session.update(entity);
-//        return true;
-//        });
-//    }
-//    public void close() {
-//        this.sessionFactory.close();
-//    }
+
 }

@@ -1,4 +1,4 @@
-package ru.job4j.controller;
+package ru.job4j.html.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

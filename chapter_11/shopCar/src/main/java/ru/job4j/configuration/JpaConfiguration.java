@@ -1,13 +1,16 @@
 package ru.job4j.configuration;
 
+
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -15,7 +18,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -26,17 +28,14 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "ru.job4j.dao")
+@EnableJpaRepositories(basePackages = "ru.job4j.repository")
 @PropertySource("classpath:application.properties")
-public class JpaConfiguration  {
+public class JpaConfiguration {
     private static final Logger LOG = LogManager.getLogger(JpaConfiguration.class);
 
-//    private Environment env;
-//
-//    @Bean
-//    public String load(String propertyName) {
-//        return env.getRequiredProperty(propertyName);
-//    }
+    @Autowired
+    private Environment env;
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
@@ -55,7 +54,7 @@ public class JpaConfiguration  {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/hibernate");
         dataSource.setUsername("postgres");
@@ -65,10 +64,9 @@ public class JpaConfiguration  {
 
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+    public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
-
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
 

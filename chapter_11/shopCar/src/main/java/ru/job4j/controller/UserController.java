@@ -3,7 +3,6 @@ package ru.job4j.controller;
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.job4j.dao.modeldao.UserServiceImpl;
 import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;
@@ -28,14 +26,14 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    private UserServiceImpl service;
+//    private UserServiceImpl service;
 
     private static final Logger LOG = LogManager.getLogger(UserController.class);
     private static final Gson GSON = new Gson();
-    @Autowired
-    public void setService(UserServiceImpl service) {
-        this.service = service;
-    }
+//    @Autowired
+//    public void setService(UserServiceImpl service) {
+//        this.service = service;
+//    }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> login(@RequestBody LoginForm loginForm, HttpSession session) {
@@ -43,7 +41,7 @@ public class UserController {
         if (check) {
             session.setAttribute("user", loginForm.getUser());
         }
-        System.out.println(service.getAll());
+//        System.out.println(service.getAll());
         return ResponseEntity.ok(check);
 
     }

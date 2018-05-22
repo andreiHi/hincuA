@@ -14,7 +14,6 @@ import ru.job4j.dao.modeldao.UserServiceImpl;
 public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
 
-
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
         UserServiceImpl service = context.getBean(UserServiceImpl.class);

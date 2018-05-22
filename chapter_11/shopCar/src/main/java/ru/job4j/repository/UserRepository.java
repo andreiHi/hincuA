@@ -1,4 +1,4 @@
-package ru.job4j.dao;
+package ru.job4j.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import ru.job4j.model.usersmodels.User;
@@ -8,6 +8,7 @@ import ru.job4j.model.usersmodels.User;
  * @version $Id$.
  * @since 0.1.
  */
+
 public interface UserRepository extends CrudRepository<User, Long> {
 
 }

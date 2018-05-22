@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.dao.Dao;
-import ru.job4j.dao.UserRepository;
 import ru.job4j.model.usersmodels.User;
+import ru.job4j.repository.UserRepository;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class UserServiceImpl implements Dao<User, Long> {
     public void update(User entity) {
 
     }
-
+    @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

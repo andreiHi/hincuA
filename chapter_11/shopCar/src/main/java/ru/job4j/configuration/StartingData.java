@@ -2,13 +2,6 @@ package ru.job4j.configuration;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateError;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import ru.job4j.dao.HibernateService;
-import ru.job4j.model.car.Brand;
-import ru.job4j.model.car.Model;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,47 +21,47 @@ import java.util.stream.Stream;
  */
 public class StartingData {
     private static final Logger LOG = LogManager.getLogger(StartingData.class);
-    private SessionFactory sessionFactory = HibernateService.getSessionFactory();
+   // private SessionFactory sessionFactory = HibernateService.getSessionFactory();
     private static final String BRANDS = "brand.txt";
     private static final String FOLDER = "models/";
     private static final String SAVE_DIRECTORY = "uploadDir";
 
-    /**
-     * Create a session and transaction.
-     * @param function input function.
-     */
-    private void transaction(final Consumer<Session> function) {
-        final Session session = this.sessionFactory.openSession();
-        final Transaction trs = session.beginTransaction();
-        try {
-            function.accept(session);
-        } catch (HibernateError e) {
-            LOG.error(e.getMessage(), e);
-        } finally {
-            trs.commit();
-            session.close();
-        }
-    }
-
-    /**
-     * Filling tables with initial data.
-     */
-    public void initTables() {
-        transaction(session -> {
-            int count = ((Long) session.createQuery("select count (*) from Brand ").uniqueResult()).intValue();
-            if (count == 0) {
-                readFile(BRANDS).forEach(b -> {
-                    Brand brand = new Brand(b);
-                    long id = (long) session.save(brand);
-                    brand.setId(id);
-                    readFile(FOLDER + b).forEach(m -> {
-                        Model model = new Model(m, brand);
-                        session.save(model);
-                    });
-                });
-            }
-        });
-    }
+//    /**
+//     * Create a session and transaction.
+//     * @param function input function.
+//     */
+//    private void transaction(final Consumer<Session> function) {
+//        final Session session = this.sessionFactory.openSession();
+//        final Transaction trs = session.beginTransaction();
+//        try {
+//            function.accept(session);
+//        } catch (HibernateError e) {
+//            LOG.error(e.getMessage(), e);
+//        } finally {
+//            trs.commit();
+//            session.close();
+//        }
+//    }
+//
+//    /**
+//     * Filling tables with initial data.
+//     */
+//    public void initTables() {
+//        transaction(session -> {
+//            int count = ((Long) session.createQuery("select count (*) from Brand ").uniqueResult()).intValue();
+//            if (count == 0) {
+//                readFile(BRANDS).forEach(b -> {
+//                    Brand brand = new Brand(b);
+//                    long id = (long) session.save(brand);
+//                    brand.setId(id);
+//                    readFile(FOLDER + b).forEach(m -> {
+//                        Model model = new Model(m, brand);
+//                        session.save(model);
+//                    });
+//                });
+//            }
+//        });
+//    }
 
     /**
      * Read initial data.
