@@ -4,7 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.model.Advert;
 import ru.job4j.model.usersmodels.User;
-import ru.job4j.service.AdvertService;
+import ru.job4j.service.oldservicehibernate.AdvertService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

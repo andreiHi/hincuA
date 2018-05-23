@@ -16,8 +16,8 @@ import ru.job4j.actions.ItemsIndexForm;
 import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
 import ru.job4j.model.usersmodels.User;
-import ru.job4j.service.ImageService;
-import ru.job4j.service.UserService;
+import ru.job4j.service.BrandService;
+import ru.job4j.service.oldservicehibernate.ImageService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,15 +38,15 @@ public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
 
     @Autowired
-    UserService userService;
+    private BrandService brandService;
 
     @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getItems(HttpSession session) {
-        System.out.println(userService.getAll().size());
         User user = (User) session.getAttribute("user");
         JSONObject jsonObject = new ItemsIndexForm().setupItems();
         user = user == null ? User.UNKNOWN_USER : user;
         jsonObject.put("user", user.toJson());
+        jsonObject.put("brands", brandService.getAllBrandsToJson());
         return ResponseEntity.ok(jsonObject.toJSONString());
     }
 

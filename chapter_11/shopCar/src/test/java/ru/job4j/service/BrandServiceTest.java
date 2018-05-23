@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.model.car.Brand;
+import ru.job4j.service.oldservicehibernate.BrandService;
 
 import java.util.Arrays;
 import java.util.List;

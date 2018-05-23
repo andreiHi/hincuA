@@ -4,6 +4,7 @@ package ru.job4j.configuration;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,18 +39,15 @@ public class JpaConfiguration {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabase(Database.POSTGRESQL);
-
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan(env.getProperty("entitymanager.packages.to.scan"));
-       // em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        em.setJpaProperties(additionalProperties());
-
-        return em;
+        LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+        entityManager.setDataSource(dataSource());
+        entityManager.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        entityManager.setPackagesToScan(env.getProperty("entitymanager.packages.to.scan"));
+        entityManager.setJpaVendorAdapter(vendorAdapter);
+        entityManager.setJpaProperties(additionalProperties());
+        return entityManager;
     }
 
     @Bean
@@ -59,12 +57,10 @@ public class JpaConfiguration {
         dataSource.setUrl(env.getProperty("db.url"));
         dataSource.setUsername(env.getProperty("db.username"));
         dataSource.setPassword(env.getProperty("db.password"));
-        dataSource.setValidationQuery("SELECT 1");
         dataSource.setInitialSize(Integer.parseInt(env.getRequiredProperty("hibernate.pool.initSize")));
         dataSource.setMaxTotal(Integer.parseInt(env.getRequiredProperty("hibernate.pool.maxSize")));
         return dataSource;
     }
-
 
     @Bean
     public PlatformTransactionManager transactionManager() {
@@ -78,13 +74,12 @@ public class JpaConfiguration {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    Properties additionalProperties() {
+    private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        properties.setProperty("dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.setProperty("current_session_context_class", "thread");
-        properties.setProperty("show_sql", "true");
+        properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
-
 }

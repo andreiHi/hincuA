@@ -1,7 +1,5 @@
 package ru.job4j.model.usersmodels;
 
-import ru.job4j.service.UserServiceHibernate;
-
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.05.2018.
  * @version $Id$.
@@ -24,16 +22,6 @@ public class LoginForm {
         return user;
     }
 
-    public boolean checkLoginForm() {
-        boolean exist = false;
-        UserServiceHibernate service = new UserServiceHibernate();
-        User user = service.getUserByLogin(this.login);
-        if (user.checkPassword(this.password)) {
-            this.user = user;
-            exist = true;
-        }
-        return exist;
-    }
 
     public String getLogin() {
         return login;
@@ -54,5 +42,13 @@ public class LoginForm {
     @Override
     public String toString() {
         return String.format("LoginForm{login='%s', password='%s'}", login, password);
+    }
+
+    public boolean checkPass(User user) {
+        boolean ex = user.getPassword().equals(this.password);
+        if (ex) {
+            this.user = user;
+        }
+        return ex;
     }
 }

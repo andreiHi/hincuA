@@ -46,46 +46,25 @@ public class User extends Persistent {
     @Transient
     public static final User UNKNOWN_USER = new User();
 
-    @Override
-    public String toString() {
-        return "User{"
-                + "id="
-                + getId()
-                + ", login='"
-                + login
-                + '\''
-                + ", email='"
-                + email
-                + '\''
-                + ", password='"
-                + password
-                + '\''
-                + ", phone="
-                + phone
-                + '}';
-    }
-
     public String getLogin() {
         return login;
     }
 
-    public  String findEquals(User user) {
+    public  String findEquals(RegistrationForm form) {
         StringBuilder sb = new StringBuilder();
-        if (login.equals(user.login)) {
+        if (login.equals(form.getLogin())) {
             sb.append("Login ");
         }
-        if (email.equals(user.email)) {
+        if (email.equals(form.getEmail())) {
             sb.append("Email ");
         }
-        if (phone.equals(user.phone)) {
+        if (phone.equals(form.getPhone())) {
             sb.append("Phone ");
         }
         sb.append("is used.");
         return sb.toString();
     }
-    public boolean checkPassword(String password) {
-        return this.password != null && this.password.equals(password);
-    }
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -121,14 +100,6 @@ public class User extends Persistent {
         this.phone = phone;
     }
 
-//    public List<Advert> getAdverts() {
-//        return adverts;
-//    }
-//
-//    public void setAdverts(List<Advert> adverts) {
-//        this.adverts = adverts;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -147,7 +118,11 @@ public class User extends Persistent {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(login, email, password, phone/*, adverts*/);
+    }
+
+    @Override
+    public String toString() {
+       return String.format("User{id=%d, login=%s, email=%s, password=%s, phone=%s}", getId(), login, email, password, phone);
     }
 }

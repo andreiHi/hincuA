@@ -13,54 +13,18 @@ import java.text.SimpleDateFormat;
  * @version $Id$.
  * @since 0.1.
  */
+//@EntityListeners(DataListener.class)
 @Entity
 @Table(name = "advert")
 public class Advert extends Persistent {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd MM YYYY");
     private static final long serialVersionUID = 8280964074040472053L;
+
+    @Column(name = "data")
     private Timestamp data;
+
     @Column(name = "description", length = 1000)
     private String description;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Advert advert = (Advert) o;
-
-        if (price != advert.price) {
-            return false;
-        }
-        if (data != null ? !data.equals(advert.data) : advert.data != null) {
-            return false;
-        }
-        if (description != null ? !description.equals(advert.description) : advert.description != null) {
-            return false;
-        }
-        if (state != advert.state) {
-            return false;
-        }
-        if (user != null ? !user.equals(advert.user) : advert.user != null) {
-            return false;
-        }
-        return car != null ? car.equals(advert.car) : advert.car == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = data != null ? data.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (car != null ? car.hashCode() : 0);
-        return result;
-    }
 
     private int price;
 
@@ -91,11 +55,9 @@ public class Advert extends Persistent {
         this.price = price;
     }
     public Advert() {
-        this.data = new Timestamp(System.currentTimeMillis());
-        this.state = State.NEW;
-
+//        this.data = new Timestamp(System.currentTimeMillis());
+//        this.state = State.NEW;
     }
-
 
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -108,6 +70,17 @@ public class Advert extends Persistent {
         json.put("price", price);
         return json;
     }
+
+    @PrePersist
+    public void onPrePersist() {
+        setValues();
+    }
+
+    private void setValues() {
+        this.data = new Timestamp(System.currentTimeMillis());
+        this.state = State.NEW;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -116,9 +89,6 @@ public class Advert extends Persistent {
         this.description = description;
     }
 
-//    public Advert() {
-//        super();
-//    }
     private Advert(Long id) {
         super(id);
     }
@@ -183,5 +153,42 @@ public class Advert extends Persistent {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = data != null ? data.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + price;
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (car != null ? car.hashCode() : 0);
+        return result;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Advert advert = (Advert) o;
+        if (price != advert.price) {
+            return false;
+        }
+        if (data != null ? !data.equals(advert.data) : advert.data != null) {
+            return false;
+        }
+        if (description != null ? !description.equals(advert.description) : advert.description != null) {
+            return false;
+        }
+        if (state != advert.state) {
+            return false;
+        }
+        if (user != null ? !user.equals(advert.user) : advert.user != null) {
+            return false;
+        }
+        return car != null ? car.equals(advert.car) : advert.car == null;
     }
 }

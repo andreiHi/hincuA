@@ -5,7 +5,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.job4j.dao.Dao;
+import ru.job4j.model.usersmodels.LoginForm;
+import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.repository.UserRepository;
 import ru.job4j.service.UserService;
@@ -31,4 +32,32 @@ public class UserServiceImpl implements UserService {
         return (List<User>) userRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public String saveIfValid(RegistrationForm form) {
+        String result;
+        List<User> users = userRepository.checkIfPresent(form.getLogin(), form.getEmail(), form.getPhone());
+        if (users.isEmpty()) {
+            userRepository.save(form.createUser());
+            result = "ok";
+            LOG.info("User was saved.");
+        } else {
+            result = users.get(0).findEquals(form);
+            LOG.info(result);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean login(LoginForm loginForm) {
+        boolean exist = false;
+        User user = userRepository.findByLogin(loginForm.getLogin());
+        if (user != null) {
+            if (loginForm.checkPass(user)) {
+                exist = true;
+                LOG.info("User was login successful.");
+            }
+        }
+        return exist;
+    }
 }

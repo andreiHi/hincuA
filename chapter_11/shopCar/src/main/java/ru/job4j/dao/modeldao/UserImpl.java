@@ -62,9 +62,10 @@ public class UserImpl extends AbstractController<User, Long> {
             getCurrentSession().save(user);
             answer = "ok";
         } else {
-            answer = users.get(0).findEquals(user);
+            answer = "";
+           //         = users.get(0).findEquals(user);
         }
-        return answer;
+        return "";
     }
 
     public User getUserByLogin(String login) {

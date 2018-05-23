@@ -5,6 +5,8 @@ import org.junit.Test;
 import ru.job4j.model.Advert;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.model.car.Car;
+import ru.job4j.service.oldservicehibernate.AdvertService;
+import ru.job4j.service.oldservicehibernate.UserServiceHibernate;
 
 import java.util.List;
 

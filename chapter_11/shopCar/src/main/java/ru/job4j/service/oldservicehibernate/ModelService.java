@@ -1,4 +1,4 @@
-package ru.job4j.service;
+package ru.job4j.service.oldservicehibernate;
 
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;

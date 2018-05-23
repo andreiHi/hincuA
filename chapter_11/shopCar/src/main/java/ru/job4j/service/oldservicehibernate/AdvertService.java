@@ -1,4 +1,4 @@
-package ru.job4j.service;
+package ru.job4j.service.oldservicehibernate;
 
 import ru.job4j.dao.modeldao.AdvertImpl;
 import ru.job4j.model.Advert;

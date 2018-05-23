@@ -3,6 +3,7 @@ package ru.job4j.controller;
 import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.model.usersmodels.LoginForm;
 import ru.job4j.model.usersmodels.RegistrationForm;
 import ru.job4j.model.usersmodels.User;
+import ru.job4j.service.UserService;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,24 +28,20 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/user")
 public class UserController {
 
-//    private UserServiceImpl service;
+    @Autowired
+    private UserService service;
 
     private static final Logger LOG = LogManager.getLogger(UserController.class);
     private static final Gson GSON = new Gson();
-//    @Autowired
-//    public void setService(UserServiceImpl service) {
-//        this.service = service;
-//    }
+
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> login(@RequestBody LoginForm loginForm, HttpSession session) {
-        boolean check = loginForm.checkLoginForm();
-        if (check) {
+        boolean login = service.login(loginForm);
+        if (login) {
             session.setAttribute("user", loginForm.getUser());
         }
-//        System.out.println(service.getAll());
-        return ResponseEntity.ok(check);
-
+        return ResponseEntity.ok(login);
     }
 
     @PostMapping(value = "/logOut", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -55,7 +53,7 @@ public class UserController {
     @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public@ResponseBody
     ResponseEntity<String> registration(@RequestBody RegistrationForm form) {
-        return ResponseEntity.ok(GSON.toJson(form.createIfValid()));
+        return ResponseEntity.ok(GSON.toJson(service.saveIfValid(form)));
     }
 
     @PostMapping(value = "/checkLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

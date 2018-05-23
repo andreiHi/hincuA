@@ -6,8 +6,8 @@ import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.car.parts.*;
 import ru.job4j.model.usersmodels.User;
-import ru.job4j.service.AdvertService;
-import ru.job4j.service.ImageService;
+import ru.job4j.service.oldservicehibernate.AdvertService;
+import ru.job4j.service.oldservicehibernate.ImageService;
 
 /**
  * .

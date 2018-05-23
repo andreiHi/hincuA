@@ -52,6 +52,7 @@ public class AppInitializer implements WebApplicationInitializer {
 
     private void registeredFilters(ServletContext context, WebApplicationContext webContext) {
         registeredFilter(context, new CharacterEncodingFilter("UTF-8", true));
+      //  registeredFilter(context, new OpenEntityManagerInViewFilter()); для поддержания ленивой загрузки создает для каждого запроса свой ентетименеджер
     }
 
     private void registeredFilter(ServletContext container, Filter filter) {

@@ -6,7 +6,6 @@ import ru.job4j.model.car.parts.Carcass;
 import ru.job4j.model.car.parts.EngineType;
 import ru.job4j.model.car.parts.Gearbox;
 import ru.job4j.model.car.parts.Transmission;
-import ru.job4j.service.BrandService;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 06.04.2018.
@@ -22,8 +21,6 @@ public class ItemsIndexForm {
         jsonObject.put("carcass",      getJson(Carcass.class));
         jsonObject.put("gearBox",      getJson(Gearbox.class));
         jsonObject.put("engineType",   getJson(EngineType.class));
-        String brands = new BrandService().getAllBrandsToJson();
-        jsonObject.put("brands", brands);
         return jsonObject;
     }
 

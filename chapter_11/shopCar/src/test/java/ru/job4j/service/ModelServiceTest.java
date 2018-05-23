@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
+import ru.job4j.service.oldservicehibernate.BrandService;
+import ru.job4j.service.oldservicehibernate.ModelService;
 
 import java.util.Collections;
 import java.util.List;

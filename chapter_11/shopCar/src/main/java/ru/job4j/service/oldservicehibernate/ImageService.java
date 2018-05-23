@@ -1,4 +1,4 @@
-package ru.job4j.service;
+package ru.job4j.service.oldservicehibernate;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.log4j.LogManager;
