@@ -41,12 +41,12 @@ public class JpaConfiguration {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabase(Database.POSTGRESQL);
-        vendorAdapter.setGenerateDdl(true);
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("ru.job4j.model");
-        em.setJpaVendorAdapter(vendorAdapter);
+        em.setPackagesToScan(env.getProperty("entitymanager.packages.to.scan"));
+       // em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
 
         return em;
@@ -55,10 +55,13 @@ public class JpaConfiguration {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/hibernate");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("5432");
+        dataSource.setDriverClassName(env.getProperty("db.driver"));
+        dataSource.setUrl(env.getProperty("db.url"));
+        dataSource.setUsername(env.getProperty("db.username"));
+        dataSource.setPassword(env.getProperty("db.password"));
+        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setInitialSize(Integer.parseInt(env.getRequiredProperty("hibernate.pool.initSize")));
+        dataSource.setMaxTotal(Integer.parseInt(env.getRequiredProperty("hibernate.pool.maxSize")));
         return dataSource;
     }
 
@@ -77,9 +80,10 @@ public class JpaConfiguration {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.setProperty("hibernate.current_session_context_class", "thread");
+        properties.setProperty("hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        properties.setProperty("dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("current_session_context_class", "thread");
+        properties.setProperty("show_sql", "true");
         return properties;
     }
 

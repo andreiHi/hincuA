@@ -1,4 +1,4 @@
-package ru.job4j.dao.modeldao;
+package ru.job4j.service.impl;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.dao.Dao;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.repository.UserRepository;
+import ru.job4j.service.UserService;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ import java.util.List;
  * @since 0.1.
  */
 @Service
-public class UserServiceImpl implements Dao<User, Long> {
+@SuppressWarnings("unchecked")
+public class UserServiceImpl implements UserService {
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     @Autowired
@@ -29,32 +31,4 @@ public class UserServiceImpl implements Dao<User, Long> {
         return (List<User>) userRepository.findAll();
     }
 
-    @Override
-    public User getEntityById(Long id) {
-        return null;
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return false;
-    }
-
-    @Override
-    public void delete(User entity) {
-
-    }
-
-    @Override
-    public Long save(User entity) {
-        return null;
-    }
-
-    @Override
-    public void update(User entity) {
-
-    }
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 }

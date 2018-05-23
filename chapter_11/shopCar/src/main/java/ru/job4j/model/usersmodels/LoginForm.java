@@ -1,6 +1,6 @@
 package ru.job4j.model.usersmodels;
 
-import ru.job4j.service.UserService;
+import ru.job4j.service.UserServiceHibernate;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.05.2018.
@@ -26,7 +26,7 @@ public class LoginForm {
 
     public boolean checkLoginForm() {
         boolean exist = false;
-        UserService service = new UserService();
+        UserServiceHibernate service = new UserServiceHibernate();
         User user = service.getUserByLogin(this.login);
         if (user.checkPassword(this.password)) {
             this.user = user;

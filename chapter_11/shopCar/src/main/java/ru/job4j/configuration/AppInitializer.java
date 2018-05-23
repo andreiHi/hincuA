@@ -8,7 +8,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
-import ru.job4j.dao.modeldao.UserServiceImpl;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
@@ -31,8 +30,6 @@ public class AppInitializer implements WebApplicationInitializer {
         registeredFilters(context, webContext);
         StartingData start = new StartingData();
       //  start.initTables();
-        UserServiceImpl userService = new UserServiceImpl();
-//        userService.getAll().forEach(System.out::println);
         String fullSavePath = start.createUploadPath(context.getRealPath(""));
         context.setAttribute("fullSavePath", fullSavePath);
         LOG.info("Start of initialize...");
@@ -46,10 +43,10 @@ public class AppInitializer implements WebApplicationInitializer {
 
     private WebApplicationContext createContext(ServletContext context) {
         AnnotationConfigWebApplicationContext config = new AnnotationConfigWebApplicationContext();
-        config.register(JpaConfiguration.class);
+       // config.register(JpaConfiguration.class);
         config.scan("ru.job4j.configuration");
         config.setServletContext(context);
-//        config.refresh();
+        config.refresh();
         return config;
     }
 

@@ -4,7 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.job4j.dao.modeldao.UserServiceImpl;
+import ru.job4j.service.impl.UserServiceImpl;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 27.03.2018.

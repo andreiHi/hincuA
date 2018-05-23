@@ -3,6 +3,7 @@ package ru.job4j.controller;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.ImageService;
+import ru.job4j.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,13 +33,16 @@ import java.util.Map;
  * @version $Id$.
  * @since 0.1.
  */
-@Controller
+@Controller("springController")
 public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
 
+    @Autowired
+    UserService userService;
 
     @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getItems(HttpSession session) {
+        System.out.println(userService.getAll().size());
         User user = (User) session.getAttribute("user");
         JSONObject jsonObject = new ItemsIndexForm().setupItems();
         user = user == null ? User.UNKNOWN_USER : user;

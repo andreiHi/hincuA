@@ -1,6 +1,6 @@
 package ru.job4j.model.usersmodels;
 
-import ru.job4j.service.UserService;
+import ru.job4j.service.UserServiceHibernate;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.05.2018.
@@ -21,7 +21,7 @@ public class RegistrationForm extends LoginForm {
 
     public String createIfValid() {
         User user = new User(getLogin(), email, getPassword(), phone);
-        UserService service = new UserService();
+        UserServiceHibernate service = new UserServiceHibernate();
         return service.saveIfValid(user);
     }
 

@@ -43,8 +43,8 @@ public class AdvertServiceTest {
     public void whenWasCalledAdvertsByUser() throws Exception {
         Advert advert = new Advert();
         User user = new User("Andrei18", "email181@ttt.com", "1236411", "14551");
-        UserService userService = new UserService();
-        userService.saveUser(user);
+        UserServiceHibernate userServiceHibernate = new UserServiceHibernate();
+        userServiceHibernate.saveUser(user);
         advert.setUser(user);
         service.save(advert);
         List<Advert> adverts = service.getAdvertsByUser(user);
@@ -56,8 +56,8 @@ public class AdvertServiceTest {
         Advert advert = new Advert();
         Advert advert2 = new Advert();
         User user = new User("Andrei18", "email181@ttt.com", "1236411", "14551");
-        UserService userService = new UserService();
-        userService.saveUser(user);
+        UserServiceHibernate userServiceHibernate = new UserServiceHibernate();
+        userServiceHibernate.saveUser(user);
         advert.setUser(user);
         service.save(advert);
         service.save(advert2);
@@ -68,8 +68,8 @@ public class AdvertServiceTest {
     public void whenWasSelectedByQuery() {
         Advert advert = new Advert();
         User user = new User("Andrei19", "email189@ttt.com", "12364911", "145519");
-        UserService userService = new UserService();
-        userService.saveUser(user);
+        UserServiceHibernate userServiceHibernate = new UserServiceHibernate();
+        userServiceHibernate.saveUser(user);
         advert.setUser(user);
         long id = service.save(advert);
         List<Advert> adverts = service.getByQuery("from Advert");
@@ -88,8 +88,8 @@ public class AdvertServiceTest {
         Advert advert = new Advert();
         Car car = new Car();
         User user = new User("Andrei19", "email189@ttt.com", "12364911", "145519");
-        UserService userService = new UserService();
-        userService.saveUser(user);
+        UserServiceHibernate userServiceHibernate = new UserServiceHibernate();
+        userServiceHibernate.saveUser(user);
         advert.setUser(user);
         advert.setCar(car);
         long id = service.save(advert);
