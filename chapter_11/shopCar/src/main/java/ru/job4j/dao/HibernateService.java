@@ -10,22 +10,22 @@ import org.hibernate.cfg.Configuration;
  * @since 0.1.
  */
 public class HibernateService {
-
-    private static final SessionFactory SESSION_FACTORY;
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-
-            SESSION_FACTORY = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-    public static SessionFactory getSessionFactory() throws HibernateException {
-        return SESSION_FACTORY;
-    }
-    public static void closeFactory() {
-        SESSION_FACTORY.close();
-    }
+//
+//    private static final SessionFactory SESSION_FACTORY;
+//    static {
+//        try {
+//            Configuration configuration = new Configuration();
+//            configuration.configure();
+//
+//            SESSION_FACTORY = configuration.buildSessionFactory();
+//        } catch (Throwable ex) {
+//            throw new ExceptionInInitializerError(ex);
+//        }
+//    }
+//    public static SessionFactory getSessionFactory() throws HibernateException {
+//        return SESSION_FACTORY;
+//    }
+//    public static void closeFactory() {
+//        SESSION_FACTORY.close();
+//    }
 }

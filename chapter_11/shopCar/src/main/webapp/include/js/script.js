@@ -56,6 +56,15 @@ function ajaxS(url, data, todo) {
         success: todo
     });
 }
+function ajaxGet(url, data, todo) {
+    $.ajax({
+        method:"GET",
+        url:'/' + url,
+        contentType:"application/json",
+        data: data,
+        success: todo
+    });
+}
 //авторизация
 $(document).on('submit', '#login', function () {
     var login = {};
@@ -124,17 +133,16 @@ $(document).on('click', '#user_log_out', function () {
 });
 $(document).on('change', '#brand', function () {
     var id = $(this).val();
-    var idBrand = {};
-    idBrand.id =  parseInt(id);
     if (id === '0') {
         $('#model').html('<option value="0">-Модель-</option>');
         $('#model').attr('disabled', true);
     } else {
         $('#model').html('<option value="0">-Модель-</option>');
         $('#model').attr('disabled', false);
-        ajaxS('getModels', idBrand, function (data) {
+
+        ajaxGet('getModels', {id:parseInt(id)}, function (data) {
             var models = data['models'];
-            addItems('model', models);
+            addItems('model', data);
         })
     }
 });

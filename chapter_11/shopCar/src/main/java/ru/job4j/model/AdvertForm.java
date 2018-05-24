@@ -6,8 +6,7 @@ import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.car.parts.*;
 import ru.job4j.model.usersmodels.User;
-import ru.job4j.service.oldservicehibernate.AdvertService;
-import ru.job4j.service.oldservicehibernate.ImageService;
+import ru.job4j.service.ImageService;
 
 /**
  * .
@@ -31,7 +30,7 @@ public class AdvertForm {
             car.setAdvert(advert);
             ImageService service = new ImageService();
             car.setImages(service.saveImages(photo, savePath, car));
-            new AdvertService().save(advert);
+            //new AdvertService().save(advert);
             create = "ok";
         }
         return create;

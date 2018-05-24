@@ -11,16 +11,16 @@ import java.util.List;
  */
 public interface Dao<E extends Persistent, K> {
 
-    List<E> getAll();
-
-    E getEntityById(K id);
-
-    boolean delete(K id);
-
-    void delete(E entity);
-
-    K save(E entity);
-
-    void update(E entity);
+//    List<E> getAll();
+//
+//    E getEntityById(K id);
+//
+//    boolean delete(K id);
+//
+//    void delete(E entity);
+//
+//    K save(E entity);
+//
+//    void update(E entity);
 
 }

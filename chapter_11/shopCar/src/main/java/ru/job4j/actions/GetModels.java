@@ -1,7 +1,7 @@
 package ru.job4j.actions;
 
 import org.json.simple.JSONObject;
-import ru.job4j.service.oldservicehibernate.ModelService;
+import ru.job4j.dao.oldservicehibernate.ModelService;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 16.04.2018.
@@ -10,13 +10,13 @@ import ru.job4j.service.oldservicehibernate.ModelService;
  */
 public class GetModels {
 
-    private int id;
+    private long id;
 
     public String modelsById() {
         ModelService service = new ModelService();
         JSONObject jsonObject = new JSONObject();
-        String models = service.getModelsToJson(id);
-        jsonObject.put("models", models);
+//        String models = service.getModelsToJson(id);
+//        jsonObject.put("models", models);
         return jsonObject.toJSONString();
     }
 
@@ -28,7 +28,7 @@ public class GetModels {
         return String.format("GetModels{id = '%s'}", id);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

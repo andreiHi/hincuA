@@ -4,7 +4,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.job4j.model.Advert;
 import ru.job4j.model.usersmodels.User;
-import ru.job4j.service.oldservicehibernate.AdvertService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -32,14 +31,14 @@ public class AdvertSelector {
 
     public List<Advert> getAdverts(User user, Map map) {
         List<Advert> adverts = new ArrayList<>();
-        AdvertService service = new AdvertService();
-        if ("byUser".equals(map.get("select"))) {
-            adverts = service.getAdvertsByUser(user);
-        } else {
-            String query = getQueryFilter(map);
-            LOG.info(query);
-            adverts = query.contains("join") ? service.getByQueryWithJoin(query) : service.getByQuery(query);
-        }
+//        AdvertService service = new AdvertService();
+//        if ("byUser".equals(map.get("select"))) {
+//            adverts = service.getAdvertsByUser(user);
+//        } else {
+//            String query = getQueryFilter(map);
+//            LOG.info(query);
+//            adverts = query.contains("join") ? service.getByQueryWithJoin(query) : service.getByQuery(query);
+//        }
         return adverts;
     }
 

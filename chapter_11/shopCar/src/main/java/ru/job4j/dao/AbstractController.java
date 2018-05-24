@@ -14,33 +14,33 @@ import ru.job4j.model.Persistent;
  * @since 0.1.
  */
 public abstract class AbstractController<E extends Persistent, K> implements Dao<E, K> {
-    private static final Logger LOG = LogManager.getLogger(AbstractController.class);
-    private SessionFactory sessionFactory = HibernateService.getSessionFactory();
-    private Session currentSession;
-    private Transaction currentTransaction;
-
-    public Session getCurrentSession() {
-        return currentSession;
-    }
-
-    public Session openCurrentSession() {
-        this.currentSession = sessionFactory.openSession();
-        return currentSession;
-    }
-    public void closeCurrentSession() {
-        this.currentSession.close();
-    }
-    public Session openCurrentSessionWithTransaction() {
-        this.currentSession = sessionFactory.openSession();
-        this.currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-    public void closeSessionWithTransaction() {
-        this.currentTransaction.commit();
-        this.currentSession.close();
-    }
-    public void addTransactionToCurrentSession() {
-        this.currentTransaction = currentSession.beginTransaction();
-    }
+//    private static final Logger LOG = LogManager.getLogger(AbstractController.class);
+//    private SessionFactory sessionFactory = HibernateService.getSessionFactory();
+//    private Session currentSession;
+//    private Transaction currentTransaction;
+//
+//    public Session getCurrentSession() {
+//        return currentSession;
+//    }
+//
+//    public Session openCurrentSession() {
+//        this.currentSession = sessionFactory.openSession();
+//        return currentSession;
+//    }
+//    public void closeCurrentSession() {
+//        this.currentSession.close();
+//    }
+//    public Session openCurrentSessionWithTransaction() {
+//        this.currentSession = sessionFactory.openSession();
+//        this.currentTransaction = currentSession.beginTransaction();
+//        return currentSession;
+//    }
+//    public void closeSessionWithTransaction() {
+//        this.currentTransaction.commit();
+//        this.currentSession.close();
+//    }
+//    public void addTransactionToCurrentSession() {
+//        this.currentTransaction = currentSession.beginTransaction();
+//    }
 
 }

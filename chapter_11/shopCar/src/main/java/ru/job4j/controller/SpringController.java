@@ -1,5 +1,6 @@
 package ru.job4j.controller;
 
+import com.google.gson.Gson;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -15,9 +16,11 @@ import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
 import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
+import ru.job4j.model.car.Model;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.BrandService;
-import ru.job4j.service.oldservicehibernate.ImageService;
+import ru.job4j.service.ModelService;
+import ru.job4j.service.ImageService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,9 +39,12 @@ import java.util.Map;
 @Controller("springController")
 public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
-
+    private static final Gson GSON = new Gson();
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private ModelService modelService;
 
     @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getItems(HttpSession session) {
@@ -49,12 +55,18 @@ public class SpringController {
         jsonObject.put("brands", brandService.getAllBrandsToJson());
         return ResponseEntity.ok(jsonObject.toJSONString());
     }
-
+//todo
     @PostMapping(value = "/getModels", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getModels(@RequestBody GetModels models) {
+        List<Model> models1 = modelService.findByBrandId(models.getId());
         return ResponseEntity.ok(models.modelsById());
     }
-
+    @GetMapping(value = "/getModels", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<String> getModels1(@RequestParam(value = "id") Long id) {
+        List<Model> models = modelService.findByBrandId(id);
+        return ResponseEntity.ok(GSON.toJson(models));
+    }
+//todo
     @PostMapping(value = "/create")
     public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpServletRequest req) {
         User user = (User) req.getSession().getAttribute("user");
@@ -79,13 +91,13 @@ public class SpringController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(new InputStreamResource(new FileInputStream(file)));
     }
-
+//todo
     @PostMapping(value = "/setSold", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> soldCar(@RequestBody CarSold carSold) {
         boolean result = carSold.changeState();
         return ResponseEntity.ok(result);
     }
-
+//todo
     @PostMapping(value = "/adverts", produces = "application/json; charset=UTF-8")
     public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
