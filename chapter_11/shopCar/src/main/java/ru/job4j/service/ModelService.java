@@ -1,5 +1,6 @@
 package ru.job4j.service;
 
+import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
 
 import java.util.List;
@@ -12,5 +13,5 @@ import java.util.List;
  * @since 0.1
  */
 public interface ModelService {
-    List<Model> findByBrandId(long id);
+    List<Model> findByBrand(Brand brand);
 }

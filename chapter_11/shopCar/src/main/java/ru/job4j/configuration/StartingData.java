@@ -3,7 +3,6 @@ package ru.job4j.configuration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,7 +23,7 @@ public class StartingData {
    // private SessionFactory sessionFactory = HibernateService.getSessionFactory();
     private static final String BRANDS = "brand.txt";
     private static final String FOLDER = "models/";
-    private static final String SAVE_DIRECTORY = "uploadDir";
+
 
 //    /**
 //     * Create a session and transaction.
@@ -46,7 +45,8 @@ public class StartingData {
 //    /**
 //     * Filling tables with initial data.
 //     */
-//    public void initTables() {
+    public void initTables() {
+    }
 //        transaction(session -> {
 //            int count = ((Long) session.createQuery("select count (*) from Brand ").uniqueResult()).intValue();
 //            if (count == 0) {
@@ -82,18 +82,5 @@ public class StartingData {
         }
         return list;
     }
-    public String createUploadPath(String appPath) {
-        appPath = appPath.replace('\\', '/');
-        String fullSavePath;
-        if (appPath.endsWith("/")) {
-            fullSavePath = appPath + SAVE_DIRECTORY;
-        } else {
-            fullSavePath = appPath + "/" + SAVE_DIRECTORY;
-        }
-        File fileSaveDir = new File(fullSavePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdir();
-        }
-        return fullSavePath;
-    }
+
 }

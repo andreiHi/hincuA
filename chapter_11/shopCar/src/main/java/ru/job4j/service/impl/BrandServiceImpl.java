@@ -31,4 +31,9 @@ public class BrandServiceImpl implements BrandService {
     public String getAllBrandsToJson() {
         return new Gson().toJson(findAll());
     }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
 }

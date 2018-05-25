@@ -80,6 +80,7 @@ public class JpaConfiguration {
         properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.setProperty("current_session_context_class", "thread");
         properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
         return properties;
     }
 }

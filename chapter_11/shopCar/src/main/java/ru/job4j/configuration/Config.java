@@ -17,7 +17,8 @@ import org.springframework.core.io.Resource;
 @Configuration
 @ComponentScan({
         "ru.job4j.controller",
-        "ru.job4j.service"
+        "ru.job4j.service",
+        "ru.job4j.component"
 })
 public class Config {
 

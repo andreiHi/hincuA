@@ -1,6 +1,7 @@
 package ru.job4j.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
+import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
 
 import java.util.List;
@@ -13,5 +14,5 @@ import java.util.List;
  * @since 0.1
  */
 public interface ModelRepository extends PagingAndSortingRepository<Model, Long> {
-    List<Model> findByBrand_Id(Long id);
+    List<Model> findByBrand(Brand brand);
 }

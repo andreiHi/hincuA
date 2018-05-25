@@ -12,15 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.actions.AdvertSelector;
 import ru.job4j.actions.CarSold;
-import ru.job4j.actions.GetModels;
 import ru.job4j.actions.ItemsIndexForm;
 import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
+import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.BrandService;
-import ru.job4j.service.ModelService;
 import ru.job4j.service.ImageService;
+import ru.job4j.service.ModelService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,7 +39,7 @@ import java.util.Map;
 @Controller("springController")
 public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
-    private static final Gson GSON = new Gson();
+
     @Autowired
     private BrandService brandService;
 
@@ -55,18 +55,15 @@ public class SpringController {
         jsonObject.put("brands", brandService.getAllBrandsToJson());
         return ResponseEntity.ok(jsonObject.toJSONString());
     }
-//todo
-    @PostMapping(value = "/getModels", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> getModels(@RequestBody GetModels models) {
-        List<Model> models1 = modelService.findByBrandId(models.getId());
-        return ResponseEntity.ok(models.modelsById());
-    }
+    //@RequestParam(value = "id") Long id
     @GetMapping(value = "/getModels", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> getModels1(@RequestParam(value = "id") Long id) {
-        List<Model> models = modelService.findByBrandId(id);
-        return ResponseEntity.ok(GSON.toJson(models));
+    public ResponseEntity<String> getModels1(@ModelAttribute Brand brand) {
+        JSONObject json = new JSONObject();
+        List<Model> models = modelService.findByBrand(brand);
+        json.put("models", new Gson().toJson(models));
+        return ResponseEntity.ok(json.toJSONString());
     }
-//todo
+    //todo
     @PostMapping(value = "/create")
     public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpServletRequest req) {
         User user = (User) req.getSession().getAttribute("user");
@@ -91,13 +88,13 @@ public class SpringController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(new InputStreamResource(new FileInputStream(file)));
     }
-//todo
+    //todo
     @PostMapping(value = "/setSold", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> soldCar(@RequestBody CarSold carSold) {
         boolean result = carSold.changeState();
         return ResponseEntity.ok(result);
     }
-//todo
+    //todo
     @PostMapping(value = "/adverts", produces = "application/json; charset=UTF-8")
     public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");

@@ -142,7 +142,7 @@ $(document).on('change', '#brand', function () {
 
         ajaxGet('getModels', {id:parseInt(id)}, function (data) {
             var models = data['models'];
-            addItems('model', data);
+            addItems('model', models);
         })
     }
 });

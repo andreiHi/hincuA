@@ -14,4 +14,6 @@ public interface BrandService {
     List<Brand> findAll();
 
     String getAllBrandsToJson();
+
+    long count();
 }

@@ -8,6 +8,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
+import ru.job4j.component.ApplicationListener;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
@@ -26,12 +27,9 @@ public class AppInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext context) {
         WebApplicationContext webContext = createContext(context);
         context.addListener(new ContextLoaderListener(webContext));
+        context.addListener(ApplicationListener.class);
         registeredDispatcher(context, webContext);
         registeredFilters(context, webContext);
-        StartingData start = new StartingData();
-      //  start.initTables();
-        String fullSavePath = start.createUploadPath(context.getRealPath(""));
-        context.setAttribute("fullSavePath", fullSavePath);
         LOG.info("Start of initialize...");
     }
 
