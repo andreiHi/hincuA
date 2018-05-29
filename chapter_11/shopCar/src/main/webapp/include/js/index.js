@@ -115,6 +115,7 @@ $('#search_block').submit(function () {
     if (selected === false) {
         check.select = "all";
     }
+    console.log(check);
     getAdverts(check);
     return false;
 });

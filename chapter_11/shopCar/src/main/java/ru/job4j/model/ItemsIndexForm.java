@@ -1,4 +1,4 @@
-package ru.job4j.actions;
+package ru.job4j.model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

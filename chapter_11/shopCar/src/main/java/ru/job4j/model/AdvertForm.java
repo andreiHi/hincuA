@@ -5,7 +5,6 @@ import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.car.parts.*;
-import ru.job4j.model.usersmodels.User;
 import ru.job4j.service.ImageService;
 
 /**
@@ -21,19 +20,13 @@ public class AdvertForm {
     private Advert advert = new Advert();
     private MultipartFile[] photo;
 
-    public String createNewAdvert(User user, String savePath) {
-        String create = "login";
-        if (user != null) {
-            car.setEngine(engine);
-            advert.setCar(car);
-            advert.setUser(user);
-            car.setAdvert(advert);
-            ImageService service = new ImageService();
-            car.setImages(service.saveImages(photo, savePath, car));
-            //new AdvertService().save(advert);
-            create = "ok";
-        }
-        return create;
+    public Advert createNewAdvert(String savePath) {
+        car.setEngine(engine);
+        advert.setCar(car);
+        car.setAdvert(advert);
+        ImageService service = new ImageService();
+        car.setImages(service.saveImages(photo, savePath, car));
+        return this.advert;
     }
 
     @Override

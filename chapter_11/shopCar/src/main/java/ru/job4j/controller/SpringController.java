@@ -10,14 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.actions.AdvertSelector;
-import ru.job4j.actions.CarSold;
-import ru.job4j.actions.ItemsIndexForm;
+import ru.job4j.model.ItemsIndexForm;
 import ru.job4j.model.Advert;
 import ru.job4j.model.AdvertForm;
 import ru.job4j.model.car.Brand;
 import ru.job4j.model.car.Model;
 import ru.job4j.model.usersmodels.User;
+import ru.job4j.service.AdvertService;
 import ru.job4j.service.BrandService;
 import ru.job4j.service.ImageService;
 import ru.job4j.service.ModelService;
@@ -39,12 +38,16 @@ import java.util.Map;
 @Controller("springController")
 public class SpringController {
     private static final Logger LOG = LogManager.getLogger(SpringController.class);
-
-    @Autowired
     private BrandService brandService;
+    private ModelService modelService;
+    private AdvertService advertService;
 
     @Autowired
-    private ModelService modelService;
+    public SpringController(BrandService brandService, ModelService modelService, AdvertService advertService) {
+        this.brandService = brandService;
+        this.modelService = modelService;
+        this.advertService = advertService;
+    }
 
     @PostMapping(value = "/getItems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getItems(HttpSession session) {
@@ -63,13 +66,21 @@ public class SpringController {
         json.put("models", new Gson().toJson(models));
         return ResponseEntity.ok(json.toJSONString());
     }
-    //todo
+
     @PostMapping(value = "/create")
     public ResponseEntity<String> createAdvert(@ModelAttribute AdvertForm advertForm, HttpServletRequest req) {
         User user = (User) req.getSession().getAttribute("user");
-        String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
-        String create = advertForm.createNewAdvert(user, savePath);
-        return ResponseEntity.ok(create);
+        String answer;
+        if (user != null) {
+            answer = "ok";
+            String savePath = (String) req.getServletContext().getAttribute("fullSavePath");
+            Advert advert = advertForm.createNewAdvert(savePath);
+            advert.setUser(user);
+            advertService.save(advert);
+        } else {
+            answer = "login";
+        }
+        return ResponseEntity.ok(answer);
     }
 
     @GetMapping(value = "/img", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -90,15 +101,17 @@ public class SpringController {
     }
     //todo
     @PostMapping(value = "/setSold", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> soldCar(@RequestBody CarSold carSold) {
-        boolean result = carSold.changeState();
-        return ResponseEntity.ok(result);
+    public ResponseEntity<Boolean> soldCar(@RequestBody Map map) {
+        String state = (String) map.get("state");
+        String id = (String) map.get("id");
+        advertService.changeState(Long.valueOf(id), state);
+        return ResponseEntity.ok(true);
     }
-    //todo
+
     @PostMapping(value = "/adverts", produces = "application/json; charset=UTF-8")
     public ResponseEntity<String> data(@RequestBody Map request, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
-        List<Advert> adverts = new AdvertSelector().getAdverts(user, request);
+        List<Advert> adverts = advertService.getAdverts(user, request);
         JSONObject jsonObject = new JSONObject();
         adverts.forEach(advert ->  jsonObject.put(advert.getId(), advert.toJson()));
         return ResponseEntity.ok(jsonObject.toJSONString());
