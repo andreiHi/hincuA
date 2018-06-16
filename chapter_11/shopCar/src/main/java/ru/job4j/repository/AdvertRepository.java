@@ -1,5 +1,6 @@
 package ru.job4j.repository;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -14,7 +15,7 @@ import java.util.List;
  * @version $Id$.
  * @since 0.1.
  */
-public interface AdvertRepository extends PagingAndSortingRepository<Advert, Long> {
+public interface AdvertRepository extends PagingAndSortingRepository<Advert, Long>, JpaSpecificationExecutor<Advert> {
 
     List<Advert> findAdvertsByUser(User user);
 

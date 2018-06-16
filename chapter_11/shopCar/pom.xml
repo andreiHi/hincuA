@@ -10,6 +10,23 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
     <artifactId>shopCar</artifactId>
+    <properties>
+        <liquibase.goal>update</liquibase.goal>
+    </properties>
+    <profiles>
+        <profile>
+            <id>appdb</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <database.url>jdbc:postgresql://localhost:5432/hibernate</database.url>
+                <database.user>postgres</database.user>
+                <database.password>5432</database.password>
+                <database.contexts>hibernate</database.contexts>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -189,5 +206,12 @@
             <artifactId>commons-dbcp2</artifactId>
             <version>2.2.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
     </dependencies>
 </project>

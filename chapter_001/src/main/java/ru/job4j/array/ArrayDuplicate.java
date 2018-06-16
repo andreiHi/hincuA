@@ -44,7 +44,7 @@ public class ArrayDuplicate {
             } else if (i == a.length && j < b.length) {
                 result[index++] = b[j];
                 j++;
-            } else if (j == b.length && i < a.length) {
+            } else if (j == b.length || i < a.length) {
                 result[index++] = a[i];
                 i++;
             }

@@ -24,6 +24,7 @@ import java.util.function.BiConsumer;
 public class AdvertServiceImpl implements AdvertService {
 
     private AdvertRepository advertRepository;
+
     @Autowired
     public AdvertServiceImpl(AdvertRepository advertRepository) {
         this.advertRepository = advertRepository;
