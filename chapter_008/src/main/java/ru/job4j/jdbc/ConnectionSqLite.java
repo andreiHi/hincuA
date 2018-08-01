@@ -10,8 +10,6 @@ import java.sql.SQLException;
  * @since 0.1.
  */
 public class ConnectionSqLite {
-    //  private final String driver = "org.sqlite.JDBC";
-    //protected static final String url = ;
      private  String url;
 
     private Connection connection;
@@ -26,11 +24,8 @@ public class ConnectionSqLite {
     }
     private void getConnect() {
         try {
-            //  Class.forName(driver);
             connection = DriverManager.getConnection(url);
             System.out.println("Соединение установлено.");
-            // } catch (ClassNotFoundException e) {
-            //  e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }

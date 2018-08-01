@@ -26,6 +26,16 @@ public class PrimeIt implements Iterator {
         this.numbers = numbers;
     }
 
+    private boolean isPrime(int n) {
+        boolean found = true;
+        for (int j = 2; (j * j <= n); j++) {
+            if (n % j == 0) {
+               found = false;
+               break;
+            }
+        }
+        return found;
+    }
     /**
      * Метод проверяет есть ли в масиве еще простые числа.
      * @return true or false.

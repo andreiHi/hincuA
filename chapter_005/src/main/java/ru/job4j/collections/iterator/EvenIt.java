@@ -51,13 +51,12 @@ public class EvenIt implements Iterator {
      */
     @Override
     public Object next() {
-        int value = 0;
-        if (hasNext()) {
-            value = numbers[index];
-            index++;
-        } else {
+        int value;
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
+        value = numbers[index];
+        index++;
         return value;
     }
 }

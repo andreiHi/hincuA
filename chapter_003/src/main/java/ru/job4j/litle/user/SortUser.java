@@ -45,13 +45,17 @@ public class SortUser {
      list.sort(new Comparator<User>() {
          @Override
          public int compare(User user, User t1) {
-             int nameTemp = user.getName().length() - t1.getName().length();
+             int nameTemp = user.getName().compareTo(t1.getName());
              if (nameTemp == 0) {
                  return user.getAge() - t1.getAge();
              }
              return nameTemp;
          }
      });
+        return list;
+    }
+    public List<User> sortByAllFields2(List<User> list) {
+        list.sort(Comparator.comparing(User::getName).thenComparing(User::getAge));
         return list;
     }
 }

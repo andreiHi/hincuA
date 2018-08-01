@@ -12,10 +12,11 @@ import java.util.List;
 public class ConvertList {
     /**
      * конвертирует простой массив в ArrayList.
+     *
      * @param array двумерный массив.
      * @return ArrayList.
      */
-    public List<Integer> toList(int[][] array) {
+    public List<Integer> toList2(int[][] array) {
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
@@ -24,8 +25,10 @@ public class ConvertList {
         }
         return list;
     }
+
     /**
      * Конвертирует ArrayList в двумерный массив.
+     *
      * @param list арайлист.
      * @param rows колличествострок.
      * @return двумерный массив.
@@ -38,7 +41,7 @@ public class ConvertList {
             colum = list.size() / rows + 1;
         }
         int count = 0;
-        int[][]array = new int[rows][colum];
+        int[][] array = new int[rows][colum];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colum; j++) {
                 if (count < list.size()) {
@@ -53,7 +56,8 @@ public class ConvertList {
     }
 
     /**
-     *Конвертация листа массивов в один лист Integer.
+     * Конвертация листа массивов в один лист Integer.
+     *
      * @param list лист массивов.
      * @return лист Integer.
      */
@@ -73,7 +77,7 @@ public class ConvertList {
      * @return массив.
      */
     public int[] convert1(List<Integer> list) {
-        int[]array = new int[list.size()];
+        int[] array = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == null) {
                 array[i] = 0;
@@ -84,4 +88,13 @@ public class ConvertList {
         return array;
     }
 
+    public List<Integer> toList(int[][] array) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int[] a : array) {
+            for (int b : a) {
+                list.add(b);
+            }
+        }
+        return list;
+    }
 }

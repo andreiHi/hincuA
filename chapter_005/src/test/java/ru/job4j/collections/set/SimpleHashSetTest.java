@@ -14,7 +14,7 @@ public class SimpleHashSetTest {
     /**
      * Тест на время исполнения операции по добавлению новых элементов..
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void whenUsedSetWithArrayAndWithHash() {
         SimpleHashSet<Integer> set = new SimpleHashSet(1000000);
         long t = -System.currentTimeMillis();
