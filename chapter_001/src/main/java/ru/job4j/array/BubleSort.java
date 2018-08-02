@@ -34,17 +34,15 @@ public class BubleSort {
      * @return - отсортированный масив.
      */
     public int[] bubleSort(int[] array) {
-        int[] ar = array;
-        for (int i = ar.length - 1; i > 0; i--) {
+        for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
-                if (ar[j] > ar[j + 1]) {
-                    int temp = ar[j];
-                    ar[j] = ar[j + 1];
-                    ar[j + 1] = temp;
-
+                if (array[j] > array[j + 1]) {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
                 }
             }
         }
-        return ar;
+        return array;
     }
 }

@@ -25,6 +25,7 @@ public class TerminatorQuoter implements Quoter {
         System.out.println("repeat = " + this.repeat);
     }
     @Override
+    @PostConstruct
     public void sayQuote() {
         for (int i = 0; i < repeat; i++) {
             System.out.println("message = " + message);

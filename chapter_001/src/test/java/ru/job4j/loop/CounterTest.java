@@ -16,8 +16,8 @@ public class CounterTest {
     @Test
     public void whenStartOneAndFinishTenThenThirty() {
         Counter counter = new Counter();
-        int result = counter.add(1, 10);
-        int ex = 30;
+        int result = counter.add(9, 10);
+        int ex = 10;
         assertThat(result, is(ex));
     }
 }

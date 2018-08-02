@@ -50,5 +50,6 @@ public class TriangleTest {
         Triangle triangle = new Triangle();
         boolean ex = triangle.exist(2, 1, 3);
         assertThat(ex, is(false));
+        System.out.println(triangle.exist(2, 4, 6));
     }
 }

@@ -31,4 +31,20 @@ public class ArrayDuplicateTest {
         int[] c = duplicate.add(b, a);
         assertThat(c, is(new int[] {1, 2, 3, 4, 5, 6, 7}));
     }
+    @Test
+    public void povtoryaushiesya() {
+        String[] input = {"Привет", "Мир", "Привет", "Супер", "Мир"};
+        ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
+        String[] resultArray = arrayDuplicate.remove2(input);
+        String[] expectedArray = {"Привет", "Мир", "Супер"};
+        assertThat(resultArray, arrayContainingInAnyOrder(expectedArray));
+    }
+    @Test
+    public void povtoryaushiesya1() {
+        String[] input = {"Привет", "Привет", "Привет", "Привет", "Привет", };
+        ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
+        String[] resultArray = arrayDuplicate.remove2(input);
+        String[] expectedArray = {"Привет"};
+        assertThat(resultArray, arrayContainingInAnyOrder(expectedArray));
+    }
 }

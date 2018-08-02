@@ -22,6 +22,7 @@ public class ProfilingHandlerBeanPostProcessor implements BeanPostProcessor {
     private Map<String, Class> map = new HashMap<>();
     public ProfilingController controller = new ProfilingController();
 
+
     public ProfilingHandlerBeanPostProcessor() throws Exception {
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
         server.registerMBean(controller, new ObjectName("profiling", "name", "controller"));
@@ -29,9 +30,9 @@ public class ProfilingHandlerBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        Class<?> aClass = bean.getClass();
-        if (aClass.isAnnotationPresent(Profiling.class)) {
-            map.put(beanName, aClass);
+        Class<?> beanClass = bean.getClass();
+        if (beanClass.isAnnotationPresent(Profiling.class)) {
+            map.put(beanName, beanClass);
         }
         return bean;
     }

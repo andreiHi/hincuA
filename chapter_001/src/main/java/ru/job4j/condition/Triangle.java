@@ -12,6 +12,7 @@ public class Triangle {
     private Point a;
     /**
      * Вершина b.
+
      */
     private Point b;
     /**
@@ -42,7 +43,8 @@ public class Triangle {
      * @return - расстояние между точками.
      */
     public double distance(Point left, Point right) {
-        return Math.sqrt(Math.pow((right.getX() - left.getX()), 2) + Math.pow((right.getY() - left.getY()), 2));
+        return Math.sqrt(
+                Math.pow((right.getX() - left.getX()), 2) + Math.pow((right.getY() - left.getY()), 2));
     }
     /**
      * Метод вычисления Полупериметра по длинам сторон.
