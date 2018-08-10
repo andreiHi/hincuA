@@ -1,5 +1,11 @@
 package ru.job4j.quoters;
 
+import ru.job4j.quoters.contexlisiner.PostProxy;
+import ru.job4j.quoters.deprecated.DeprecatedClass;
+import ru.job4j.quoters.deprecated.T1000;
+import ru.job4j.quoters.inject.InjectRandomInt;
+import ru.job4j.quoters.profiling.Profiling;
+
 import javax.annotation.PostConstruct;
 
 /**
@@ -8,7 +14,12 @@ import javax.annotation.PostConstruct;
  * @since 0.1.
  */
 @Profiling
+@DeprecatedClass(newImpl = T1000.class)
 public class TerminatorQuoter implements Quoter {
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
 
     @InjectRandomInt(min = 2, max = 7)
     private int repeat;
@@ -25,8 +36,9 @@ public class TerminatorQuoter implements Quoter {
         System.out.println("repeat = " + this.repeat);
     }
     @Override
-    @PostConstruct
+    @PostProxy
     public void sayQuote() {
+        System.out.println("3 phase");
         for (int i = 0; i < repeat; i++) {
             System.out.println("message = " + message);
         }

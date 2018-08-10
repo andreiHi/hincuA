@@ -8,7 +8,7 @@ package ru.job4j.collections.generic;
  * @since 0.1
  * @param <E> тип хранимых данных.
  */
-public class AbstractStore<E extends Base> implements Store {
+public class AbstractStore<E extends Base> implements Store<E> {
     /**
      * Хранилище данных.
      */
@@ -45,9 +45,16 @@ public class AbstractStore<E extends Base> implements Store {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Base update(Base model) {
-        simpleArray.update((E) model);
-        return model;
+    public boolean update(String id, E model) {
+        boolean update = false;
+        for (int i = 0; i < size; i++) {
+            if (simpleArray.get(i).getId().equals(id)) {
+                model.setId(id);
+                update = simpleArray.update(i, model);
+                break;
+            }
+        }
+        return update;
     }
 
     /**
@@ -57,7 +64,7 @@ public class AbstractStore<E extends Base> implements Store {
      */
     @Override
     public boolean delete(String id) {
-        Base base = null;
+        E base = null;
         for (int i = 0; i < size; i++) {
             base = simpleArray.getValue(i);
             if (id.equals(base.getId())) {
@@ -73,7 +80,7 @@ public class AbstractStore<E extends Base> implements Store {
      * @param index номер.
      * @return элемент.
      */
-    public Base getByIndex(int index) {
+    public E getByIndex(int index) {
         return  simpleArray.getValue(index);
     }
 }

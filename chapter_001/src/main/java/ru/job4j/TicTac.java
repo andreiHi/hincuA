@@ -26,7 +26,7 @@ public class TicTac {
         String s1;
         StringBuilder sM = new StringBuilder(sb);
         String s2;
-        for (int i =0; i < sb.length()/2 - 1; i++) {
+        for (int i = 0; i < sb.length() / 2 - 1; i++) {
 
             sF = sF.replaceFirst("\\.", "");
             System.out.println(sF);

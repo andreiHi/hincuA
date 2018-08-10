@@ -48,17 +48,6 @@ public class SimpleArrayTest {
         assertThat("Sidorov", is(array.getValue(1)));
     }
 
-    /**
-     * Тест метода update по значению обновляемого элемента.
-     */
-    @Test
-    public void whenWasUpdateElementByValue() {
-        SimpleArray<String> array = new SimpleArray<>(2);
-        array.add("Petrov");
-        array.add("Ivanov");
-        array.update("Ivanov", "Kikabidze");
-        assertThat("Kikabidze", is(array.getValue(1)));
-    }
 
     /**
      * Тест метода delete.

@@ -1,5 +1,7 @@
 package ru.job4j.collections.generic;
 
+import java.util.NoSuchElementException;
+
 /**
  *SimpleArray .
  * Доделать контейнер SimpleArray<T> добавить методы addOrRemove, update, delete, get(int index).
@@ -36,39 +38,27 @@ public class SimpleArray<T> {
 
     /**
      * Метод обновляет значение по индексу.
-     * @param index позиция в массиве.
+     * @param id позиция в массиве.
      * @param value новое значение.
      */
-    public void update(int index, T value) {
-        objects[index] = value;
+    public boolean update(int id, T value) {
+        boolean success = false;
+        if (id < objects.length) {
+            objects[id] = value;
+            success = true;
+        }
+        return success;
     }
 
-    /**
-     * Метод обновляет элемент по значению.
-     * @param valueOld прежнее значение.
-     * @param valueNew новое значение.
-     */
-    public void update(T valueOld, T valueNew) {
-        for (int i = 0; i != index; i++) {
-            if (valueOld.equals(objects[i])) {
-                objects[i] = valueNew;
-                break;
-            }
+    @SuppressWarnings("unchecked")
+    public T get(int i) {
+        T t = null;
+        if (i <= index) {
+            t = (T) objects[i];
         }
+        return t;
     }
 
-    /**
-     * Обновление элемента.
-     * @param value элемент.
-     */
-    public void update(T value) {
-        for (int i = 0; i < objects.length; i++) {
-            if (value.equals(objects[i])) {
-                objects[i] = value;
-                break;
-            }
-        }
-    }
     /**
      * Метод возвращает значение по индексу.
      * @param pozition позиция в массиве.
@@ -90,11 +80,13 @@ public class SimpleArray<T> {
             if (value.equals(objects[i])) {
                 objects[i] = objects[index - 1];
                 objects[index - 1] = null;
+                this.index--;
                 found = true;
                 break;
             }
         }
         return found;
+
     }
 
     /**
@@ -103,12 +95,10 @@ public class SimpleArray<T> {
      * @return true or false.
      */
     public boolean delete(int index) {
-        boolean f = false;
-        if (index < this.index) {
-            objects[index] = objects[this.index - 1];
-            objects[this.index - 1] = null;
-            f = true;
+        if (index > this.index) {
+            throw new NoSuchElementException();
         }
-        return f;
+        System.arraycopy(this.objects, index + 1, this.objects, index, this.objects.length - index - 1);
+        return true;
     }
 }

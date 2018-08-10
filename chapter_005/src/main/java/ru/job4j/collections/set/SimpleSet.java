@@ -13,6 +13,7 @@ import ru.job4j.collections.list.SimpleContainer;
 public class SimpleSet<E> extends SimpleContainer<E> {
     public SimpleSet(int size) {
         super(size);
+
     }
 
 
@@ -23,4 +24,5 @@ public class SimpleSet<E> extends SimpleContainer<E> {
                 super.add(value);
             }
         }
+
     }

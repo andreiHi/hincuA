@@ -1,4 +1,4 @@
-package ru.job4j.quoters;
+package ru.job4j.quoters.profiling;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

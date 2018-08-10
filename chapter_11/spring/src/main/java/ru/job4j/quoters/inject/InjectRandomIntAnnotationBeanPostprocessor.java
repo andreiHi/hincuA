@@ -1,4 +1,4 @@
-package ru.job4j.quoters;
+package ru.job4j.quoters.inject;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -12,7 +12,7 @@ import java.util.Random;
  * @version $Id$.
  * @since 0.1.
  */
-public class InjectRandomIntAnnotationBeanPostprocessor implements BeanPostProcessor{
+public class InjectRandomIntAnnotationBeanPostprocessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {

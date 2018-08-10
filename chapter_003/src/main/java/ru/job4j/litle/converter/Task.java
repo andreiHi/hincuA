@@ -13,7 +13,7 @@ public class Task {
     private int priority;
     private String desc;
 
-    public Task( String desc, int priority) {
+    public Task(String desc, int priority) {
         this.priority = priority;
         this.desc = desc;
     }

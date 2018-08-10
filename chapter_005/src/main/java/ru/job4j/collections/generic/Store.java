@@ -21,7 +21,7 @@ public interface Store<T extends Base> {
      * @param model обновляемый элемент.
      * @return этот же элемент.
      */
-    T update(T model);
+    boolean update(String id, T model);
 
     /**
      * Удаление элемента.

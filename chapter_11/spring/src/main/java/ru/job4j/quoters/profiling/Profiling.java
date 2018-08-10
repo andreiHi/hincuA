@@ -1,4 +1,4 @@
-package ru.job4j.quoters;
+package ru.job4j.quoters.profiling;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,8 +9,6 @@ import java.lang.annotation.RetentionPolicy;
  * @since 0.1.
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InjectRandomInt {
+public @interface Profiling {
 
-    int min();
-    int max();
 }

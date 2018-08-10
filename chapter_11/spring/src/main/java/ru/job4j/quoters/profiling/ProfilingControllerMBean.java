@@ -1,4 +1,4 @@
-package ru.job4j.quoters;
+package ru.job4j.quoters.profiling;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 01.08.2018.

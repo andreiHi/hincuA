@@ -35,7 +35,7 @@ public class ArrayDuplicateTest {
     public void povtoryaushiesya() {
         String[] input = {"Привет", "Мир", "Привет", "Супер", "Мир"};
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
-        String[] resultArray = arrayDuplicate.remove2(input);
+        String[] resultArray = arrayDuplicate.remove(input);
         String[] expectedArray = {"Привет", "Мир", "Супер"};
         assertThat(resultArray, arrayContainingInAnyOrder(expectedArray));
     }
@@ -43,7 +43,7 @@ public class ArrayDuplicateTest {
     public void povtoryaushiesya1() {
         String[] input = {"Привет", "Привет", "Привет", "Привет", "Привет", };
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
-        String[] resultArray = arrayDuplicate.remove2(input);
+        String[] resultArray = arrayDuplicate.remove(input);
         String[] expectedArray = {"Привет"};
         assertThat(resultArray, arrayContainingInAnyOrder(expectedArray));
     }
