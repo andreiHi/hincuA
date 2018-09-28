@@ -40,7 +40,7 @@ public class ArrayDuplicateTest {
         assertThat(resultArray, arrayContainingInAnyOrder(expectedArray));
     }
     @Test
-    public void povtoryaushiesya1() {
+    public void testWhen() {
         String[] input = {"Привет", "Привет", "Привет", "Привет", "Привет", };
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
         String[] resultArray = arrayDuplicate.remove(input);

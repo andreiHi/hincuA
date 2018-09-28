@@ -1,8 +1,6 @@
 package ru.job4j.quoters;
 
 import ru.job4j.quoters.contexlisiner.PostProxy;
-import ru.job4j.quoters.deprecated.DeprecatedClass;
-import ru.job4j.quoters.deprecated.T1000;
 import ru.job4j.quoters.inject.InjectRandomInt;
 import ru.job4j.quoters.profiling.Profiling;
 
@@ -14,7 +12,7 @@ import javax.annotation.PostConstruct;
  * @since 0.1.
  */
 @Profiling
-@DeprecatedClass(newImpl = T1000.class)
+//@DeprecatedClass(newImpl = T1000.class)
 public class TerminatorQuoter implements Quoter {
 
     public void setRepeat(int repeat) {

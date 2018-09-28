@@ -57,7 +57,7 @@ public class ArrayDuplicate {
         } while (index < result.length);
         return result;
     }
-    public String[] remove(String[] array) {
+    public String[] remove2(String[] array) {
         int copies = 0;
         for (int i = 0; i < array.length - 1; i++) {
             for (int a = i + 1; a < array.length - copies; a++) {
@@ -72,6 +72,21 @@ public class ArrayDuplicate {
             }
         }
         return Arrays.copyOf(array, array.length - copies);
+    }
+    public String[] remove(String[] data) {
+        int index = 0;
+        for (int i = 0; i < data.length - 1; i++) {
+            int last = data.length - 1 - i;
+            for (int j = i; j < last; j++) {
+                if (data[i].equals(data[j + 1])) {
+                    String tmp = data[last];
+                    data[last] = data[j + 1];
+                    data[j + 1] = tmp;
+                    index = last; // запоминаем индекс с которого начинаются дубликаты
+                }
+            }
+        }
+        return Arrays.copyOf(data, index);
     }
 
 }

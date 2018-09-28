@@ -16,6 +16,7 @@
         <module>componentCar</module>
         <module>shopCar</module>
         <module>spring</module>
+        <module>hibernate</module>
     </modules>
 
 
