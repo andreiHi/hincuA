@@ -36,9 +36,9 @@ public class UserStoreTest {
     Role role = new Role("1", "Petrov");
     roleUserStore.add(role);
     role.setName("Sidorov");
-    Role result = (Role) roleUserStore.update(role);
-    Role ex  = (Role) roleUserStore.getByIndex(0);
-    assertThat(ex, is(result));
+    boolean result =  roleUserStore.update("1", role);
+    Role ex  =  roleUserStore.getByIndex(0);
+    assertThat(ex.getName(), is("Sidorov"));
 
     }
 }

@@ -17,7 +17,7 @@ public class Test {
 
     public static void main(String[] args) {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydbtest?useSSL=false", "root","password");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydbtest?useSSL=false", "root", "password");
         } catch (SQLException e) {
             LOG.info(e.getMessage(), e);
         }

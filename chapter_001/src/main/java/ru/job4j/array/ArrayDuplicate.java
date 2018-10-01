@@ -9,7 +9,7 @@ public class ArrayDuplicate {
      * @param array входящий массив с дубликатами;
      * @return массив без дубликатов.
      */
-    public String[] remove0(String[] array) {
+    public String[] remove(String[] array) {
         int len = array.length;
         for (int i = 0; i < len; i++) {
             for (int j = i + 1; j < len; j++) {
@@ -73,7 +73,7 @@ public class ArrayDuplicate {
         }
         return Arrays.copyOf(array, array.length - copies);
     }
-    public String[] remove(String[] data) {
+    public String[] remove0(String[] data) {
         int index = 0;
         for (int i = 0; i < data.length - 1; i++) {
             int last = data.length - 1 - i;

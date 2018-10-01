@@ -33,8 +33,8 @@ public class AbstractStore<E extends Base> implements Store<E> {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Base add(Base model) {
-        simpleArray.add((E) model);
+    public E add(E model) {
+        simpleArray.add(model);
         return model;
     }
 

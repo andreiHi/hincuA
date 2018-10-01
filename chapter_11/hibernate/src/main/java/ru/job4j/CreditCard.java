@@ -44,10 +44,15 @@ public class CreditCard extends BillingDetails {
 
     @Override
     public String toString() {
-        return "CreditCard{" +
-                "cardNumber=" + cardNumber +
-                ", expMonth='" + expMonth + '\'' +
-                ", expYear='" + expYear + '\'' +
-                '}';
+        return "CreditCard{"
+                + "cardNumber="
+                + cardNumber
+                + ", expMonth='"
+                + expMonth
+                + '\''
+                + ", expYear='"
+                + expYear
+                + '\''
+                + '}';
     }
 }

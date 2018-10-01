@@ -42,10 +42,15 @@ public class BankAccount extends BillingDetails {
 
     @Override
     public String toString() {
-        return "BankAccount{" +
-                "account=" + account +
-                ", bankName='" + bankName + '\'' +
-                ", swift='" + swift + '\'' +
-                '}';
+        return "BankAccount{"
+                + "account="
+                + account
+                + ", bankName='"
+                + bankName
+                + '\''
+                + ", swift='"
+                + swift
+                + '\''
+                + '}';
     }
 }

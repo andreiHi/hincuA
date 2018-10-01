@@ -30,10 +30,13 @@ public abstract class BillingDetails {
 
     @Override
     public String toString() {
-        return "BillingDetails{" +
-                "id=" + id +
-                ", owner='" + owner + '\'' +
-                '}';
+        return "BillingDetails{"
+                + "id="
+                + id
+                + ", owner='"
+                + owner
+                + '\''
+                + '}';
 
     }
 
