@@ -4,11 +4,12 @@ import org.junit.Test;
 import ru.job4j.litle.testtask.Account;
 import ru.job4j.litle.testtask.Bank;
 import ru.job4j.litle.testtask.User;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 
 
 /**
@@ -27,10 +28,9 @@ public class BankTest {
         Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
-        HashMap<User, List<Account>> map = bank.getBank();
-        boolean present = true;
+        Map<User, List<Account>> map = bank.getBank();
         boolean ex = map.containsKey(user);
-        assertThat(present, is(ex));
+        assertTrue(ex);
     }
 
     /**
@@ -84,10 +84,9 @@ public class BankTest {
         bank.addUser(userSr);
         bank.addUser(userDs);
         bank.deleteUser(userDs);
-        HashMap<User, List<Account>> map =  bank.getBank();
+        Map<User, List<Account>> map =  bank.getBank();
         boolean present = map.containsKey(userDs);
-        boolean ex =  false;
-        assertThat(present, is(ex));
+        assertFalse(present);
     }
 
     /**
@@ -103,9 +102,8 @@ public class BankTest {
         Account account2 =  new Account(100, 2);
         bank.addAccountToUser(user, account2);
         List<Account> list = bank.getUserAccounts(user);
-        boolean contains = list.contains(account2);
-        boolean ex = true;
-        assertThat(contains, is(ex));
+        assertTrue(list.contains(account2));
+        assertTrue(list.contains(account));
     }
 
     /**
@@ -120,10 +118,23 @@ public class BankTest {
         bank.addAccountToUser(user, account);
         Account account2 =  new Account(100, 2);
         bank.addAccountToUser(user, account2);
-        bank.deleteAccountFromUser(user, account2);
+        boolean res = bank.deleteAccountFromUser(user, account2);
+        assertTrue(res);
         List<Account> list = bank.getUserAccounts(user);
         boolean contains = list.contains(account2);
         boolean ex = false;
         assertThat(contains, is(ex));
     }
 }
+/**
+ *putIfAbsent эквивалентно:
+ * ValueClass value = new ValueClass();
+ * if (map.get("key") == null) {
+ * map.put("key",value);
+ * }
+ *а computeIfAbsent эквивалентно:
+ *
+ * if (map.get("key") == null) {
+ * map.put("key",new ValueClass());
+ }
+ */

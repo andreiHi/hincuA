@@ -33,15 +33,11 @@ public class UserTest {
      */
     @Test
     public void whenAddedTwoUsersWithOutHashCodeAndEquals() {
-        Object o = new Object();
-        Object o1 = new Object();
-        User user = new User("Petrov", 2);
-        User user2 = new User("Petrov", 2);
-        map.put(user, o);
-        map.put(user2, o1);
-        for (User m : map.keySet()) {
-            System.out.println(m);
-
-        }
+        User user1 = new User("Anna", 28, 1);
+        User user2 = new User("Anna", 28, 1);
+        Map<User, Integer> map = new HashMap<>();
+        map.put(user1, 1);
+        map.put(user2, 2);
+        System.out.println(map);
     }
 }

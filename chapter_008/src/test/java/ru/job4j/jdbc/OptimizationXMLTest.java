@@ -102,12 +102,14 @@ public class OptimizationXMLTest {
     @Test
     @Ignore
     public void whenCalledCreateFirstWithSax() throws Exception {
-        OptimizationXML optimizationXML = new OptimizationXML(connectionSqLite, 10);
+        OptimizationXML optimizationXML = new OptimizationXML(connectionSqLite, 1000000);
+        long start = System.currentTimeMillis();
         optimizationXML.createFirstXmlWithSAX(file, factory);
         verify(file, times(1)).getPath();
         verify(mocConnection, times(1)).createStatement();
         verify(factory).createXMLStreamWriter(new BufferedWriter(new FileWriter(file)));
         verify(writer, times(1)).writeStartDocument();
+        System.out.println(System.currentTimeMillis() - start);
 
     }
 }

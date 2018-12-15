@@ -3,6 +3,7 @@ package ru.job4j.litle.testtask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Bank.
@@ -14,12 +15,14 @@ public class Bank {
     /**
      * хранилище всех вкладчиков, ключь user значение список счетов.
      */
-    private HashMap<User, List<Account>> bank = new HashMap<User, List<Account>>();
+    private Map<User, List<Account>> bank;
 
     /**
      * Конструктор класса.
      */
     public Bank() {
+        this.bank = new HashMap<>();
+
     }
 
     /**
@@ -27,11 +30,7 @@ public class Bank {
      * @param user user.
      */
     public void addUser(User user) {
-        if (user != null) {
-            if (!bank.containsKey(user)) {
-                bank.put(user, new ArrayList<Account>());
-            }
-        }
+        bank.computeIfAbsent(user, k -> new ArrayList<>());
     }
 
     /**
@@ -40,9 +39,7 @@ public class Bank {
      */
     public void deleteUser(User user) {
         if (user != null) {
-            if (bank.containsKey(user)) {
-                bank.remove(user);
-            }
+            bank.remove(user);
         }
     }
 
@@ -53,12 +50,11 @@ public class Bank {
      */
     public void addAccountToUser(User user, Account account) {
         if (user != null && account != null) {
-            if (bank.containsKey(user)) {
-                List<Account> list = bank.get(user);
+            List<Account> list = bank.get(user);
+            if (list != null) {
                 if (!list.contains(account)) {
                     list.add(account);
                 }
-                bank.put(user, list);
             }
         }
     }
@@ -67,7 +63,7 @@ public class Bank {
      * getter.
      * @return bank.
      */
-    public HashMap<User, List<Account>> getBank() {
+    public Map<User, List<Account>> getBank() {
         return bank;
     }
 
@@ -76,16 +72,15 @@ public class Bank {
      * @param user user.
      * @param account account.
      */
-    public void deleteAccountFromUser(User user, Account account) {
+    public boolean deleteAccountFromUser(User user, Account account) {
+        boolean result = false;
         if (user != null && account != null) {
-            if (bank.containsKey(user)) {
-                List<Account> list = bank.get(user);
-                if (list.contains(account)) {
-                    list.remove(account);
-                }
-                bank.put(user, list);
+            List<Account> list = bank.get(user);
+            if (list != null) {
+                result = list.remove(account);
             }
         }
+        return result;
     }
 
     /**
@@ -95,6 +90,10 @@ public class Bank {
      */
     public List<Account> getUserAccounts(User user) {
         return bank.get(user);
+    }
+
+    public Account getAccountByRequisite(String passport, String requisite) {
+        return null;
     }
 
     /**

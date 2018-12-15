@@ -50,4 +50,10 @@ public class Point {
     public boolean is(int a, int b) {
         return this.y == a * this.x + b;
     }
+
+    public double distanceTo(Point that) {
+        return Math.sqrt(
+                Math.pow(this.x - that.x, 2) + Math.pow(this.y - that.y, 2)
+        );
+    }
 }

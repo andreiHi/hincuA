@@ -1,8 +1,11 @@
 package ru.job4j.tracker.start;
 
+import ru.job4j.tracker.action.MenuTracker;
 import ru.job4j.tracker.connection.ConnectionSQL;
+import ru.job4j.tracker.input.ConsoleInput;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.ValidateInput;
+import ru.job4j.tracker.storage.TrackerDb;
 
 /**
  *StartUi .
@@ -16,18 +19,18 @@ public class StartUi {
      */
     private Input input;
     /**
-     * Tracker.
+     * TrackerDb.
      */
-    private Tracker tracker;
+    private TrackerDb trackerDb;
 
     /**
      * Конструктор класса.
      * @param input взаимодействие с пользователем.
-     * @param tracker трекер.
+     * @param trackerDb трекер.
      */
-    public StartUi(Input input, Tracker tracker) {
+    public StartUi(Input input, TrackerDb trackerDb) {
         this.input = input;
-        this.tracker = tracker;
+        this.trackerDb = trackerDb;
     }
 
     /**
@@ -35,19 +38,19 @@ public class StartUi {
      * @param args отсутствует.
      */
     public static void main(String[] args) {
-        new StartUi(new ValidateInput(), new Tracker(new ConnectionSQL())).init();
+        new StartUi(new ValidateInput(new ConsoleInput()), new TrackerDb(new ConnectionSQL())).init();
     }
 
     /**
      * Главный метод программы.
      */
     public void init() {
-        MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
+        MenuTracker menuTracker = new MenuTracker(this.input, this.trackerDb);
         menuTracker.fillActions();
         int[] rang = menuTracker.rangs();
         int key;
         do {
-            menuTracker.show();
+            menuTracker.show(System.out :: println);
             key = input.ask("Select:", rang);
             menuTracker.select(key);
         } while (rang[6] != key);

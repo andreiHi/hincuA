@@ -36,7 +36,7 @@ public class OptimizatorTest {
     @Before
     @Ignore
     public void init() {
-        optimizator = new OptimizationXML(new ConnectionSqLite(), 1000);
+        optimizator = new OptimizationXML(new ConnectionSqLite(), 1000000);
         if (System.getProperty("os.name").equals("Linux")) {
             this.url = "jdbc:sqlite:/home/andrei/java.db";
         } else {

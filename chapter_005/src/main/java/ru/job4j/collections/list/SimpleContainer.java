@@ -63,11 +63,10 @@ public class SimpleContainer<T> implements Iterable<T> {
             @Override
             public T next() {
                 synchronized (container) {
-                    if (hasNext()) {
-                        return container[currentIndex++];
-                    } else {
+                    if (!hasNext()) {
                         throw new NoSuchElementException();
                     }
+                    return container[currentIndex++];
                 }
             }
         };

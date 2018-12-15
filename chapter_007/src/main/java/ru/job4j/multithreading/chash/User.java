@@ -38,6 +38,10 @@ public class User {
         return version;
     }
 
+    public void update(User user) {
+        this.name = user.name;
+    }
+
     @Override
     public String toString() {
         return "User{"
@@ -50,4 +54,5 @@ public class User {
                 + id
                 + '}';
     }
+
 }

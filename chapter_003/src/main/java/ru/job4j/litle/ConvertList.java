@@ -1,7 +1,9 @@
 package ru.job4j.litle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ConvertList.
@@ -62,13 +64,11 @@ public class ConvertList {
      * @return лист Integer.
      */
     public List<Integer> convert(List<int[]> list) {
-        ArrayList<Integer> result = new ArrayList<Integer>();
-        for (int[] i : list) {
-            for (int j : i) {
-                result.add(j);
-            }
-        }
-        return result;
+       return list.stream()
+               .flatMapToInt(Arrays::stream)
+               .boxed()
+               .collect(Collectors.toCollection(ArrayList::new));
+
     }
 
     /**

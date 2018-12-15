@@ -1,5 +1,8 @@
 package  ru.job4j.multithreading.chash;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -10,28 +13,30 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version $Id$
  * @since 0.1
  */
+@ThreadSafe
 public class NonBlockingCash {
+    @GuardedBy("this")
     private ConcurrentHashMap<Integer, User> map = new ConcurrentHashMap<>();
     public void add(User user) {
-      //  map.putIfAbsent(user.getId(), user);
-        map.computeIfAbsent(user.getId(), integer -> user);
+        map.putIfAbsent(user.getId(), user);
     }
 
     public void delete(User user) {
         map.remove(user.getId());
     }
+
     public void update(User user) {
-        int v = user.getVersion();
-        map.computeIfPresent(user.getId(), (integer, user1) -> {
-            if ((v + 1) == user1.getVersion()) {
+        map.computeIfPresent(user.getId(), (k, userM) -> {
+
+            if (user.getVersion() < userM.getVersion()) {
                 throw new RuntimeException();
             }
-            user1 = user;
-            user1.setVersion(v + 1);
-            return user1;
+            userM.update(user);
+            userM.setVersion(userM.getVersion() + 1);
+            return userM;
         });
     }
-    public User get(int id) {
+    public User getValue(int id) {
         return map.get(id);
     }
 }
@@ -45,7 +50,7 @@ class Main {
         non.add(user);
         User user1 = new User("Petea", 1);
         non.update(user1);
-        System.out.println(non.get(1));
+        System.out.println(non.getValue(1));
 
     }
 }

@@ -1,6 +1,7 @@
 package ru.job4j.condition;
 
 import org.junit.Test;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -23,5 +24,13 @@ public class PointTest {
         boolean rsl = a.is(0, 1);
         // assert result by excepted value.
         assertThat(rsl, is(true));
+    }
+
+    @Test
+    public void test() {
+        Point first = new Point(3, 4);
+        Point second = new Point(0, 0);
+        double distance = first.distanceTo(second);
+        assertThat(distance, is(5d));
     }
 }

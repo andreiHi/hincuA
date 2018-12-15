@@ -1,7 +1,7 @@
 package ru.job4j.tracker.action;
 
 import ru.job4j.tracker.input.Input;
-import ru.job4j.tracker.start.Tracker;
+import ru.job4j.tracker.storage.TrackerDb;
 
 /**
  * UserAction.
@@ -19,10 +19,10 @@ public interface UserAction {
 
     /**
      * Метод выполнения команды.
-     * @param tracker tracker.
+     * @param trackerDb trackerDb.
      * @param input input.
      */
-    void execute(Tracker tracker, Input input);
+    void execute(TrackerDb trackerDb, Input input);
 
     /**
      * Распечатывает инфо о событии.

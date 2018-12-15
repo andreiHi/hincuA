@@ -1,9 +1,8 @@
 package ru.job4j.tracker.input;
 
-import ru.job4j.tracker.start.MenuOutputException;
+import ru.job4j.tracker.exceptions.MenuOutputException;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
@@ -30,14 +29,7 @@ public class ConsoleInput implements Input {
      */
     public String ask(String question) {
         System.out.println(question);
-        String line = "";
-        try {
-            line = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return line;
-      //  return scanner.nextLine();
+        return scanner.nextLine();
     }
 
     /**
@@ -50,13 +42,13 @@ public class ConsoleInput implements Input {
 
     /**
      * Перегруженный метод ask.
-     * @param quasction вопрос пользователю.
+     * @param question вопрос пользователю.
      * @param range правильный набор ответов.
      * @return ключь.
      */
     @Override
-    public int ask(String quasction, int[] range) {
-       int key = Integer.parseInt(this.ask(quasction));
+    public int ask(String question, int[] range) {
+       int key = Integer.parseInt(this.ask(question));
        boolean exist = false;
         for (int value : range) {
             if (value == key) {
@@ -64,11 +56,9 @@ public class ConsoleInput implements Input {
                 break;
             }
         }
-        if (exist) {
-
-            return key;
-        } else {
+        if (!exist) {
             throw new MenuOutputException("Out of menu range!");
         }
+        return key;
     }
 }
