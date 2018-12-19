@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * ConvertList.
@@ -96,5 +97,9 @@ public class ConvertList {
             }
         }
         return list;
+    }
+    public List<Integer> toList1(int[][] array) {
+        return Arrays.stream(array).flatMapToInt(IntStream::of).boxed()
+                .collect(Collectors.toList());
     }
 }
