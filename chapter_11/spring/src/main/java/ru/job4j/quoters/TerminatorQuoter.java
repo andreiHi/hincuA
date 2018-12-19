@@ -6,6 +6,7 @@ import ru.job4j.quoters.profiling.Profiling;
 
 import javax.annotation.PostConstruct;
 
+
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 01.08.2018.
  * @version $Id$.
