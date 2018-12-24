@@ -88,14 +88,14 @@ public class StabInputTest {
     @Test
     @Ignore
     public void whetTrackerHasTwoItemsThenHasOneItem() {
-        TrackerDb trackerDb = new TrackerDb(new ConnectionSQL());
+        TrackerDb trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection());
         Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
         item = trackerDb.add(item);
         item1 = trackerDb.add(item1);
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUi(input, trackerDb).init();
-        trackerDb = new TrackerDb(new ConnectionSQL());
+        trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection());
         List<Item> list = new ArrayList<>();
         list.add(item1);
         assertThat(list, is(trackerDb.getAll()));
@@ -110,14 +110,14 @@ public class StabInputTest {
     @Test
     @Ignore
     public void whenTrackerHasTwoItemThenReturnById() {
-        TrackerDb trackerDb = new TrackerDb(new ConnectionSQL());
+        TrackerDb trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection());
         Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
         item = trackerDb.add(item);
         item1 = trackerDb.add(item1);
         Input input = new StubInput(new String[]{"4", item1.getId(), "3", "6"});
         new StartUi(input, trackerDb).init();
-        trackerDb = new TrackerDb(new ConnectionSQL());
+        trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection());
         Item ex = trackerDb.findById(item.getId());
         assertThat(ex.getName(), is("test1"));
         trackerDb.delete(item);
@@ -131,14 +131,14 @@ public class StabInputTest {
     @Test
     @Ignore
     public void whenTrackerHasTwoItemThenReturnByName() {
-        TrackerDb trackerDb = new TrackerDb(new ConnectionSQL());
+        TrackerDb trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection());
         Item item = new Item("test1", "testDesc1");
         Item item1 = new Item("test2", "testDesc2");
         item = trackerDb.add(item);
         item1 = trackerDb.add(item1);
         Input input = new StubInput(new String[]{"5", item1.getName(), "6"});
         new StartUi(input, trackerDb).init();
-        trackerDb = new TrackerDb(new ConnectionSQL());
+        trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection());
         List<Item> ex = new ArrayList<>(Arrays.asList(item1));
         assertThat(trackerDb.findByName(item1.getName()), is(ex));
         trackerDb.delete(item);

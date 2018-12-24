@@ -1,6 +1,5 @@
 package ru.job4j.tracker.storage;
 
-import ru.job4j.tracker.connection.ConnectionSQL;
 import ru.job4j.tracker.connection.Query;
 import ru.job4j.tracker.models.Comment;
 import ru.job4j.tracker.models.Item;
@@ -25,8 +24,8 @@ public class TrackerDb {
      */
     private final Connection connection;
 
-    public TrackerDb(ConnectionSQL connectionSQL) {
-        this.connection = connectionSQL.getConnection();
+    public TrackerDb(Connection connection) {
+        this.connection = connection;
         init();
     }
 

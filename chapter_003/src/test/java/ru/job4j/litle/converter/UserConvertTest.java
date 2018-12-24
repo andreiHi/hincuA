@@ -1,10 +1,13 @@
 package ru.job4j.litle.converter;
 
 import org.junit.Test;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  *Test .
@@ -23,7 +26,7 @@ public class UserConvertTest {
         list.add(new User(1, "Ivan", "Chisinau"));
         list.add(new User(2, "Alex", "Vorkuta"));
         list.add(new User(3, "Denis", "Magadan"));
-        HashMap<Integer, User> mapResult = userConvert.process(list);
+        Map<Integer, User> mapResult = userConvert.process2(list);
         HashMap<Integer, User> ex = new HashMap<>();
         ex.put(1, new User(1, "Ivan", "Chisinau"));
         ex.put(2, new User(2, "Alex", "Vorkuta"));

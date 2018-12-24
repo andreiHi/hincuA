@@ -10,19 +10,20 @@ import ru.job4j.tracker.exceptions.MenuOutputException;
  * @since 0.1
  */
 public class ValidateInput implements Input {
-    @Override
-    public String ask(String question) {
-        return null;
-    }
 
-    @Override
-    public void writeMessage(String message) {
-
-    }
     private Input input;
 
     public ValidateInput(Input input) {
         this.input = input;
+    }
+
+    @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+    @Override
+    public void writeMessage(String message) {
+        System.out.println(message);
     }
 
     /**

@@ -1,8 +1,9 @@
 package ru.job4j.tracker.connection;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Класс соединения с бд.
@@ -14,30 +15,33 @@ public class ConnectionSQL {
     /**
      * Имя пользователя в базе данных.
      */
-    private final String user = "postgres";
-    /**
-     * Путь к бд.
-     */
-    private final String url = "jdbc:postgresql://localhost:5432/tracker";
-    /**
-     * Пароль к бд.
-     */
-    private final String password = "5432";
+    private Properties properties = new Properties();
+
+    private static final class Holder {
+        private static final ConnectionSQL INSTANCE = new ConnectionSQL();
+    }
     /**
      * Соединение с бд.
      */
+    public static ConnectionSQL getInstance() {
+        return Holder.INSTANCE;
+    }
     private  Connection connection;
 
     public Connection getConnection() {
         return connection;
     }
 
-    public ConnectionSQL() {
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
+    private ConnectionSQL() {
+        try (InputStream stream = getClass().getClassLoader().getResourceAsStream("tracker.properties")) {
+            properties.load(stream);
+            Class.forName(properties.getProperty("driver-class-name"));
+            connection = DriverManager.getConnection(
+                    properties.getProperty("url"),
+                    properties.getProperty("user"),
+                    properties.getProperty("password"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

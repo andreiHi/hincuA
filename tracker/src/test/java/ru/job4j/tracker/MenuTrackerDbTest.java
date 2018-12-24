@@ -80,8 +80,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenNewTrackerCreatedThenTestInit() throws SQLException {
-        new TrackerDb(connectionSQL);
-        verify(connectionSQL, times(1)).getConnection();
+        new TrackerDb(connection);
         verify(connection, times(1)).createStatement();
         verify(mocStatment, times(1)).executeUpdate(anyString());
         assertThat(mocStatment.executeUpdate(anyString()), is(1));
@@ -93,7 +92,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenAddedNewItem() throws Exception {
-        Item result = new TrackerDb(connectionSQL).add(item);
+        Item result = new TrackerDb(connection).add(item);
         verify(connection, times(1)).prepareStatement(anyString(), anyInt());
         verify(mocPreparedStatement, times(2)).setString(anyInt(), anyString());
         verify(mocPreparedStatement, times(1)).setTimestamp(anyInt(), any());
@@ -111,7 +110,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenItemWasUpdate() throws Exception {
-        new TrackerDb(connectionSQL).update(item);
+        new TrackerDb(connection).update(item);
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(2)).setString(anyInt(), anyString());
         verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
@@ -125,7 +124,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenItemWasDelete() throws Exception {
-        new TrackerDb(connectionSQL).delete(item);
+        new TrackerDb(connection).delete(item);
         verify(connection, times(2)).prepareStatement(anyString());
         verify(item, times(2)).getId();
         assertThat(item.getId(), is("1"));
@@ -140,7 +139,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledGetAllMethod() throws Exception {
-        List<Item> result = new TrackerDb(connectionSQL).getAll();
+        List<Item> result = new TrackerDb(connection).getAll();
         verify(connection, times(2)).createStatement();
         verify(mocStatment, times(1)).executeQuery(anyString());
         verify(mocResultSet, times(2)).next();
@@ -159,7 +158,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledFindByName() throws Exception {
-        List<Item> result = new TrackerDb(connectionSQL).findByName("test");
+        List<Item> result = new TrackerDb(connection).findByName("test");
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(1)).setString(anyInt(), anyString());
         verify(mocResultSet, times(2)).next();
@@ -179,7 +178,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledFindById() throws Exception {
-        Item result = new TrackerDb(connectionSQL).findById("1");
+        Item result = new TrackerDb(connection).findById("1");
         verify(connection, times(2)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(2)).executeQuery();
@@ -199,7 +198,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledGetAllComments() throws Exception {
-        List<Comment> result = new TrackerDb(connectionSQL).getAllComments("1");
+        List<Comment> result = new TrackerDb(connection).getAllComments("1");
         verify(connection, times(2)).createStatement();
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocStatment, times(2)).executeUpdate(anyString());
@@ -220,7 +219,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledAddNewComment() throws Exception {
-        new TrackerDb(connectionSQL).addNewComment("1", "test1");
+        new TrackerDb(connection).addNewComment("1", "test1");
         verify(connection, times(2)).createStatement();
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocStatment, times(2)).executeUpdate(anyString());
@@ -237,7 +236,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledDeleteAllComments() throws Exception {
-        new TrackerDb(connectionSQL).deleteComment("1", "all");
+        new TrackerDb(connection).deleteComment("1", "all");
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(1)).executeUpdate();
@@ -250,7 +249,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenWasCalledDeleteOneComments() throws Exception {
-        new TrackerDb(connectionSQL).deleteComment("1", "2");
+        new TrackerDb(connection).deleteComment("1", "2");
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(2)).setInt(anyInt(), anyInt());
         verify(mocPreparedStatement, times(1)).executeUpdate();

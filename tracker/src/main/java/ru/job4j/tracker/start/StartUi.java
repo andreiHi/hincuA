@@ -38,7 +38,7 @@ public class StartUi {
      * @param args отсутствует.
      */
     public static void main(String[] args) {
-        new StartUi(new ValidateInput(new ConsoleInput()), new TrackerDb(new ConnectionSQL())).init();
+        new StartUi(new ValidateInput(new ConsoleInput()), new TrackerDb(ConnectionSQL.getInstance().getConnection())).init();
     }
 
     /**

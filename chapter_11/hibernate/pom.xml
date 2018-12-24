@@ -11,12 +11,6 @@
 
     <artifactId>hiber</artifactId>
     <dependencies>
-        <!-- PostgreSQL -->
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.0-801.jdbc4</version>
-        </dependency>
         <!-- Hibernate-JPA-2.1-API -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
