@@ -1,6 +1,7 @@
 package ru.job4j.collections.orderbook;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import java.util.TreeSet;
 import static org.hamcrest.core.Is.is;
@@ -60,6 +61,7 @@ public class OrderBookTest {
     /**
      * Метод запускает всю программу и выводит в консоль результат.
      */
+    @Ignore
     @Test
     public void startProgram() {
         orderBook.start();

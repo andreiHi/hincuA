@@ -1,5 +1,6 @@
 package ru.job4j.collections.set;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -15,6 +16,7 @@ public class SimpleHashSetTest {
      * Тест на время исполнения операции по добавлению новых элементов..
      */
     @Test
+    @Ignore
     public void whenUsedSetWithArrayAndWithHash() {
         SimpleHashSet<Integer> set = new SimpleHashSet(1000000);
         long t = -System.currentTimeMillis();
