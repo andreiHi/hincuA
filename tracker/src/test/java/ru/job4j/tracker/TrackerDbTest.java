@@ -1,19 +1,20 @@
 package ru.job4j.tracker;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.tracker.models.Item;
 import ru.job4j.tracker.storage.TrackerDb;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 04.09.2017.
@@ -23,30 +24,33 @@ import static org.mockito.Mockito.when;
 public class TrackerDbTest {
     private TrackerDb trackerDb;
     private Item item;
-    private Item item1;
 
-    @Before
-    public void init() {
-        this.item = new Item("test1", "testDescription");
-        //  this.item1 = new Item("test1", "testDescription");
-        // trackerDb = new TrackerDb();
-        Item itemResult = new Item("1", "test1",  "testDescription");
-        trackerDb = mock(TrackerDb.class);
-        when(trackerDb.add(item)).thenReturn(itemResult);
+
+
+    public Connection init() {
+        try (InputStream in = TrackerDb.class.getClassLoader().getResourceAsStream("tracker.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("user"),
+                    config.getProperty("password")
+
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
-    @After
-    public void close() {
-        trackerDb.close();
-    }
+
     /**
      * Test add new Item.
      */
     @Test
-    public void whenAddNewItemThenTrackerHasSameItem() {
-        Item item1 = trackerDb.add(item);
-        String id = item1.getId();
-        assertThat(item1.getId(), is(id));
-        trackerDb.delete(item1);
+    public void whenAddNewItemThenTrackerHasSameItem() throws SQLException {
+        TrackerDb trackerDb = new TrackerDb(ConnectionRollback.create(this.init()));
+        Item item1 = trackerDb.add(new Item("Test", "Desc"));
+        assertThat(trackerDb.findByName("Test").size(), is(1));
     }
 
     /**

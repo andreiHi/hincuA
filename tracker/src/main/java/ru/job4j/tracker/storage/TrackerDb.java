@@ -14,7 +14,7 @@ import java.util.List;
  * @version $Id$.
  * @since 0.1.
  */
-public class TrackerDb {
+public class TrackerDb implements ITracker, AutoCloseable {
     /**
      * Хранилище заявок.
      */
@@ -35,6 +35,7 @@ public class TrackerDb {
     private void init() {
         try (final Statement statement = connection.createStatement()) {
             statement.executeUpdate(Query.CREATE_TRACKER_TABLE);
+            statement.executeUpdate(Query.CREATE_COMMENTS_TABLE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,7 +47,8 @@ public class TrackerDb {
      * @return - заявка.
      */
     public Item add(Item item) {
-        try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.INSERT_NEW_ITEM, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (final PreparedStatement preparedStatement =
+                     this.connection.prepareStatement(Query.INSERT_NEW_ITEM, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setString(2, item.getDesc());
             preparedStatement.setTimestamp(3, new Timestamp(item.getCreated()));
@@ -186,9 +188,10 @@ public class TrackerDb {
      */
     public List<Comment> getAllComments(String id) {
         List<Comment> comments = new ArrayList<>();
-        try (final Statement statement = connection.createStatement();
+        try (
+//           final Statement statement = connection.createStatement();
              final PreparedStatement preparedStatement = connection.prepareStatement(Query.SELECT_ALL_COMMENTS)) {
-            statement.executeUpdate(Query.CREATE_COMMENTS_TABLE);
+//          statement.executeUpdate(Query.CREATE_COMMENTS_TABLE);
             preparedStatement.setInt(1, Integer.parseInt(id));
             try (final ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {

@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import ru.job4j.tracker.action.MenuTracker;
 import ru.job4j.tracker.connection.ConnectionSQL;
 import ru.job4j.tracker.input.ConsoleInput;
@@ -14,6 +16,7 @@ import ru.job4j.tracker.storage.TrackerDb;
  * @since 0.1
  */
 public class StartUi {
+    private static final Logger LOG = LogManager.getLogger(StartUi.class);
     /**
      * Input.
      */
@@ -22,6 +25,7 @@ public class StartUi {
      * TrackerDb.
      */
     private TrackerDb trackerDb;
+    private boolean exit = true;
 
     /**
      * Конструктор класса.
@@ -38,14 +42,18 @@ public class StartUi {
      * @param args отсутствует.
      */
     public static void main(String[] args) {
-        new StartUi(new ValidateInput(new ConsoleInput()), new TrackerDb(ConnectionSQL.getInstance().getConnection())).init();
+        try (TrackerDb trackerDb = new TrackerDb(ConnectionSQL.getInstance().getConnection())) {
+            new StartUi(new ValidateInput(new ConsoleInput()), trackerDb).init();
+        } catch (Exception e) {
+            LOG.trace(e.getMessage(), e);
+        }
     }
 
     /**
      * Главный метод программы.
      */
     public void init() {
-        MenuTracker menuTracker = new MenuTracker(this.input, this.trackerDb);
+        MenuTracker menuTracker = new MenuTracker(this.input, this.trackerDb, this);
         menuTracker.fillActions();
         int[] rang = menuTracker.rangs();
         int key;
@@ -53,7 +61,9 @@ public class StartUi {
             menuTracker.show(System.out :: println);
             key = input.ask("Select:", rang);
             menuTracker.select(key);
-        } while (rang[6] != key);
+        } while (exit);
     }
-
+    public void exit() {
+        this.exit = false;
+    }
 }

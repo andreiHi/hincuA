@@ -2,6 +2,7 @@ package ru.job4j.tracker.action;
 
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.models.Item;
+import ru.job4j.tracker.start.StartUi;
 import ru.job4j.tracker.storage.TrackerDb;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.function.Consumer;
 
 public class MenuTracker {
     private static final String EXIT = "exit";
+    private StartUi ui;
     /**
      * Input.
      */
@@ -35,9 +37,10 @@ public class MenuTracker {
      * @param input input.
      * @param trackerDb trackerDb.
      */
-    public MenuTracker(Input input, TrackerDb trackerDb) {
+    public MenuTracker(Input input, TrackerDb trackerDb, StartUi ui) {
         this.input = input;
         this.trackerDb = trackerDb;
+        this.ui = ui;
     }
     /**
      * Заполняет массив действий всеми возможными действиями.
@@ -166,10 +169,10 @@ public class MenuTracker {
                     System.out.println("Invalid ID enter again or tape exit:");
                 } else {
                     found = true;
+                    trackerDb.delete(item);
+                    input.writeMessage("The entry was successfully deleted.");
                 }
             }
-            trackerDb.delete(item);
-            input.writeMessage("The entry was successfully deleted.");
         }
     }
 
@@ -269,6 +272,7 @@ public class MenuTracker {
         public void execute(TrackerDb trackerDb, Input input) {
             trackerDb.close();
             input.writeMessage("TrackerDb shutdown. Goodbye!");
+            ui.exit();
         }
     }
 
