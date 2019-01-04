@@ -1,8 +1,8 @@
 package ru.job4j.service;
 
 import net.coobird.thumbnailator.Thumbnails;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.model.car.Car;
 import ru.job4j.model.car.Image;

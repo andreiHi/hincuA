@@ -1,7 +1,8 @@
 package ru.job4j.tracker.storage;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 07.12.2018.

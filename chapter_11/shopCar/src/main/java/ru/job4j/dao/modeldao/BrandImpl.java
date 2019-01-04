@@ -1,11 +1,8 @@
 package ru.job4j.dao.modeldao;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
 import ru.job4j.dao.AbstractController;
 import ru.job4j.model.car.Brand;
-
-import java.util.List;
 
 /**
  * Не используемые методы могут быть использованы в админской части

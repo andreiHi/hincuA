@@ -1,9 +1,11 @@
 package ru.job4j.litle.converter;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 13.07.2018.
@@ -20,7 +22,7 @@ public class PriorityQueue {
      *
      * @param task задача
      */
-    public void put(Task task) {
+    public void put1(Task task) {
         int index = tasks.size();
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getPriority() > task.getPriority()) {
@@ -30,18 +32,16 @@ public class PriorityQueue {
         }
         tasks.add(index, task);
     }
-    public void put1(Task task) {
-        for (int i = 0; i <= tasks.size(); i++) {
-            if (tasks.size() == i) {
-                tasks.add(task);
+    public void put(Task task) {
+        final ListIterator<Task> iterator = tasks.listIterator();
+        int count = 0;
+        while (iterator.hasNext()) {
+            if (iterator.next().getPriority() > task.getPriority()) {
                 break;
             }
-            if (tasks.get(i).getPriority() > task.getPriority()) {
-                this.tasks.add(i, task);
-                break;
-            }
+            count++;
         }
-
+        tasks.add(count, task);
     }
 
     public Task take() {

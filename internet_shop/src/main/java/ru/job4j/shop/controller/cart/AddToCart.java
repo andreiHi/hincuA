@@ -1,8 +1,9 @@
 package ru.job4j.shop.controller.cart;
 
 import com.google.gson.Gson;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.shop.service.DBService;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 01.03.2018.
@@ -33,7 +35,7 @@ public class AddToCart extends HttpServlet {
             System.out.println("no login");
             result = "Вам необходимо авторизироваться.";
         }
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), StandardCharsets.UTF_8));
         pw.append(new Gson().toJson(result));
         pw.flush();
     }

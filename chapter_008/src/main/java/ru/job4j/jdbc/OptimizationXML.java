@@ -27,6 +27,14 @@ public class OptimizationXML {
         return element;
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
     /**
      * колличество элементов.
      */

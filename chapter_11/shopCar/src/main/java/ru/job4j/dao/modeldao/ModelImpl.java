@@ -1,12 +1,8 @@
 package ru.job4j.dao.modeldao;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
 import ru.job4j.dao.AbstractController;
 import ru.job4j.model.car.Model;
-
-import javax.persistence.Query;
-import java.util.List;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 16.04.2018.

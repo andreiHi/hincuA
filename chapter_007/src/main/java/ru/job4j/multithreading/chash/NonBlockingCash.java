@@ -4,6 +4,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiFunction;
 
 
 /**
@@ -31,9 +32,9 @@ public class NonBlockingCash {
             if (user.getVersion() < userM.getVersion()) {
                 throw new RuntimeException();
             }
-            userM.update(user);
-            userM.setVersion(userM.getVersion() + 1);
-            return userM;
+
+            user.setVersion(user.getVersion() + 1);
+            return user;
         });
     }
     public User getValue(int id) {
@@ -46,6 +47,7 @@ class Main {
     public static void main(String[] args) {
 
         User user = new User("Vasea", 1);
+        user.setVersion(1);
         NonBlockingCash non = new NonBlockingCash();
         non.add(user);
         User user1 = new User("Petea", 1);

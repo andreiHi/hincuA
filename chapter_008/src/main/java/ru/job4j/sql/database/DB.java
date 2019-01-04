@@ -1,7 +1,8 @@
 package ru.job4j.sql.database;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.sql.Sql;
 import ru.job4j.sql.items.Advert;
 import ru.job4j.sql.items.Author;

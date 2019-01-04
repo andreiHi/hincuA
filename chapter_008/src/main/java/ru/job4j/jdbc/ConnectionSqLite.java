@@ -10,23 +10,20 @@ import java.sql.SQLException;
  * @since 0.1.
  */
 public class ConnectionSqLite {
-     private  String url;
 
     private Connection connection;
     public Connection getConnection() {
-        if (System.getProperty("os.name").equals("Linux")) {
-            this.url = "jdbc:sqlite:/home/andrei/java.db";
-        } else {
-            this.url =  "jdbc:sqlite:D:/sqlite/java.db";
-        }
         getConnect();
         return connection;
     }
     private void getConnect() {
         try {
-            connection = DriverManager.getConnection(url);
-            System.out.println("Соединение установлено.");
-        } catch (SQLException e) {
+            Class.forName("org.sqlite.JDBC");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+            if (connection != null) {
+                System.out.println("Соединение установлено.");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

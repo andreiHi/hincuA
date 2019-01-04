@@ -1,13 +1,8 @@
 package ru.job4j.dao.modeldao;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.hibernate.query.Query;
+
 import ru.job4j.dao.AbstractController;
 import ru.job4j.model.Advert;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 19.03.2018.

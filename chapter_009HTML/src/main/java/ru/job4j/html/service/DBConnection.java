@@ -1,8 +1,8 @@
 package ru.job4j.html.service;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.html.model.Address;
 import ru.job4j.html.model.User;
 
@@ -74,7 +74,7 @@ public class DBConnection {
         return DBConnHolder.INSTANCE;
     }
     private void initParam() {
-        try (InputStream isDb = getClass().getClassLoader().getResourceAsStream(DB_SETTINGS_FILE);
+        try (InputStream isDb = getClass().getClassLoader().getResourceAsStream("settings.properties");
              InputStream isSql = getClass().getClassLoader().getResourceAsStream(SQL_FILE)
         ) {
             this.sql = new Properties();

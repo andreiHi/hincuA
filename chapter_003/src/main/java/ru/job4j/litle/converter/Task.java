@@ -1,7 +1,8 @@
 package ru.job4j.litle.converter;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 13.07.2018.

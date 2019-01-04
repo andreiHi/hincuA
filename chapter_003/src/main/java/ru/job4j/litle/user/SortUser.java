@@ -27,12 +27,7 @@ public class SortUser {
      * @return отсортированный лист.
      */
     public List<User> sortNameLength(List<User> list) {
-        list.sort(new Comparator<User>() {
-            @Override
-            public int compare(User user, User t1) {
-                return user.getName().length() - t1.getName().length();
-            }
-        });
+        list.sort(Comparator.comparingInt(user -> user.getName().length()));
         return list;
     }
 
@@ -42,15 +37,12 @@ public class SortUser {
      * @return sorted list.
      */
     public List<User> sortByAllFields(List<User> list) {
-     list.sort(new Comparator<User>() {
-         @Override
-         public int compare(User user, User t1) {
-             int nameTemp = user.getName().compareTo(t1.getName());
-             if (nameTemp == 0) {
-                 return user.getAge() - t1.getAge();
-             }
-             return nameTemp;
+     list.sort((user, t1) -> {
+         int nameTemp = user.getName().compareTo(t1.getName());
+         if (nameTemp == 0) {
+             return user.getAge() - t1.getAge();
          }
+         return nameTemp;
      });
         return list;
     }

@@ -1,8 +1,7 @@
 package ru.job4j.dao;
 
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

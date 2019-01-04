@@ -1,8 +1,8 @@
 package ru.job4j.shop.controller;
 
 import com.google.gson.Gson;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.shop.model.Product;
 import ru.job4j.shop.service.DBService;
 

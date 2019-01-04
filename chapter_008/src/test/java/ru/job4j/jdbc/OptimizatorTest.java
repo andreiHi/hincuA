@@ -26,7 +26,6 @@ import static org.junit.Assert.assertThat;
  */
 public class OptimizatorTest {
     private OptimizationXML optimizator;
-    String url;
     private final String xml1 = "1.xml";
     private final String xml2 = "2.xml";
     /**
@@ -34,14 +33,8 @@ public class OptimizatorTest {
      */
     private final String xsl = "converter.xsl";
     @Before
-    @Ignore
     public void init() {
         optimizator = new OptimizationXML(new ConnectionSqLite(), 1000000);
-        if (System.getProperty("os.name").equals("Linux")) {
-            this.url = "jdbc:sqlite:/home/andrei/java.db";
-        } else {
-            this.url =  "jdbc:sqlite:D:/sqlite/java.db";
-        }
     }
 
     /**
@@ -53,7 +46,7 @@ public class OptimizatorTest {
     @Ignore
     public void whenWasAddTwoElementsInTestTable() throws Exception {
         optimizator.createTestTable();
-        Connection con = DriverManager.getConnection(url);
+        Connection con = optimizator.getConnection();
         Statement st = con .createStatement();
         ResultSet rt = st.executeQuery("SELECT * FROM TEST");
         int[]result = new int[optimizator.getElement()];
@@ -83,7 +76,7 @@ public class OptimizatorTest {
     }
 
     @Test
-    @Ignore
+
     public void startProgramWithSAX() {
         long time = System.currentTimeMillis();
         optimizator.startProgramWithSax();

@@ -1,8 +1,8 @@
 package ru.job4j.shop.service;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.shop.model.Product;
 import ru.job4j.shop.model.Purchase;
 import ru.job4j.shop.model.User;
