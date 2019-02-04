@@ -1,9 +1,10 @@
-package ru.job4j.litle.testtask;
+package ru.job4j.litle.bank;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Bank.
@@ -50,12 +51,12 @@ public class Bank {
      */
     public void addAccountToUser(User user, Account account) {
         if (user != null && account != null) {
-            List<Account> list = bank.get(user);
-            if (list != null) {
-                if (!list.contains(account)) {
-                    list.add(account);
+            bank.computeIfPresent(user, (k, v) -> {
+                if (!v.contains(account)) {
+                    v.add(account);
                 }
-            }
+                return v;
+            });
         }
     }
 
@@ -73,14 +74,14 @@ public class Bank {
      * @param account account.
      */
     public boolean deleteAccountFromUser(User user, Account account) {
-        boolean result = false;
+        AtomicBoolean result = new AtomicBoolean(false);
         if (user != null && account != null) {
-            List<Account> list = bank.get(user);
-            if (list != null) {
-                result = list.remove(account);
-            }
+            bank.computeIfPresent(user, (k, v) -> {
+                result.set(v.remove(account));
+                return v;
+            });
         }
-        return result;
+        return result.get();
     }
 
     /**
@@ -136,5 +137,10 @@ public class Bank {
             }
         }
         return weHappy;
+    }
+    public User getUserByPassport(String passport) {
+        return bank.entrySet()
+                .stream().filter(u -> u.getKey().getPasport().equals(passport)).map(Map.Entry::getKey)
+                .findAny().orElse(null);
     }
 }

@@ -5,6 +5,9 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Test.
  * @author Hincu Andrei (andreih1981@gmail.com) by 17.09.17;
@@ -48,7 +51,7 @@ public class ConvertListTest {
                 {5, 6, 7, 8},
                 {9, 10, 0, 0}
         };
-        int[][]result = convertList.toArray(list, 3);
+        int[][]result = convertList.toArray2(list, 3);
         assertThat(result, is(array));
     }
 

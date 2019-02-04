@@ -50,7 +50,7 @@ public class ConvertList {
                 if (count < list.size()) {
                     array[i][j] = list.get(count);
                 } else {
-                    array[i][j] = 0;
+                   break;
                 }
                 count++;
             }
@@ -101,5 +101,46 @@ public class ConvertList {
     public List<Integer> toList1(int[][] array) {
         return Arrays.stream(array).flatMapToInt(IntStream::of).boxed()
                 .collect(Collectors.toList());
+    }
+
+    public int[][] toArray2(List<Integer> list, int rows) {
+        int cols = list.size() % rows == 0
+                ? list.size() / rows
+                : list.size() / rows + 1;
+        int[][] result = new int[rows][cols]; //filled with "0" by default
+        int[] iRows = {0};
+        int[] iCols = {0};
+        list.forEach(element -> {
+                    result[iRows[0]][iCols[0]++] = element;
+                    if (iCols[0] >= cols) {
+                        iRows[0]++;
+                        iCols[0] = 0;
+                    }
+                }
+        );
+
+        System.out.println(rows + " " + cols);
+
+        final int[] count = {0};
+        Integer[][] array =
+                IntStream.range(0, rows)
+                        .mapToObj(x -> IntStream.range(0, cols)
+                                .mapToObj(y -> count[0] >= list.size() ? 0 : list.get(count[0]++))
+                                .toArray(Integer[]::new))
+                        .toArray(Integer[][]::new);
+
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array.length; j++) {
+                System.out.print(array[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        return result;
+    }
+
+    public static int letter(int i) {
+        return Character.forDigit(i, Character.MAX_RADIX);
     }
 }

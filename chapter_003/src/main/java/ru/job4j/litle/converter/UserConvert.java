@@ -31,4 +31,15 @@ public class UserConvert {
     return list.stream()
             .collect(Collectors.toMap(User::getId, user -> user));
     }
+
+    public Map<Integer, User> convert(List<User> list) {
+        return list.stream()
+                .collect(Collectors
+                        .toMap(User::getId, //    @param keyMapper a mapping function to produce keys
+                                user -> user, // @param valueMapper a mapping function to produce values
+                                (a, b) -> a, //  @param mergeFunction a merge function, used to resolve collisions between  values associated with the same key,
+                                HashMap::new //  @param mapFactory  a supplier providing a new empty {@code Map}
+                                             //   into which the results will be inserted
+                        ));
+    }
 }

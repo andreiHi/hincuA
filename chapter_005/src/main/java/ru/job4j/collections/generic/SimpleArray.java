@@ -1,5 +1,7 @@
 package ru.job4j.collections.generic;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.NoSuchElementException;
 
 /**

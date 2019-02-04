@@ -22,17 +22,17 @@ public class PriorityQueue {
      *
      * @param task задача
      */
-    public void put1(Task task) {
-        int index = tasks.size();
+    public void put(Task task) {
+        int index = 0;
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getPriority() > task.getPriority()) {
-                index = i;
-                break;
+            break;
             }
+            index++;
         }
         tasks.add(index, task);
     }
-    public void put(Task task) {
+    public void put0(Task task) {
         final ListIterator<Task> iterator = tasks.listIterator();
         int count = 0;
         while (iterator.hasNext()) {
@@ -46,5 +46,12 @@ public class PriorityQueue {
 
     public Task take() {
         return this.tasks.poll();
+    }
+
+    public void put2(Task task) {
+        int index = (int) this.tasks.stream().filter(
+                t -> task.getPriority() > t.getPriority()
+        ).count();
+        this.tasks.add(index, task);
     }
 }

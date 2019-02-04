@@ -14,7 +14,7 @@ public class Service {
      * @param is входной поток.
      * @return результат.
      */
-    public boolean isNumber(InputStream is) {
+    public boolean isNumber2(InputStream is) {
         boolean even = false;
         try {
             byte[] buffer = new byte[is.available()];
@@ -33,6 +33,24 @@ public class Service {
             }
         }
         return even;
+    }
+    public boolean isNumber(InputStream in) {
+        boolean result = true;
+        int last = -1;
+        try (InputStreamReader r = new InputStreamReader(in)) {
+            int b = r.read();
+            while (b != -1) {
+                if (b < 48 || b > 57) {
+                    result = false;
+                    break;
+                }
+                last = b;
+                b = r.read();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result && last % 2 == 0;
     }
 
     /**

@@ -2,6 +2,8 @@ package ru.job4j.collections.iterator;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -16,7 +18,8 @@ public class EvenItTest {
      */
     @Test
     public void whenToArrayAddedThreeElements() {
-        EvenIt it = new EvenIt(new int[]{4, 2, 1, 1, 6});
+        EvenIt evenIt = new EvenIt(new int[]{4, 2, 1, 1, 6});
+        Iterator<Integer> it = evenIt.iterator();
         String result = "";
         while (it.hasNext()) {
             result += it.next();
@@ -30,7 +33,8 @@ public class EvenItTest {
      */
     @Test
     public void whenArrayHasNotElementsEven() {
-        EvenIt it = new EvenIt(new int[]{4, 2, 1, 1});
+        EvenIt evenIt = new EvenIt(new int[]{4, 2, 1, 1});
+        Iterator<Integer> it = evenIt.iterator();
         it.next();
         it.next();
         boolean result = it.hasNext();
@@ -38,10 +42,20 @@ public class EvenItTest {
     }
     @Test
     public void test() {
-        EvenIt it = new EvenIt(new int[]{4, 2, 1, 1});
+        EvenIt evenIt = new EvenIt(new int[]{4, 2, 1, 1});
+        Iterator<Integer> it = evenIt.iterator();
         it.hasNext();
         it.hasNext();
         int i = (int) it.next();
         System.out.println(i);
+    }
+
+    @Test
+    public void shoul() {
+        EvenIt evenIt = new EvenIt(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        Iterator<Integer> it = evenIt.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
     }
 }

@@ -37,7 +37,7 @@ public class Association {
         }
         return array;
     }
-    int[] sortedArray(int[] first, int[] second) {
+    public int[] sortedArray(int[] first, int[] second) {
         int[] result = new int[first.length + second.length];
         int fl = first.length - 1;
         int sl = second.length - 1;

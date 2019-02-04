@@ -1,9 +1,9 @@
 package ru.job4j.litle.testtasc;
 
 import org.junit.Test;
-import ru.job4j.litle.testtask.Account;
-import ru.job4j.litle.testtask.Bank;
-import ru.job4j.litle.testtask.User;
+import ru.job4j.litle.bank.Account;
+import ru.job4j.litle.bank.Bank;
+import ru.job4j.litle.bank.User;
 
 import java.util.List;
 import java.util.Map;

@@ -47,7 +47,7 @@ class Main {
     public static void main(String[] args) {
 
         User user = new User("Vasea", 1);
-        user.setVersion(1);
+        user.setVersion(0);
         NonBlockingCash non = new NonBlockingCash();
         non.add(user);
         User user1 = new User("Petea", 1);
