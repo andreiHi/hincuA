@@ -47,7 +47,7 @@ $(document).on('click','.button-next', function () {
         method:"POST",
         url:"/shop/userCart",
         success:function (f) {
-            if (f=="ok") {
+            if (f==="ok") {
                 $("#block-content").fadeOut(300, function () {
                     $("#message").addClass("message_good").fadeIn(400).html("Ваш заказ принят!");
                     $("#block-content").hide();

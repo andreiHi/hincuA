@@ -1,9 +1,6 @@
 package ru.job4j.litle.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -94,7 +91,26 @@ public class Bank {
     }
 
     public Account getAccountByRequisite(String passport, String requisite) {
-        return null;
+//        return bank.keySet().stream()
+//                .filter(u -> u.getPasport().equals(passport))
+//                .map(u -> bank.get(u))
+//                .findFirst()
+//                .stream()
+//                .findFirst()
+//                .map(accounts -> accounts.stream()
+//                        .filter(account -> account.getRequisites().equals(requisite))
+//                        .findFirst().orElse(null))
+//                .orElse(null);
+        final User userByPassport = getUserByPassport(passport);
+        Account account = null;
+        if (userByPassport != null) {
+            account = bank.get(userByPassport)
+                    .stream()
+                    .filter(a -> a.getRequisites().equals(requisite))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return account;
     }
 
     /**
@@ -108,39 +124,14 @@ public class Bank {
      */
     public boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
         boolean weHappy = false;
-        if (srcUser != null && dstUser != null && srcAccount.getValue() > amount) {
-            if (srcUser.equals(dstUser)) {
-                List<Account> list = bank.get(srcUser);
-                int indexSrsAcc = list.indexOf(srcAccount);
-                int indexDistAcc = list.indexOf(dstAccount);
-                srcAccount.transferFromAccount(amount);
-                dstAccount.addToAccount(amount);
-                list.set(indexSrsAcc, srcAccount);
-                list.set(indexDistAcc, dstAccount);
-                bank.put(srcUser, list);
-                weHappy = true;
 
-            } else {
-                List<Account> srcList = bank.get(srcUser);
-                List<Account> dstList = bank.get(dstUser);
-                if (srcList.contains(srcAccount) && dstList.contains(dstAccount)) {
-                    int indexSrc = srcList.indexOf(srcAccount);
-                    int indexDrc = dstList.indexOf(dstAccount);
-                    srcAccount.transferFromAccount(amount);
-                    dstAccount.addToAccount(amount);
-                    srcList.set(indexSrc, srcAccount);
-                    dstList.set(indexDrc, dstAccount);
-                    bank.put(srcUser, srcList);
-                    bank.put(dstUser, dstList);
-                    weHappy = true;
-                }
-            }
-        }
         return weHappy;
     }
     public User getUserByPassport(String passport) {
         return bank.entrySet()
-                .stream().filter(u -> u.getKey().getPasport().equals(passport)).map(Map.Entry::getKey)
-                .findAny().orElse(null);
+                .stream().filter(u -> u.getKey().getPasport().equals(passport))
+                .map(Map.Entry::getKey)
+                .findAny()
+                .orElse(null);
     }
 }

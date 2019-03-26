@@ -4,8 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.function.BinaryOperator;
+import java.util.stream.Stream;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
@@ -69,4 +73,35 @@ public class ServiceTest {
 
     }
 
+    @Test
+    public void name() {
+        Stream<String> wordsStream = Stream.of("мама", "мыла", "раму");
+        String sentence = wordsStream.reduce("Результат:", (x, y)-> x + " " + y);
+        System.out.println(sentence); // Результат: мама мыла раму
+    }
+
+    @Test
+    public void name2() {
+        Stream<String> wordsStream = Stream.of("мама", "мыла", "раму");
+        String[] ab = {"мыла"};
+         wordsStream.map(s -> {
+             String finalS = s;
+             s = Arrays.stream(ab)
+                     .reduce(s, new BinaryOperator<String>() {
+                         @Override
+                         public String apply(String a, String b) {
+                             System.out.println("s + a + b " + " " + finalS + " " + a + " " + b);
+                             return a.replaceAll(b, "");
+                         }
+                     });
+             return s;
+        }).forEach(a -> System.out.println("out :" + a));
+    }
+
+    @Test
+    public void name3() {
+
+        final boolean mkdirs = new File(System.getProperty("java.io.tmpdir") + "/TEST_DIR").mkdirs();
+        System.out.println(mkdirs + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
 }

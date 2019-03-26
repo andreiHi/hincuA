@@ -15,10 +15,10 @@ import java.util.List;
 @Component
 public class UserStorage  {
 
-    private final Storage storage;
+    private final Storage<User> storage;
 
     @Autowired
-    public UserStorage(@Qualifier("memoryStorage") final Storage storage) {
+    public UserStorage(@Qualifier("memoryStorage") final Storage<User> storage) {
         this.storage = storage;
     }
 

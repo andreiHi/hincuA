@@ -41,14 +41,14 @@ public class BankTest {
         Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
-        Account account =  new Account(100, 1);
+        Account account =  new Account(100, "1");
         bank.addAccountToUser(user, account);
-        Account account1 =  new Account(0, 2);
+        Account account1 =  new Account(0, "2");
         bank.addAccountToUser(user, account1);
         bank.transferMoney(user, account, user, account1, 50.00d);
         List<Account> list = bank.getUserAccounts(user);
         account1 = list.get(1);
-        Account ex = new Account(50, 2);
+        Account ex = new Account(50, "2");
         assertThat(account1, is(ex));
     }
 
@@ -62,14 +62,14 @@ public class BankTest {
         User userDs = new User("Kolea", "A022025");
         bank.addUser(userSr);
         bank.addUser(userDs);
-        Account accountSr =  new Account(100, 1);
-        Account accountDs =  new Account(100, 2);
+        Account accountSr =  new Account(100, "1");
+        Account accountDs =  new Account(100, "2");
         bank.addAccountToUser(userSr, accountSr);
         bank.addAccountToUser(userDs, accountDs);
         bank.transferMoney(userSr, accountSr, userDs, accountDs, 50);
         List<Account> list = bank.getUserAccounts(userDs);
         accountDs = list.get(0);
-        Account ex = new Account(150, 2);
+        Account ex = new Account(150, "2");
         assertThat(accountDs, is(ex));
     }
 
@@ -97,9 +97,9 @@ public class BankTest {
         Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
-        Account account =  new Account(100, 1);
+        Account account =  new Account(100, "1");
         bank.addAccountToUser(user, account);
-        Account account2 =  new Account(100, 2);
+        Account account2 =  new Account(100, "2");
         bank.addAccountToUser(user, account2);
         List<Account> list = bank.getUserAccounts(user);
         assertTrue(list.contains(account2));
@@ -114,9 +114,9 @@ public class BankTest {
         Bank bank = new Bank();
         User user = new User("Ivan", "A022022");
         bank.addUser(user);
-        Account account =  new Account(100, 1);
+        Account account =  new Account(100, "1");
         bank.addAccountToUser(user, account);
-        Account account2 =  new Account(100, 2);
+        Account account2 =  new Account(100, "2");
         bank.addAccountToUser(user, account2);
         boolean res = bank.deleteAccountFromUser(user, account2);
         assertTrue(res);

@@ -2,6 +2,8 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 12.02.2018.
@@ -118,4 +120,5 @@ public class Service {
                     ).forEach(writer::println);
         }
     }
+
 }

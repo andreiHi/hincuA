@@ -1,5 +1,7 @@
 package ru.job4j.litle.bank;
 
+import java.util.Objects;
+
 /**
  *Account .
  * @author Hincu Andrei (andreih1981@gmail.com) by 19.09.17;
@@ -14,14 +16,14 @@ public class Account {
     /**
      * реквизиты счета.
      */
-    private int requisites;
+    private String requisites;
 
     /**
      * конструктор.
      * @param value деньги.
      * @param requisites реквизиты.
      */
-    public Account(int value, int requisites) {
+    public Account(int value, String  requisites) {
         this.value = value;
         this.requisites = requisites;
     }
@@ -46,7 +48,7 @@ public class Account {
      * геттер счета.
      * @return счет.
      */
-    public int getRequisites() {
+    public String getRequisites() {
         return requisites;
     }
 
@@ -54,7 +56,7 @@ public class Account {
      * сеттер счета.
      * @param requisites реквизиты.
      */
-    public void setRequisites(int requisites) {
+    public void setRequisites(String requisites) {
         this.requisites = requisites;
     }
 
@@ -83,7 +85,7 @@ public class Account {
      */
     @Override
     public int hashCode() {
-        return requisites;
+        return Objects.hash(value, requisites);
     }
 
     /**
