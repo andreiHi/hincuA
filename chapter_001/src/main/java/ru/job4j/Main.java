@@ -7,30 +7,30 @@ package ru.job4j;
  */
 public class Main {
 
-        String variable;
-        public static void main(String[] args) {
-            System.out.println("Hello World!");
-            B b = new B();
-        }
-
-        public Main() {
-            printVariable();
-        }
-
-        protected void printVariable() {
-            variable = "variable is initialized in Main Class";
-        }
+    private String variable;
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        B b = new B();
     }
 
-   class B extends Main {
-        String variable = null;
-
-        public B() {
-            System.out.println("variable value = " + variable);
-        }
-
-        protected void printVariable() {
-            variable = "variable is initialized in B Class";
-        }
+    public Main() {
+        printVariable();
     }
+
+    protected void printVariable() {
+        variable = "variable is initialized in Main Class";
+    }
+}
+
+class B extends Main {
+    private String variable = null;
+
+    public B() {
+        System.out.println("variable value = " + variable);
+    }
+
+    protected void printVariable() {
+        variable = "variable is initialized in B Class";
+    }
+}
 
