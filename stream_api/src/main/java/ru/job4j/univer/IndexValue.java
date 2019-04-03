@@ -18,7 +18,7 @@ public class IndexValue<T> {
         this.index = index;
         this.value = value;
     }
-    public static <T> Stream<IndexValue<T>> withIndeces(List<T> list) {
+    public static <T> Stream<IndexValue<T>> withIndexes(List<T> list) {
         return IntStream.range(0, list.size())
                 .mapToObj(idx -> new IndexValue<>(idx, list.get(idx)));
     }

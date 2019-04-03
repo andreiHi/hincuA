@@ -19,6 +19,9 @@ public class Student implements Comparable<Student> {
      */
     private int scope;
 
+    private int age;
+
+
     /**
      * Constructor student.
      *
@@ -46,6 +49,10 @@ public class Student implements Comparable<Student> {
      */
     public int getScope() {
         return scope;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     /**
