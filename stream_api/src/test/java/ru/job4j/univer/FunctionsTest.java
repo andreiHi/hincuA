@@ -2,6 +2,8 @@ package ru.job4j.univer;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.net.URL;
 import java.util.function.IntBinaryOperator;
 
 import static org.hamcrest.core.Is.is;
@@ -32,4 +34,15 @@ public class FunctionsTest {
         final Functions func = new Functions();
         assertThat(func.currySum().apply(5).apply(3).applyAsInt(2), is(10));
     }
+
+    @Test
+    public void name() {
+        final URL resource = getClass().getClassLoader().getResource("log4j.xml");
+        final File file = new File(resource.getFile());
+        final String parent = file.getParent();
+        System.out.println(parent);
+        System.out.println(file.exists());
+        System.out.println(resource.toString());
+    }
 }
+

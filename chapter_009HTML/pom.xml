@@ -9,7 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>chapter_009HTML</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
+    <modules>
+        <module>single_page</module>
+        <module>towns_cities</module>
+    </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>

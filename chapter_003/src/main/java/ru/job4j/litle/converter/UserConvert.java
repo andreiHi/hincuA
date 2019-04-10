@@ -3,6 +3,7 @@ package ru.job4j.litle.converter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -41,5 +42,9 @@ public class UserConvert {
                                 HashMap::new //  @param mapFactory  a supplier providing a new empty {@code Map}
                                              //   into which the results will be inserted
                         ));
+    }
+    public HashMap<Integer, User> process3(List<User> list) {
+        return (HashMap<Integer, User>) list.stream()
+                .collect(Collectors.toMap(User::getId, Function.identity()));
     }
 }

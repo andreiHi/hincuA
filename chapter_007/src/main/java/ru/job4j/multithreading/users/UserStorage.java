@@ -46,10 +46,8 @@ public class UserStorage {
      */
     public void update(User user) {
         synchronized (storage) {
-            final int id = user.getId();
-            if (storage.containsKey(id)) {
-                storage.put(id, user);
-            } else {
+            final User user2 = storage.computeIfPresent(user.getId(), (integer, user1) -> user);
+             if (user2 == null) {
                 throw new CanNotAddOrUpdateOrDeleteUserException("Данного пользователя нет в базе данных.");
             }
         }

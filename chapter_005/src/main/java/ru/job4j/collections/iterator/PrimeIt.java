@@ -1,5 +1,8 @@
 package ru.job4j.collections.iterator;
 
+import org.apache.logging.log4j.util.Strings;
+
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,7 +11,7 @@ import java.util.NoSuchElementException;
  * @version $Id$.
  * @since 0.1.
  */
-public class PrimeIt implements Iterator {
+public class PrimeIt implements Iterator<Integer> {
     /**
      * Массив значений.
      */
@@ -74,14 +77,10 @@ public class PrimeIt implements Iterator {
      * @return значение из массива.
      */
     @Override
-    public Object next() {
-        int value = 0;
-        if (hasNext()) {
-            value = numbers[index];
-            index++;
-        } else {
+    public Integer next() {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        return value;
+        return numbers[index++];
     }
 }

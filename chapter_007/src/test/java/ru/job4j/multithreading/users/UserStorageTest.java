@@ -34,6 +34,7 @@ public class UserStorageTest {
         User user2 = new User(2, 200);
         userStorage.add(user1);
         userStorage.update(user2);
+        assertThat(userStorage.getStorage().get(1), is(user1));
     }
 
     @Test

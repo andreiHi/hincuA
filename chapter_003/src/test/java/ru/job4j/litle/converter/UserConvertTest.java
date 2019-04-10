@@ -26,7 +26,7 @@ public class UserConvertTest {
         list.add(new User(1, "Ivan", "Chisinau"));
         list.add(new User(2, "Alex", "Vorkuta"));
         list.add(new User(3, "Denis", "Magadan"));
-        Map<Integer, User> mapResult = userConvert.process2(list);
+        Map<Integer, User> mapResult = userConvert.process3(list);
         HashMap<Integer, User> ex = new HashMap<>();
         ex.put(1, new User(1, "Ivan", "Chisinau"));
         ex.put(2, new User(2, "Alex", "Vorkuta"));

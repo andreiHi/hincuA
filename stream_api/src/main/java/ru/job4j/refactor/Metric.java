@@ -2,6 +2,7 @@ package ru.job4j.refactor;
 
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -38,6 +39,7 @@ public class Metric {
         this.bucket =       fold(m1, m2, Metric::getBucket);
         this.backetPillar = fold(m1, m2, Metric::getBacketPillar);
     }
+
     public void foldFields(Metric m1, Metric m2) {
         Function<Function<Metric, String>, String> folder = getter -> fold(m1, m2, getter);
         this.nettNgLevel =  folder.apply(Metric::getNettNgLevel);
@@ -54,6 +56,13 @@ public class Metric {
         return Objects.equals(getter.apply(m1), getter.apply(m2)) ? getter.apply(m1) : TOTAL;
     }
 
+//    public void foldCarry(Metric m1, Metric m2) {
+//        Function<Function<Metric, String>, String> folder = curry(this::fold).apply(m1).apply(m2);
+//    }
+
+    public static <P1, P2, R> Function<P1, Function<P2, R>> curry(BiFunction<P1, P2, R> biFunction) {
+        return t -> u -> biFunction.apply(t, u);
+    }
     public String getNettNgLevel() {
         return nettNgLevel;
     }
