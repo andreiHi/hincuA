@@ -12,6 +12,7 @@ import ru.job4j.models.User;
 import ru.job4j.models.UserMapper;
 
 import java.sql.PreparedStatement;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -87,4 +88,5 @@ public class JdbcStorage implements Storage<User> {
         String sql = "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(50), age INT)";
         this.jdbcTemplate.execute(sql);
     }
+
 }

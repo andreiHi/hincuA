@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.stream.IntStream;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 13.07.2018.

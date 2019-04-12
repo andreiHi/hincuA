@@ -309,7 +309,7 @@ public class MenuTracker {
                     found = true;
                     String name = input.ask("Enter name:");
                     String desc = input.ask("Enter description:");
-                    trackerDb.update(new Item(id, name, desc));
+                    trackerDb.replace(id, new Item(id, name, desc));
                     input.writeMessage("Item was updated successfully.");
 
                 }

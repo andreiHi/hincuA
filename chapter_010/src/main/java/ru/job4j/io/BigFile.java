@@ -172,7 +172,7 @@ public class BigFile {
                 result.add(temp);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.entry(e.getMessage(), e);
         }
         return result;
     }

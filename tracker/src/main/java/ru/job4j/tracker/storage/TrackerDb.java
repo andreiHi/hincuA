@@ -35,6 +35,8 @@ public class TrackerDb implements ITracker, AutoCloseable {
      */
     private void init() {
         try (final Statement statement = connection.createStatement()) {
+            final DatabaseMetaData metaData = connection.getMetaData();
+            final ResultSet items = metaData.getTables(null, null, "items", null);
             statement.executeUpdate(Query.CREATE_TRACKER_TABLE);
             statement.executeUpdate(Query.CREATE_COMMENTS_TABLE);
         } catch (SQLException e) {
@@ -47,6 +49,7 @@ public class TrackerDb implements ITracker, AutoCloseable {
      * @param item - заявка.
      * @return - заявка.
      */
+    @Override
     public Item add(Item item) {
         try (final PreparedStatement preparedStatement =
                      this.connection.prepareStatement(Query.INSERT_NEW_ITEM, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -68,17 +71,21 @@ public class TrackerDb implements ITracker, AutoCloseable {
      * Редактирование  заявок.
      * @param item item.
      */
-    public void update(Item item) {
+    @Override
+    public boolean replace(String id, Item item) {
+        boolean res = false;
         if (item != null) {
             try (final PreparedStatement preparedStatement = this.connection.prepareStatement(Query.UPDATE_ITEM)) {
                 preparedStatement.setString(1, item.getName());
                 preparedStatement.setString(2, item.getDesc());
                 preparedStatement.setInt(3, Integer.parseInt(item.getId()));
-                preparedStatement.executeUpdate();
+                final int i = preparedStatement.executeUpdate();
+                res = i > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return res;
     }
 
     /**

@@ -54,14 +54,14 @@ public class TrackerDbTest {
     }
 
     /**
-     * Test update.
+     * Test replace.
      */
     @Test
     @Ignore
     public void whenUpdateItemThenTrackerHasItemUpdate() {
         item = trackerDb.add(item);
         item.setDesc("newDescription");
-        trackerDb.update(item);
+        trackerDb.replace(item.getId(), item);
         Item fromTracer = trackerDb.findById(item.getId());
         assertThat("newDescription", is(fromTracer.getDesc()));
         trackerDb.delete(item);

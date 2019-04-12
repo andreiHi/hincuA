@@ -71,7 +71,7 @@ public class StabInputTest {
         verify(trackerDb).add(this.item);
         verify(trackerDb).findById(item1.getId());
         item1.setName("test");
-        verify(trackerDb).update(item1);
+        verify(trackerDb).replace(item1.getId(), item1);
         // создаём StartUI и вызываем метод init()
 
 //        trackerDb = new TrackerDb();

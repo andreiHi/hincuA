@@ -110,7 +110,7 @@ public class MenuTrackerDbTest {
      */
     @Test
     public void whenItemWasUpdate() throws Exception {
-        new TrackerDb(connection).update(item);
+        new TrackerDb(connection).replace(item.getId(), item);
         verify(connection, times(1)).prepareStatement(anyString());
         verify(mocPreparedStatement, times(2)).setString(anyInt(), anyString());
         verify(mocPreparedStatement, times(1)).setInt(anyInt(), anyInt());

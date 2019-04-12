@@ -51,7 +51,7 @@ public class AdvertImpl extends AbstractController<Advert, Long> {
 //    @SuppressWarnings("unchecked")
 //    public List<Advert> getAdverts(long id) {
 //        Query<Advert> query = getCurrentSession().createQuery("from Advert where user.id = :id");
-//        query.setParameter("id", id);
+//        query.setParameter("id", id); from Ad where user.id = :param
 //        return query.list();
 //    }
 //    @SuppressWarnings("unchecked")

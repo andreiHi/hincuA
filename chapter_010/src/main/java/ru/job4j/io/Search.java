@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -47,5 +48,9 @@ public class Search {
             File file = new File(dir + "/" + name);
             return exts.stream().anyMatch(s -> file.isDirectory() || name.endsWith(s));
         }
+    }
+
+    public List<File> listOfOthers(String path, List<String> ex) {
+        return new ArrayList<>();
     }
 }

@@ -2,9 +2,7 @@ package ru.job4j.univer;
 
 import antlr.collections.impl.IntRange;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,7 +17,7 @@ public class Functions {
     /*
         Функции первого класса.
         ЯП имеет функции первого класса, если он рассматривает функции как объекты первого класса(поддерживает
-        передачу функции в качестве аргументов другим функциям, возвратих как результат других функций,
+        передачу функции в качестве аргументов другим функциям, возврат их как результат других функций,
         присваивание их переменным)
      */
     public int sum(int x, int y) {
@@ -73,6 +71,12 @@ public class Functions {
     }
 
     public static void main(String[] args) {
+        final int sum1 = new Random()
+                .ints(1, 20 + 1)
+                .distinct().limit(5)
+                .peek(System.out::println)
+                .sum();
+
         Functions function = new Functions();
         final IntBinaryOperator operator = function.partialSum(2);
         System.out.println(operator.applyAsInt(5, 3));
@@ -86,5 +90,12 @@ public class Functions {
                 .mapToObj(idx -> func.apply((double) idx))
                 .collect(Collectors.toList());
 
+    }
+    public Map<Character, TreeSet<String>> sort(String line) {
+        return Arrays.stream(line.split(" "))
+                .distinct()
+                .collect(Collectors.
+                        groupingBy(s -> s.charAt(0),
+                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparingInt(String::length)))));
     }
 }
