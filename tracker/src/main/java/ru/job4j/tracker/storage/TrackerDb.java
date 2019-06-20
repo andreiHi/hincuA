@@ -36,7 +36,7 @@ public class TrackerDb implements ITracker, AutoCloseable {
     private void init() {
         try (final Statement statement = connection.createStatement()) {
             final DatabaseMetaData metaData = connection.getMetaData();
-            final ResultSet items = metaData.getTables(null, null, "items", null);
+           // final ResultSet items = metaData.getTables(null, null, "items", null);
             statement.executeUpdate(Query.CREATE_TRACKER_TABLE);
             statement.executeUpdate(Query.CREATE_COMMENTS_TABLE);
         } catch (SQLException e) {

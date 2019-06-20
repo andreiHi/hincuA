@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 21.03.2018.
@@ -33,7 +34,7 @@ public class Controller extends HttpServlet {
 
       //  Process process = new Process();
     //    process.findAction(req);
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), StandardCharsets.UTF_8));
      //   pw.append(process.getResponse(req));
         pw.flush();
     }

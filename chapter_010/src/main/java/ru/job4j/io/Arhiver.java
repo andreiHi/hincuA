@@ -124,6 +124,7 @@ public class Arhiver {
     }
     private Search search = new Search();
     private byte[] buffer = new byte[4096];
+
     private void form(ZipOutputStream zos, File source, List<String> expansions) throws IOException {
         List<File> list = search.listOfOthers(source.getPath(), expansions);
         for (File file : list) {

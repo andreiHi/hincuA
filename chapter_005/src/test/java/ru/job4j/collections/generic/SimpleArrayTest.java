@@ -2,6 +2,10 @@ package ru.job4j.collections.generic;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -60,5 +64,18 @@ public class SimpleArrayTest {
         array.delete("Petrov");
         assertThat("Ivanov", is(array.getValue(0)));
         assertThat(null, is(array.getValue(1)));
+    }
+
+    @Test
+    public void whenFindAll() {
+        SimpleArray<String> array = new SimpleArray<>(2);
+        array.add("Petrov");
+        array.add("Ivanov");
+        Object[] all = array.findAll();
+        System.out.println(Arrays.toString(all));
+
+        List<String> list = new ArrayList<>();
+        list.add("123");
+        Object[] objects = list.toArray();
     }
 }

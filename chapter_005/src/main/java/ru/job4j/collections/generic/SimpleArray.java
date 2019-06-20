@@ -1,7 +1,6 @@
 package ru.job4j.collections.generic;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /**
@@ -63,12 +62,12 @@ public class SimpleArray<T> {
 
     /**
      * Метод возвращает значение по индексу.
-     * @param pozition позиция в массиве.
+     * @param position позиция в массиве.
      * @return значение элемента.
      */
     @SuppressWarnings("unchecked")
-    public T getValue(int pozition) {
-        return (T) objects[pozition];
+    public T getValue(int position) {
+        return (T) objects[position];
     }
 
     /**
@@ -102,5 +101,9 @@ public class SimpleArray<T> {
         }
         System.arraycopy(this.objects, index + 1, this.objects, index, this.objects.length - index - 1);
         return true;
+    }
+
+    public Object[] findAll() {
+        return  Arrays.copyOf(this.objects, this.index);
     }
 }

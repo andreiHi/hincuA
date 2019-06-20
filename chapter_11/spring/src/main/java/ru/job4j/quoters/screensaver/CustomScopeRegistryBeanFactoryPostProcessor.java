@@ -1,8 +1,6 @@
 package ru.job4j.quoters.screensaver;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomScopeRegistryBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
-    private static final Logger LOG = LogManager.getLogger(CustomScopeRegistryBeanFactoryPostProcessor.class);
+
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
