@@ -11,8 +11,9 @@ public class ConsoleInput {
 
     private Scanner sc = new Scanner(System.in);
 
+
     public double readDouble() {
-        return Double.valueOf(sc.nextLine());
+        return Double.parseDouble(sc.nextLine());
     }
 
     public String readAction() {

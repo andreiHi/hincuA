@@ -30,6 +30,7 @@
         <module>chapter_11</module>
         <module>stream_api</module>
         <module>solid</module>
+        <module>bloh</module>
     </modules>
 
 	<dependencies>
