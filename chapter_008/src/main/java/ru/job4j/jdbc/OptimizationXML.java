@@ -102,10 +102,9 @@ public class OptimizationXML {
      * @param con соединение с бд.
      */
     private void insert(Connection con) {
-        try {
+        try (PreparedStatement statement = con.prepareStatement(
+                "INSERT INTO TEST (FIELD) VALUES (?)")) {
             con.setAutoCommit(false);
-            PreparedStatement statement = con.prepareStatement(
-                    "INSERT INTO TEST (FIELD) VALUES (?)");
             for (int i = 1; i < element + 1; i++) {
                 statement.setInt(1, i);
                 statement.addBatch();
@@ -113,11 +112,6 @@ public class OptimizationXML {
             statement.executeBatch();
             con.setAutoCommit(true);
         } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             e.printStackTrace();
         }
     }

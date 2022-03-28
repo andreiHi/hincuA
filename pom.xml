@@ -31,7 +31,9 @@
         <module>stream_api</module>
         <module>solid</module>
         <module>bloh</module>
-    </modules>
+        <module>kotlin</module>
+		<module>leetcode</module>
+	</modules>
 
 	<dependencies>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->

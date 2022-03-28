@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.job4j.service.impl.UserServiceImpl;
 
+import java.util.function.Function;
+
 /**
  * @author Hincu Andrei (andreih1981@gmail.com)on 27.03.2018.
  * @version $Id$.
@@ -14,11 +16,23 @@ import ru.job4j.service.impl.UserServiceImpl;
  */
 public class Test {
     private static final Logger LOG = LogManager.getLogger(Test.class);
+    public static int compare(String left, String right) {
+        int diff = left.length() - right.length();
+        return diff == 0 ? left.compareTo(right) : diff;
+    }
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        UserServiceImpl service = context.getBean(UserServiceImpl.class);
-        service.getAll().forEach(System.out::println);
+        System.out.println(compare("як", "велосипед"));
+
+        Function<String, String> function = new Function<String, String>() {
+            @Override
+            public String apply(String s) {
+                return s.toLowerCase();
+            }
+        };
+//        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+//        UserServiceImpl service = context.getBean(UserServiceImpl.class);
+//        service.getAll().forEach(System.out::println);
 //        SessionFactory service = HibernateService.getSessionFactory();
 //        Session session = service.openSession();
 //

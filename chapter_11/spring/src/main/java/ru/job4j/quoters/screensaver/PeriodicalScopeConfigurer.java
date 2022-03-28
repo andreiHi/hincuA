@@ -28,10 +28,10 @@ public class PeriodicalScopeConfigurer implements Scope {
             Pair<LocalTime, Object> pair = map.get(name);
             int secondsSinceLastRequest = now().getSecond() - pair.getKey().getSecond();
             if (secondsSinceLastRequest > 3) {
-                map.put(name, new Pair(now(), objectFactory.getObject()));
+                map.put(name, new Pair<>(now(), objectFactory.getObject()));
             }
         } else {
-            map.put(name, new Pair(now(), objectFactory.getObject()));
+            map.put(name, new Pair<>(now(), objectFactory.getObject()));
         }
         return map.get(name).getValue();
     }

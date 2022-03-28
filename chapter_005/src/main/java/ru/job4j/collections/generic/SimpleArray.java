@@ -54,7 +54,7 @@ public class SimpleArray<T> {
     @SuppressWarnings("unchecked")
     public T get(int i) {
         T t = null;
-        if (i <= index) {
+        if (i < index) {
             t = (T) objects[i];
         }
         return t;

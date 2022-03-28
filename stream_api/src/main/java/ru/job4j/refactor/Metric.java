@@ -2,6 +2,7 @@ package ru.job4j.refactor;
 
 
 import java.util.Objects;
+import java.util.concurrent.Flow;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -54,6 +55,10 @@ public class Metric {
 
     private String fold(Metric m1, Metric m2, Function<Metric, String> getter) {
         return Objects.equals(getter.apply(m1), getter.apply(m2)) ? getter.apply(m1) : TOTAL;
+    }
+
+    private <T> T fold2(Metric m1, Metric m2, Function<Metric, T> getter) {
+        return Objects.equals(getter.apply(m1), getter.apply(m2)) ? getter.apply(m1) : getter.apply(m2);
     }
 
 //    public void foldCarry(Metric m1, Metric m2) {

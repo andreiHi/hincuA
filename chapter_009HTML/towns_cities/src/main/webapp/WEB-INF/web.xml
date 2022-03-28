@@ -17,7 +17,7 @@
         <servlet-name>JSONController</servlet-name>
         <url-pattern>/json</url-pattern>
     </servlet-mapping>
-   <servlet>
+    <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>ru.job4j.html.controller.UserController</servlet-class>
     </servlet>
@@ -27,15 +27,15 @@
     </servlet-mapping>
 
     <filter>
-         <filter-name>EncodingFilter</filter-name>
-            <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
-            <init-param>
-                <param-name>encoding</param-name>
-                <param-value>UTF-8</param-value>
-            </init-param>
-        </filter>
-            <filter-mapping>
-        <filter-name>EncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+       <init-param>
+      <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+        </init-param>
+        </filter>
+    <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
